@@ -1,0 +1,36 @@
+{
+  "name": "comp30022-49",
+  "version": "1.0.0",
+  "description": "this package.json is for group 049, team 4399 to develop personal customer relationship management project",
+  "main": "index.js",
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "bcrypt-nodejs": "0.0.3",
+    "jest": "^27.0.6",
+    "nodejs": "0.0.0",
+    "nodemon": "^2.0.12",
+    "passport": "^0.4.1",
+    "passport-jwt": "^4.0.0",
+    "react": "^17.0.2",
+    "react-native": "^0.64.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Harrison-Huang666/COMP30022-49.git"
+  },
+  "keywords": [
+    "unimelb",
+    "comp30022",
+    "project"
+  ],
+  "author": "Harrison, H., Eric, B., Eric, W., Lydia, T., Rin, H.",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Harrison-Huang666/COMP30022-49/issues"
+  },
+  "homepage": "https://github.com/Harrison-Huang666/COMP30022-49#readme"
+}
