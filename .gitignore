@@ -128,4 +128,9 @@ dist
 
 # TernJS port file
 .tern-port
-models/db.js
+
+# mongodb connection file
+db.js
+
+# README.md
+README.md
