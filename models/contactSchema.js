@@ -11,7 +11,7 @@ const contactSchema = new mongoose.Schema({
 	},
 	email: {type: Array, required: true}, // only display one record for thumbnails 
 	phone: {type: Array, required: true}, // only display one record for thumbnails
-	meetRecord: {type: Array, required: true},
+	meetRecord: {type: Array},
     occupation: {type: String, required: true},
     addDate: {type: Date, required: true, default: Date.now},
 	note: {type: String},// unsure type, we also need to handle the image or attachments
