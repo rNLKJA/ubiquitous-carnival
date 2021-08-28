@@ -21,8 +21,8 @@ app.get('/', (req, res) => {
 
 
 // TODO: remove testing module
-const test_router = require('./routes/test_router.js')
-app.use('/test', test_router)
+const contact_router = require('./routes/contact_router.js')
+app.use('/contact', contact_router)
 
 
 // handling invalid links
