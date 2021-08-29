@@ -1,6 +1,5 @@
-//const mongoose = require('mongoose')
-//const usersModel = mongoose.model('User')
-const usersModel = require('../models/userSchema.js')
+const mongoose = require('mongoose')
+const userModel = require('../models/userSchema.js')
 
 const updateProfile = async(req, res) => {
     /*
@@ -11,22 +10,26 @@ const updateProfile = async(req, res) => {
         occupation: "Student"
     }
     */
+
     const {userName, firstName, lastName, occupation} = req.body
-    
-    await usersModel.update({userName: userName}, 
-        {$set:{
+
+    await userModel.updateOne({userName: userName}, 
+        {
             firstName: firstName,
             lastName: lastName,
             occupation: occupation
-        }}, 
+        },
         function(err) {
-            if(err) console.log("update fail")
+            if(err) {
+                res.send("update fail")
+            } else {
+                res.send("update success")
+            }
         }
     )
-
 }
 
-const updatePhoneNumber = async(req, res) => {
+const addPhones = async(req, res) => {
     /*
     req Jason format example:
     {   userName: "Harrison123",
@@ -35,11 +38,11 @@ const updatePhoneNumber = async(req, res) => {
     */
     const {userName, phoneNumber} = req.body.phoneNumber
 
-    const userInfo = await User.findOne({userName: userName}).lean()
+    const userInfo = await userModel.findOne({userName: userName}).lean()
 
     userInfo.phone.push(phoneNumber)
 
-    await usersModel.update( {userName: userName},
+    await userModel.updateOne( {userName: userName},
         {$set:{
             phone: userInfo.phone
         }},
@@ -51,5 +54,5 @@ const updatePhoneNumber = async(req, res) => {
 
 module.exports = {
     updateProfile,
-    updatePhoneNumber
+    addPhones
 }

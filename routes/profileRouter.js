@@ -6,6 +6,6 @@ const profileController = require("../controller/profileController.js")
 
 profileRouter.post('/updateProfile', profileController.updateProfile)
 
-profileRouter.post('/addPhones', profileController.updatePhoneNumber)
+profileRouter.post('/addPhones', profileController.addPhones)
 
 module.exports = profileRouter
