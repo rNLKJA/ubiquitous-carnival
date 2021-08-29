@@ -1,24 +1,28 @@
 const mongoose = require('mongoose')
 const userModel = require('../models/userSchema.js')
 
+/**
+* Upload the firstName, lastName and occupation
+* @param {express.Request} req - Username, firstName, lastName and occupation from client
+* @param {express.Response} res - response from the system.
+*/
 const updateProfile = async(req, res) => {
-    /*
-    req Jason format example:
-    {   
+    /*{   
         "userName": "Harrison123",
         "firstName": "Hongji",
         "lastName": "Huang",
-        "occupation": "Student"
-    }
-    */
+        "occupation": "Student",
+        "status" : "Single"
+    }*/
 
-    const {userName, firstName, lastName, occupation} = req.body
+    const {userName, firstName, lastName, occupation, status} = req.body
 
     await userModel.updateOne({userName: userName}, 
         {
             firstName: firstName,
             lastName: lastName,
-            occupation: occupation
+            occupation: occupation,
+            status: status
         },
         function(err) {
             if(err) res.send("update fail")
@@ -27,14 +31,18 @@ const updateProfile = async(req, res) => {
     )
 }
 
-const addPhones = async(req, res) => {
-    /*
-    req Jason format example:
-    {   
+
+/**
+* Add the phone number
+* @param {express.Request} req - Username and phone number from client
+* @param {express.Response} res - response from the system.
+*/
+const addPhone = async(req, res) => {
+    /*{   
         "userName": "Harrison123",
         "phone": "0415467321"
-    }
-    */
+    }*/
+
    try {
         const {userName, phone} = req.body
     
@@ -43,16 +51,88 @@ const addPhones = async(req, res) => {
             { $push: {"phone": phone}},
             { upsert: true, new: true }
         )
-
         res.send("update success")
 
-   } catch(err) {
+   } 
+   catch(err) {
        res.send("update fail")
        throw(err)
    }
 }
 
+/**
+* delete the phone number
+* @param {express.Request} req - Username and phone number that want to delete
+* @param {express.Response} res - response from the system.
+*/
+const delPhone = async(req, res) => {
+    /*{   
+        "userName": "Harrison123",
+        "phone": "0415467321"
+    }*/
+    const {userName, phone} = req.body
+    await userModel.updateOne(
+        {userName: userName},
+        {$pull:{"phone": phone}},
+        function(err) {
+            if(err) res.send("delete fail")
+            else    res.send("delete success")
+        }
+    )
+}
+
+/**
+* Add the email address
+* @param {express.Request} req - Username and email address from client
+* @param {express.Response} res - response from the system.
+*/
+const addEmail = async(req, res) => {
+    /*{   
+        "userName": "Harrison123",
+        "email": "1637520754@qq.com"
+    }*/
+   try {
+        const {userName, email} = req.body
+
+        await userModel.findOneAndUpdate( 
+            {userName: userName},
+            { $push: {"email": email}},
+            { upsert: true, new: true }
+        )
+        res.send("update success")
+
+   } 
+   catch(err) {
+       res.send("update fail")
+       throw(err)
+   }
+}
+
+/**
+* delete the email address
+* @param {express.Request} req - Username and email address that want to delete
+* @param {express.Response} res - response from the system.
+*/
+const delEmail = async(req, res) => {
+    /*{   
+        "userName": "Harrison123",
+        "email": "1637520754@qq.com"
+    }*/
+    const {userName, email} = req.body
+    await userModel.updateOne(
+        {userName: userName},
+        {$pull:{"email": email}},
+        function(err) {
+            if(err) res.send("delete fail")
+            else    res.send("delete success")
+        }
+    )
+}
+
 module.exports = {
     updateProfile,
-    addPhones
+    addPhone,
+    delPhone,
+    addEmail,
+    delEmail
 }
