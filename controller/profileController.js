@@ -4,10 +4,11 @@ const userModel = require('../models/userSchema.js')
 const updateProfile = async(req, res) => {
     /*
     req Jason format example:
-    {   userName: "Harrison123",
-        firstName: "Hongji",
-        lastName: "Huang",
-        occupation: "Student"
+    {   
+        "userName": "Harrison123",
+        "firstName": "Hongji",
+        "lastName": "Huang",
+        "occupation": "Student"
     }
     */
 
@@ -20,11 +21,8 @@ const updateProfile = async(req, res) => {
             occupation: occupation
         },
         function(err) {
-            if(err) {
-                res.send("update fail")
-            } else {
-                res.send("update success")
-            }
+            if(err) res.send("update fail")
+            else    res.send("update success")
         }
     )
 }
@@ -32,24 +30,26 @@ const updateProfile = async(req, res) => {
 const addPhones = async(req, res) => {
     /*
     req Jason format example:
-    {   userName: "Harrison123",
-        phone: 0415467321
+    {   
+        "userName": "Harrison123",
+        "phone": "0415467321"
     }
     */
-    const {userName, phoneNumber} = req.body.phoneNumber
+   try {
+        const {userName, phone} = req.body
+    
+        const updatePhone = await userModel.findOneAndUpdate( 
+            {userName: userName},
+            { $push: {"phone": phone}},
+            { upsert: true, new: true }
+        )
 
-    const userInfo = await userModel.findOne({userName: userName}).lean()
+        res.send("update success")
 
-    userInfo.phone.push(phoneNumber)
-
-    await userModel.updateOne( {userName: userName},
-        {$set:{
-            phone: userInfo.phone
-        }},
-        function(err) {
-            if(err) console.log("update fail")
-        }
-    )
+   } catch(err) {
+       res.send("update fail")
+       throw(err)
+   }
 }
 
 module.exports = {
