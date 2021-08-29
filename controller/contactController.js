@@ -7,40 +7,55 @@ const path = require('path')
 
 const createNewContact = async (req, res) => {
     try {
+        const onwerAccount = await User.findOne({_id:req.body.onwerAccount}).lean()
         // if req is a user id
+        const existAccountContact
         if (req.body.userId){
-            const existAccountContact = await User.findOne({userID: req.body.userId}).lean()
+            existAccountContact = await User.findOne({userID: req.body.userId}).lean()
         } else {
-            const existAccountContact = await User.findOne({lastName: req.body.lastName, firstName: req.body.firstName, 
+        // Check if contact has account in app
+            existAccountContact = await User.findOne({lastName: req.body.lastName, firstName: req.body.firstName, 
                 phone: req.body.phone, email:req.body.email}).lean()
         } 
         //
-
-        // Check if contact has account in app
-        
-            // Link
-        // create formed schema for new contact
-
-        //
-        const onwerAccount = await User.findOne({_id:req.body.onwerAccount}).lean()
-        const newContact = await Contact.create({
-            "lastName": req.body.LastName,
-            "firstName": req.body.FirstName,
-            "portriat" : req.body.Portriat,
-            "email": req.body.Email,
-            "phone" : req.body.Phone,
-            "meetRecord": req.body.MeetRecord,
-            "occupation": req.body.Occupation,
-            "addDate": Date.now,
-            "note": req.body.Note,
-            "status": req.body.Status,
-            "onwerAccount" : req.body.onwerAccount,
-            "linkedAccount" : existAccountContact
-        })
-        const formedContact = new Contact(newContact)
-        const ContactIdLink = new ContactList({contact: formedContact.linkedAccount, addSince: Date.now})
+        const newContact
+        if (existAccountContact == null) {
+            newContact = await Contact.create({
+                "lastName": req.body.lastName,
+                "firstName": req.body.firstName,
+                "portriat" : req.body.portriat,
+                "email": req.body.email,
+                "phone" : req.body.phone,
+                "meetRecord": req.body.meetRecord,
+                "occupation": req.body.occupation,
+                "addDate": Date.now,
+                "note": req.body.note,
+                "status": true,
+                "onwerAccount" : mongoose.Types.ObjectId(req.body.onwerAccount),
+                "linkedAccount" : null
+            })
+        } else {
+            newContact = await Contact.create({
+                "lastName": existAccountContact.lastName,
+                "firstName": existAccountContact.firstName,
+                "portriat" : existAccountContact.portriat,
+                "email": existAccountContact.email,
+                "phone" : existAccountContact.phone,
+                "meetRecord": existAccountContact.meetRecord,
+                "occupation": existAccountContact.occupation,
+                "addDate": Date.now,
+                "note": existAccountContact.note,
+                "status": true,
+                "onwerAccount" : mongoose.Types.ObjectId(req.body.onwerAccount),
+                "linkedAccount" : existAccountContact._id
+            })
+        }
+        // const formedContact = new Contact(newContact)
+        // formedContact.save()
+        const ContactIdLink = new ContactList({contact: newContact._id, addSince: Date.now})
         await onwerAccount.contactList.push(ContactIdLink)
-        formedContact.save()
+        
+        
     }catch(err){
         res.send("Database query failed")
         throw(err)
