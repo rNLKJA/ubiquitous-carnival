@@ -1,14 +1,14 @@
 // obtain required APIs
 const express = require('express')
+const bodyParser = require('body-parser')
 const dotenv = require('dotenv')
 dotenv.config()
 
 // construct app
 const app = express()
 const mongoose = require('mongoose')
-
 require('./models/database')
-
+app.use(express.json())
 // start app
 app.get('/', (req, res) => {
 	console.log('Hey, there is an access request !!! ')
@@ -21,8 +21,8 @@ app.get('/', (req, res) => {
 
 
 // TODO: remove testing module
-const contact_router = require('./routes/contact_router.js')
-app.use('/contact', contact_router)
+const contactRouter = require('./routes/contactRouter.js')
+app.use('/contact', contactRouter)
 
 
 // handling invalid links

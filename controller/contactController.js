@@ -1,15 +1,15 @@
 const mongoose = require('mongoose')
+
 const User = mongoose.model('User')
 const Contact = mongoose.model('Contact')
 const ContactList = mongoose.model('ContactList')
 
-const path = require('path')
 
 const createNewContact = async (req, res) => {
     try {
         const onwerAccount = await User.findOne({_id:req.body.onwerAccount}).lean()
         // if req is a user id
-        const existAccountContact
+        let existAccountContact = null
         if (req.body.userId){
             existAccountContact = await User.findOne({userID: req.body.userId}).lean()
         } else {
@@ -18,7 +18,7 @@ const createNewContact = async (req, res) => {
                 phone: req.body.phone, email:req.body.email}).lean()
         } 
         //
-        const newContact
+        let newContact = null
         if (existAccountContact == null) {
             newContact = await Contact.create({
                 "lastName": req.body.lastName,
@@ -54,10 +54,15 @@ const createNewContact = async (req, res) => {
         // formedContact.save()
         const ContactIdLink = new ContactList({contact: newContact._id, addSince: Date.now})
         await onwerAccount.contactList.push(ContactIdLink)
-        
+        res.render(newContact)
         
     }catch(err){
         res.send("Database query failed")
         throw(err)
     }
+}
+
+
+module.exports = {
+    createNewContact
 }
