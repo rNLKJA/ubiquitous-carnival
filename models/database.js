@@ -36,4 +36,6 @@ db.once("open", async () => {
   
 // obtain the database schemas
 require("./connection_test_schema") 
-
+require("./contactSchema")
+require("./recordSchema")
+require("./userSchema")
