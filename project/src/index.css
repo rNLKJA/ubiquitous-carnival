@@ -230,6 +230,7 @@ p {
   display: grid;
   grid-template-columns: 100px 1fr;
   align-items: center;
+  height: auto;
 }
 .form button {
   display: inline-block;
@@ -317,4 +318,32 @@ p {
   padding: 0.25rem 0.5rem;
   text-transform: capitalize;
   cursor: pointer;
+}
+
+.marker {
+  position: relative;
+  top: 50%;
+  left: 50%;
+  width: 3rem;
+  height: 3rem;
+  /* border: 2px solid #fff; */
+  border-radius: 100%;
+  user-select: none;
+  transform: translate(-50%, -50%);
+  display: flex;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.marker p {
+  color: rgb(255, 119, 142);
+}
+
+.map-container {
+  display: grid;
+  grid-template-columns: 2fr 1.5fr;
+}
+
+.form {
+  height: 165px;
 }
