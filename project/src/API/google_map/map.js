@@ -98,7 +98,7 @@ const Map = () => {
             id="description"
             type="text"
             name="desp"
-            value={coords.text}
+            value={coords.desp}
             onChange={handleChange}
           ></input>
         </div>
