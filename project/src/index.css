@@ -341,9 +341,11 @@ p {
 
 .map-container {
   display: grid;
-  grid-template-columns: 2fr 1.5fr;
+  grid-template-columns: 1fr 1fr;
 }
 
 .form {
+  width: 400px;
   height: 165px;
+  margin-bottom: 1rem;
 }
