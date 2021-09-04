@@ -8,16 +8,23 @@ const ReactCalendar = () => {
   const [date, setDate] = useState(new Date());
 
   // create onchange function
-  const ChangeHandler = () => {
+  const ChangeHandler = (date) => {
     setDate(date);
   };
 
   // return calendar component
   return (
     <React.Fragment>
-      <h2>This is a Calendar</h2>
       <div className="calendar">
-        <Calendar onChange={ChangeHandler} value={date}></Calendar>
+        <Calendar
+          showWeekNumbers
+          hover
+          onChange={ChangeHandler}
+          value={date}
+        ></Calendar>
+
+        {/* display the selected date :: time won't update */}
+        <p>{date.toLocaleString("en-US", { timeZone: "Australia/Sydney" })}</p>
       </div>
     </React.Fragment>
   );

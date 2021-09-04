@@ -351,8 +351,14 @@ p {
 }
 
 .calendar {
-  position: fixed;
-  top: 30%;
-  left: 50%;
   transform: translate(-50%, -50%);
+  background: var(--clr-white);
+  max-width: var(--fixed-width);
+  margin: 0 auto;
+  margin-bottom: 4rem;
+  padding: 1rem 2rem;
+  border-radius: var(--radius);
+  position: fixed;
+  top: 50%;
+  left: 50%;
 }
