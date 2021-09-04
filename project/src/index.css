@@ -349,3 +349,10 @@ p {
   height: 165px;
   margin-bottom: 1rem;
 }
+
+.calendar {
+  position: fixed;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
