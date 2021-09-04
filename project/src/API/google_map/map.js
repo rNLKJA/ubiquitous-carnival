@@ -20,7 +20,7 @@ const Marker = ({ text }) => {
 };
 
 // create google map api
-const Map = () => {
+const Map = React.memo(() => {
   // set default geometry information
   const [coords, setCoords] = useState({
     lat: -37.7982,
@@ -110,6 +110,6 @@ const Map = () => {
       </form>
     </div>
   );
-};
+});
 
 export default Map;
