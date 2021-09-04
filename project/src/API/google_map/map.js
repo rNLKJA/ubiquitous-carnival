@@ -1,6 +1,6 @@
 // import required dependencies
 import React from "react";
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import GoogleMapReact from "google-map-react";
 import marker from "./google-maps.png";
 // import { Slider } from "@material-ui/core";
@@ -23,10 +23,24 @@ const Marker = ({ text }) => {
 const Map = React.memo(() => {
   // set default geometry information
   const [coords, setCoords] = useState({
+    loaded: false,
     lat: -37.7982,
     lng: 144.961,
     desp: "The University of Melbourne",
   });
+
+  // obtain user geometry information
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition((pos) => {
+      let lat = pos.coords.latitude,
+        lng = pos.coords.longitude;
+      setCoords({ ...coords, lat, lng, loaded: true });
+    });
+  } else {
+    alert("The current browser doesn't has GPS support");
+  }
+
+  useEffect(() => {}, [coords.loaded]);
 
   // default display information
   const defaultProps = {
@@ -34,7 +48,7 @@ const Map = React.memo(() => {
       lat: coords.lat,
       lng: coords.lng,
     },
-    zoom: 14,
+    zoom: 12,
   };
 
   // handle change geolocation info
