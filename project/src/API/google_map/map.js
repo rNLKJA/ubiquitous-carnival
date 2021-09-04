@@ -1,6 +1,6 @@
 // import required dependencies
 import React from "react";
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import GoogleMapReact from "google-map-react";
 import marker from "./google-maps.png";
 // import { Slider } from "@material-ui/core";
@@ -38,14 +38,17 @@ const Map = React.memo(() => {
   };
 
   // handle change geolocation info
-  const handleChange = (e) => {
-    // obtain the targe name and its value
-    const name = e.target.name;
-    const value = e.target.value;
+  const handleChange = useCallback(
+    (e) => {
+      // obtain the targe name and its value
+      const name = e.target.name;
+      const value = e.target.value;
 
-    // change the geolocation valeu
-    setCoords({ ...coords, [name]: value });
-  };
+      // change the geolocation valeu
+      setCoords({ ...coords, [name]: value });
+    },
+    [coords],
+  );
 
   // handle geolocation update function
   const handleSubmit = (event) => {
