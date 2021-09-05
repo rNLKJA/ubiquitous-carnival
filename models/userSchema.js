@@ -29,7 +29,7 @@ const userSchema = new mongoose.Schema({
 	recordList: [recordListSchema]
 })
 
-const User = mongoose.model('Users', userSchema)
+const User = mongoose.model('User', userSchema)
 const ContactList = mongoose.model('ContactList', contactListSchema)
 const RecordList = mongoose.model('RecordList', recordListSchema)
-module.exports = User
+module.exports = {User, ContactList, RecordList}
