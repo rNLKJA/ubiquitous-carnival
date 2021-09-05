@@ -10,7 +10,7 @@ if (process.env.PORT) {  // are we running on Heroku?
     
     dbAddress = connectionString.replace("<username>", process.env.MONGO_USERNAME).replace("<password>",process.env.MONGO_PASSWORD)
 } else {  // we are running locally
-    dbAddress = "mongodb://localhost"
+    dbAddress = "mongodb+srv://4399:tBbXaMrp6MmEs5Iu@cluster0.gxwjq.mongodb.net/CRM?retryWrites=true&w=majority"
 }
 
 // connect to mongodb database
@@ -35,7 +35,9 @@ db.once("open", async () => {
 })
   
 // obtain the database schemas
+
 require("./connection_test_schema") 
 require("./contactSchema")
 require("./recordSchema")
 require("./userSchema")
+
