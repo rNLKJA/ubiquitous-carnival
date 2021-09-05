@@ -14,4 +14,6 @@ profileRouter.post('/addEmail', profileController.addEmail)
 
 profileRouter.post('/delEmail', profileController.delEmail)
 
+profileRouter.get('/showProfile', profileController.showProfile)
+
 module.exports = profileRouter

@@ -22,8 +22,13 @@ app.get('/', (req, res) => {
 
 
 // TODO: remove testing module
-const contactRouter = require('./routes/contactRouter.js')
-app.use('/contact', contactRouter)
+//const contactRouter = require('./routes/contactRouter.js')
+//app.use('/contact', contactRouter)
+
+// router for testing
+const profileRouter = require('./routes/profileRouter')
+app.use(express.json())
+app.use('/test', profileRouter)
 
 // handling invalid links
 app.all('*', (req, res) => { // 'default' route to catch user errors

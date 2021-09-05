@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-const userModel = require('../models/userSchema.js')
+const userModel = mongoose.model('User')
 
 /**
 * Upload the firstName, lastName and occupation
@@ -129,10 +129,42 @@ const delEmail = async(req, res) => {
     )
 }
 
+//================================function for show the profile======================================//
+/**
+* Get the profile data of user
+* @param {express.Request} req - Username from client
+* @param {express.Response} res - response from the system.
+*/
+const showProfile = async(req, res) => {
+    /*{   
+        "userName": "Harrison123",
+    }*/
+    try {
+        const {userName} = req.body
+    
+        const userProfile = await userModel.findOne({userName: userName}).lean()
+
+        res.send({
+            firstName: userProfile.firstName,
+            lastName: userProfile.lastName,
+            occupation: userProfile.occupation,
+            status: userProfile.status,
+            email: userProfile.email,
+            phone: userProfile.phone
+        })
+
+    } 
+    catch(err) {
+        res.send("show fail")
+        throw(err)
+    }
+}
+
 module.exports = {
     updateProfile,
     addPhone,
     delPhone,
     addEmail,
-    delEmail
+    delEmail,
+    showProfile
 }
