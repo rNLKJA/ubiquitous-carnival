@@ -3,6 +3,7 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const dotenv = require('dotenv')
 dotenv.config()
+//const cors = require('cors');
 
 // construct app
 const app = express()
@@ -23,7 +24,6 @@ app.get('/', (req, res) => {
 // TODO: remove testing module
 const contactRouter = require('./routes/contactRouter.js')
 app.use('/contact', contactRouter)
-
 
 // handling invalid links
 app.all('*', (req, res) => { // 'default' route to catch user errors

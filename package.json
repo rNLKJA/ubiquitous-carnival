@@ -20,7 +20,6 @@
     "react": "^17.0.2",
     "react-native": "^0.64.2"
   },
-  "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node app.js"
