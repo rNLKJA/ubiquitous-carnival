@@ -3,7 +3,7 @@ const mongoose = require('mongoose')
 
 // create mongoose schema
 const contactSchema = new mongoose.Schema({
-	LastName: {type: String, required: true},
+	lastName: {type: String, required: true},
 	firstName: {type: String, required: true},
 	portriat: {
 		data: Buffer,

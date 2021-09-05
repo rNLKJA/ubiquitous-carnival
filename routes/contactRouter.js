@@ -8,6 +8,7 @@ const contactController = require('../controller/contactController.js')
 
 contactRouter.get('/')
 
-contactRouter.get('/createController', contactController.createNewContact)
+contactRouter.get('/createContact', contactController.createNewContact)
+contactRouter.get('/showContact', contactController.showAllContact)
 
 module.exports = contactRouter

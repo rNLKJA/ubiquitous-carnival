@@ -12,7 +12,7 @@ const recordListSchema = new mongoose.Schema({
 })
 // create mongoose schema
 const userSchema = new mongoose.Schema({
-	loginID: {type: String, required: true},
+	userName: {type: String, required: true},
 	password: {type: String, required: true},
 	lastName: {type: String},
 	firstName: {type: String},
@@ -23,7 +23,7 @@ const userSchema = new mongoose.Schema({
 	occupation: {type: String},
 	email: {type: Array}, 
 	phone: {type: Array},
-	userID: {type: String},
+	userID: {type: Array},
 	status: {type: String}, // active, pending ? if only two status, consider use boolean
 	contactList: [contactListSchema], // store a list of contact objects
 	recordList: [recordListSchema]
