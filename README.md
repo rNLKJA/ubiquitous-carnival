@@ -37,15 +37,6 @@ This repository is created for [University of Melbourne](https://www.unimelb.edu
 | Yixiao Tian | Communication leader | yixiaot@student.unimelb.edu.au |
 
 ## Software Dependencies
-- bcrypt: "^5.0.1",
-- bcrypt-nodejs: "0.0.3",
-- jest: "^27.0.6",
-- nodejs: "0.0.0",
-- nodemon: "^2.0.12",
-- passport: "^0.4.1",
-- passport-jwt: "^4.0.0",
-- react: "^17.0.2",
-- react-native: "^0.64.2"
 
 For more information, please check `package.json`.
 
