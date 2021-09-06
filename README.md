@@ -1,70 +1,70 @@
-<img src="https://images.unsplash.com/photo-1501776192086-602832fae6e6?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80">
+# Getting Started with Create React App
 
-# <img src="https://cdn.freebiesupply.com/logos/large/2x/the-university-of-melbourne-logo-svg-vector.svg" width=15% align=left> COMP30022 Group Project Team 4399
-This repository is created for [University of Melbourne](https://www.unimelb.edu.au) [COMP30022 Semester 2 2021](https://handbook.unimelb.edu.au/search) 
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-**Personal Customer Relation Management (PCRM)** project development.
+## Available Scripts
 
----
+In the project directory, you can run:
 
-<img src="https://icons-for-free.com/iconfiles/png/512/notion-1324440204874385945.png" width=2.3% align="left"> For progress tracking & view notes, please accesss via [notion](https://www.notion.so/huangsunchuangyu/COMP30022-IT-Project-e0687c4d6a7b4ee18d164b25c9bc93d8).
+### `yarn start`
 
+Runs the app in the development mode.\
+Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-📩 Contacts of tutor: t.bowes@unimelb.edu.au
+The page will reload if you make edits.\
+You will also see any lint errors in the console.
 
-📧 Contacts of client: aponiatowski@student.unimelb.edu.au
+### `yarn test`
 
----
+Launches the test runner in the interactive watch mode.\
+See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-## Table of Content
-<!-- [<img src="https://cdn.freebiesupply.com/logos/large/2x/the-university-of-melbourne-logo-svg-vector.svg" width=20% align=left> -->
-  - [COMP30022 Group Project Team 4399](#-comp30022-group-project-team-4399)
-  - [Team members](#team-members)
-  - [Software Dependencies](#software-dependencies)
-  - [Application Deploy Instruction](#application-deploy-instruction)
-  - [Quick Start Guide](#quick-start-guide)
-  - [License](#license)
+### `yarn build`
 
----
+Builds the app for production to the `build` folder.\
+It correctly bundles React in production mode and optimizes the build for the best performance.
 
-## Team members
-| Name | Role | Contact | 
-| :---- | :---- | :---- | 
-| Bin Liang| Back End Leader | blliang@student.unimelb.edu.au | 
-| Hongji Huang | Communication Leader | hohuang@student.unimelb.edu.au |
-| Sunchuangyu Huang | Scrum Master | sunchuangyuh@student.unimelb.edu |
-| Wei Zhao | Front End Leader | weizhao1@student.unimelb.edu.au |
-| Yixiao Tian | Communication leader | yixiaot@student.unimelb.edu.au |
+The build is minified and the filenames include the hashes.\
+Your app is ready to be deployed!
 
-## Software Dependencies
-- bcrypt: "^5.0.1",
-- bcrypt-nodejs: "0.0.3",
-- jest: "^27.0.6",
-- nodejs: "0.0.0",
-- nodemon: "^2.0.12",
-- passport: "^0.4.1",
-- passport-jwt: "^4.0.0",
-- react: "^17.0.2",
-- react-native: "^0.64.2"
+See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-For more information, please check `package.json`.
+### `yarn eject`
 
-For quick installation:
-```bash
-npm install # install all dependencies or
-npm install --dependencies # install required dependencies only
-```
+**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
 
-## Application Deploy Instruction
+If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-## Quick Start Guide
-Before start development or testing, please make sure all required dependencies have been installed.
+Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
 
-For convenience purpose, please use `nodemon` instead of `node`.
-```bash
-nodemon app.js
-```
+You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
 
-## License
+## Learn More
 
-See more information, click [here](https://github.com/Harrison-Huang666/COMP30022-49/blob/main/LICENSE).
+You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+
+To learn React, check out the [React documentation](https://reactjs.org/).
+
+### Code Splitting
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+
+### Analyzing the Bundle Size
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+
+### Making a Progressive Web App
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+
+### Advanced Configuration
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+
+### Deployment
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+
+### `yarn build` fails to minify
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)

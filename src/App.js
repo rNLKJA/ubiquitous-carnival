@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 // import Navbar and Map components
 import Navbar from "./Navbar";
-import Map from "./API/google_map/map";
+import Map from "./API/google_map/map_acmp";
 import Calendar from "./API/google_calendar/Calendar";
 import Home from "./home/home";
 

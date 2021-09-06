@@ -24,13 +24,7 @@ const ReactCalendar = () => {
         ></Calendar>
 
         {/* display the selected date :: time won't update */}
-        <p>
-          {
-            date
-              .toLocaleString("en-US", { timeZone: "Australia/Sydney" })
-              .split(",")[0]
-          }
-        </p>
+        <p>{date.toLocaleString("en-US", { timeZone: "Australia/Sydney" })}</p>
       </div>
     </React.Fragment>
   );

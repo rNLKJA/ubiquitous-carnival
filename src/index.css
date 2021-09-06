@@ -339,11 +339,6 @@ p {
   color: rgb(255, 119, 142);
 }
 
-.map-container {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-}
-
 .form {
   width: 400px;
   height: 165px;
@@ -361,4 +356,33 @@ p {
   position: fixed;
   top: 50%;
   left: 50%;
+}
+
+.search {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 400px;
+  height: 40px;
+  z-index: 10;
+}
+
+.search input {
+  padding: 0.5 rem;
+  font-size: 1.5rem;
+  width: 100%;
+}
+
+.locate {
+  position: absolute;
+  top: 20rem;
+  right: 15rem;
+  background: none;
+  border: none;
+  z-index: 10;
+}
+.locate img {
+  width: 100px;
+  cursor: pointer;
 }
