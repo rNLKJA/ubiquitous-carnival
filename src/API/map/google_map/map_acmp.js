@@ -26,8 +26,8 @@ import mapStyle from "./mapStyles";
 
 const libraries = ["places"];
 const mapContainerStyle = {
-  width: "100%",
-  height: "80vh",
+  width: "80%",
+  height: "30vh",
 };
 
 const center = {
@@ -85,14 +85,14 @@ const Map = () => {
 
   // return component
   return (
-    <div>
+    <div className="google-map">
       <React.Fragment>
-        <h3>IT project: group 4399</h3>
+        {/* <h3>IT project: group 4399</h3>
         <h4>
           Current Address Information: lat {address.lat} && lng {address.lng} &&
           Address:
           {address.text}
-        </h4>
+        </h4> */}
 
         {/* define the address search box and locate buttom  */}
         <Search
@@ -137,8 +137,8 @@ const Map = () => {
             </InfoWindow>
           ) : null}
         </GoogleMap>
-        <div>Map</div>
-        <div>API KEY: {process.env.REACT_APP_GOOGLE_MAPS_API_KEY}</div>
+        {/* <div>Map</div> */}
+        {/* <div>API KEY: {process.env.REACT_APP_GOOGLE_MAPS_API_KEY}</div> */}
       </React.Fragment>
     </div>
   );
@@ -176,7 +176,7 @@ const Locate = ({ panTo, setAddress }) => {
         );
       }}
     >
-      <img src="./compass.svg" alt="compass - locate" />
+      <img src={require("../compass.png")} alt="compass - locate" />
     </button>
   );
 };
