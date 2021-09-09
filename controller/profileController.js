@@ -1,6 +1,9 @@
 const mongoose = require('mongoose')
 const userModel = mongoose.model('User')
 
+const passport = require('passport');
+require('../config/passport')(passport);
+
 /**
 * Upload the firstName, lastName and occupation
 * @param {express.Request} req - Username, firstName, lastName and occupation from client

@@ -1,6 +1,9 @@
 const mongoose = require('mongoose')
 const { populate } = require('../models/contactSchema')
 
+const passport = require('passport');
+require('../config/passport')(passport);
+
 const User = mongoose.model('User')
 const Contact = mongoose.model('Contact')
 const ContactList = mongoose.model('ContactList')
