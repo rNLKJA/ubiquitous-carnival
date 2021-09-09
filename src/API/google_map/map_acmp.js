@@ -213,7 +213,7 @@ const Search = ({ panTo, setAddress }) => {
 
             panTo({ lat, lng });
             setAddress({ lat, lng, text: address });
-          } catch {
+          } catch(err) {
             console.log("error");
           }
         }}
