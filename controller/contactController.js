@@ -41,7 +41,7 @@ const existAccount = async (req, res) => {
 const createNewContact = async (req, res) => {
     try {
         //!! can not use object id as input 
-        const onwerAccount = await User.findOne({_id:req.body.onwerAccount})
+        const onwerAccount = await User.findOne({_id:req.user._id})
         // if req is a user id
         let existAccountContact = null
         let dupContact = null
@@ -59,7 +59,7 @@ const createNewContact = async (req, res) => {
                 firstName: req.body.firstName, 
                 phone: req.body.phone, 
                 email:req.body.email,
-                onwerAccount: req.body.onwerAccount}).lean()
+                onwerAccount: req.user._id}).lean()
         } 
         //!!gengerate one meeting record automatically!
         console.log(req.body.lastName)
@@ -76,7 +76,7 @@ const createNewContact = async (req, res) => {
                 "addDate": Date.now(),
                 "note": req.body.note,
                 "status": true,
-                "onwerAccount" : mongoose.Types.ObjectId(req.body.onwerAccount),
+                "onwerAccount" : mongoose.Types.ObjectId(req.user._id),
                 "linkedAccount" : null
             })
         } else if (existAccountContact != null && dupContact != null) {
@@ -91,7 +91,7 @@ const createNewContact = async (req, res) => {
                 "addDate": Date.now(),
                 "note": existAccountContact.note,
                 "status": false,
-                "onwerAccount" : mongoose.Types.ObjectId(req.body.onwerAccount),
+                "onwerAccount" : mongoose.Types.ObjectId(req.user._id),
                 "linkedAccount" : existAccountContact._id
             })
         } else if (dupContact != null){
@@ -104,7 +104,7 @@ const createNewContact = async (req, res) => {
         await onwerAccount.contactList.push(ContactIdLink)
         console.log(onwerAccount)
         await onwerAccount.save()
-        res.send(newContact)
+        res.json(newContact)
     }catch(err){
         res.send("Database query failed")
         throw(err)
@@ -118,14 +118,73 @@ const createNewContact = async (req, res) => {
 const showAllContact = async (req,res) => {
     const onwerAccount = await User.findOne({$or :
         [{userID: req.body.userID}, 
-        {_id: mongoose.Types.ObjectId(req.body.objectId)}]}).populate("contactList.contact").lean()
-    res.send(onwerAccount.contactList)
+        {_id: mongoose.Types.ObjectId(req.user._id)}]}).populate("contactList.contact").lean()
+    res.json(onwerAccount.contactList)
     
+}
+
+/**
+* Register Post Function
+* @param {express.Request} req - give the object id if contact, or LinkedAccount Id if account exist, 
+* @param {express.Response} res - response from the system.
+*/
+const showOneContact = async (req,res) => {
+    try{
+        let contactDetail = null
+        if (req.body.linkedAccount != null) {
+            contactDetail = await Contact.findOne({_id:mongoose.Types.ObjectId(req.body.linkedAccount)}).lean()
+            contactDetail.password = null
+        } else {
+            contactDetail = await Contact.findOne({_id:mongoose.Types.ObjectId(req.body.contactObjectId)}).lean()
+        }
+        res.send(contactDetail)
+    }catch (err){
+        res.send(err)
+    }
+        
+    
+}
+
+const searchContact = async (req, res) => {
+    const validationErrors = expressValidator.validationResult(req)
+    if (!validationErrors.isEmpty()){
+        return res.status(422).render('error', {errorCode: '422', message: 'Search works on alphabet characters only.'})
+    }
+    var query = {}
+    if (req.body.nofillter == true){
+        //direct search by name?
+    }
+    // if name in submited form
+    if (req.body.lastName != ''){
+        query["lastName"] = {$regex: new RegExp(req.body.lastName, 'i') }
+    }
+    if (req.body.firstName != ''){
+        query["firstName"] = {$regex: new RegExp(req.body.firstName, 'i') }
+    }
+    if (req.body.phone != ''){
+        query["phone"] = req.body.phone
+    }
+    if (req.body.email != ''){
+        query["email"] = {$regex: new RegExp(req.body.email, 'i') }
+    }
+    if (req.body.occupation != ''){
+        query["occupation"] = {$regex: new RegExp(req.body.occupation, 'i') }
+    }
+    if (req.body.addDate != ''){
+        query["addDate"] = req.body.addDate
+    }
+    try {
+		const contacts = await Contact.find(query).lean()
+		res.json(contacts)	
+	} catch (err) {
+		console.log(err)
+	}
 }
 
 module.exports = {
     createNewContact,
     showAllContact,
     existAccount,
-    duplicateContact
+    duplicateContact,
+    showOneContact
 }

@@ -143,11 +143,11 @@ const showProfile = async(req, res) => {
         "userName": "Harrison123",
     }*/
     try {
-        const {userName} = req.body
+        const userObejctId = req.user._id
     
-        const userProfile = await userModel.findOne({userName: userName}).lean()
+        const userProfile = await userModel.findOne({_id: userObejctId}).lean()
 
-        res.send({
+        res.json({
             firstName: userProfile.firstName,
             lastName: userProfile.lastName,
             occupation: userProfile.occupation,
