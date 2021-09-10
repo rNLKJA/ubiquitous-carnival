@@ -1,11 +1,11 @@
 import React from "react";
-import Map_acmp from "./google_map/map_acmp";
+import Map1 from "./google_map/map_acmp";
 
 const Map = () => {
   return (
     <div className="sub-container">
       <div className="map-container">
-        <Map_acmp />
+        <Map1 />
       </div>
     </div>
   );

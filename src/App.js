@@ -41,7 +41,7 @@ function App() {
           </Route>
           <Route path="/setting">{<Person />}</Route>
           <Route path="*">
-            <Error />
+            <Error msg={"Error Happen!!"} />
           </Route>
         </Switch>
       </Router>
