@@ -23,13 +23,22 @@ const userSchema = new mongoose.Schema({
     },
 	occupation: {type: String},
 	phone: {type: Array},
-	userID: {type: Array},
+	userID: {type: String},
 	status: {type: String}, // active, pending ? if only two status, consider use boolean
 	contactList: [contactListSchema], // store a list of contact objects
 	recordList: [recordListSchema]
 })
 
+userSchema.methods.generateHash = function(password) {
+	return bcrypt.hash(password,10);
+};
+	
+userSchema.methods.validPassword = function(password) {
+	return bcrypt.compareSync(password, this.password);
+};
+
 const User = mongoose.model('User', userSchema)
 const ContactList = mongoose.model('ContactList', contactListSchema)
 const RecordList = mongoose.model('RecordList', recordListSchema)
+
 module.exports = {User, ContactList, RecordList}
