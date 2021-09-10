@@ -1,5 +1,6 @@
 // mongodb schema
 const mongoose = require('mongoose')
+const bcrypt = require('bcrypt')
 
 const contactListSchema = new mongoose.Schema({
     contact: {type: mongoose.Schema.Types.ObjectId, ref: 'Contact'},
