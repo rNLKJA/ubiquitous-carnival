@@ -20,11 +20,12 @@ const Navbar = () => {
       </div>
 
       {/* link to calendar route */}
-      <div className="navbar">
+      {/* <div className="navbar">
         <Link to="/calendar">
           <img className="nav-icon" src={require("./icon/calendar.png")} />
         </Link>
-      </div>
+      </div> */}
+      {/* disable calendar display function */}
 
       {/* link to search route */}
       <div className="navbar">

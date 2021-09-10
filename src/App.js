@@ -5,7 +5,7 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 // import Navbar and Map components
 import Navbar from "./API/nav/Navbar";
 import Map from "./API/map/Map";
-import Calendar from "./API/calendar/Calendar";
+// import Calendar from "./API/calendar/Calendar";
 import Home from "./API/home/home";
 import Contact from "./API/contact/Contact";
 import Person from "./API/person/Person";
@@ -29,9 +29,9 @@ function App() {
           <Route path="/map">
             <Map />
           </Route>
-          <Route path="/calendar">
+          {/* <Route path="/calendar">
             <Calendar />
-          </Route>
+          </Route> */}
           <Route path="/record">
             <Record />
           </Route>
@@ -39,6 +39,7 @@ function App() {
             <Search />
           </Route>
           <Route path="/setting">{<Person />}</Route>
+          <Route path="*">Error</Route>
         </Switch>
       </Router>
     </div>
