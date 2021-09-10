@@ -11,6 +11,7 @@ import Contact from "./API/contact/Contact";
 import Person from "./API/person/Person";
 import Record from "./API/record/Record";
 import Search from "./API/search/Search";
+import Error from "./API/error/Error";
 
 // defined the map function
 function App() {
@@ -39,7 +40,9 @@ function App() {
             <Search />
           </Route>
           <Route path="/setting">{<Person />}</Route>
-          <Route path="*">Error</Route>
+          <Route path="*">
+            <Error />
+          </Route>
         </Switch>
       </Router>
     </div>

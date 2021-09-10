@@ -102,3 +102,41 @@ nav {
   font-size: 1.5rem;
   width: 80%;
 }
+
+.error {
+  background-color: grey;
+  height: 100%;
+  width: 100%;
+}
+
+.error {
+  margin: 0;
+  padding: 0;
+  display: grid;
+  flex-direction: column;
+  grid-template-columns: 1fr;
+  grid-auto-rows: auto;
+  position: absolute;
+  width: 300px;
+  height: 300px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border: 20px double white;
+  border-width: 30px;
+  background-color: rgb(47, 71, 137);
+  justify-content: space-between;
+  align-items: center;
+  grid-row-gap: 0;
+}
+
+.error p {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  color: white;
+  text-align: center;
+  font-weight: bold;
+  font-size: 24px;
+  text-indent: 0;
+}
