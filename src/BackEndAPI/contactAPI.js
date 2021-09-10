@@ -17,7 +17,7 @@ function createContact(contactInfo) {
 
 function ShowOneContact(contactObjectId) {
     const endpoint = BASE_URL+'/contact/showOneContact'
-    return axios.post(endpoint, contactObjectId).then(res => res.data)
+    return axios.post(endpoint, {contactObjectId: contactObjectId}).then(res => res.data)
 }
 
 export function useContacts(){
