@@ -24,24 +24,26 @@ function App() {
           <Route exact path="/">
             <Home />
           </Route>
-          <Route path="/contact">
+          <Route exact path="/contact">
             <Contact />
           </Route>
-          <Route path="/map">
+          <Route exact path="/map">
             <Map />
           </Route>
           {/* <Route path="/calendar">
             <Calendar />
           </Route> */}
-          <Route path="/record">
+          <Route exact path="/record">
             <Record />
           </Route>
-          <Route path="/search">
+          <Route exact path="/search">
             <Search />
           </Route>
-          <Route path="/setting">{<Person />}</Route>
+          <Route exact path="/setting">
+            {<Person />}
+          </Route>
           <Route path="*">
-            <Error msg={"Error Happen!!"} />
+            <Error msg={"AHHHHHHHH"} />
           </Route>
         </Switch>
       </Router>

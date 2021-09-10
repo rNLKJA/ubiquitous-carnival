@@ -14,6 +14,7 @@
   border: 20px double white;
   border-width: 30px;
   background-color: rgb(47, 71, 137);
+  opacity: 0.9;
   justify-content: space-between;
   align-items: center;
   grid-row-gap: 0;
