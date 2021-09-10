@@ -17,6 +17,8 @@ import Error from "./API/error/Error";
 function App() {
   return (
     <div className="container">
+      {/* define the route */}
+      {/* TODO: login route and regist route */}
       <Router>
         {/* <NavbarTop /> */}
         <Navbar />
