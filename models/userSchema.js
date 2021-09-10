@@ -1,45 +1,45 @@
 // mongodb schema
-const mongoose = require('mongoose')
-const bcrypt = require('bcrypt')
+const mongoose = require("mongoose");
+const bcrypt = require("bcrypt");
 
 const contactListSchema = new mongoose.Schema({
-    contact: {type: mongoose.Schema.Types.ObjectId, ref: 'Contact'},
-    addSince: {type: Date, required: true, default: Date.now}
-})
+	contact: { type: mongoose.Schema.Types.ObjectId, ref: "Contact" },
+	addSince: { type: Date, required: true, default: Date.now },
+});
 
 const recordListSchema = new mongoose.Schema({
-    record: {type: mongoose.Schema.Types.ObjectId, ref: 'Record'},
-    meetingTime: {type:Date, required: true, default: Date.now}
-})
+    record: { type: mongoose.Schema.Types.ObjectId, ref: "Record" },
+    meetingTime: { type: Date, required: true, default: Date.now },
+});
 // create mongoose schema
 const userSchema = new mongoose.Schema({
-	userName: {type: String, required: true},
-	email: {type: Array, required: true},
-	password: {type: String, required: true},
-	lastName: {type: String},
-	firstName: {type: String},
-	portrait: { // store profile picture
-        data: Buffer,
-        contentType: String
-    },
-	occupation: {type: String},
-	phone: {type: Array},
-	userID: {type: String},
-	status: {type: String}, // active, pending ? if only two status, consider use boolean
-	contactList: [contactListSchema], // store a list of contact objects
-	recordList: [recordListSchema]
-})
+	userName: { type: String, required: true },
+	email: { type: Array, required: true },
+	password: { type: String, required: true },
+	lastName: { type: String },
+	firstName: { type: String },
+	portrait: {
+    // store profile picture
+    data: Buffer,
+    contentType: String,
+	},
+	occupation: { type: String },
+	phone: { type: Array },
+	userID: { type: String },
+  	status: { type: String }, // active, pending ? if only two status, consider use boolean
+ 	contactList: [contactListSchema], // store a list of contact objects
+	recordList: [recordListSchema],
+});
 
-userSchema.methods.generateHash = function(password) {
-	return bcrypt.hash(password,10);
-};
-	
-userSchema.methods.validPassword = function(password) {
-	return bcrypt.compareSync(password, this.password);
+userSchema.methods.generateHash = function (password) {
+	return bcrypt.hash(password, 10);
 };
 
-const User = mongoose.model('User', userSchema)
-const ContactList = mongoose.model('ContactList', contactListSchema)
-const RecordList = mongoose.model('RecordList', recordListSchema)
+userSchema.methods.validPassword = function (password) {
+	return bcrypt.compareSync(password, this.password);
+};
 
-module.exports = {User, ContactList, RecordList}
+const User = mongoose.model("User", userSchema);
+const ContactList = mongoose.model("ContactList", contactListSchema);
+const RecordList = mongoose.model("RecordList", recordListSchema);
+module.exports = { User, ContactList, RecordList };
