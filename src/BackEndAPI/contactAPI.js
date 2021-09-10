@@ -10,11 +10,13 @@ function getContacts() {
     return axios.get(endpoind).then(res => res.data)
 }
 
+// json file of contact info 
 function createContact(contactInfo) {
     const endpoind = BASE_URL+'/contact/createContact'
     return axios.post(endpoind, contactInfo).then(res => res.data)
 }
 
+//object ID as input
 function ShowOneContact(contactObjectId) {
     const endpoint = BASE_URL+'/contact/showOneContact'
     return axios.post(endpoint, {contactObjectId: contactObjectId}).then(res => res.data)
