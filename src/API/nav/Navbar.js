@@ -2,6 +2,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
+// define navigation bar component
 const Navbar = () => {
   return (
     <nav>
