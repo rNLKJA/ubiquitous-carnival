@@ -37,6 +37,10 @@ const Login = () => {
         
     }
 
+    const handleSignup = (event) => {
+        window.location.href = "/signup";
+    }
+
     return (
         <div className="sub-container">
             Login <br/><br/>
@@ -61,7 +65,7 @@ const Login = () => {
             />
             <br/><br/>
 
-            <button className="btn btn-primary" onClick={Registration}>Create a new account</button>
+            <button className="btn btn-primary" onClick = {handleSignup}>Create a new account</button>
             
         </div> 
     )

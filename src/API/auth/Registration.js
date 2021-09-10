@@ -3,7 +3,7 @@ import "bootstrap/dist/css/bootstrap.min.css"
 import axios from 'axios';
 
 
-class Registration extends React.Component{
+class Registration extends React.Component {
     constructor(){
         super();
         this.state = {

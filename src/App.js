@@ -28,13 +28,14 @@ function App() {
         {/* <NavbarTop /> */}
         <Navbar />
         <Switch>
-          <Route exact path="/" component={Home}>
-          </Route>
+          <ProtectedRouters exact path="/" component={Home}>
+          </ProtectedRouters>
           <Router path="/login" component={Login}>
           </Router>
           <Router path="/logout" component = {LogOut}>
           </Router>
-          <Router path="/signup" component = {Registration}>
+          <Router path="/signup" >
+            <Registration />
           </Router>
 
 
