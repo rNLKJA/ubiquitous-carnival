@@ -41,7 +41,7 @@ const existAccount = async (req, res) => {
 const createNewContact = async (req, res) => {
     try {
         //!! can not use object id as input 
-        const onwerAccount = await User.findOne({_id:req.body.linkedAccount})
+        const onwerAccount = await User.findOne({_id:req.user._id})
         // if req is a user id
         let existAccountContact = null
         let dupContact = null
@@ -59,7 +59,7 @@ const createNewContact = async (req, res) => {
                 firstName: req.body.firstName, 
                 phone: req.body.phone, 
                 email:req.body.email,
-                onwerAccount: req.body.linkedAccount}).lean()
+                onwerAccount: req.user._id}).lean()
         } 
         //!!gengerate one meeting record automatically!
         console.log(req.body.lastName)
@@ -76,7 +76,7 @@ const createNewContact = async (req, res) => {
                 "addDate": Date.now(),
                 "note": req.body.note,
                 "status": true,
-                "onwerAccount" : mongoose.Types.ObjectId(req.body.linkedAccount),
+                "onwerAccount" : mongoose.Types.ObjectId(req.user._id),
                 "linkedAccount" : null
             })
         } else if (existAccountContact != null && dupContact != null) {
@@ -91,7 +91,7 @@ const createNewContact = async (req, res) => {
                 "addDate": Date.now(),
                 "note": existAccountContact.note,
                 "status": false,
-                "onwerAccount" : mongoose.Types.ObjectId(req.body.linkedAccount),
+                "onwerAccount" : mongoose.Types.ObjectId(req.user._id),
                 "linkedAccount" : existAccountContact._id
             })
         } else if (dupContact != null){
@@ -135,7 +135,7 @@ const showOneContact = async (req,res) => {
             contactDetail = await Contact.findOne({_id:mongoose.Types.ObjectId(req.body.linkedAccount)}).lean()
             contactDetail.password = null
         } else {
-            contactDetail = await Contact.findOne({_id:mongoose.Types.ObjectId(req.body.contactObjectId)}).lean()
+            contactDetail = await Contact.findOne({_id:mongoose.Types.ObjectId(req.user._id)}).lean()
         }
         res.send(contactDetail)
     }catch (err){
