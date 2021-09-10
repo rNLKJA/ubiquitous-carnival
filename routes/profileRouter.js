@@ -3,6 +3,8 @@ const express = require('express')
 const profileRouter = express.Router()
 
 const profileController = require("../controller/profileController.js")
+const passport = require('passport');
+require('../config/passport')(passport);
 
 profileRouter.post('/updateProfile', passport.authenticate('jwt', { session: false }), (req,res) => profileController.updateProfile(req,res))
 
