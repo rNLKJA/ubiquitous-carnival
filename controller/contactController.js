@@ -17,7 +17,7 @@ const duplicateContact = async (req, res) => {
         firstName: req.body.firstName, 
         phone: req.body.phone, 
         email:req.body.email,
-        onwerAccount: req.body.onwerAccount}).lean()
+        ownerAccount: req.body.ownerAccount}).lean()
     res.send(inputContact)
 }
 
@@ -41,7 +41,7 @@ const existAccount = async (req, res) => {
 const createNewContact = async (req, res) => {
     try {
         //!! can not use object id as input 
-        const onwerAccount = await User.findOne({_id:req.user._id})
+        const ownerAccount = await User.findOne({_id:req.user._id})
         // if req is a user id
         let existAccountContact = null
         let dupContact = null
@@ -59,7 +59,7 @@ const createNewContact = async (req, res) => {
                 firstName: req.body.firstName, 
                 phone: req.body.phone, 
                 email:req.body.email,
-                onwerAccount: req.user._id}).lean()
+                ownerAccount: req.user._id}).lean()
         } 
         //!!gengerate one meeting record automatically!
         console.log(req.body.lastName)
@@ -68,7 +68,7 @@ const createNewContact = async (req, res) => {
             newContact = await Contact.create({
                 "lastName": req.body.lastName,
                 "firstName": req.body.firstName,
-                "portriat" : req.body.portriat,
+                "portraits" : req.body.portraits,
                 "email": req.body.email,
                 "phone" : req.body.phone,
                 "meetRecord": req.body.meetRecord,
@@ -76,14 +76,14 @@ const createNewContact = async (req, res) => {
                 "addDate": Date.now(),
                 "note": req.body.note,
                 "status": true,
-                "onwerAccount" : mongoose.Types.ObjectId(req.user._id),
+                "ownerAccount" : mongoose.Types.ObjectId(req.user._id),
                 "linkedAccount" : null
             })
         } else if (existAccountContact != null && dupContact != null) {
             newContact = await Contact.create({
                 "lastName": existAccountContact.lastName,
                 "firstName": existAccountContact.firstName,
-                "portriat" : existAccountContact.portriat,
+                "portraits" : existAccountContact.portraits,
                 "email": existAccountContact.email,
                 "phone" : existAccountContact.phone,
                 "meetRecord": existAccountContact.meetRecord,
@@ -91,7 +91,7 @@ const createNewContact = async (req, res) => {
                 "addDate": Date.now(),
                 "note": existAccountContact.note,
                 "status": false,
-                "onwerAccount" : mongoose.Types.ObjectId(req.user._id),
+                "ownerAccount" : mongoose.Types.ObjectId(req.user._id),
                 "linkedAccount" : existAccountContact._id
             })
         } else if (dupContact != null){
@@ -101,9 +101,9 @@ const createNewContact = async (req, res) => {
         // const formedContact = new Contact(newContact)
         // formedContact.save()
         const ContactIdLink = new ContactList({contact: newContact._id, addSince: Date.now})
-        await onwerAccount.contactList.push(ContactIdLink)
-        console.log(onwerAccount)
-        await onwerAccount.save()
+        await ownerAccount.contactList.push(ContactIdLink)
+        console.log(ownerAccount)
+        await ownerAccount.save()
         res.json(newContact)
     }catch(err){
         res.send("Database query failed")
@@ -116,10 +116,10 @@ const createNewContact = async (req, res) => {
 * @param {express.Response} res - response from the system.
 */
 const showAllContact = async (req,res) => {
-    const onwerAccount = await User.findOne({$or :
+    const ownerAccount = await User.findOne({$or :
         [{userID: req.body.userID}, 
         {_id: mongoose.Types.ObjectId(req.user._id)}]}).populate("contactList.contact").lean()
-    res.json(onwerAccount.contactList)
+    res.json(ownerAccount.contactList)
     
 }
 
