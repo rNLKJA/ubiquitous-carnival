@@ -5,7 +5,7 @@ const mongoose = require('mongoose')
 const contactSchema = new mongoose.Schema({
 	lastName: {type: String, required: true},
 	firstName: {type: String, required: true},
-	portriat: {
+	portraits: {
 		data: Buffer,
 		contentType: String 
 	},
@@ -16,7 +16,7 @@ const contactSchema = new mongoose.Schema({
     addDate: {type: Date, required: true, default: Date.now},
 	note: {type: String},// unsure type, we also need to handle the image or attachments
 	status: {type: Boolean, required: true},
-    onwerAccount: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
+    ownerAccount: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
     linkedAccount: {type: mongoose.Schema.Types.ObjectId, ref:'User'}
 })
 
