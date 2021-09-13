@@ -23,11 +23,11 @@ nav {
   height: calc(672px);
   width: 100px;
   position: fixed;
-  border-right: 1px dashed black;
+  border-right: 2px double rgb(47, 71, 137);
   background-color: white;
   display: grid;
   grid-gap: 5px;
-  justify-content: space-around;
+  justify-content: space-evenly;
 }
 
 .nav-icon {

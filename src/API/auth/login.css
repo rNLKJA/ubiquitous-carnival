@@ -29,18 +29,37 @@
 .login-container > input {
   padding-left: 5px;
   margin-left: 5px;
+  font-size: 14px;
 }
 
 .login-btn {
-  width: 200px;
-  height: 25px;
+  width: 250px;
+  height: 30px;
   text-align: center;
   vertical-align: middle;
+  background-color: white;
+  font-size: 14px;
+  border-radius: 15px;
+  color: rgb(47, 71, 137);
 }
 
 .signup-btn {
-  width: 200px;
-  height: 25px;
+  width: 250px;
+  height: 30px;
   text-align: center;
   vertical-align: middle;
+  background-color: rgb(47, 71, 137);
+  color: white;
+  font-size: 14px;
+  border-radius: 15px;
+}
+
+.login-btn:hover {
+  background-color: rgb(47, 71, 137);
+  color: white;
+}
+
+.signup-btn:hover {
+  background-color: white;
+  color: rgb(47, 71, 137);
 }
