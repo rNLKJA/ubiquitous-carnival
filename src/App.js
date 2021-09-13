@@ -28,12 +28,15 @@ function App() {
         {/* <NavbarTop /> */}
         <Navbar />
         <Switch>
-          <ProtectedRouters exact path="/" component={Home}></ProtectedRouters>
-          <Router exact path="/login" component={Login}></Router>
-          <Router exact path="/logout" component={LogOut}></Router>
-          <Router exact path="/signup">
+          <ProtectedRouters exact path="/" component={Home}>
+          </ProtectedRouters>
+          <Route path="/login" component={Login}>
+          </Route>
+          <Route path="/logout" component = {LogOut}>
+          </Route>
+          <Route path="/signup" >
             <Registration />
-          </Router>
+          </Route>
 
           <ProtectedRouters
             exact
