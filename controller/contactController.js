@@ -138,11 +138,9 @@ const showOneContact = async (req,res) => {
             contactDetail = await Contact.findOne({_id:mongoose.Types.ObjectId(req.user._id)}).lean()
         }
         res.send(contactDetail)
-    }catch (err){
+    } catch (err) {
         res.send(err)
     }
-        
-    
 }
 
 const searchContact = async (req, res) => {

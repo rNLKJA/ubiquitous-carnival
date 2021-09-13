@@ -140,23 +140,17 @@ const delEmail = async(req, res) => {
 */
 const showProfile = async(req, res) => {
     try {
-        const userObjectId = req.user._id
-    
-        const userProfile = await userModel.findOne({_id: userObjectId}).lean()
-
         res.json({
-            firstName: userProfile.firstName,
-            lastName: userProfile.lastName,
-            occupation: userProfile.occupation,
-            status: userProfile.status,
-            email: userProfile.email,
-            phone: userProfile.phone
+            firstName: req.user.firstName,
+            lastName: req.user.lastName,
+            occupation: req.user.occupation,
+            status: req.user.status,
+            email: req.user.email,
+            phone: req.user.phone
         })
-
     } 
     catch(err) {
         res.send("show fail")
-        throw(err)
     }
 }
 
