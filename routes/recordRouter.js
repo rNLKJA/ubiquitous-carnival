@@ -11,6 +11,6 @@ require('../config/passport')(passport);
 recordRouter.get('/')
 
 recordRouter.post('/createRecord', passport.authenticate('jwt', { session: false }), (req,res) => recordController.createRecord(req, res))
-recordRouter.get('/showRecord', passport.authenticate('jwt', { session: false }), (req,res) => recordController.showAllRecord(req,res))
-recordRouter.post('/showOneRecord', passport.authenticate('jwt', { session: false }), (req,res) => recordController.showOneRecord(req,res))
+recordRouter.post('/showOneRecord', passport.authenticate('jwt', { session: false }), (req,res) => recordController.showSpecificRecord(req,res))
+recordRouter.get('/showRecord', passport.authenticate('jwt', { session: false }), (req,res) => recordController.showAllRecords(req,res))
 module.exports = recordRouter

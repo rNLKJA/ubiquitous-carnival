@@ -31,7 +31,7 @@ const existAccount = async (req, res) => {
         phone: req.body.phone, 
         email:req.body.email}).lean()
     res.send(inputContact)
-    }
+}
 
     /**
 * Register Post Function

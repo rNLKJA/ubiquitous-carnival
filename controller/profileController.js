@@ -135,17 +135,14 @@ const delEmail = async(req, res) => {
 //================================function for show the profile======================================//
 /**
 * Get the profile data of user
-* @param {express.Request} req - Username from client
+* @param {express.Request} req
 * @param {express.Response} res - response from the system.
 */
 const showProfile = async(req, res) => {
-    /*{   
-        "userName": "Harrison123",
-    }*/
     try {
-        const userObejctId = req.user._id
+        const userObjectId = req.user._id
     
-        const userProfile = await userModel.findOne({_id: userObejctId}).lean()
+        const userProfile = await userModel.findOne({_id: userObjectId}).lean()
 
         res.json({
             firstName: userProfile.firstName,

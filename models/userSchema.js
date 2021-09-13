@@ -13,7 +13,7 @@ const recordListSchema = new mongoose.Schema({
 });
 // create mongoose schema
 const userSchema = new mongoose.Schema({
-	userName: { type: String, required: true },
+	userName: { type: String, required: true, unique:true},
 	email: { type: Array, required: true },
 	password: { type: String, required: true },
 	lastName: { type: String },
