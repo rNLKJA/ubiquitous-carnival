@@ -20,6 +20,25 @@ const Contact = () => {
             {contacts.map((person) => (
               <Person prop={person} key={person._id} />
             ))}
+
+            {contacts.map((person) => (
+              <Person prop={person} key={person._id} />
+            ))}
+            {contacts.map((person) => (
+              <Person prop={person} key={person._id} />
+            ))}
+            {contacts.map((person) => (
+              <Person prop={person} key={person._id} />
+            ))}
+            {contacts.map((person) => (
+              <Person prop={person} key={person._id} />
+            ))}
+            {contacts.map((person) => (
+              <Person prop={person} key={person._id} />
+            ))}
+            {contacts.map((person) => (
+              <Person prop={person} key={person._id} />
+            ))}
           </div>
         </div>
         <div className="contactDetail"></div>
