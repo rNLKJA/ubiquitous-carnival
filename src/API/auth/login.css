@@ -41,6 +41,7 @@
   font-size: 14px;
   border-radius: 15px;
   color: rgb(47, 71, 137);
+  border: 1px solid rgb(47, 71, 137);
 }
 
 .signup-btn {
