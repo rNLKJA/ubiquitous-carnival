@@ -43,7 +43,11 @@ const Contact = () => {
         )}
         {oneContact.selected && (
           <div className="contactDetail">
-            <img src={require("./portrarit.png")} alt="protrait.png" />
+            <img
+              src={require("./portrarit.png")}
+              alt="protrait.png"
+              style={{ paddingTop: "15px" }}
+            />
             <div className="name">
               <label>First Name: </label>
               {oneContact.firstName}
@@ -72,7 +76,12 @@ const Contact = () => {
             <div className="phone">
               {oneContact.phone.map((phone) => {
                 return (
-                  <label key={new Date().toISOString()}>Phone: {phone}</label>
+                  <label
+                    key={new Date().toISOString()}
+                    style={{ color: "rgb(47,71,137)" }}
+                  >
+                    Phone: {phone}
+                  </label>
                 );
               })}
             </div>
@@ -94,9 +103,26 @@ export const Person = ({ prop, setOneContact }) => {
       className="person"
       onClick={() => setOneContact({ ...prop.contact, selected: true })}
     >
-      <p>First Name: {prop.contact.firstName}</p>
-      <p>Last Name: {prop.contact.lastName}</p>
-      <p>Occupation: {prop.contact.occupation}</p>
+      <div className="profile">
+        <img
+          src={require("./index.jpg")}
+          alt={`${prop.lastname} portfolio`}
+        ></img>
+      </div>
+      <div className="info">
+        <p>
+          <b style={{ color: "rgb(47,71,137)" }}>First Name: </b>
+          {prop.contact.firstName}
+        </p>
+        <p>
+          <b style={{ color: "rgb(47,71,137)" }}>Last Name: </b>
+          {prop.contact.lastName}
+        </p>
+        <p>
+          <b style={{ color: "rgb(47,71,137)" }}>Occupation: </b>
+          {prop.contact.occupation}
+        </p>
+      </div>
     </div>
   );
 };

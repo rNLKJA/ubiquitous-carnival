@@ -19,6 +19,7 @@
   grid-auto-flow: column;
   /* overflow: scroll; */
   border-radius: 15px;
+  justify-content: flex-start;
 }
 
 .contactDetail {
@@ -61,19 +62,32 @@
 }
 
 .person {
+  display: grid;
+  grid-template-columns: 1fr 3fr;
+  border: 1px rgb(47, 71, 137) solid;
+  border-radius: 15px;
+  padding: 5px;
+  margin-top: 10px;
+}
+
+.info {
   display: flex;
   /* justify-content: space-around; */
   /* grid-auto-rows: auto; */
   flex-direction: column;
   width: 95%;
   /* height: 120px; */
-  background-color: white;
+  /* background-color: gray; */
   margin-top: 8px;
-  padding: 0;
-  border: 1px black solid;
+
   border-radius: 15px;
   vertical-align: middle;
   padding: 5px;
+  font-size: 15px;
+}
+
+.info > p {
+  margin: 0;
 }
 
 .contactDetail > div {
@@ -95,4 +109,20 @@
   width: 500px;
   height: 150px;
   justify-content: justify;
+}
+
+.profile {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  vertical-align: middle;
+  margin: 0;
+  padding: 0;
+}
+
+.profile > img {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  padding-right: 10px;
 }
