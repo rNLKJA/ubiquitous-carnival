@@ -111,15 +111,15 @@ export const Person = ({ prop, setOneContact }) => {
       </div>
       <div className="info">
         <p>
-          <b style={{ color: "rgb(47,71,137)" }}>FN: </b>
+          <b className="class">FN: </b>
           {prop.contact.firstName}
         </p>
         <p>
-          <b style={{ color: "rgb(47,71,137)" }}>LN: </b>
+          <b className="class">LN: </b>
           {prop.contact.lastName}
         </p>
         <p>
-          <b style={{ color: "rgb(47,71,137)" }}>Work: </b>
+          <b className="class">Work: </b>
           {prop.contact.occupation}
         </p>
       </div>

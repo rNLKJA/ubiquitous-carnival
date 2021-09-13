@@ -87,7 +87,7 @@
 }
 
 .info > p {
-  margin: 0;
+  margin: 1px;
 }
 
 .contactDetail > div {
@@ -125,4 +125,13 @@
   height: 60px;
   border-radius: 50%;
   padding-right: 10px;
+}
+
+.class {
+  color: "rgb(47,71,137)";
+}
+
+.person:hover {
+  background-color: rgb(47, 71, 137);
+  color: white;
 }
