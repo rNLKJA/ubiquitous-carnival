@@ -22,10 +22,22 @@
 }
 
 .contactDetail {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  align-items: center;
   height: 100%;
   background-color: white;
   border: 1px black solid;
   border-radius: 15px;
+  /* justify-content: space-around; */
+  overflow: auto;
+}
+
+.contactDetail > img {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
 }
 
 .contactList-items {
@@ -49,14 +61,38 @@
 }
 
 .person {
-  display: grid;
-  justify-content: space-around;
-  grid-auto-rows: auto;
-  width: 200px;
-  height: 120px;
+  display: flex;
+  /* justify-content: space-around; */
+  /* grid-auto-rows: auto; */
+  flex-direction: column;
+  width: 95%;
+  /* height: 120px; */
   background-color: white;
   margin-top: 8px;
   padding: 0;
   border: 1px black solid;
   border-radius: 15px;
+  vertical-align: middle;
+  padding: 5px;
+}
+
+.contactDetail > div {
+  height: 30px;
+  font-size: 20px;
+  /* width: 80%; */
+  text-align: center;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.note {
+  width: 550px;
+  height: 400px;
+  /* background-color: gray; */
+}
+
+.note > input {
+  width: 500px;
+  height: 150px;
+  justify-content: justify;
 }
