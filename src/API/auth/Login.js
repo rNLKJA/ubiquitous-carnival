@@ -5,7 +5,7 @@ import "./login.css";
 
 import Axios from "axios";
 
-import Registration from "./Registration";
+// import Registration from "./Registration";
 
 Axios.defaults.withCredentials = true;
 
