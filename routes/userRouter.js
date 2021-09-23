@@ -7,7 +7,7 @@ const passport = require('passport');
 require('../config/passport')(passport);
 
 userRouter.get('/logout' , userController.handleLogout)
-userRouter.get('/jwtTest',passport.authenticate('jwt', { session: false }), (req,res) => userController.isAuth(req,res))
+userRouter.get('/jwtTest',userController.isAuth)
 userRouter.post('/login',userController.handleLogin)
 userRouter.post('/signup',userController.register)
 

@@ -82,7 +82,6 @@ module.exports = function(passport) {
                         // sessions. each client gets assigned a unique identifier and the
                         // server uses that identifier to identify different clients
                         // all this is handled by the session middleware that we are using 
-                        req.session.userName = userName;
                         // for demonstration of using express-session
                         // done() is used by the strategy to set the authentication status with
                         // details of the user who was authenticated

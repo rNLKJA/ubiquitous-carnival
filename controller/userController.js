@@ -5,6 +5,8 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken')
 const { json } = require('express');
 const passport = require('passport');
+const { promisify } = require('util');
+
 require('../config/passport')(passport);
 
 const handleLogout = (req, res) => {
@@ -13,15 +15,31 @@ const handleLogout = (req, res) => {
         httpOnly: true,
         
     })
-
+    console.log("log out succussfully")
     res.status(200).json({status: true,message: "logout successful"})
 }
 
 
-const isAuth = (req, res) => {
-    console.log(req.user.userName + " is accessing protected router")
-    return res.json({status: true, message: "Access successful"})
-}
+// this route is used to check the authentication of user. a true status will return if user pass the jwt test
+
+
+const isAuth = async(req, res) => {
+    console.log("is auth")
+    let currentUser;
+    if (req.cookies.jwt && req.cookies.jwt != "none") {
+        const token = req.cookies.jwt;
+        const decoded = await promisify(jwt.verify)(token, process.env.PASSPORT_KEY);
+        console.log(decoded, " decode<--")
+        currentUser = await userModel.findOne(decoded._id);
+        currentUser.password = undefined
+      } else {
+        currentUser =  null;
+      }    
+
+      console.log(currentUser)
+
+      res.status(200).send({ currentUser });
+};
 
 
 const handleLogin = async (req, res, next) => {
@@ -79,7 +97,7 @@ const handleLogin = async (req, res, next) => {
                 });
 
                 console.log("you got the token " + token)
-                return res.json({
+                res.json({
                     auth: true,
                     token : token,
                     message: 'Your token release successfully'
