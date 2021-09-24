@@ -33,7 +33,7 @@ const existAccount = async (req, res) => {
     res.send(inputContact)
 }
 
-    /**
+/**
 * Register Post Function
 * @param {express.Request} req - basic information for add a contact and who is adding this account.
 * @param {express.Response} res - response from the system.
@@ -130,13 +130,7 @@ const showAllContact = async (req,res) => {
 */
 const showOneContact = async (req,res) => {
     try{
-        let contactDetail = null
-        if (req.body.linkedAccount != null) {
-            contactDetail = await Contact.findOne({_id:mongoose.Types.ObjectId(req.body.linkedAccount)}).lean()
-            contactDetail.password = null
-        } else {
-            contactDetail = await Contact.findOne({_id:mongoose.Types.ObjectId(req.user._id)}).lean()
-        }
+        const contactDetail = await Contact.findOne({_id:mongoose.Types.ObjectId(req.body.contactId)}).lean()
         res.send(contactDetail)
     } catch (err) {
         res.send(err)
@@ -151,6 +145,20 @@ const searchContact = async (req, res) => {
     var query = {}
     if (req.body.nofillter == true){
         //direct search by name?
+        var nameSearch = req.body.searchContent.split(" ")
+        var matchContacts = []
+        try{
+            for (var i = 0; i <= nameSearch.length(); i++){
+            var potentailContacts = await Contact.find({$or :
+                [{firstName: nameSearch[i]}, 
+                {lastName: nameSearch[i]}]}).lean()
+            matchContacts = [...new Set([...matchContacts, ...potentailContacts])]
+            }
+            res.json(matchContacts)
+            return
+        }catch(err){
+            console.log(err)
+        }
     }
     // if name in submited form
     if (req.body.lastName != ''){
@@ -169,7 +177,14 @@ const searchContact = async (req, res) => {
         query["occupation"] = {$regex: new RegExp(req.body.occupation, 'i') }
     }
     if (req.body.addDate != ''){
-        query["addDate"] = req.body.addDate
+        try {
+            const searchDate = new Date(req.body.addDate)
+            var matchContacts = await Contact.find({addDate: {$lt: searchDate.getTime()}})
+            res.json(matchContacts)
+            return
+        } catch (err) {
+            console.log(err)
+        }
     }
     try {
 		const contacts = await Contact.find(query).lean()
