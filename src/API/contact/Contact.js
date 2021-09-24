@@ -25,7 +25,8 @@ const Contact = () => {
   return (
     <div className="sub-container">
       <div className="contact">
-        <div className="contactList">
+				{/* display contact as a list */}
+				<div className="contactList">
           <div className="contactList-items">
             {contacts.map((person) => (
               <Person
@@ -36,6 +37,8 @@ const Contact = () => {
             ))}
           </div>
         </div>
+
+				{/* display a specific information */}
         {!oneContact.selected && (
           <div className="contactDetail">
             <Loading msg={"Please Select A Contact"} />

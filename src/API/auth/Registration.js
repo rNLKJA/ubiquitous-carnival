@@ -1,6 +1,7 @@
 import React from "react";
 // import "bootstrap/dist/css/bootstrap.min.css"
 import axios from "axios";
+import "./registration.css";
 
 class Registration extends React.Component {
   constructor() {
@@ -61,9 +62,10 @@ class Registration extends React.Component {
   render() {
     return (
       <div className="sub-container">
-        <div className="container1">
+        <div className="registration">
           <div className="form-div">
             <form onSubmit={this.onSubmit}>
+              <label className="form-label">Username</label>
               <input
                 type="text"
                 placeholder="userName"
@@ -73,6 +75,7 @@ class Registration extends React.Component {
                 required
               />
 
+              <label className="form-label">Email</label>
               <input
                 type="text"
                 placeholder="email"
@@ -91,6 +94,7 @@ class Registration extends React.Component {
                 required
               />
 
+              <label className="form-label">Password</label>
               <input
                 type="password"
                 placeholder="double check password"
