@@ -5,7 +5,8 @@ import "./login.css";
 
 import Axios from "axios";
 
-// import Registration from "./Registration";
+import useAuth from '../../hooks/useAuth'
+
 
 Axios.defaults.withCredentials = true;
 
@@ -19,23 +20,16 @@ const Login = () => {
     username: "not login yet",
   });
 
-  const handleLogin = (event) => {
+  const { loginUser, error } = useAuth();
+
+  const handleLogin = async (event) => {
     event.preventDefault();
-    console.log("trying to login..." + username);
-    Axios.post("http://localhost:5000/user/login", {
-      userName: username,
-      password: password,
-    }).then((response) => {
-      console.log(response);
-      if (!response.data.auth) {
-        console.log("login fail");
-        setLoginState({ status: false, username: "login fail" });
-      } else {
-        console.log(response.data);
-        setLoginState({ status: true, username: username });
-        window.location.href = "/";
-      }
-    });
+    let data = {username : username, password : password}
+    console.log("trying to login user :", data.username)
+    await loginUser(data)
+
+    window.location.href = "/"
+
   };
 
   const handleSignup = (event) => {
