@@ -193,6 +193,43 @@ const searchContact = async (req, res) => {
 		console.log(err)
 	}
 }
+//further discussion needed
+const updateContactInfo = async (req, res) => {
+    const validationErrors = expressValidator.validationResult(req)
+    var query = {}
+    // if name in submited form
+    if (req.body.lastName != ''){
+        query["lastName"] = req.body.lastName
+    }
+    if (req.body.firstName != ''){
+        query["firstName"] = req.body.firstName
+    }
+    if (req.body.phone != ''){
+        query["phone"] = req.body.phone
+    }
+    if (req.body.email != ''){
+        query["email"] = req.body.email
+    }
+    if (req.body.occupation != ''){
+        query["occupation"] = req.body.occupation
+    }
+    if (req.body.note != ''){
+        query["note"] = req.body.note
+    }
+    try {
+		await Contact.updateOne({_id: req.body._id}, query)
+        const contacts = Contact.findOne({_id: req.body._id}).lean()
+		res.json(contacts)	
+	} catch (err) {
+		console.log(err)
+	}
+
+}
+
+const contactPhotoUpload = (req, res) => {
+    
+}
+
 
 module.exports = {
     createNewContact,

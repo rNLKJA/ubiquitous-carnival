@@ -46,7 +46,7 @@ const addPhone = async(req, res) => {
         "phone": "0415467321"
     }*/
 
-   try {
+    try {
         const {userName, phone} = req.body
     
         const updatePhone = await userModel.findOneAndUpdate( 
@@ -56,11 +56,11 @@ const addPhone = async(req, res) => {
         )
         res.send("update success")
 
-   } 
-   catch(err) {
-       res.send("update fail")
-       throw(err)
-   }
+    } 
+    catch(err) {
+        res.send("update fail")
+        throw(err)
+    }
 }
 
 /**
