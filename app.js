@@ -58,7 +58,6 @@ app.get('/', (req, res) => {
 const profileRouter = require('./routes/profileRouter')
 const contactRouter = require('./routes/contactRouter')
 const userRouter = require('./routes/userRouter')
-app.use(express.json())
 app.use('/profile', profileRouter)
 app.use('/contact', contactRouter)
 app.use('/user', userRouter)

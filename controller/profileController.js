@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 const userModel = mongoose.model('User')
-
+const fs = require('fs')
 const passport = require('passport');
 require('../config/passport')(passport);
 
@@ -132,6 +132,22 @@ const delEmail = async(req, res) => {
     )
 }
 
+const uploadPhoto = async(req, res) => {
+    var img = {
+        data: fs.readFileSync(req.file.path),
+        contentType: req.file.mimeType
+    }
+    try{
+        await userModel.updateOne({_id: req.body._id}, {portrait: img})
+        const user = await userModel.findOne({_id: req.body._id})
+        console.log('update success')
+        res.send(user)
+    }catch(err){
+        console.log(err)
+    }
+    
+}
+
 //================================function for show the profile======================================//
 /**
 * Get the profile data of user
@@ -156,6 +172,7 @@ const showProfile = async(req, res) => {
 
 module.exports = {
     updateProfile,
+    uploadPhoto,
     addPhone,
     delPhone,
     addEmail,
