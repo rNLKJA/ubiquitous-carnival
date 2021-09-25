@@ -227,7 +227,17 @@ const updateContactInfo = async (req, res) => {
 }
 
 const contactPhotoUpload = (req, res) => {
-    
+    var img = {
+        data: fs.readFileSync(req.file.path),
+        contentType: req.file.mimeType
+    }
+    try{
+        const user = await Contact.findOneAndUpdate({_id: req.body._id}, {portrait: img}, {new:true})
+        console.log('update success')
+        res.send(user)
+    }catch(err){
+        console.log(err)
+    }
 }
 
 
