@@ -217,13 +217,56 @@ const updateContactInfo = async (req, res) => {
         query["note"] = req.body.note
     }
     try {
-		await Contact.updateOne({_id: req.body._id}, query)
-        const contacts = Contact.findOne({_id: req.body._id}).lean()
+		await Contact.updateOne({_id: mongoose.Types.ObjectId(req.body._idOfContact)}, query)
+        const contacts = Contact.findOne({_id: mongoose.Types.ObjectId(req.body._idOfContact)}).lean()
 		res.json(contacts)	
 	} catch (err) {
 		console.log(err)
 	}
 
+}
+
+const synchronizationContactInfo = async (req, res) => {
+    try{
+        const contact = await Contact.findOne({_id: mongoose.Types.ObjectId(req.body._idOfContact)}).populate('linkedAccount').lean()
+        var query = {}
+    // consider directly replace without comparing
+    if (contact.lastName != contact.linkedAccount.lastName){
+        query["lastName"] =  contact.linkedAccount.lastName
+    }
+    if (contact.firstName != contact.linkedAccount.firstName){
+        query["firstName"] = req.body.firstName
+    }
+    if (!(listCompare(contact.phone, contact.linkedAccount.phone))){
+        query["phone"] = contact.linkedAccount.phone
+    }
+    if (!(listCompare(contact.email, contact.linkedAccount.email))){
+        query["email"] = contact.linkedAccount.email
+    }
+    if (contact.occupation != contact.linkedAccount.occupation){
+        query["occupation"] = contact.linkedAccount.occupation
+    }
+    
+    query['portrait'] = contact.linkedAccount.portrait
+
+    const updatedContact = await Contact.findOneAndUpdate({_id: mongoose.Types.ObjectId(req.body._idOfContact)}, query, {new:true})
+    res.json(updatedContact)
+    }catch (err) {
+        console.log(err)
+    }
+}
+
+const listCompare = (currentList, targetList) => {
+    if (currentList.length != targetList.length){
+        return 0
+    } else {
+        for (var i=0; i<=currentList.length;i++){
+            if (currentList[i] != targetList[i]){
+                return 0
+            }
+        }
+    }
+    return 1;
 }
 
 const contactPhotoUpload = (req, res) => {
@@ -232,7 +275,7 @@ const contactPhotoUpload = (req, res) => {
         contentType: req.file.mimeType
     }
     try{
-        const user = await Contact.findOneAndUpdate({_id: req.body._id}, {portrait: img}, {new:true})
+        const user = await Contact.findOneAndUpdate({_id: mongoose.Types.ObjectId(req.body._idOfContact)}, {portrait: img}, {new:true})
         console.log('update success')
         res.send(user)
     }catch(err){
