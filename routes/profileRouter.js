@@ -4,9 +4,9 @@ const profileRouter = express.Router()
 
 const profileController = require("../controller/profileController.js")
 const passport = require('passport');
-const { upload } = require('../config/upload');
+const { upload } = require('../config/upload')
 require('../config/passport')(passport);
-// require('../config/upload')(upload)
+// const photoUpload = require('../config/upload')
 
 profileRouter.post('/updateProfile', passport.authenticate('jwt', { session: false }), (req,res) => profileController.updateProfile(req,res))
 
@@ -20,6 +20,6 @@ profileRouter.post('/delEmail', passport.authenticate('jwt', { session: false })
 
 profileRouter.get('/showProfile', passport.authenticate('jwt', { session: false }), (req,res) => profileController.showProfile(req,res))
 
-profileRouter.post('/uploadUserImage', upload.single('portrait'), (req, res) => profileController.uploadPhoto(req,res))
+profileRouter.post('/uploadUserImage', upload.single('portrait'), (req,res) => profileController.uploadPhoto(req,res))
 
 module.exports = profileRouter

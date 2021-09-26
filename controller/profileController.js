@@ -132,15 +132,15 @@ const delEmail = async(req, res) => {
     )
 }
 
-const uploadPhoto = async(req, res) => {
+const uploadPhoto = async (req, res) => {
     var img = {
         data: fs.readFileSync(req.file.path),
-        contentType: req.file.mimeType
+        contentType: req.file.mimetype
     }
     try{
         //TODO: replace body._id to user._id 
-        await userModel.updateOne({_id: mongoose.Types.ObjectId(req.body._id)}, {portrait: img})
-        const user = await userModel.findOne({_id: mongoose.Types.ObjectId(req.body._id)})
+        await userModel.updateOne({_id: req.body._id}, {portrait: img})
+        const user = await userModel.findOne({_id: req.body._id})
         console.log('update success')
         res.send(user)
     }catch(err){

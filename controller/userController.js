@@ -125,8 +125,9 @@ const register = async (req, res) => {
         userName,
         email,
         password,
-        re_password,
+        re_password
     } = req.body
+
 
     // //username regex
     // const userNameReg = /^[A-Za-z][A-Za-z0-9_]{7,19}$/
@@ -148,7 +149,6 @@ const register = async (req, res) => {
     // } else if (!passwordReg.test(password)) {
     //     res.send('Use 8 or more characters with a mix of letters, numbers & symbols')
     // } else
-
 
     // for easy testing, delete the regex test
     if (password != re_password) {
@@ -194,14 +194,10 @@ const register = async (req, res) => {
     }
 }
 
-const test_post = (req, res) =>{
-    console.log(req.body.email)
-}
-    
+
 module.exports = {
     handleLogin,
     register,
     isAuth,
-    handleLogout,
-    test_post
+    handleLogout
 }

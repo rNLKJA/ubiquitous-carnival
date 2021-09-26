@@ -5,7 +5,6 @@ const dotenv = require("dotenv");
 dotenv.config();
 var cookieParser = require("cookie-parser");
 const cors = require("cors");
-const formidable = require("express-formidable");
 
 // construct app
 const app = express();
@@ -20,7 +19,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // express-formidable
-app.use(formidable());
+// app.use(formidable());
 
 app.use(
   session({

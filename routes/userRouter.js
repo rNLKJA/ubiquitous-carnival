@@ -9,9 +9,8 @@ require('../config/passport')(passport);
 userRouter.get('/logout' , userController.handleLogout)
 userRouter.get('/jwtTest',userController.isAuth)
 userRouter.post('/login',userController.handleLogin)
-userRouter.post('/signup',userController.register)
+userRouter.post('/signup', emailCodeVerify, userController.register)
 
 userRouter.post('/sendEmailcode', emailAuthSend)
 userRouter.post('/emailVerify', emailCodeVerify)
-userRouter.post('/test', userController.test_post)
 module.exports = userRouter;
