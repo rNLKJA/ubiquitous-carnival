@@ -46,10 +46,10 @@ const emailAuthSend = async (req, res) => {
         to: email,
         subject: "vertify your email with code",
         html: `
-            <p>Hello!</p>
-            <p>you are registing account in 4399CRM</p>
-            <p>your verify code is：<strong style="color: #ff4e2a;">${authCode}</strong></p>
-            <p>***this code will expire in 5 mins***</p>`,
+            <h4>Hello!</h4>
+            <p>You are registing account in <b>4399CRM</b></p>
+            <p>Your verify code is：<strong style="color: #ff4e2a;">${authCode}</strong></p>
+            <p><b>This code will expire in 5 mins</b></p>`,
       },
       function (error, data) {
         console.log(error);
