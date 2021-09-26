@@ -5,8 +5,9 @@ import "./login.css";
 
 import Axios from "axios";
 
-import useAuth from '../../hooks/useAuth'
+import useAuth from "../../hooks/useAuth";
 
+import welcome from "./welcome.png";
 
 Axios.defaults.withCredentials = true;
 
@@ -24,12 +25,11 @@ const Login = () => {
 
   const handleLogin = async (event) => {
     event.preventDefault();
-    let data = {username : username, password : password}
-    console.log("trying to login user :", data.username)
-    await loginUser(data)
+    let data = { username: username, password: password };
+    console.log("trying to login user :", data.username);
+    await loginUser(data);
 
-    window.location.href = "/"
-
+    window.location.href = "/";
   };
 
   const handleSignup = (event) => {
@@ -39,6 +39,7 @@ const Login = () => {
   return (
     <div className="sub-container">
       <div className="login-container">
+        <img className="welcome-img" src={welcome} alt="welcome logo" />
         <h1>CRM Login</h1>
 
         <div>

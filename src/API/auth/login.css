@@ -1,66 +1,72 @@
-.login-container {
-  /* background-color: gray; */
-  width: 300px;
-  height: 300px;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  position: absolute;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-evenly;
-  align-items: center;
-  vertical-align: middle;
-  text-align: center;
-}
+@media only screen and (max-width: 375px) {
+  .login-container {
+    /* background-color: gray; */
+    width: 300px;
+    height: 300px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    vertical-align: middle;
+    text-align: center;
+  }
 
-.login-container > h1 {
-  color: rgb(47, 71, 137);
-}
+  .login-container > h1 {
+    color: rgb(47, 71, 137);
+  }
 
-.login-container > label {
-  color: rgb(47, 71, 137);
-}
+  .login-container > label {
+    color: rgb(47, 71, 137);
+  }
 
-.login-container > div {
-  padding-top: 10px;
-}
+  .login-container > div {
+    padding-top: 10px;
+  }
 
-.login-container > input {
-  padding-left: 5px;
-  margin-left: 5px;
-  font-size: 14px;
-}
+  .login-container > input {
+    padding-left: 5px;
+    margin-left: 5px;
+    font-size: 14px;
+  }
 
-.login-btn {
-  width: 250px;
-  height: 30px;
-  text-align: center;
-  vertical-align: middle;
-  background-color: white;
-  font-size: 14px;
-  border-radius: 15px;
-  color: rgb(47, 71, 137);
-  border: 1px solid rgb(47, 71, 137);
-}
+  .login-btn {
+    width: 250px;
+    height: 30px;
+    text-align: center;
+    vertical-align: middle;
+    background-color: white;
+    font-size: 14px;
+    border-radius: 15px;
+    color: rgb(47, 71, 137);
+    border: 1px solid rgb(47, 71, 137);
+  }
 
-.signup-btn {
-  width: 250px;
-  height: 30px;
-  text-align: center;
-  vertical-align: middle;
-  background-color: rgb(47, 71, 137);
-  color: white;
-  font-size: 14px;
-  border-radius: 15px;
-}
+  .signup-btn {
+    width: 250px;
+    height: 30px;
+    text-align: center;
+    vertical-align: middle;
+    background-color: rgb(47, 71, 137);
+    color: white;
+    font-size: 14px;
+    border-radius: 15px;
+  }
 
-.login-btn:hover {
-  background-color: rgb(47, 71, 137);
-  color: white;
-}
+  .login-btn:hover {
+    background-color: rgb(47, 71, 137);
+    color: white;
+  }
 
-.signup-btn:hover {
-  background-color: white;
-  color: rgb(47, 71, 137);
+  .signup-btn:hover {
+    background-color: white;
+    color: rgb(47, 71, 137);
+  }
+
+  .welcome-img {
+    width: 100%;
+  }
 }
