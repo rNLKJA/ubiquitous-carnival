@@ -35,3 +35,89 @@ function delEmail(email) {
     return axios.post(endpoint, email).then((res) => res.data);
 }
 
+export function useShowProfile() {
+    const [loading, setLoading] = useState(true);
+    const [profile, setProfile] = useState([]);
+    const [error, setError] = useState(false);
+  
+    useEffect(() => {
+        showProfile()
+        .then((profile) => {
+            setProfile(profile);
+            setLoading(false);
+        })
+        .catch((e) => {
+          console.log(e);
+          setError(e);
+          setLoading(false);
+        });
+    }, []);
+    return {
+      loading,
+      profile,
+      error,
+    };
+}
+
+export function useUpdateProfile() {
+    const [userName, setUserName] = useState("");
+    const [firstName, setFirstName] = useState("");
+    const [lastName, setLastName] = useState("");
+    const [occupation, setOccupation] = useState("");
+    const [status, setStatus] = useState("");
+  
+    function onSubmit() {
+        updateProfile({
+            userName: userName,
+            firstName: firstName,
+            lastName: lastName,
+            occupation: occupation,
+            status: status
+        });
+    }
+    return;
+}
+
+export function useAddPhone() {
+    const [phone, setPhone] = useState("");
+  
+    function onSubmit() {
+        addPhone({
+        phone: phone,
+      });
+    }
+    return;
+}
+
+export function useDelPhone() {
+    const [phone, setPhone] = useState("");
+  
+    function onSubmit() {
+        delPhone({
+        phone: phone,
+      });
+    }
+    return;
+}
+
+export function useAddEmail() {
+    const [email, setPhone] = useState("");
+  
+    function onSubmit() {
+        addEmail({
+            email: email,
+        });
+    }
+    return;
+}
+
+export function useDelEmail() {
+    const [email, setPhone] = useState("");
+  
+    function onSubmit() {
+        delEmail({
+            email: email,
+        });
+    }
+    return;
+}
