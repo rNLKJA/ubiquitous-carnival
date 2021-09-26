@@ -25,8 +25,8 @@ const Contact = () => {
   return (
     <div className="sub-container">
       <div className="contact">
-				{/* display contact as a list */}
-				<div className="contactList">
+        {/* display contact as a list */}
+        <div className="contactList">
           <div className="contactList-items">
             {contacts.map((person) => (
               <Person
@@ -38,13 +38,13 @@ const Contact = () => {
           </div>
         </div>
 
-				{/* display a specific information */}
-        {!oneContact.selected && (
+        {/* display a specific information */}
+        {/* {!oneContact.selected && (
           <div className="contactDetail">
             <Loading msg={"Please Select A Contact"} />
           </div>
-        )}
-        {oneContact.selected && (
+        )} */}
+        {/* {oneContact.selected && (
           <div className="contactDetail">
             <img
               src={require("./portrarit.png")}
@@ -92,7 +92,7 @@ const Contact = () => {
               <input value={oneContact.note}></input>
             </div>
           </div>
-        )}
+        )} */}
       </div>
     </div>
   );
