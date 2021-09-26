@@ -24,19 +24,23 @@ const handleLogout = (req, res) => {
 
 
 const isAuth = async(req, res) => {
-    console.log("is auth")
     let currentUser;
+    let userName;
+
     if (req.cookies.jwt && req.cookies.jwt != "none") {
         const token = req.cookies.jwt;
         const decoded = await promisify(jwt.verify)(token, process.env.PASSPORT_KEY);
         console.log(decoded, " decode<--")
-        currentUser = await userModel.findOne(decoded._id);
+        currentUser = await userModel.findOne(decoded._id).lean();
         currentUser.password = undefined
+        userName = currentUser.userName
+        console.log("is auth ", userName)
       } else {
-        currentUser =  null;
+        console.log("user not found")
+        userName = null;
       }
-          
-      res.status(200).send({ currentUser });
+
+      res.status(200).send({ userName });
 };
 
 
