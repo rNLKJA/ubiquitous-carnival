@@ -33,6 +33,7 @@ const Contact = () => {
           .match(filter.toLowerCase()),
       );
     }
+    console.log(Contacts);
   }, [filter, Contacts]);
 
   const screenWidth = window.innerWidth;

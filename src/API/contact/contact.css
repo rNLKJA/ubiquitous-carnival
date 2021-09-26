@@ -97,7 +97,13 @@
     width: 50px;
     height: 25px;
     font-size: 14px;
-    height: 20px;
+    height: 30px;
+    color: rgb(47, 71, 137);
+  }
+
+  .back:hover {
+    background-color: rgb(47, 71, 137);
+    color: white;
   }
 
   .contact {
