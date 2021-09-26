@@ -34,10 +34,8 @@ const isAuth = async(req, res) => {
         currentUser.password = undefined
       } else {
         currentUser =  null;
-      }    
-
-      console.log(currentUser)
-
+      }
+          
       res.status(200).send({ currentUser });
 };
 

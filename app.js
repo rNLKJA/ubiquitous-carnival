@@ -26,7 +26,7 @@ app.use(session({
 ))
 
 app.use(cors({
-	origin: ["http://localhost:3000"],
+	origin: ["http://localhost:3000","https://pcrm4399.herokuapp.com"],
 	method: ["GET" , "POST"],
 	credentials : true
 }))
