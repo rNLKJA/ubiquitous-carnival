@@ -269,7 +269,7 @@ const listCompare = (currentList, targetList) => {
     return 1;
 }
 
-const contactPhotoUpload = (req, res) => {
+const contactPhotoUpload = async (req, res) => {
     var img = {
         data: fs.readFileSync(req.file.path),
         contentType: req.file.mimeType

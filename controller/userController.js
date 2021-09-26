@@ -125,7 +125,7 @@ const register = async (req, res) => {
         userName,
         email,
         password,
-        re_password
+        re_password,
     } = req.body
 
     // //username regex
@@ -193,10 +193,15 @@ const register = async (req, res) => {
 
     }
 }
+
+const test_post = (req, res) =>{
+    console.log(req.body.email)
+}
     
 module.exports = {
     handleLogin,
     register,
     isAuth,
-    handleLogout
+    handleLogout,
+    test_post
 }
