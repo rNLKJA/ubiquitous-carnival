@@ -17,15 +17,13 @@ import Registration from "./API/auth/Registration";
 import ProtectedRouters from "./API/auth/ProtectedRouter";
 import useFindUser from "./hooks/useFindUser";
 import { UserContext } from "./hooks/UserContext";
-import axios  from "axios";
+
 
 // defined the map function
 function App() {
   const { user, setUser, isLoading } = useFindUser();
 
-  const handleLogOut = () => {
-    axios.get('http://localhost:5000/user/logout')
-  }
+
   return (
     <div className="container">
       {/* define the route */}

@@ -7,7 +7,7 @@ useEffect(() => {
    async function findUser() {
      await axios.get('http://localhost:5000/user/jwtTest')
         .then(res => {
-        setUser(res.data.currentUser);
+        setUser(res.data.userName);
         setLoading(false);
         console.log(user)
      }). catch(err => {

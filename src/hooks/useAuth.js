@@ -10,8 +10,8 @@ export default function useAuth() {
 
     //set user
     const setUserContext = async () => {
-        return await axios.get('http://localhost:5000/user/jwtTest').then(res => {         
-            setUser(res.data.currentUser);
+        return axios.get('http://localhost:5000/user/jwtTest').then(res => {         
+            setUser(res.data.userName);
             history.push('/');                     
             }).catch((err) => {
             setError(err);
@@ -28,7 +28,7 @@ export default function useAuth() {
                   password,
                   passwordConfirm
                 }).then(async () => {
-                    await setUserContext();
+                    setUserContext();
                 })
                 .catch((err) => {
                    return setError(err);
@@ -44,7 +44,7 @@ export default function useAuth() {
                 password: password,
             }).then(async () => {
                 
-                await setUserContext();
+                setUserContext();
             }).catch((err) => {
                 setError(err);
             })
