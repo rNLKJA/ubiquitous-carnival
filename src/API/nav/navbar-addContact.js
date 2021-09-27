@@ -11,7 +11,7 @@ const Navbar = () => {
     <nav className="addContact-nav">
       <div className="nav-addContact">
         {/* link to contact route */}
-        <Link to="/contact/qr-code">
+        <Link to="/addUser/qr-code">
           <div className="qr-code">
             <img src={qr_code} alt="qr-code"></img>
             <h1>Scan QR Code</h1>
