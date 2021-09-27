@@ -26,11 +26,12 @@ const Contact = () => {
 
     if (filter == "") {
       Contacts = contacts;
-    } else {
-      Contacts.filter((contact) =>
+    }
+    if (filter != "") {
+      Contacts = Contacts.filter((contact) =>
         (contact.firstName + " " + contact.lastName)
           .toLowerCase()
-          .match(filter.toLowerCase()),
+          .includes(filter.toLowerCase()),
       );
     }
     console.log(Contacts);
@@ -55,6 +56,7 @@ const Contact = () => {
               className="search-box"
               value={filter}
               onChange={(e) => handleChange(e)}
+              placeholder="Search for a name"
             ></input>
 
             <div className="contactList">
