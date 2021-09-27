@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 // define navigation bar component
 const Navbar = () => {
   return (
-    <nav>
+    <nav className="main-nav">
       <div className="navbar">
         {/* link to contact route */}
         <Link to="/contact">

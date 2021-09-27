@@ -25,7 +25,7 @@ a {
   }
 
   /* define the navigation bar size */
-  nav {
+  .main-nav {
     margin: 0;
     padding: 0;
     width: 375px;
