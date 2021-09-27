@@ -6,6 +6,9 @@ import "./manual-input.css";
 import axios from "axios";
 
 const AddUser = () => {
+  const BASE_URL = "https://crm4399.herokuapp.com";
+  // const BASE_URL = "http://localhost:5000";
+
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -24,7 +27,7 @@ const AddUser = () => {
     };
 
     axios
-      .post("http://localhost:5000/contact/createContact", contact)
+      .post(BASE_URL + "/contact/createContact", contact)
       .then(() => console.log("Create a new contact"))
       .catch((err) => {
         console.error(err);
