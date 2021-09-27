@@ -233,15 +233,15 @@ export const Person = ({ prop, setOneContact }) => {
       </div>
       <div className="info">
         <p>
-          <b className="class">FN: </b>
+          <b className="class">First Name: </b>
           {prop.contact.firstName}
         </p>
         <p>
-          <b className="class">LN: </b>
+          <b className="class">Last Name: </b>
           {prop.contact.lastName}
         </p>
         <p>
-          <b className="class">Work: </b>
+          <b className="class">Occupation: </b>
           {prop.contact.occupation}
         </p>
       </div>

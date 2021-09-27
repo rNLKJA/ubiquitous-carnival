@@ -14,6 +14,8 @@ const AddUser = () => {
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [occupation, setOccupation] = useState("");
+  const [meetRecord, setMeetRecord] = useState("");
+  const [note, setNote] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -24,6 +26,9 @@ const AddUser = () => {
       email,
       phone,
       occupation,
+      portraits: "",
+      meetRecord,
+      note,
     };
 
     axios
@@ -39,6 +44,8 @@ const AddUser = () => {
     setEmail("");
     setPhone("");
     setOccupation("");
+    setMeetRecord("");
+    setNote("");
   };
 
   return (
@@ -49,15 +56,6 @@ const AddUser = () => {
         </a>
 
         <form className="contact-form" method="POST" onSubmit={handleSubmit}>
-          <label for="lastName">Last Name: </label>
-          <input
-            name="lastName"
-            type="text"
-            placeholder="Please enter the First Name"
-            onChange={(e) => setLastName(e.target.value)}
-            value={lastName}
-          ></input>
-
           <label for="firstName">First Name: </label>
           <input
             name="firstName"
@@ -65,6 +63,17 @@ const AddUser = () => {
             placeholder="Please enter the Last Name"
             onChange={(e) => setFirstName(e.target.value)}
             value={firstName}
+            required
+          ></input>
+
+          <label for="lastName">Last Name: </label>
+          <input
+            name="lastName"
+            type="text"
+            placeholder="Please enter the First Name"
+            onChange={(e) => setLastName(e.target.value)}
+            value={lastName}
+            required
           ></input>
 
           <label for="email">E-mail: </label>
@@ -74,6 +83,7 @@ const AddUser = () => {
             placeholder="Please enter the E-mail"
             onChange={(e) => setEmail(e.target.value)}
             value={email}
+            required
           ></input>
 
           <label for="phone">Phone: </label>
@@ -83,6 +93,7 @@ const AddUser = () => {
             placeholder="Please enter the phone number"
             onChange={(e) => setPhone(e.target.value)}
             value={phone}
+            required
           ></input>
 
           <label for="occupation">Occupation: </label>
@@ -92,6 +103,26 @@ const AddUser = () => {
             placeholder="Please enter the occupation"
             onChange={(e) => setOccupation(e.target.value)}
             value={occupation}
+            required
+          ></input>
+
+          <label for="meetRecord">Occupation: </label>
+          <input
+            name="meetRecord"
+            type="text"
+            placeholder="Please enter the meetRecord"
+            onChange={(e) => setMeetRecord(e.target.value)}
+            value={meetRecord}
+            required
+          ></input>
+
+          <label for="note">Occupation: </label>
+          <input
+            name="note"
+            type="text"
+            placeholder="Add Notes"
+            onChange={(e) => setNote(e.target.value)}
+            value={note}
           ></input>
 
           <input type="submit" value="Create" />
