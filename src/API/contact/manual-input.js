@@ -8,7 +8,9 @@ const AddUser = () => {
   return (
     <React.Fragment>
       <div className="sub-container">
-        <a href="javascript:history.go(-1)">Back</a>
+        <a href="javascript:history.go(-1)" className="back-button">
+          Back
+        </a>
 
         <form
           className="contact-form"
@@ -42,6 +44,15 @@ const AddUser = () => {
             type="text"
             placeholder="Please enter the phone number"
           ></input>
+
+          <label for="occupation">Occupation: </label>
+          <input
+            name="occupation"
+            type="text"
+            placeholder="Please enter the occupation"
+          ></input>
+
+          <input type="submit" value="Create" />
         </form>
       </div>
     </React.Fragment>
