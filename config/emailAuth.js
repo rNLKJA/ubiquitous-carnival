@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const nodemailer = require("nodemailer");
 const smtpTransport = require("nodemailer-smtp-transport");
 const EmailAuth = mongoose.model("EmailAuth");
+const EmailRegister = mongoose.model("EmailRegister")
 
 const transport = nodemailer.createTransport(
   smtpTransport({
@@ -23,9 +24,9 @@ transport.verify(function (error, success) {
   }
 });
 
-const autoCodeGenerator = () => {
+const autoCodeGenerator = (length) => {
   var code = "";
-  for (let i = 0; i < 6; i++) {
+  for (let i = 0; i < length; i++) {
     code += parseInt(Math.random() * 10);
   }
   return code;
@@ -36,7 +37,7 @@ const emailAuthSend = async (req, res) => {
   const email = req.body.email; // read email from the request formdata field
   // console.log(email);
 
-  const authCode = autoCodeGenerator();
+  const authCode = autoCodeGenerator(6);
   transport.sendMail(
     {
       from: "team4399Auth@gmail.com",
@@ -81,7 +82,62 @@ const emailCodeVerify = async (req, res, next) => {
   next();
 };
 
+
+const emailRegisterCodeSend = async (req, res) => {
+  const email = req.body.email;
+  const registerAccount = req.locals._id; // read email from the request formdata field
+  // console.log(email);
+
+  const registeCode = autoCodeGenerator(10);
+  //TODO:replace to front end website
+  const fastRegisterLink = "http://localhost:5000/user/fastRegister/"+ registerAccount
+  transport.sendMail(
+    {
+      from: "team4399Auth@gmail.com",
+      to: email,
+      subject: "Complete your resigter by access the Link",
+      html: `
+          <h4>Hello!</h4>
+          <p>You are registing account in <b>4399CRM</b></p>
+          <p>Your fast register link：<strong style="color: #ff4e2a;">${fastRegisterLink}</strong></p>
+          <p><b>This code will expire in 5 mins</b></p>`
+    },
+    function (error, data) {
+      console.log(error);
+      // assert(error, 500, "fail to send vertify code")
+      transport.close();
+    },
+  );
+  try {
+    await EmailRegister.deleteMany({ registerAccount:mongoose.Types.ObjectId(registerAccount) });
+    const RegisterDocument = new EmailRegister({registerAccount:mongoose.Types.ObjectId(registerAccount), fastRegisterCode: registeCode });
+    await RegisterDocument.save();
+    setTimeout(async () => {
+      await EmailRegister.deleteMany({ registerAccount:mongoose.Types.ObjectId(registerAccount) });
+    }, 1000 * 60 * 15);
+    res.send("your email code has been send!");
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+const emailRegisterVerify = async (req, res, next) => {
+  const verify = EmailRegister.find({
+    registerAccount: mongoose.Types.ObjectId(req.body._id)
+  }).lean();
+  console.log(verify);
+  if (!verify.length) {
+    req.locals.authResult = 0
+    next();
+  }
+  req.locals.authResult = 1
+  await EmailAuth.deleteMany({ registerAccount: mongoose.Types.ObjectId(req.body._id) });
+  next();
+};
+
 module.exports = {
   emailAuthSend,
   emailCodeVerify,
+  emailRegisterCodeSend,
+  emailRegisterVerify
 };

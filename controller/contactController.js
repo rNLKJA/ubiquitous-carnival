@@ -33,6 +33,16 @@ const existAccount = async (req, res) => {
     res.send(inputContact)
 }
 
+const linkToAccount = async (req, res) => {
+    try{
+        await Contact.findOneAndUpdate({_id: mongoose.Types.ObjectId(req.body._idOfContact)}, {
+            linkedAccount: req.body.accountOfContact
+        })
+    }catch(err){
+        console.log(err)
+    }
+}
+
 /**
 * Register Post Function
 * @param {express.Request} req - basic information for add a contact and who is adding this account.
@@ -193,6 +203,8 @@ const searchContact = async (req, res) => {
 		console.log(err)
 	}
 }
+
+
 //further discussion needed
 const updateContactInfo = async (req, res) => {
     const validationErrors = expressValidator.validationResult(req)
@@ -289,5 +301,6 @@ module.exports = {
     showAllContact,
     existAccount,
     duplicateContact,
-    showOneContact
+    showOneContact,
+    linkToAccount
 }

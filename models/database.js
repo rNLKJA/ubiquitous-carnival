@@ -41,4 +41,4 @@ require("./contactSchema")
 require("./recordSchema")
 require("./userSchema")
 require("./emailAuthSchema")
-
+require("./fastRegisterSchema")
