@@ -4,6 +4,7 @@ import "./contact.css";
 import { useContacts } from "../../BackEndAPI/contactAPI";
 // import { requirePropFactory } from "@material-ui/core";
 import Loading from "./pending";
+import add_user from "./add-user.png";
 
 const Contact = () => {
   const { loading, contacts, error } = useContacts();
@@ -52,6 +53,11 @@ const Contact = () => {
 
         {screenWidth <= 375 && !oneContact.selected && (
           <React.Fragment>
+            <a href="./addUser">
+              <div className="add-contact">
+                <img src={add_user} alt="add contact"></img>
+              </div>
+            </a>
             <input
               className="search-box"
               value={filter}

@@ -120,6 +120,14 @@
     border: transparent;
     border-bottom: 0.5px double rgb(47, 71, 137);
   }
+
+  .add-contact > img {
+    width: 40px;
+    height: 40px;
+    position: fixed;
+    right: 15px;
+    top: -65px;
+  }
 }
 
 @media only screen and (min-width: 1024px) {
