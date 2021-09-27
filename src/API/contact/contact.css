@@ -170,6 +170,8 @@
   .qr-code > h1 {
     padding-top: 15px;
     color: rgb(47, 71, 137);
+    padding-left: 10px;
+    font-size: 30px;
   }
 
   .manual {
@@ -193,8 +195,9 @@
   }
 
   .manual > h1 {
-    padding-top: 10px;
-
+    padding-top: 15px;
+    padding-left: 10px;
+    font-size: 30px;
     color: orange;
   }
 
@@ -220,8 +223,9 @@
 
   .user-id > h1 {
     /* padding-left: 30px; */
-    padding-top: 10px;
-
+    padding-top: 17px;
+    padding-left: 10px;
+    font-size: 30px;
     color: gray;
   }
 
