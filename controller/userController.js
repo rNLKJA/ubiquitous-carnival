@@ -165,7 +165,7 @@ const register = async (req, res) => {
                 newUser.save()
                     .then(data => {
                         console.log("signup successfully " + data.userName)
-                        res.send(data)
+                        res.send({status: true ,data: data.userName})
                     })
                     .catch(err => {
                         res.send(err)
