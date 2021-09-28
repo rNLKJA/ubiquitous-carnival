@@ -28,7 +28,7 @@ module.exports = function(passport) {
 
     let opts = {}
 
-    opts.jwtFromRequest = cookieExtractor;
+    opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
     opts.secretOrKey = process.env.PASSPORT_KEY
 
     // these two functions are used by passport to store information
@@ -63,7 +63,6 @@ module.exports = function(passport) {
                     // if there are errors, user is not found or password
                     // does match, send back errors
                     if (err){
-                        console.log("errSB")
                         return done(err);}
                     if (!user){
                         console.log("user not found local")
@@ -77,14 +76,8 @@ module.exports = function(passport) {
                     }
                     // otherwise, we put the user's email in the session
                     else {
-                        // in app.js, we have indicated that we will be using sessions
-                        // the server uses the included modules to create and manage
-                        // sessions. each client gets assigned a unique identifier and the
-                        // server uses that identifier to identify different clients
-                        // all this is handled by the session middleware that we are using 
-                        // for demonstration of using express-session
-                        // done() is used by the strategy to set the authentication status with
-                        // details of the user who was authenticated
+                        
+                        console.log("login successful")
                         return done(null, user,'Login successful');
                     }
                 });
@@ -98,7 +91,7 @@ module.exports = function(passport) {
     // that the client has a valid token
     passport.use('jwt', new JwtStrategy(opts,(jwt_payload, done) => { 
 
-        console.log(jwt_payload.body._id + " is doing jwt test")
+        console.log("user is " + jwt_payload.body._id)
         User.findOne({'userName':jwt_payload.body._id}, (err, user) => {
 
             if(err){

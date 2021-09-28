@@ -1,6 +1,8 @@
 const mongoose = require('mongoose')
 const userModel = mongoose.model('User')
-
+const passportJWT = require("passport-jwt");
+const JwtStrategy = passportJWT.Strategy;
+const ExtractJwt = passportJWT.ExtractJwt;
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken')
 const { json } = require('express');
@@ -23,24 +25,9 @@ const handleLogout = (req, res) => {
 // this route is used to check the authentication of user. a true status will return if user pass the jwt test
 
 
-const isAuth = async(req, res) => {
-    let currentUser;
-    let userName;
-
-    if (req.cookies.jwt && req.cookies.jwt != "none") {
-        const token = req.cookies.jwt;
-        const decoded = await promisify(jwt.verify)(token, process.env.PASSPORT_KEY);
-        console.log(decoded, " decode<--")
-        currentUser = await userModel.findOne(decoded._id).lean();
-        currentUser.password = undefined
-        userName = currentUser.userName
-        console.log("is auth ", userName)
-      } else {
-        console.log("user not found")
-        userName = null;
-      }
-
-      res.status(200).send({ userName });
+const isAuth = (req, res) => {
+      console.log("isAuth",req.user.userName )
+      res.status(200).send(req.user.userName);
 };
 
 
@@ -92,16 +79,11 @@ const handleLogin = async (req, res, next) => {
                 //Send back the token to the client
                 res.status(200); // OK status
                 // send the token 
-                res.cookie('jwt', token, {
-                    maxAge: 60 * 60 * 24 * 30,
-                    HttpOnly: true,
-                    Secure: true,
-                });
 
                 console.log("you got the token " + token)
                 res.json({
                     auth: true,
-                    token : token,
+                    token : "Bearer " + token,
                     message: 'Your token release successfully'
                 });
             });
