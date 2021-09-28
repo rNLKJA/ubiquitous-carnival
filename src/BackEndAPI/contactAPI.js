@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import fetchClient from '../API/axiosClient/axiosClient'
 import axios from "axios";
 // const BASE_URL = "https://crm4399.herokuapp.com";
-const BASE_URL = "http://localhost:5000";
+const BASE_URL = "https://crm4399.herokuapp.com";
 
 axios.defaults.withCredentials = true;
 
