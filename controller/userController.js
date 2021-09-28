@@ -218,7 +218,7 @@ const emailFastRegister = async (req, res, next) => {
  * @param  {express.Request} req this contain resiger information of temporary user
  * @param  {express.Respones} res this contain auth result of temporary user register
  */
-const emailFastRegisterConfirm = (req, res) => {
+const emailFastRegisterConfirm = async (req, res) => {
     // should we adding email to this part?
     if (res.locals.authResult == 0){
         res.send("auth fail!!")
