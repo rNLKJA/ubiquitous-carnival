@@ -131,7 +131,11 @@ const delEmail = async(req, res) => {
         }
     )
 }
-
+/**
+ * function that allow user upload their photo and store in database
+ * @param  {express.Resquest} req contain the file information of uploaded file
+ * @param  {express.Response} res contain the user information after uploaded
+ */
 const uploadPhoto = async (req, res) => {
     var img = {
         data: fs.readFileSync(req.file.path),

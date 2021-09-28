@@ -178,8 +178,13 @@ const register = async (req, res) => {
     }
 }
 
-
-const emailFastRegister = (req, res, next) => {
+/**
+ * this middleware function will create a temporary user document wait for new user finish regist
+ * @param  {express.Request} req contain contact information that used to create user
+ * @param  {express.Respones} res contain obejct id of temporary user document
+ * @param  {express.Next} next
+ */
+const emailFastRegister = async (req, res, next) => {
     try{
         const newUser = await new userModel({
         "lastName": req.body.lastName,
@@ -190,10 +195,16 @@ const emailFastRegister = (req, res, next) => {
         "status": false,
         })
         await newUser.save()
-        req.locals._id = newUser._id
+        // save user id for send email 
+        res.locals._id = newUser._id
+        // send new User object to front end to trigger function to connect contact with an account 
         res.send(newUser._id)
+        //delete temporary user after 16 minutes
         setTimeout(async () => {
-            await userModel.deleteMany({ _id:mongoose.Types.ObjectId(newUser._id) });
+            const temUser = await userModel.findOne({_id:mongoose.Types.ObjectId(newUser._id)})
+            if (temUser.staus == false){
+                await userModel.deleteMany({ _id:mongoose.Types.ObjectId(newUser._id) });
+            }
           }, 1000 * 60 * 16);
         next()
     }catch(err){
@@ -202,9 +213,14 @@ const emailFastRegister = (req, res, next) => {
 
 }
 
+/**
+ * confirm user register through email link, activity user's account
+ * @param  {express.Request} req this contain resiger information of temporary user
+ * @param  {express.Respones} res this contain auth result of temporary user register
+ */
 const emailFastRegisterConfirm = (req, res) => {
     // should we adding email to this part?
-    if (req.locals.authResult == 0){
+    if (res.locals.authResult == 0){
         res.send("auth fail!!")
     }
     const {

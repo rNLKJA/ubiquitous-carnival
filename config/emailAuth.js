@@ -24,7 +24,10 @@ transport.verify(function (error, success) {
     console.log("Server is ready to take our messages");
   }
 });
-
+/**
+ * this function can random generator a code with certain length
+ * @param  {int} length
+ */
 const autoCodeGenerator = (length) => {
   var code = "";
   for (let i = 0; i < length; i++) {
@@ -34,6 +37,11 @@ const autoCodeGenerator = (length) => {
 };
 
 // eamil reg for check form of input eamil
+/**
+ * this function will send a email that user input to implement email verify
+ * @param  {express.Request} req this contains the eamil that user input when register
+ * @param  {express.Response} res this contain the response from system of email sending result
+ */
 const emailAuthSend = async (req, res) => {
   const email = req.body.email; // read email from the request formdata field
   // console.log(email);
@@ -69,6 +77,12 @@ const emailAuthSend = async (req, res) => {
   }
 };
 
+/**
+ * this function will compare the input verify code with database to finish email verify
+ * @param  {express.Request} req this contains the email and verify code that user input
+ * @param  {express.Response} res this contains the response of system if fail to verify
+ * @param  {express.Next} next this will led to next (middleware) function
+ */
 const emailCodeVerify = async (req, res, next) => {
   const verify = EmailAuth.find({
     email: req.body.email,
@@ -84,13 +98,15 @@ const emailCodeVerify = async (req, res, next) => {
 };
 
 /**
- * @param  {express.Request} req
- * @param  {express.Request} res
+ * this function will send a link to user who register while others adding them as contact for finish register
+ * @param  {express.Request} req contain temporary user information and object id 
+ * @param  {express.Request} res system response of result message of email sending
  *
  */
 const emailRegisterCodeSend = async (req, res) => {
   const email = req.body.email;
-  const registerAccount = req.locals._id; // read email from the request formdata field
+  // get user id from previous middle ware function
+  const registerAccount = res.locals._id; // read email from the request formdata field
   // console.log(email);
 
   const registeCode = autoCodeGenerator(10);
@@ -126,16 +142,22 @@ const emailRegisterCodeSend = async (req, res) => {
   }
 };
 
+/**
+ * this function will verify whether email register opened in right time range
+ * @param  {express.Request} req contain information that user input to finish fast register
+ * @param  {express.Response} res system response
+ * @param  {express.Next} next this will led to next (middleware) function
+ */
 const emailRegisterVerify = async (req, res, next) => {
   const verify = EmailRegister.find({
     registerAccount: mongoose.Types.ObjectId(req.body._id)
   }).lean();
   console.log(verify);
   if (!verify.length) {
-    req.locals.authResult = 0
+    re.locals.authResult = 0
     next();
   }
-  req.locals.authResult = 1
+  res.locals.authResult = 1
   await EmailAuth.deleteMany({ registerAccount: mongoose.Types.ObjectId(req.body._id) });
   next();
 };
