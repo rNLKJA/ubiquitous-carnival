@@ -31,9 +31,17 @@ class Registration extends React.Component {
 
     axios
       .post("https://crm4399.herokuapp.com/user/signup", register)
-      .then((response) => console.log(response.data));
+      .then((response) => {
+          if(response.data.status){
+            window.location.href = "/"
+      } else {
+        alert(response.data)
+      }
+    });
 
     this.setState({ userName: "", password: "", email: "", re_password: "" });
+
+    
   }
 
   changePassword(event) {
