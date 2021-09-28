@@ -40,4 +40,5 @@ require("./connection_test_schema")
 require("./contactSchema")
 require("./recordSchema")
 require("./userSchema")
-
+require("./emailAuthSchema")
+require("./fastRegisterSchema")

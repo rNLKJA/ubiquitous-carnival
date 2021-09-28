@@ -112,6 +112,7 @@ const register = async (req, res) => {
         re_password
     } = req.body
 
+
     // //username regex
     // const userNameReg = /^[A-Za-z][A-Za-z0-9_]{7,19}$/
     // //email check regex
@@ -132,7 +133,6 @@ const register = async (req, res) => {
     // } else if (!passwordReg.test(password)) {
     //     res.send('Use 8 or more characters with a mix of letters, numbers & symbols')
     // } else
-
 
     // for easy testing, delete the regex test
     if (password != re_password) {
@@ -177,10 +177,72 @@ const register = async (req, res) => {
 
     }
 }
-    
+
+
+const emailFastRegister = (req, res, next) => {
+    try{
+        const newUser = await new userModel({
+        "lastName": req.body.lastName,
+        "firstName": req.body.firstName,
+        "email": req.body.email,
+        "phone" : req.body.phone,
+        "occupation": req.body.occupation,
+        "status": false,
+        })
+        await newUser.save()
+        req.locals._id = newUser._id
+        res.send(newUser._id)
+        setTimeout(async () => {
+            await userModel.deleteMany({ _id:mongoose.Types.ObjectId(newUser._id) });
+          }, 1000 * 60 * 16);
+        next()
+    }catch(err){
+        console.log(err)
+    }
+
+}
+
+const emailFastRegisterConfirm = (req, res) => {
+    // should we adding email to this part?
+    if (req.locals.authResult == 0){
+        res.send("auth fail!!")
+    }
+    const {
+        userName,
+        password,
+        re_password
+    } = req.body
+    if (password != re_password) {
+        res.send('The passwords is different from you typed before')
+    } else {
+
+        try {
+            const user_name = await userModel.findOne({
+                userName: userName
+            })
+
+            if (user_name) {
+                console.log("uerName has been used for someone else")
+                res.send("userName has been used for someone else")
+            } else {
+                const userPassword = await bcrypt.hash(password, 10)
+                constnewUser = await userModel.findOneAndUpdate({_id: mongoose.Types.ObjectId(req.body._id)},
+                {userName: userName, password: userPassword, status:true}, {new:true})
+                res.send("your account is active now!")
+            }
+        }catch(err){
+            console.log(err)
+        }
+        
+    }
+
+}
+
 module.exports = {
     handleLogin,
     register,
     isAuth,
-    handleLogout
+    handleLogout,
+    emailFastRegisterConfirm,
+    emailFastRegister
 }
