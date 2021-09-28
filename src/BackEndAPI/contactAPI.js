@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-
+import fetchClient from '../API/axiosClient/axiosClient'
 import axios from "axios";
 // const BASE_URL = "https://crm4399.herokuapp.com";
 const BASE_URL = "http://localhost:5000";
@@ -8,19 +8,19 @@ axios.defaults.withCredentials = true;
 
 function getContacts() {
   const endpoind = BASE_URL + "/contact/showContact";
-  return axios.get(endpoind).then((res) => res.data);
+  return fetchClient.get(endpoind).then((res) => res.data);
 }
 
 // json file of contact info
 function createContact(contactInfo) {
   const endpoind = BASE_URL + "/contact/createContact";
-  return axios.post(endpoind, contactInfo).then((res) => res.data);
+  return fetchClient.post(endpoind, contactInfo).then((res) => res.data);
 }
 
 //object ID as input
 function ShowOneContact(contactObjectId) {
   const endpoint = BASE_URL + "/contact/showOneContact";
-  return axios
+  return fetchClient
     .post(endpoint, { contactObjectId: contactObjectId })
     .then((res) => res.data);
 }
