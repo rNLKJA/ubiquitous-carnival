@@ -1,3 +1,4 @@
+const ExpressHandlebars = require("express-handlebars/lib/express-handlebars");
 const mongoose = require("mongoose");
 const nodemailer = require("nodemailer");
 const smtpTransport = require("nodemailer-smtp-transport");
@@ -82,7 +83,11 @@ const emailCodeVerify = async (req, res, next) => {
   next();
 };
 
-
+/**
+ * @param  {express.Request} req
+ * @param  {express.Request} res
+ *
+ */
 const emailRegisterCodeSend = async (req, res) => {
   const email = req.body.email;
   const registerAccount = req.locals._id; // read email from the request formdata field

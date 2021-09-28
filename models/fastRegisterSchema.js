@@ -3,7 +3,6 @@ const mongoose = require('mongoose');
 
 // create mongoose schema
 const emailRegisterSchema = new mongoose.Schema({
-    // Name of meeting person
     fastRegisterCode: {type: String, required: true},
     registerAccount: {type: mongoose.Schema.Types.ObjectId, ref:"User", required: true}
 })

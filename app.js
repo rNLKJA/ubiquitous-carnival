@@ -51,9 +51,9 @@ app.get("/", (req, res) => {
   res.send(
     '<p>The server is currently listening on port 4399</p>\
 				<iframe src="https://giphy.com/embed/fWj2TR9mfYJ56" width="480"\
-				 height="264" frameBorder="0" class="giphy-embed" allowFullScreen>\
-				 </iframe><p hidden><a href="https://giphy.com/gifs/supernatural-yes\
-				 -dean-winchester-fWj2TR9mfYJ56">via GIPHY</a></p>',
+				height="264" frameBorder="0" class="giphy-embed" allowFullScreen>\
+				</iframe><p hidden><a href="https://giphy.com/gifs/supernatural-yes\
+				-dean-winchester-fWj2TR9mfYJ56">via GIPHY</a></p>',
   );
 });
 
