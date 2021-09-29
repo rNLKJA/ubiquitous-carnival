@@ -5,24 +5,11 @@ import LogoutUser from "../../hooks/useLogout";
 import "./person.css"
 import { useShowProfile} from "../../BackEndAPI/profileAPI";
 
-const BASE_URL = "http://localhost:5000"
-
-const config = {
-    headers: {Authorization: localStorage.getItem("jwt")},
-};
-axios
-    .post(BASE_URL + "/profile/ShowProfile", profile, config)
-    .then(()=>
-        console.log(localStorage.getItem("jwt")),
-    )
-    .catch((err)=>{
-        console.error(err);
-    })
+const BASE_URL = "https://crm4399.herokuapp.com"
 
 const Person = () => {
     const { loading, profile, error } = useShowProfile();
     const [person, setPerson] = useState({
-        userName: "",
         firstName: "",
         lastName: "",
         email: [],
@@ -44,20 +31,16 @@ const Person = () => {
                 <div className="basicInformation">
                     <h2>Basic Information</h2>
                     <div>
-                        <label>Username: </label>
-                        {person.userName}
-                    </div>
-                    <div>
                         <label>First name: </label>
-                        {person.firstName}
+                        <div ondblclick={ShowElement(this)}>{profile.firstName}</div>
                     </div>
                     <div>
                         <label>Given name: </label>
-                        {person.lastName}
+                        {profile.lastName}
                     </div>
                     <div>
                         <label>Occupation: </label>
-                        {person.occupation}
+                        {profile.occupation}
                     </div>
                 </div>
 
@@ -66,28 +49,13 @@ const Person = () => {
                     <h2>Contact Information</h2>
                     <div className="email">
                         <label>email: </label>
-                        {person.email.map((mail) => {
-                            return (
-                                <label key={new Date().toISOString()}>
-                                    Email Address: {mail}
-                                </label>
-                            );
-                        })}
+                        {profile.email}
 
 
                     </div>
                     <div className="phone">
                         <label>Phone: </label>
-                        {person.phone.map((phone) => {
-                            return (
-                                <label
-                                    key={new Date().toISOString()}
-                                    style={{color: "rgb(47,71,137)"}}
-                                >
-                                    Phone: {phone}
-                                </label>
-                            );
-                        })}
+                        {profile.phone}
                     </div>
                 </div>
             </div>
@@ -101,7 +69,7 @@ const Person = () => {
 export default Person;
 
 
-/*function ShowElement(element) {
+function ShowElement(element) {
     var oldhtml = element.innerHTML;
     //创建新的input元素
     var newobj = document.createElement('input');
@@ -122,4 +90,4 @@ export default Person;
     newobj.setSelectionRange(0, oldhtml.length);
     //设置获得光标
     newobj.focus();
-}*/
+}
