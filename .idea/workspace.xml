@@ -3,7 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="aaaf103e-f306-4887-902f-3a9c719910ef" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/BackEndAPI/profileAPI.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/BackEndAPI/profileAPI.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/API/person/Person.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/API/person/Person.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -38,11 +38,23 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1632913212434</updated>
-      <workItem from="1632913216088" duration="6810000" />
+      <workItem from="1632913216088" duration="11465000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/src/API/contact/manual-input.js</url>
+          <line>4</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
