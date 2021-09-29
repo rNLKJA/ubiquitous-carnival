@@ -126,6 +126,9 @@ const Contact = () => {
             <div className="note" style={{ height: "300px" }}>
               <input value={oneContact.note}></input>
             </div>
+            <button className="delete-btn" style={{ color: "red" }}>
+              Delete The Contact
+            </button>
           </div>
         )}
 
