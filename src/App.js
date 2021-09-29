@@ -10,7 +10,7 @@ import Home from "./API/home/home";
 import Contact from "./API/contact/Contact";
 import Person from "./API/person/Person";
 import Record from "./API/record/Record";
-import Search from "./API/search/Search";
+// import Search from "./API/search/Search";
 import Error from "./API/error/Error";
 import Login from "./API/auth/Login";
 import Registration from "./API/auth/Registration";
