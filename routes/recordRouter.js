@@ -12,4 +12,5 @@ recordRouter.get('/')
 
 recordRouter.post('/createRecord', passport.authenticate('jwt', { session: false }), (req,res) => recordController.createRecord(req, res))
 recordRouter.get('/showRecord', passport.authenticate('jwt', { session: false }), (req,res) => recordController.showAllRecords(req,res))
+recordRouter.get('/searchRecord', passport.authenticate('jwt', { session: false }), (req,res) => recordController.searchRecord(req,res))
 module.exports = recordRouter

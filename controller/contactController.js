@@ -79,7 +79,7 @@ const createNewContact = async (req, res) => {
                 email:req.body.email,
                 ownerAccount: mongoose.Types.ObjectId(req.user._id)})
         } 
-        //!!gengerate one meeting record automatically!
+        //!!generate one meeting record automatically!
         console.log(req.body.lastName)
         let newContact = null
         if (existAccountContact == null && dupContact == null) {
@@ -128,6 +128,7 @@ const createNewContact = async (req, res) => {
         throw(err)
     }
 }
+
 /**
 * give a user, show all contact it has
 * @param {express.Request} req - request that contain information of who is ask for showing all contact.
