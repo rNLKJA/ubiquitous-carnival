@@ -214,15 +214,15 @@ const searchContact = async (req, res) => {
         query["occupation"] = {$regex: new RegExp(req.body.occupation, 'i') }
     }
     if (req.body.addDate != ''){
-        try {
-            const searchDate = new Date(req.body.addDate)
-            query["addDate"] = {$lt: searchDate.getTime()}
+        // try {
+        const searchDate = new Date(req.body.addDate)
+        query["addDate"] = {$lt: searchDate.getTime()}
             // var matchContacts = await Contact.find({ownerAccount: req.user._id, addDate: {$lt: searchDate.getTime()}})
             // res.json(matchContacts)
             // return
-        } catch (err) {
-            console.log(err)
-        }
+        // } catch (err) {
+        //     console.log(err)
+        // }
     }
     try {
 		const contacts = await Contact.find(query).lean()
