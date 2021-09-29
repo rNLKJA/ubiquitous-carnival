@@ -63,7 +63,6 @@ export function useShowProfile() {
 }
 
 export function useUpdateProfile() {
-  const [userName, setUserName] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [occupation, setOccupation] = useState("");
