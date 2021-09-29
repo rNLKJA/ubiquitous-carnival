@@ -216,9 +216,10 @@ const searchContact = async (req, res) => {
     if (req.body.addDate != ''){
         try {
             const searchDate = new Date(req.body.addDate)
-            var matchContacts = await Contact.find({ownerAccount: req.user._id, addDate: {$lt: searchDate.getTime()}})
-            res.json(matchContacts)
-            return
+            query["addDate"] = {$lt: searchDate.getTime()}
+            // var matchContacts = await Contact.find({ownerAccount: req.user._id, addDate: {$lt: searchDate.getTime()}})
+            // res.json(matchContacts)
+            // return
         } catch (err) {
             console.log(err)
         }
