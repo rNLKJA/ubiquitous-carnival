@@ -7,8 +7,8 @@ import Loading from "./pending";
 import add_user from "./add-user.png";
 import fetchClient from "../axiosClient/axiosClient";
 
-const BASE_URL = "http://localhost:5000";
-// const BASE_URL = "https://crm4399.herokuapp.com",
+// const BASE_URL = "http://localhost:5000";
+const BASE_URL = "https://crm4399.herokuapp.com",
 
 const Contact = () => {
   const { loading, contacts, error } = useContacts();
