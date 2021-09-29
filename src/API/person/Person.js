@@ -4,6 +4,7 @@ import axios from "axios";
 import LogoutUser from "../../hooks/useLogout";
 import "./person.css"
 import { useShowProfile} from "../../BackEndAPI/profileAPI";
+import fetchClient from "../axiosClient/axiosClient";
 
 
 const BASE_URL = "https://crm4399.herokuapp.com";
@@ -34,12 +35,10 @@ const Person = () => {
         const profile = {
             firstName,
             lastName,
-            email,
-            phone,
             occupation,
         };
         axios
-            .post(BASE_URL + "/profile/updateProfile", profile)
+            fetchClient.post(BASE_URL + "/profile/updateProfile", profile)
             .then(() => console.log("upload new information"))
             .catch((err) => {
                 console.error(err);
@@ -47,11 +46,40 @@ const Person = () => {
 
         setFirstName("");
         setLastName("");
-        setEmail("");
-        setPhone("");
         setOccupation("");
 
     };
+
+    const addPhone = (e) => {
+        e.preventDefault();
+
+        const phone = {
+            phone,
+        };
+        axios
+        fetchClient.post(BASE_URL + "/profile/addPhone", phone)
+            .then(() => console.log(profile))
+            .catch((err) => {
+                console.error(err);
+            });
+
+        setPhone("");
+    }
+    const addEmail = (e) => {
+        e.preventDefault();
+
+        const email = {
+            email,
+        };
+        axios
+        fetchClient.post(BASE_URL + "/profile/addEmail", email)
+            .then(() => console.log(profile))
+            .catch((err) => {
+                console.error(err);
+            });
+
+        setEmail("");
+    }
 
     /*const onButtonClick = () => {
         var element = inputEl.current;
@@ -107,16 +135,30 @@ const Person = () => {
 
                 <div className="contactInformation">
                     <h2>Contact Information</h2>
-                    <div className="email">
-                        <label>email: </label>
+                    <form className="contact-form" method="POST" onSubmit={addEmail}>
+                        <label>Email: </label>
                         {profile.email}
-
-
-                    </div>
-                    <div className="phone">
+                        <input
+                            name="phone"
+                            type="text"
+                            placeholder="Please enter the new Email"
+                            onChange={(e) => setEmail(e.target.value)}
+                            value={email}
+                        ></input>
+                        <input type="submit" value="Create" />
+                    </form>
+                    <form className="contact-form" method="POST" onSubmit={addPhone}>
                         <label>Phone: </label>
                         {profile.phone}
-                    </div>
+                        <input
+                            name="phone"
+                            type="text"
+                            placeholder="Please enter the new Phone"
+                            onChange={(e) => setPhone(e.target.value)}
+                            value={phone}
+                        ></input>
+                        <input type="submit" value="Create" />
+                    </form>
                 </div>
             </div>
 
