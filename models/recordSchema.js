@@ -12,6 +12,7 @@ const recordSchema = new mongoose.Schema({
 		data: Buffer,
 		contentType: String 
 	}],
+    linkedAccount: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
     ownerAccount: {type: mongoose.Schema.Types.ObjectId, ref: 'User'}
 })
 
