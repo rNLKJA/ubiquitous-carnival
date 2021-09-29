@@ -6,7 +6,9 @@ import "./person.css"
 import { useShowProfile} from "../../BackEndAPI/profileAPI";
 
 
-const BASE_URL = "https://crm4399.herokuapp.com"
+const BASE_URL = "https://crm4399.herokuapp.com";
+
+
 
 const Person = () => {
     const { loading, profile, error } = useShowProfile();
@@ -42,7 +44,7 @@ const Person = () => {
             .catch((err) => {
                 console.error(err);
             });
-        
+
         setFirstName("");
         setLastName("");
         setEmail("");
@@ -77,49 +79,49 @@ const Person = () => {
     return (
         <div className="sub-container">
             <div>
-                <form className="contact-form" method="POST" onSubmit={Submit}>
-                    <h1>Personal Information</h1>
-
-                    <div className="basicInformation">
-                        <h2>Basic Information</h2>
-                        <div>
-                            <label>First name: </label>
-                                <div>{profile.firstName}</div>
-                            <input
+                <h1>Personal Information</h1>
+                <div className="basicInformation">
+                    <h2>Basic Information</h2>
+                    <form className="contact-form" method="POST" onSubmit={Submit}>
+                        <label>First name: </label>
+                        <div>{profile.firstName}</div>
+                        <input
                                 name="firstName"
                                 type="text"
-                                placeholder="Please enter the Last Name"
+                                placeholder="Please enter the new Last Name"
                                 onChange={(e) => setFirstName(e.target.value)}
                                 value={firstName}
-                                required
-                            ></input>
-                        </div>
-                        <div>
-                            <label>Given name: </label>
-                            {profile.lastName}
-                        </div>
-                        <div>
-                            <label>Occupation: </label>
-                            {profile.occupation}
-                        </div>
+                        ></input>
+                        <input type="submit" value="Create" />
+                    </form>
+                    <div>
+                        <label>Given name: </label>
+                        {profile.lastName}
                     </div>
-
-
-                    <div className="contactInformation">
-                        <h2>Contact Information</h2>
-                        <div className="email">
-                            <label>email: </label>
-                            {profile.email}
-
-
-                        </div>
-                        <div className="phone">
-                            <label>Phone: </label>
-                            {profile.phone}
-                        </div>
+                    <div>
+                        <label>Occupation: </label>
+                        {profile.occupation}
                     </div>
-                </form>
+                </div>
+
+
+                <div className="contactInformation">
+                    <h2>Contact Information</h2>
+                    <div className="email">
+                        <label>email: </label>
+                        {profile.email}
+
+
+                    </div>
+                    <div className="phone">
+                        <label>Phone: </label>
+                        {profile.phone}
+                    </div>
+                </div>
             </div>
+
+
+
 
             <button className="btn btn-primary" onClick={LogoutUser}>logout</button>
         </div>
