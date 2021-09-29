@@ -30,7 +30,7 @@ const Contact = () => {
         contact.contact.occupation
       )
         .toLowerCase()
-        .includes(searchTerm),
+        .includes(searchTerm.toLowerCase()),
     );
   };
 
