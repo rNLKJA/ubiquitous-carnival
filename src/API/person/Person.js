@@ -68,9 +68,7 @@ const Person = () => {
     const addEmail = (e) => {
         e.preventDefault();
 
-        const email = {
-            email,
-        };
+        const email = email;
         axios
         fetchClient.post(BASE_URL + "/profile/addEmail", email)
             .then(() => console.log(profile))
@@ -111,25 +109,42 @@ const Person = () => {
                 <div className="basicInformation">
                     <h2>Basic Information</h2>
                     <form className="contact-form" method="POST" onSubmit={Submit}>
-                        <label>First name: </label>
-                        <div>{profile.firstName}</div>
-                        <input
+                        <div>
+                            <label>First name: </label>
+                            {profile.firstName}
+                            <input
                                 name="firstName"
                                 type="text"
-                                placeholder="Please enter the new Last Name"
+                                placeholder="Please enter the new First Name"
                                 onChange={(e) => setFirstName(e.target.value)}
                                 value={firstName}
-                        ></input>
+                            ></input>
+                        </div>
+
+                        <div>
+                            <label>Given name: </label>
+                            {profile.lastName}
+                            <input
+                                name="lastName"
+                                type="text"
+                                placeholder="Please enter the new Last Name"
+                                onChange={(e) => setLastName(e.target.value)}
+                                value={lastName}
+                            ></input>
+                        </div>
+                        <div>
+                            <label>Occupation: </label>
+                            {profile.occupation}
+                            <input
+                                name="occupation"
+                                type="text"
+                                placeholder="Please enter the new occupation"
+                                onChange={(e) => setOccupation(e.target.value)}
+                                value={occupation}
+                            ></input>
+                        </div>
                         <input type="submit" value="Create" />
                     </form>
-                    <div>
-                        <label>Given name: </label>
-                        {profile.lastName}
-                    </div>
-                    <div>
-                        <label>Occupation: </label>
-                        {profile.occupation}
-                    </div>
                 </div>
 
 
