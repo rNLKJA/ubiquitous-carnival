@@ -33,7 +33,7 @@ const AddUser = () => {
     };
 
     fetchClient
-      .post(BASE_URL + "/contact/createContact", contact, config)
+      .post(BASE_URL + "/contact/createContact", contact)
       .then(() => console.log("Create a new contact"))
       .catch((err) => {
         console.error(err);
