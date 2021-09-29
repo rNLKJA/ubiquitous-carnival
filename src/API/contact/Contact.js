@@ -1,5 +1,5 @@
 import React from "react";
-import { useState, useEffect } from "react";
+import { useState, useCallback } from "react";
 import "./contact.css";
 import { useContacts } from "../../BackEndAPI/contactAPI";
 // import { requirePropFactory } from "@material-ui/core";
@@ -20,7 +20,7 @@ const Contact = () => {
 
   const [searchTerm, setSearchTerm] = useState("");
 
-  const searchContacts = () => {
+  const searchContacts = useCallback(() => {
     return contacts.filter((contact) =>
       (
         contact.contact.firstName +
@@ -32,7 +32,7 @@ const Contact = () => {
         .toLowerCase()
         .includes(searchTerm.toLowerCase()),
     );
-  };
+  });
 
   const screenWidth = window.innerWidth;
 
