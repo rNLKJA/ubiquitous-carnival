@@ -3,7 +3,7 @@ import "./contact.css";
 // import qr_code from "./qr-code.png";
 // import hand_write from "./notes.png";
 import "./manual-input.css";
-import axios from "axios";
+// import axios from "axios";
 import fetchClient from "../axiosClient/axiosClient";
 
 const AddUser = () => {
@@ -32,11 +32,7 @@ const AddUser = () => {
       note,
     };
 
-    const config = {
-      headers: { Authorization: localStorage.getItem("jwt") },
-    };
-
-    axios
+    fetchClient
       .post(BASE_URL + "/contact/createContact", contact, config)
       .then(() => console.log("Create a new contact"))
       .catch((err) => {
