@@ -19,26 +19,36 @@ const createRecord = async (req, res) => {
     request body:
     {  
         "contact_id": 12354325
-        "dateTime": "10/10/2000",
+        "dateTime": "2000/10/10",
         "location": "University of Melbourne",
         "linkedAccount": "account",
         "ownerAccount" : "ownerAccount"
     }*/
-    const ownerAccount = await User.findOne({_id:req.user._id})
-    const {contact_id, dateTime, location, linkedAccount} = req.body
-    if (dateTime==null) dateTime = new Date.now()
     try {
+        const {contact_id, dateTime, location, linkedAccount} = req.body
+        if (dateTime==null) {
+            dateTimeOut = new Date.now()
+        } else {
+            dateTimeOut = new Date(dateTime)
+        } 
+        
         //meetingPerson = await Contact.findOne({_id: mongoose.Types.ObjectId(contact_id)}).lean()
         newRecord = await Record.create({
             "meetingPerson": contact_id,
-            "dateTime": dateTime,
+            "dateTime": dateTimeOut,
             "location": location,
             "linkedAccount" : linkedAccount,
             "ownerAccount" : req.user._id
         })
-
-        await ownerAccount.recordList.push(newRecord._id)
-        await ownerAccount.recordList.save()
+        await newRecord.save()
+        console.log(newRecord._id)
+        await User.findOneAndUpdate(
+            { _id: req.user._id }, 
+            { $push: { 
+                recordList: newRecord._id
+            } 
+            })
+        
         res.send("Record Create Successfully")
     }catch(err){
         res.send("Database query failed")

@@ -46,17 +46,21 @@ const existAccount = async (req, res) => {
  * @param  {express.Response} res response from ststem
  */
 const linkToAccount = async (req, res) => {
-  try {
-    await Contact.findOneAndUpdate(
-      { _id: mongoose.Types.ObjectId(req.body._idOfContact) },
-      {
-        linkedAccount: req.body.accountOfContact,
-      },
-    );
-  } catch (err) {
-    console.log(err);
-  }
-};
+    try{
+        const accountCreateContact = await Contact.findOne({_id: mongoose.Types.ObjectId(req.body._idOfContact)})
+        await Contact.updateMany({
+            firstName: accountCreateContact.firstName,
+            lastName: accountCreateContact.lastName,
+            email: accountCreateContact.email,
+            phone: accountCreateContact.phone,
+            occupation: accountCreateContact.occupation},
+            {$set: {linkedAccount: req.body.accountOfContact}}
+            )
+        res.send(accountCreateContact)
+    }catch(err){
+        console.log(err)
+    }
+}
 
 /**
  * create a new contact in database with information client give
@@ -64,85 +68,75 @@ const linkToAccount = async (req, res) => {
  * @param {express.Response} res - response from the system.
  */
 const createNewContact = async (req, res) => {
-  try {
-    //!! can not use object id as input
-    const ownerAccount = await User.findOne({
-      _id: mongoose.Types.ObjectId(req.user._id),
-    });
-    // if req is a user id
-    let existAccountContact = null;
-    let dupContact = null;
-    if (req.body.userName) {
-      existAccountContact = await User.findOne({
-        userName: req.body.userName,
-      }).lean();
-    } else {
-      // Check if contact has account in app
-      existAccountContact = await User.findOne({
-        lastName: req.body.lastName,
-        firstName: req.body.firstName,
-        phone: req.body.phone,
-        email: req.body.email,
-      });
-      dupContact = await Contact.findOne({
-        lastName: req.body.lastName,
-        firstName: req.body.firstName,
-        phone: req.body.phone,
-        email: req.body.email,
-        ownerAccount: mongoose.Types.ObjectId(req.user._id),
-      });
+    try {
+        //!! can not use object id as input
+        const ownerAccount = await User.findOne({_id:mongoose.Types.ObjectId(req.user._id)})
+        // if req is a user id
+        let existAccountContact = null
+        let dupContact = null
+        if (req.body.userName){
+            existAccountContact = await User.findOne({userName: req.body.userName}).lean()
+        } else {
+        // Check if contact has account in app
+            existAccountContact = await User.findOne({
+                lastName: req.body.lastName,
+                firstName: req.body.firstName,
+                phone: req.body.phone,
+                email:req.body.email})
+            dupContact = await Contact.findOne({
+                lastName: req.body.lastName,
+                firstName: req.body.firstName,
+                phone: req.body.phone,
+                email:req.body.email,
+                ownerAccount: mongoose.Types.ObjectId(req.user._id)})
+            console.log("dupContact", dupContact)
+        }
+        //!!generate one meeting record automatically!
+        let newContact = null
+        if (existAccountContact == null && dupContact == null) {
+            newContact = await Contact.create({
+                "lastName": req.body.lastName,
+                "firstName": req.body.firstName,
+                "portraits" : req.body.portraits,
+                "email": req.body.email,
+                "phone" : req.body.phone,
+                "meetRecord": req.body.meetRecord,
+                "occupation": req.body.occupation,
+                "addDate": Date.now(),
+                "note": req.body.note,
+                "status": true,
+                "ownerAccount" : mongoose.Types.ObjectId(req.user._id),
+                "linkedAccount" : null
+            })
+        } else if (existAccountContact != null && dupContact != null) {
+            newContact = await Contact.create({
+                "lastName": existAccountContact.lastName,
+                "firstName": existAccountContact.firstName,
+                "portraits" : existAccountContact.portraits,
+                "email": existAccountContact.email,
+                "phone" : existAccountContact.phone,
+                "meetRecord": existAccountContact.meetRecord,
+                "occupation": existAccountContact.occupation,
+                "addDate": Date.now(),
+                "note": existAccountContact.note,
+                "status": false,
+                "ownerAccount" : mongoose.Types.ObjectId(req.user._id),
+                "linkedAccount" : existAccountContact._id
+            })
+        } else if (dupContact != null){
+            res.send(dupContact)
+            return
+        }
+        // const formedContact = new Contact(newContact)
+        // formedContact.save()
+        const ContactIdLink = new ContactList({contact: newContact._id, addSince: Date.now()})
+        ownerAccount.contactList.push(ContactIdLink)
+        await ownerAccount.save()
+        res.json(newContact)
+    }catch(err){
+        res.send("Database query failed")
+        throw(err)
     }
-    //!!generate one meeting record automatically!
-    console.log(req.body.lastName);
-    let newContact = null;
-    if (existAccountContact == null && dupContact == null) {
-      newContact = await Contact.create({
-        lastName: req.body.lastName,
-        firstName: req.body.firstName,
-        portraits: req.body.portraits,
-        email: req.body.email,
-        phone: req.body.phone,
-        meetRecord: req.body.meetRecord,
-        occupation: req.body.occupation,
-        addDate: Date.now(),
-        note: req.body.note,
-        status: true,
-        ownerAccount: mongoose.Types.ObjectId(req.user._id),
-        linkedAccount: null,
-      });
-    } else if (existAccountContact != null && dupContact != null) {
-      newContact = await Contact.create({
-        lastName: existAccountContact.lastName,
-        firstName: existAccountContact.firstName,
-        portraits: existAccountContact.portraits,
-        email: existAccountContact.email,
-        phone: existAccountContact.phone,
-        meetRecord: existAccountContact.meetRecord,
-        occupation: existAccountContact.occupation,
-        addDate: Date.now(),
-        note: existAccountContact.note,
-        status: false,
-        ownerAccount: mongoose.Types.ObjectId(req.user._id),
-        linkedAccount: existAccountContact._id,
-      });
-    } else if (dupContact != null) {
-      res.send({});
-      return;
-    }
-    // const formedContact = new Contact(newContact)
-    // formedContact.save()
-    const ContactIdLink = new ContactList({
-      contact: newContact._id,
-      addSince: Date.now(),
-    });
-    await ownerAccount.contactList.push(ContactIdLink);
-    console.log(ownerAccount);
-    await ownerAccount.save();
-    res.json(newContact);
-  } catch (err) {
-    res.send("Database query failed");
-    throw err;
-  }
 };
 
 /**
@@ -184,77 +178,67 @@ const showOneContact = async (req, res) => {
  * @param  {express.Response} res response contain the match contacs of this user
  */
 const searchContact = async (req, res) => {
-  const validationErrors = expressValidator.validationResult(req);
-  if (!validationErrors.isEmpty()) {
-    return res.status(422).render("error", {
-      errorCode: "422",
-      message: "Search works on alphabet characters only.",
-    });
-  }
-  var query = {};
-  query["ownerAccount"] = req.user._id;
-  if (req.body.nofillter == true) {
-    //direct search by name?
-    var nameSearch = req.body.searchContent.split(" ");
-    var matchContacts = [];
-    try {
-      for (var i = 0; i <= nameSearch.length(); i++) {
-        var potentailContacts = await Contact.find({
-          $and: [
-            { ownerAccount: req.user._id },
-            {
-              $or: [{ firstName: nameSearch[i] }, { lastName: nameSearch[i] }],
-            },
-          ],
-        }).lean();
-        matchContacts = [...new Set([...matchContacts, ...potentailContacts])];
-      }
-      res.json(matchContacts);
-      return;
-    } catch (err) {
-      console.log(err);
-    }
-  }
-  if (req.body.contactUserName != "") {
-    try {
-      const contactUser = await User.findOne({
-        userName: req.body.contactUserName,
-      }).lean();
-      const matchContact = await Contact.findOne({
-        linkedAccount: mongoose.Types.ObjectId(contactUser._id),
-        ownerAccount: mongoose.Types.ObjectId(req.user._id),
-      }).lean();
-      return res.json(matchContact);
-    } catch (err) {
-      console.log(err);
-    }
-  }
-  // if name in submited form
-  if (req.body.lastName != "") {
-    query["lastName"] = { $regex: new RegExp(req.body.lastName, "i") };
-  }
-  if (req.body.firstName != "") {
-    query["firstName"] = { $regex: new RegExp(req.body.firstName, "i") };
-  }
-  if (req.body.phone != "") {
-    query["phone"] = req.body.phone;
-  }
-  if (req.body.email != "") {
-    query["email"] = { $regex: new RegExp(req.body.email, "i") };
-  }
-  if (req.body.occupation != "") {
-    query["occupation"] = { $regex: new RegExp(req.body.occupation, "i") };
-  }
-  if (req.body.addDate != "") {
-    // try {
-    const searchDate = new Date(req.body.addDate);
-    query["addDate"] = { $lt: searchDate.getTime() };
-    // var matchContacts = await Contact.find({ownerAccount: req.user._id, addDate: {$lt: searchDate.getTime()}})
-    // res.json(matchContacts)
-    // return
-    // } catch (err) {
-    //     console.log(err)
+    // const validationErrors = expressValidator.validationResult(req)
+    // if (!validationErrors.isEmpty()){
+    //     return res.status(422).render('error', {errorCode: '422', message: 'Search works on alphabet characters only.'})
     // }
+    var query = {}
+    query['ownerAccount'] = req.user._id
+    if (req.body.nofillter == true){
+        //direct search by name?
+        var nameSearch = req.body.searchContent.split(" ")
+        var matchContacts = []
+        try{
+            for (var i = 0; i <= nameSearch.length(); i++){
+            var potentailContacts = await Contact.find({
+                $and: [ {ownerAccount: req.user._id},
+                        {$or : [{firstName: nameSearch[i]}, {lastName: nameSearch[i]}]}
+                    ]
+            }).lean()
+            matchContacts = [...new Set([...matchContacts, ...potentailContacts])]
+            }
+            res.json(matchContacts)
+            return
+        }catch(err){
+            console.log(err)
+        }
+    }
+    if (req.body.contactUserName != ''){
+        try{
+            const contactUser = await User.findOne({userName : req.body.contactUserName}).lean()
+            const matchContact = await Contact.findOne({linkedAccount: mongoose.Types.ObjectId(contactUser._id),
+                ownerAccount: mongoose.Types.ObjectId(req.user._id)}).lean()
+            return res.json(matchContact)
+        }catch(err){
+            console.log(err)
+        }
+    }
+    // if name in submited form
+    if (req.body.lastName != ''){
+        query["lastName"] = {$regex: new RegExp(req.body.lastName, 'i') }
+    }
+    if (req.body.firstName != ''){
+        query["firstName"] = {$regex: new RegExp(req.body.firstName, 'i') }
+    }
+    if (req.body.phone != ''){
+        query["phone"] = req.body.phone
+    }
+    if (req.body.email != ''){
+        query["email"] = {$regex: new RegExp(req.body.email, 'i') }
+    }
+    if (req.body.occupation != ''){
+        query["occupation"] = {$regex: new RegExp(req.body.occupation, 'i') }
+    }
+    if (req.body.addDate != ''){
+        // try {
+        const searchDate = new Date(req.body.addDate)
+        query["addDate"] = {$lt: searchDate.getTime()}
+            // var matchContacts = await Contact.find({ownerAccount: req.user._id, addDate: {$lt: searchDate.getTime()}})
+            // res.json(matchContacts)
+            // return
+        // } catch (err) {
+        //     console.log(err)
+        // }
   }
   try {
     const contacts = await Contact.find(query).lean();
@@ -271,40 +255,35 @@ const searchContact = async (req, res) => {
  * @param  {express.Response} res response contain contact information after update.
  */
 const updateContactInfo = async (req, res) => {
-  const validationErrors = expressValidator.validationResult(req);
-  var query = {};
-  // if name in submited form
-  if (req.body.lastName != "") {
-    query["lastName"] = req.body.lastName;
-  }
-  if (req.body.firstName != "") {
-    query["firstName"] = req.body.firstName;
-  }
-  if (req.body.phone != "") {
-    query["phone"] = req.body.phone;
-  }
-  if (req.body.email != "") {
-    query["email"] = req.body.email;
-  }
-  if (req.body.occupation != "") {
-    query["occupation"] = req.body.occupation;
-  }
-  if (req.body.note != "") {
-    query["note"] = req.body.note;
-  }
-  try {
-    await Contact.updateOne(
-      { _id: mongoose.Types.ObjectId(req.body._idOfContact) },
-      query,
-    );
-    const contacts = Contact.findOne({
-      _id: mongoose.Types.ObjectId(req.body._idOfContact),
-    }).lean();
-    res.json(contacts);
-  } catch (err) {
-    console.log(err);
-  }
-};
+    var query = {}
+    // if name in submited form
+    if (req.body.lastName != ''){
+        query["lastName"] = req.body.lastName
+    }
+    if (req.body.firstName != ''){
+        query["firstName"] = req.body.firstName
+    }
+    if (req.body.phone != ''){
+        query["phone"] = req.body.phone
+    }
+    if (req.body.email != ''){
+        query["email"] = req.body.email
+    }
+    if (req.body.occupation != ''){
+        query["occupation"] = req.body.occupation
+    }
+    if (req.body.note != ''){
+        query["note"] = req.body.note
+    }
+    try {
+		await Contact.updateOne({_id: mongoose.Types.ObjectId(req.body._idOfContact)}, query)
+        const contacts = await Contact.findOne({_id: mongoose.Types.ObjectId(req.body._idOfContact)}).lean()
+		res.json(contacts)
+	} catch (err) {
+		console.log(err)
+	}
+
+}
 /**
  * this founciton is for synchtonize the information of a contact and the account this contacat connect to
  * @param  {express.Request} req request that contain object id of contact we need to synchronize with its account
@@ -319,24 +298,27 @@ const synchronizationContactInfo = async (req, res) => {
       .lean();
     var query = {};
     // consider directly replace without comparing
-    if (contact.lastName != contact.linkedAccount.lastName) {
-      query["lastName"] = contact.linkedAccount.lastName;
+    if (contact.linkedAccount == null){
+        return res.send('no account linked to this contact')
     }
-    if (contact.firstName != contact.linkedAccount.firstName) {
-      query["firstName"] = req.body.firstName;
+    if (contact.linkedAccount.lastName !== undefined && contact.lastName != contact.linkedAccount.lastName ){
+        query["lastName"] =  contact.linkedAccount.lastName
     }
-    if (!listCompare(contact.phone, contact.linkedAccount.phone)) {
-      query["phone"] = contact.linkedAccount.phone;
+    if (contact.linkedAccount.firstName !== undefined && contact.firstName != contact.linkedAccount.firstName){
+        query["firstName"] = contact.linkedAccount.firstName
     }
-    if (!listCompare(contact.email, contact.linkedAccount.email)) {
-      query["email"] = contact.linkedAccount.email;
+    if (contact.linkedAccount.phone !== undefined && !(listCompare(contact.phone, contact.linkedAccount.phone))){
+        query["phone"] = contact.linkedAccount.phone
     }
-    if (contact.occupation != contact.linkedAccount.occupation) {
-      query["occupation"] = contact.linkedAccount.occupation;
+    if (contact.linkedAccount.email !== undefined && !(listCompare(contact.email, contact.linkedAccount.email))){
+        query["email"] = contact.linkedAccount.email
     }
-
-    query["portrait"] = contact.linkedAccount.portrait;
-
+    if (contact.linkedAccount.occupation !== undefined && contact.occupation != contact.linkedAccount.occupation){
+        query["occupation"] = contact.linkedAccount.occupation
+    }
+    if (contact.linkedAccount.portrait !== undefined && contact.portrait != contact.linkedAccount.portrait){
+        query['portrait'] = contact.linkedAccount.portrait
+    }
     const updatedContact = await Contact.findOneAndUpdate(
       { _id: mongoose.Types.ObjectId(req.body._idOfContact) },
       query,
@@ -422,12 +404,15 @@ const deleteOneContact = async (req, res) => {
 };
 
 module.exports = {
-  createNewContact,
-  showAllContact,
-  existAccount,
-  duplicateContact,
-  showOneContact,
-  linkToAccount,
-  contactPhotoUpload,
-  deleteOneContact,
-};
+    createNewContact,
+    showAllContact,
+    existAccount,
+    duplicateContact,
+    showOneContact,
+    linkToAccount,
+    contactPhotoUpload,
+    searchContact,
+    updateContactInfo,
+    deleteOneContact,
+    synchronizationContactInfo
+}

@@ -6,21 +6,20 @@ require('../config/passport')(passport);
 
 /**
 * Upload the firstName, lastName and occupation
-* @param {express.Request} req - Username, firstName, lastName and occupation from client
+* @param {express.Request} req - firstName, lastName and occupation from client
 * @param {express.Response} res - response from the system.
 */
 const updateProfile = async(req, res) => {
     /*{   
-        "userName": "Harrison123",
         "firstName": "Hongji",
         "lastName": "Huang",
         "occupation": "Student",
         "status" : "Single"
     }*/
 
-    const {userName, firstName, lastName, occupation, status} = req.body
+    const {firstName, lastName, occupation, status} = req.body
 
-    await userModel.updateOne({userName: userName}, 
+    await userModel.updateOne({_id: req.user._id}, 
         {
             firstName: firstName,
             lastName: lastName,
@@ -37,21 +36,18 @@ const updateProfile = async(req, res) => {
 
 /**
 * Add the phone number
-* @param {express.Request} req - Username and phone number from client
+* @param {express.Request} req - phone number from client
 * @param {express.Response} res - response from the system.
 */
 const addPhone = async(req, res) => {
     /*{   
-        "userName": "Harrison123",
         "phone": "0415467321"
     }*/
 
     try {
-        const {userName, phone} = req.body
-    
         const updatePhone = await userModel.findOneAndUpdate( 
-            {userName: userName},
-            { $push: {"phone": phone}},
+            {_id: req.user._id},
+            { $push: {"phone": req.body.phone}},
             { upsert: true, new: true }
         )
         res.send("update success")
@@ -70,13 +66,11 @@ const addPhone = async(req, res) => {
 */
 const delPhone = async(req, res) => {
     /*{   
-        "userName": "Harrison123",
         "phone": "0415467321"
     }*/
-    const {userName, phone} = req.body
     await userModel.updateOne(
-        {userName: userName},
-        {$pull:{"phone": phone}},
+        {_id: req.user._id},
+        {$pull:{"phone": req.body.phone}},
         function(err) {
             if(err) res.send("delete fail")
             else    res.send("delete success")
@@ -91,15 +85,12 @@ const delPhone = async(req, res) => {
 */
 const addEmail = async(req, res) => {
     /*{   
-        "userName": "Harrison123",
         "email": "1637520754@qq.com"
     }*/
    try {
-        const {userName, email} = req.body
-
         await userModel.findOneAndUpdate( 
-            {userName: userName},
-            { $push: {"email": email}},
+            {_id: req.user._id},
+            { $push: {"email": req.body.email}},
             { upsert: true, new: true }
         )
         res.send("update success")
@@ -118,13 +109,11 @@ const addEmail = async(req, res) => {
 */
 const delEmail = async(req, res) => {
     /*{   
-        "userName": "Harrison123",
         "email": "1637520754@qq.com"
     }*/
-    const {userName, email} = req.body
     await userModel.updateOne(
-        {userName: userName},
-        {$pull:{"email": email}},
+        {_id: req.user._id},
+        {$pull:{"email": req.body.email}},
         function(err) {
             if(err) res.send("delete fail")
             else    res.send("delete success")
