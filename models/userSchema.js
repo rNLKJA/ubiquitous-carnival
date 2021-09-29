@@ -6,11 +6,12 @@ const contactListSchema = new mongoose.Schema({
 	contact: { type: mongoose.Schema.Types.ObjectId, ref: "Contact" },
 	addSince: { type: Date, required: true, default: Date.now },
 });
-
+/*
 const recordListSchema = new mongoose.Schema({
     record: { type: mongoose.Schema.Types.ObjectId, ref: "Record" },
     meetingTime: { type: Date, required: true, default: Date.now },
 });
+*/
 // create mongoose schema
 const userSchema = new mongoose.Schema({
 	userName: { type: String, required: true, unique:true},
@@ -28,7 +29,7 @@ const userSchema = new mongoose.Schema({
 	userID: { type: String },
   	status: { type: String }, // active, pending ? if only two status, consider use boolean
  	contactList: [contactListSchema], // store a list of contact objects
-	recordList: [recordListSchema],
+	recordList: [{ type: mongoose.Schema.Types.ObjectId, ref: "Record" }]
 });
 
 userSchema.methods.generateHash = function (password) {
@@ -41,5 +42,4 @@ userSchema.methods.validPassword = function (password) {
 
 const User = mongoose.model("User", userSchema);
 const ContactList = mongoose.model("ContactList", contactListSchema);
-const RecordList = mongoose.model("RecordList", recordListSchema);
-module.exports = { User, ContactList, RecordList };
+module.exports = { User, ContactList };

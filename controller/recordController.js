@@ -15,35 +15,31 @@ require('../config/passport')(passport);
 */
 const createRecord = async (req, res) => {
     /*
-    request header: username
+    request header: user
     request body:
     {  
         "contact_id": 12354325
-        "meetingPerson": meetingPerson,
         "dateTime": "10/10/2000",
         "location": "University of Melbourne",
+        "linkedAccount": "account",
+        "ownerAccount" : "ownerAccount"
     }*/
-    const username = req.header.userName
-    const {contact_id, meetingPerson, dateTime, location, linkedAccount} = req.body
+    const ownerAccount = await User.findOne({_id:req.user._id})
+    const {contact_id, dateTime, location, linkedAccount} = req.body
     if (dateTime==null) dateTime = new Date.now()
     try {
-        meetingPerson = await Contact.findOne({_id: mongoose.Types.ObjectId(contact_id)}).lean(),
+        //meetingPerson = await Contact.findOne({_id: mongoose.Types.ObjectId(contact_id)}).lean()
         newRecord = await Record.create({
-            "meetingPerson": meetingPerson,
+            "meetingPerson": contact_id,
             "dateTime": dateTime,
             "location": location,
-            "ownerAccount" : username,
-            "linkedAccount" : linkedAccount
+            "linkedAccount" : linkedAccount,
+            "ownerAccount" : req.user._id
         })
 
-        newRecord.save()
-                    .then(data => {
-                        console.log("Create record successfully " + data.userName)
-                        res.send(data)
-                    })
-                    .catch(err => {
-                        res.send(err)
-                    })
+        await ownerAccount.recordList.push(newRecord._id)
+        await ownerAccount.recordList.save()
+        res.send("Record Create Successfully")
     }catch(err){
         res.send("Database query failed")
     }
@@ -96,5 +92,6 @@ const searchRecord = async (req, res) => {
 
 module.exports = {
     createRecord,
-    showAllRecords
+    showAllRecords,
+    searchRecord
 }
