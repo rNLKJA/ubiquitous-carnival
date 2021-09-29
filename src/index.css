@@ -34,7 +34,7 @@ a {
     border-right: 2px double rgb(47, 71, 137);
     background-color: white;
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     /* grid-gap: 5px; */
     justify-content: space-around;
     bottom: 0;

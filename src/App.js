@@ -64,11 +64,11 @@ function App() {
               path="/record"
               component={Record}
             ></ProtectedRouters>
-            <ProtectedRouters
+            {/* <ProtectedRouters
               exact
               path="/search"
               component={Search}
-            ></ProtectedRouters>
+            ></ProtectedRouters> */}
             <ProtectedRouters
               exact
               path="/setting"
