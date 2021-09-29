@@ -80,3 +80,8 @@ app.listen(process.env.PORT || 3000, () => {
     `the team 4399's server is listening at PORT: ${process.env.PORT}`,
   );
 });
+
+
+module.exports = {
+    app
+}

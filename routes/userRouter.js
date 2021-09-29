@@ -16,7 +16,7 @@ userRouter.post('/emailVerify', emailAuth.emailCodeVerify)
 userRouter.post('/fastRegisterPrepare', userController.emailFastRegister, emailAuth.emailRegisterCodeSend)
 userRouter.post('/fastRegisterConfirm', emailAuth.emailRegisterVerify, userController.emailFastRegisterConfirm)
 
-//this router is for test and debug of email fast register
-//the function will contacin a page that able to post to /fastRegisterConfirm with accountId
+// this router is for test and debug of email fast register
+// the function will contacin a page that able to post to /fastRegisterConfirm with accountId
 // userRouter.get('/fastRegister/:accountId', userControll.postTofastRegisterConfirm)
 module.exports = userRouter;

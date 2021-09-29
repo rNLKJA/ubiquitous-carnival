@@ -59,7 +59,7 @@ const linkToAccount = async (req, res) => {
 const createNewContact = async (req, res) => {
     try {
         //!! can not use object id as input 
-        const ownerAccount = await User.findOne({_id:req.user._id})
+        const ownerAccount = await User.findOne({_id:mongoose.Types.ObjectId(req.user._id)})
         // if req is a user id
         let existAccountContact = null
         let dupContact = null
@@ -71,13 +71,13 @@ const createNewContact = async (req, res) => {
                 lastName: req.body.lastName, 
                 firstName: req.body.firstName, 
                 phone: req.body.phone, 
-                email:req.body.email}).lean()
+                email:req.body.email})
             dupContact = await Contact.findOne({
                 lastName: req.body.lastName, 
                 firstName: req.body.firstName, 
                 phone: req.body.phone, 
                 email:req.body.email,
-                ownerAccount: req.user._id}).lean()
+                ownerAccount: mongoose.Types.ObjectId(req.user._id)})
         } 
         //!!gengerate one meeting record automatically!
         console.log(req.body.lastName)
@@ -118,7 +118,7 @@ const createNewContact = async (req, res) => {
         }
         // const formedContact = new Contact(newContact)
         // formedContact.save()
-        const ContactIdLink = new ContactList({contact: newContact._id, addSince: Date.now})
+        const ContactIdLink = new ContactList({contact: newContact._id, addSince: Date.now()})
         await ownerAccount.contactList.push(ContactIdLink)
         console.log(ownerAccount)
         await ownerAccount.save()
