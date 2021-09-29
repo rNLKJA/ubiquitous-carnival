@@ -209,10 +209,10 @@ const Contact = () => {
 
 export default Contact;
 
-export const People = (contacts, setOneContact) => {
+export const People = ({ contacts, setOneContact }) => {
   return (
     <div>
-      {contacts.contacts.map((person) => {
+      {contacts.map((person) => {
         return (
           <Person
             prop={person}
