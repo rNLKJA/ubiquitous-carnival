@@ -7,7 +7,7 @@ const BASE_URL = "https://crm4399.herokuapp.com";
 axios.defaults.withCredentials = true;
 
 function updateProfile(profileInfo) {
-  const endpoint = BASE_URL + "/profile/createRecord";
+  const endpoint = BASE_URL + "/profile/updateProfile";
   return fetchClient.post(endpoint, profileInfo).then((res) => res.data);
 }
 
