@@ -136,7 +136,7 @@ const createNewContact = async (req, res) => {
 */
 const showAllContact = async (req,res) => {
     const ownerAccount = await User.findOne({$or :
-        [{userID: req.body.userID}, 
+        [{userName: req.body.userName}, 
         {_id: mongoose.Types.ObjectId(req.user._id)}]}).populate("contactList.contact").lean()
     res.json(ownerAccount.contactList)
     
@@ -188,7 +188,14 @@ const searchContact = async (req, res) => {
         }
     }
     if (req.body.contactUserName != ''){
-        const _idOfcontactUser = await User.findOne({userName : req.body.userName})
+        try{
+            const contactUser = await User.findOne({userName : req.body.contactUserName}).lean()
+            const matchContact = await Contact.findOne({linkedAccount: mongoose.Types.ObjectId(contactUser._id), 
+                ownerAccount: mongoose.Types.ObjectId(req.user._id)}).lean()
+            return res.json(matchContact)
+        }catch(err){
+            console.log(err)
+        }
     }
     // if name in submited form
     if (req.body.lastName != ''){
