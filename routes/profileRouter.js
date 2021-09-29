@@ -18,9 +18,7 @@ profileRouter.post('/addEmail', passport.authenticate('jwt', { session: false })
 
 profileRouter.post('/delEmail', passport.authenticate('jwt', { session: false }), (req,res) => profileController.delEmail(req,res))
 
-//profileRouter.get('/showProfile', passport.authenticate('jwt', { session: false }), (req,res) => profileController.showProfile(req,res))
-
-profileRouter.get('/showProfile', profileController.showProfile)
+profileRouter.get('/showProfile', passport.authenticate('jwt', { session: false }), (req,res) => profileController.showProfile(req,res))
 
 profileRouter.post('/uploadUserImage', upload.single('portrait'), (req,res) => profileController.uploadPhoto(req,res))
 

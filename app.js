@@ -62,9 +62,11 @@ app.get("/", (req, res) => {
 // router for testing
 const profileRouter = require("./routes/profileRouter");
 const contactRouter = require("./routes/contactRouter");
+const recordRouter = require("./routes/recordRouter");
 const userRouter = require("./routes/userRouter");
 app.use("/profile", profileRouter);
 app.use("/contact", contactRouter);
+app.use("/record", recordRouter);
 app.use("/user", userRouter);
 
 // handling invalid links

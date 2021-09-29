@@ -133,7 +133,7 @@ const delEmail = async(req, res) => {
 }
 /**
  * function that allow user upload their photo and store in database
- * @param  {express.Resquest} req contain the file information of uploaded file
+ * @param  {express.Request} req contain the file information of uploaded file
  * @param  {express.Response} res contain the user information after uploaded
  */
 const uploadPhoto = async (req, res) => {
