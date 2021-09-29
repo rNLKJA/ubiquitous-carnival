@@ -43,9 +43,16 @@ const existAccount = async (req, res) => {
  */
 const linkToAccount = async (req, res) => {
     try{
-        await Contact.findOneAndUpdate({_id: mongoose.Types.ObjectId(req.body._idOfContact)}, {
-            linkedAccount: req.body.accountOfContact
-        })
+        const accountCreateContact = await Contact.findOne({_id: mongoose.Types.ObjectId(req.body._idOfContact)}) 
+        await Contact.updateMany({
+            firstName: accountCreateContact.firstName, 
+            lastName: accountCreateContact.lastName, 
+            email: accountCreateContact.email,
+            phone: accountCreateContact.phone,
+            occupation: accountCreateContact.occupation}, 
+            {$set: {linkedAccount: req.body.accountOfContact}}
+            )
+        res.send(accountCreateContact)
     }catch(err){
         console.log(err)
     }
@@ -78,9 +85,9 @@ const createNewContact = async (req, res) => {
                 phone: req.body.phone, 
                 email:req.body.email,
                 ownerAccount: mongoose.Types.ObjectId(req.user._id)})
+            console.log("dupContact", dupContact)
         } 
         //!!generate one meeting record automatically!
-        console.log(req.body.lastName)
         let newContact = null
         if (existAccountContact == null && dupContact == null) {
             newContact = await Contact.create({
@@ -113,14 +120,13 @@ const createNewContact = async (req, res) => {
                 "linkedAccount" : existAccountContact._id
             })
         } else if (dupContact != null){
-            res.send({})
+            res.send(dupContact)
             return
         }
         // const formedContact = new Contact(newContact)
         // formedContact.save()
         const ContactIdLink = new ContactList({contact: newContact._id, addSince: Date.now()})
-        await ownerAccount.contactList.push(ContactIdLink)
-        console.log(ownerAccount)
+        ownerAccount.contactList.push(ContactIdLink)
         await ownerAccount.save()
         res.json(newContact)
     }catch(err){
@@ -162,10 +168,10 @@ const showOneContact = async (req,res) => {
  * @param  {express.Response} res response contain the match contacs of this user
  */
 const searchContact = async (req, res) => {
-    const validationErrors = expressValidator.validationResult(req)
-    if (!validationErrors.isEmpty()){
-        return res.status(422).render('error', {errorCode: '422', message: 'Search works on alphabet characters only.'})
-    }
+    // const validationErrors = expressValidator.validationResult(req)
+    // if (!validationErrors.isEmpty()){
+    //     return res.status(422).render('error', {errorCode: '422', message: 'Search works on alphabet characters only.'})
+    // }
     var query = {}
     query['ownerAccount'] = req.user._id
     if (req.body.nofillter == true){
@@ -240,7 +246,6 @@ const searchContact = async (req, res) => {
  * @param  {express.Response} res response contain contact information after update.
  */
 const updateContactInfo = async (req, res) => {
-    const validationErrors = expressValidator.validationResult(req)
     var query = {}
     // if name in submited form
     if (req.body.lastName != ''){
@@ -263,7 +268,7 @@ const updateContactInfo = async (req, res) => {
     }
     try {
 		await Contact.updateOne({_id: mongoose.Types.ObjectId(req.body._idOfContact)}, query)
-        const contacts = Contact.findOne({_id: mongoose.Types.ObjectId(req.body._idOfContact)}).lean()
+        const contacts = await Contact.findOne({_id: mongoose.Types.ObjectId(req.body._idOfContact)}).lean()
 		res.json(contacts)	
 	} catch (err) {
 		console.log(err)
@@ -280,23 +285,28 @@ const synchronizationContactInfo = async (req, res) => {
         const contact = await Contact.findOne({_id: mongoose.Types.ObjectId(req.body._idOfContact)}).populate('linkedAccount').lean()
         var query = {}
     // consider directly replace without comparing
-    if (contact.lastName != contact.linkedAccount.lastName){
+    if (contact.linkedAccount == null){
+        return res.send('no account linked to this contact')
+    }
+    if (contact.linkedAccount.lastName !== undefined && contact.lastName != contact.linkedAccount.lastName ){
         query["lastName"] =  contact.linkedAccount.lastName
     }
-    if (contact.firstName != contact.linkedAccount.firstName){
-        query["firstName"] = req.body.firstName
+    if (contact.linkedAccount.firstName !== undefined && contact.firstName != contact.linkedAccount.firstName){
+        query["firstName"] = contact.linkedAccount.firstName
     }
-    if (!(listCompare(contact.phone, contact.linkedAccount.phone))){
+    if (contact.linkedAccount.phone !== undefined && !(listCompare(contact.phone, contact.linkedAccount.phone))){
         query["phone"] = contact.linkedAccount.phone
     }
-    if (!(listCompare(contact.email, contact.linkedAccount.email))){
+    if (contact.linkedAccount.email !== undefined && !(listCompare(contact.email, contact.linkedAccount.email))){
         query["email"] = contact.linkedAccount.email
     }
-    if (contact.occupation != contact.linkedAccount.occupation){
+    if (contact.linkedAccount.occupation !== undefined && contact.occupation != contact.linkedAccount.occupation){
         query["occupation"] = contact.linkedAccount.occupation
     }
+    if (contact.linkedAccount.portrait !== undefined && contact.portrait != contact.linkedAccount.portrait){
+        query['portrait'] = contact.linkedAccount.portrait
+    }
     
-    query['portrait'] = contact.linkedAccount.portrait
 
     const updatedContact = await Contact.findOneAndUpdate({_id: mongoose.Types.ObjectId(req.body._idOfContact)}, query, {new:true})
     res.json(updatedContact)
@@ -351,5 +361,8 @@ module.exports = {
     duplicateContact,
     showOneContact,
     linkToAccount,
-    contactPhotoUpload
+    contactPhotoUpload,
+    searchContact,
+    updateContactInfo,
+    synchronizationContactInfo
 }
