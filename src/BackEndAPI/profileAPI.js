@@ -71,7 +71,6 @@ export function useUpdateProfile() {
 
   function onSubmit() {
     updateProfile({
-      userName: userName,
       firstName: firstName,
       lastName: lastName,
       occupation: occupation,

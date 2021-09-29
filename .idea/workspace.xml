@@ -2,10 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="aaaf103e-f306-4887-902f-3a9c719910ef" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.name" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/API/person/Person.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/API/person/Person.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/API/person/person.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/API/person/person.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/BackEndAPI/profileAPI.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/BackEndAPI/profileAPI.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -24,6 +22,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../COMP30022-49-dom" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.standard" value="true" />
     <property name="node.js.selected.package.eslint" value="" />
@@ -39,7 +38,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1632913212434</updated>
-      <workItem from="1632913216088" duration="4959000" />
+      <workItem from="1632913216088" duration="6810000" />
     </task>
     <servers />
   </component>
