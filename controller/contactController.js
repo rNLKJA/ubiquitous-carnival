@@ -63,8 +63,8 @@ const createNewContact = async (req, res) => {
         // if req is a user id
         let existAccountContact = null
         let dupContact = null
-        if (req.body.userId){
-            existAccountContact = await User.findOne({userID: req.body.userId}).lean()
+        if (req.body.userName){
+            existAccountContact = await User.findOne({userName: req.body.userName}).lean()
         } else {
         // Check if contact has account in app
             existAccountContact = await User.findOne({
@@ -186,6 +186,9 @@ const searchContact = async (req, res) => {
         }catch(err){
             console.log(err)
         }
+    }
+    if (req.body.contactUserName != ''){
+        const _idOfcontactUser = await User.findOne({userName : req.body.userName})
     }
     // if name in submited form
     if (req.body.lastName != ''){
