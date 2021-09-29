@@ -3,7 +3,7 @@ import axios from 'axios';
 const fetchClient = () => {
   const defaultOptions = {
     baseURL: "https://crm4399.herokuapp.com",
-    method: ['get',"post"],
+    method: 'get',
     headers: {
       'Content-Type': 'application/json',
     },
