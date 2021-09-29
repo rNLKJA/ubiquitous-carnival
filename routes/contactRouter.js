@@ -27,7 +27,7 @@ contactRouter.post(
   (req, res) => contactController.showOneContact(req, res),
 );
 contactRouter.get(
-  "/deleteOneContact/:_id",
+  "/deleteOneContact/:userName/:contact_id",
   passport.authenticate("jwt", { session: false }),
   (req, res) => contactController.deleteOneContact(req, res),
 );

@@ -391,16 +391,33 @@ const contactPhotoUpload = async (req, res) => {
 };
 
 /**
- * function that allow user to delete a contact based on the given object_id
- * @param  {express.Request} req contain the object id of the contact is body
- * @param  {express.Response} res contains database query result
+ * function that delete one contact from the contact lists
+ * @param  {express.Request} req contain the object id in the request params
+ * @param  {express.Response} res send success information
  */
 const deleteOneContact = async (req, res) => {
   try {
-    await Contact.delete({ _id: req.params._id });
-    res.json({ success: true });
+    // req.body._id is the id of contact that need to be upload
+    const contacts = await User.findOne({
+      userName: req.params.userName,
+    }).lean();
+
+    const contactList = contacts.contactList.filter(
+      (contact) => contact.contact.toString() !== req.params.contact_id,
+    );
+    // console.log(contactList);
+
+    // update contact list
+    await User.findOneAndUpdate(
+      { userName: req.params.userName },
+      { contactList: contactList },
+    );
+    await Contact.deleteOne({ _id: req.params.contact_id });
+
+    res.json({ status: "success" });
   } catch (err) {
     console.log(err);
+    res.json({ status: "failed" });
   }
 };
 
