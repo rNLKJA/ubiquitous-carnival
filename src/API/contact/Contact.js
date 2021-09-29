@@ -18,32 +18,27 @@ const Contact = () => {
     selected: false,
   });
 
-  const [filter, setFilter] = useState("");
-  var Contacts = contacts;
+  const [searchTerm, setSearchTerm] = useState("");
 
-  useEffect(() => {
-    // console.log("Display Contact Changed");
-    // console.log(oneContact);
-
-    if (filter == "") {
-      Contacts = contacts;
-    }
-    if (filter != "") {
-      Contacts = Contacts.filter((contact) =>
-        (contact.firstName + " " + contact.lastName)
-          .toLowerCase()
-          .includes(filter.toLowerCase()),
-      );
-    }
-    console.log(Contacts);
-  }, [filter, Contacts]);
+  const searchContacts = () => {
+    return contacts.filter((contact) =>
+      (
+        contact.contact.firstName +
+        " " +
+        contact.contact.lastName +
+        " " +
+        contact.contact.occupation
+      )
+        .toLowerCase()
+        .includes(searchTerm),
+    );
+  };
 
   const screenWidth = window.innerWidth;
 
   const handleChange = (e) => {
     e.preventDefault;
-    setFilter(e.target.value);
-    console.log(filter);
+    setSearchTerm(e.target.value);
   };
 
   return (
@@ -60,20 +55,17 @@ const Contact = () => {
             </a>
             <input
               className="search-box"
-              value={filter}
+              value={searchTerm}
               onChange={(e) => handleChange(e)}
               placeholder="Search for a name"
             ></input>
 
             <div className="contactList">
               <div className="contactList-items">
-                {Contacts.map((person) => (
-                  <Person
-                    prop={person}
-                    key={person._id}
-                    setOneContact={setOneContact}
-                  />
-                ))}
+                <People
+                  contacts={searchContacts()}
+                  setOneContact={setOneContact}
+                />
               </div>
             </div>
           </React.Fragment>
@@ -216,6 +208,22 @@ const Contact = () => {
 };
 
 export default Contact;
+
+export const People = (contacts, setOneContact) => {
+  return (
+    <div>
+      {contacts.contacts.map((person) => {
+        return (
+          <Person
+            prop={person}
+            key={person._id}
+            setOneContact={setOneContact}
+          />
+        );
+      })}
+    </div>
+  );
+};
 
 export const Person = ({ prop, setOneContact }) => {
   return (
