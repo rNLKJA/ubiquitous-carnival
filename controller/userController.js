@@ -1,36 +1,27 @@
 const mongoose = require('mongoose')
 const userModel = mongoose.model('User')
-const passportJWT = require("passport-jwt");
-const JwtStrategy = passportJWT.Strategy;
-const ExtractJwt = passportJWT.ExtractJwt;
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken')
-const { json } = require('express');
 const passport = require('passport');
-const { promisify } = require('util');
 
 require('../config/passport')(passport);
 
-const handleLogout = (req, res) => {
-    res.cookie('jwt' , 'none' , {
-        expires: new Date(Date.now() + 5 * 1000),
-        httpOnly: true,
-        
-    })
-    console.log("log out succussfully")
-    res.status(200).json({status: true,message: "logout successful"})
-}
 
-
-// this route is used to check the authentication of user. a true status will return if user pass the jwt test
-
-
+/**
+* check Current User Authentication
+* @param {express.Request} req 
+* @param {express.Response} res - response from the system.
+*/
 const isAuth = (req, res) => {
       console.log("isAuth",req.user.userName )
       res.status(200).send(req.user.userName);
 };
 
-
+/**
+* handle user Login and issues token to client
+* @param {express.Request} req - request that contain information of userName and passport
+* @param {express.Response} res - response from the system contain information if login successfully
+*/
 const handleLogin = async (req, res, next) => {
     console.log(req.body.userName + " is trying to login in backend")
     // passport.authenticate is provided by passport to authenticate
@@ -94,7 +85,11 @@ const handleLogin = async (req, res, next) => {
 
 };
 
-
+/**
+* handle user Register a account and add them to database
+* @param {express.Request} req - request that contain information of user
+* @param {express.Response} res - response from the system contain information if register successfully
+*/
 const register = async (req, res) => {
     /*
     Jason format example (This should be the format for the request body):
@@ -258,7 +253,6 @@ module.exports = {
     handleLogin,
     register,
     isAuth,
-    handleLogout,
     emailFastRegisterConfirm,
     emailFastRegister
 }
