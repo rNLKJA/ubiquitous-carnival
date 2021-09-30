@@ -8,7 +8,7 @@ const { User } = require("../../models/userSchema")
 
 describe('unit test of createNewContact form contactController.js', () => {
     const req = {
-        user: {_id : '61388c3f914dcd011339fb6b'},
+        user: {_id : '61503926028ce448aceda136'},
         body: {lastName: 'test', 
             firstName: 'test', 
             phone: ['123456789'], 
