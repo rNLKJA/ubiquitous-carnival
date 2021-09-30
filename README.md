@@ -33,7 +33,7 @@ This repository is created for [University of Melbourne](https://www.unimelb.edu
   - [Team members](#team-members)
   - [Software Dependencies](#software-dependencies)
   - [Directories](#directories)
-  - [Quick Start Guide](#quick-start-guide)
+  - [Start Application](#start-application)
   - [License](#license)
 
 ---
