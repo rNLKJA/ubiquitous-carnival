@@ -208,6 +208,13 @@ const Person = () => {
         newobj.focus();
     };
 
+    const addNew = () => {
+        var word = prompt("addNew","")
+        if (word) {
+            alert(word);
+        }
+    }
+
 
 
 
@@ -262,7 +269,7 @@ const Person = () => {
 
                         <label>Email: </label>
                         {profile.email}
-                        <button></button>
+                        <button onClick={addNew}>+</button>
 
                         <label>Phone: </label>
                         {profile.phone}
