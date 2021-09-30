@@ -32,7 +32,7 @@ This repository is created for [University of Melbourne](https://www.unimelb.edu
   - [COMP30022 Group Project Team 4399](#-comp30022-group-project-team-4399)
   - [Team members](#team-members)
   - [Software Dependencies](#software-dependencies)
-  - [Application Deploy Instruction](#application-deploy-instruction)
+  - [Directories](#directories)
   - [Quick Start Guide](#quick-start-guide)
   - [License](#license)
 
@@ -57,7 +57,12 @@ npm install # install all dependencies or
 npm install --dependencies # install required dependencies only
 ```
 
-## Application Deploy Instruction
+## Directories
+- `public`: store displayed images etc.
+- `src`: store APIs and components source code
+  - `API`: store React componenets based on application functionality
+  - `BackEndAPI`: store fetch data APIs
+  - `hooks`: store front-end session authentication scripts
 
 ## Start Application
 ```bash
