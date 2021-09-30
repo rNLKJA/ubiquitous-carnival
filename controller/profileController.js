@@ -12,7 +12,7 @@ require('../config/passport')(passport);
 * @param {express.Request} req - first name from client
 * @param {express.Response} res - response from the system.
 */
-const EditFirstName = async(req, res) => {
+const editFirstName = async(req, res) => {
     /*{   
         "firstName": "Hongji"
     }*/
@@ -35,7 +35,7 @@ const EditFirstName = async(req, res) => {
 * @param {express.Request} req - last name from client
 * @param {express.Response} res - response from the system.
 */
-const EditLastName = async(req, res) => {
+const editLastName = async(req, res) => {
     /*{   
         "lastName": "Huang"
     }*/
@@ -58,7 +58,7 @@ const EditLastName = async(req, res) => {
 * @param {express.Request} req - occupation from client
 * @param {express.Response} res - response from the system.
 */
-const EditOccupation = async(req, res) => {
+const editOccupation = async(req, res) => {
     /*{   
         "occupation": "student"
     }*/
@@ -81,7 +81,7 @@ const EditOccupation = async(req, res) => {
 * @param {express.Request} req - status from client
 * @param {express.Response} res - response from the system.
 */
-const EditStatus = async(req, res) => {
+const editStatus = async(req, res) => {
     /*{   
         "status": "Single"
     }*/
@@ -230,7 +230,6 @@ const showProfile = async(req, res) => {
 }
 
 module.exports = {
-    updateProfile,
     uploadPhoto,
     editFirstName,
     editLastName,
