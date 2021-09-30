@@ -29,9 +29,12 @@ const Person = () => {
     const [occupation, setOccupation] = useState("");
     const [status, setStatus] = useState("");
 
-    const inputEl = useRef(null);
+    const inputE1 = useRef(null);
+    const inputE2 = useRef();
+    const inputE3 = useRef();
+    const inputE4 = useRef();
 
-    const Submit = (e) => {
+    const submitFirstName = (e) => {
         e.preventDefault();
 
         const profile = {
@@ -44,9 +47,62 @@ const Person = () => {
             .catch((err) => {
                 console.error(err);
             });
-        console.log(profile);
 
         setFirstName("");
+
+    };
+
+    const submitLastName = (e) => {
+        e.preventDefault();
+
+        const profile = {
+            lastName,
+
+        };
+        axios
+            fetchClient.post(BASE_URL + "/profile/editLastName", profile)
+            .then(() => console.log("upload new information"))
+            .catch((err) => {
+                console.error(err);
+            });
+
+        setLastName("");
+
+    };
+
+    const submitOccupation = (e) => {
+        e.preventDefault();
+
+        const profile = {
+            occupation,
+
+        };
+        axios
+        fetchClient.post(BASE_URL + "/profile/editOccupation", profile)
+            .then(() => console.log("upload new information"))
+            .catch((err) => {
+                console.error(err);
+            });
+
+        setOccupation("");
+
+    };
+
+    const submitStatus = (e) => {
+        e.preventDefault();
+
+        const profile = {
+            status,
+
+        };
+        axios
+        fetchClient.post(BASE_URL + "/profile/editStatus", profile)
+            .then(() => console.log("upload new information"))
+            .catch((err) => {
+                console.error(err);
+            });
+
+        setStatus("");
 
     };
 
@@ -79,8 +135,8 @@ const Person = () => {
         setEmail("");
     }
 
-    const onButtonClick = () => {
-        var element = inputEl.current;
+    const editFirstName = () => {
+        var element = inputE1.current;
         var oldhtml = element.innerHTML;
         var newobj = document.createElement('input');
         newobj.type = 'text';
@@ -96,6 +152,59 @@ const Person = () => {
         newobj.focus();
     };
 
+    const editLastName = () => {
+        var element = inputE2.current;
+        var oldhtml = element.innerHTML;
+        var newobj = document.createElement('input');
+        newobj.type = 'text';
+
+        newobj.value = oldhtml;
+        newobj.onblur = function() {
+            element.innerHTML = this.value == oldhtml ? oldhtml : this.value;
+            setLastName(this.value);
+        }
+        element.innerHTML = '';
+        element.appendChild(newobj);
+        newobj.setSelectionRange(0, oldhtml.length);
+        newobj.focus();
+    };
+
+    const editOccupation = () => {
+        var element = inputE3.current;
+        var oldhtml = element.innerHTML;
+        var newobj = document.createElement('input');
+        newobj.type = 'text';
+
+        newobj.value = oldhtml;
+        newobj.onblur = function() {
+            element.innerHTML = this.value == oldhtml ? oldhtml : this.value;
+            setOccupation(this.value);
+        }
+        element.innerHTML = '';
+        element.appendChild(newobj);
+        newobj.setSelectionRange(0, oldhtml.length);
+        newobj.focus();
+    };
+
+    const editStatus = () => {
+        var element = inputE4.current;
+        var oldhtml = element.innerHTML;
+        var newobj = document.createElement('input');
+        newobj.type = 'text';
+
+        newobj.value = oldhtml;
+        newobj.onblur = function() {
+            element.innerHTML = this.value == oldhtml ? oldhtml : this.value;
+            setStatus(this.value);
+        }
+        element.innerHTML = '';
+        element.appendChild(newobj);
+        newobj.setSelectionRange(0, oldhtml.length);
+        newobj.focus();
+    };
+
+
+
 
 
 
@@ -105,27 +214,65 @@ const Person = () => {
                 <h1>Personal Information</h1>
                 <div className="basicInformation">
                     <h2>Basic Information</h2>
-                    <form className="contact-form" method="POST" onSubmit={Submit}>
+                    <form className="firstname" method="POST" onSubmit={submitFirstName}>
                         <div>
                             <label>First name: </label>
-                            <div ref={inputEl} onClick={onButtonClick}>{profile.firstName}</div>
+                            <div ref={inputE1} onClick={editFirstName}>
+                                <div>{profile.firstName}</div>
+                            </div>
+                            <input
+                                name="firstName"
+                                type="text"
+                                placeholder="Please enter the new First Name"
+                                onChange={(e) => setFirstName(e.target.value)}
+                                value={firstName}
+                            ></input>
+                        </div>
+                        <input type="submit" value="Create" />
+                    </form>
+                    <form className="lastname" method="POST" onSubmit={submitLastName}>
+                        <div>
+                            <label>Last name: </label>
+                            <div ref={inputE2} onClick={editLastName}>{profile.lastName}</div>
+                            <input
+                                name="lastname"
+                                type="text"
+                                placeholder="Please enter the new Last Name"
+                                onChange={(e) => setLastName(e.target.value)}
+                                value={lastName}
+                            ></input>
                         </div>
                         <input type="submit" value="Create" />
                     </form>
 
-                        <div>
-                            <label>Given name: </label>
-                            {profile.lastName}
-                        </div>
+                    <form className="occupation" method="POST" onSubmit={submitOccupation}>
                         <div>
                             <label>Occupation: </label>
-                            {profile.occupation}
+                            <div ref={inputE3} onClick={editOccupation}>{profile.occupation}</div>
+                            <input
+                                name="occupation"
+                                type="text"
+                                placeholder="Please enter the new Occupation"
+                                onChange={(e) => setOccupation(e.target.value)}
+                                value={occupation}
+                            ></input>
                         </div>
+                        <input type="submit" value="Create" />
+                    </form>
+                    <form className="status" method="POST" onSubmit={submitStatus}>
                         <div>
                             <label>Status: </label>
-                            {profile.status}
+                            <div ref={inputE4} onClick={editStatus}>{profile.status}</div>
+                            <input
+                                name="status"
+                                type="text"
+                                placeholder="Please enter the new status"
+                                onChange={(e) => setStatus(e.target.value)}
+                                value={status}
+                            ></input>
                         </div>
-
+                        <input type="submit" value="Create" />
+                    </form>
                 </div>
 
 
@@ -134,6 +281,7 @@ const Person = () => {
 
                         <label>Email: </label>
                         {profile.email}
+
                         <label>Phone: </label>
                         {profile.phone}
                 </div>

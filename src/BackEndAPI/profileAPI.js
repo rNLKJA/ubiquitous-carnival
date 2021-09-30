@@ -11,6 +11,21 @@ function editFirstName(firstName) {
   return fetchClient.post(endpoint, firstName).then((res) => res.data);
 }
 
+function editLastName(lastName) {
+  const endpoint = BASE_URL + "/profile/editLastName";
+  return fetchClient.post(endpoint, lastName).then((res) => res.data);
+}
+
+function editOccupation(occupation) {
+  const endpoint = BASE_URL + "/profile/editOccupation";
+  return fetchClient.post(endpoint, occupation).then((res) => res.data);
+}
+
+function editStatus(status) {
+  const endpoint = BASE_URL + "/profile/editStatus";
+  return fetchClient.post(endpoint, status).then((res) => res.data);
+}
+
 function showProfile() {
   const endpoint = BASE_URL + "/profile/showProfile";
   return fetchClient.get(endpoint).then((res) => res.data);
@@ -64,13 +79,50 @@ export function useShowProfile() {
 
 export function useeditFirstName() {
   const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [occupation, setOccupation] = useState("");
-  const [status, setStatus] = useState("");
+
 
   function onSubmit() {
     editFirstName({
       firstName: firstName,
+
+    });
+  }
+  return;
+}
+
+export function useeditLastName() {
+  const [lastName, setLastName] = useState("");
+
+
+  function onSubmit() {
+    editLastName({
+      lastName: lastName,
+
+    });
+  }
+  return;
+}
+
+export function useeditOccupation() {
+  const [occupation, setOccupation] = useState("");
+
+
+  function onSubmit() {
+    editOccupation({
+      occupation: occupation,
+
+    });
+  }
+  return;
+}
+
+export function useeditStatus() {
+  const [status, setStatus] = useState("");
+
+
+  function onSubmit() {
+    editStatus({
+      status: status,
 
     });
   }
