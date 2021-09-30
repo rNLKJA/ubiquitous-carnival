@@ -32,7 +32,7 @@ This repository is created for [University of Melbourne](https://www.unimelb.edu
   - [COMP30022 Group Project Team 4399](#-comp30022-group-project-team-4399)
   - [Team members](#team-members)
   - [Software Dependencies](#software-dependencies)
-  - [Application Deploy Instruction](#application-deploy-instruction)
+  - [Directories](#directories)
   - [Quick Start Guide](#quick-start-guide)
   - [License](#license)
 
@@ -57,7 +57,14 @@ npm install # install all dependencies or
 npm install --dependencies # install required dependencies only
 ```
 
-## Application Deploy Instruction
+## Directories
+- `__test__`: store jest API backend testing functions
+- `config`: store application session authentication functions
+- `controller`: store controllers for each accessible routes
+- `models`: store database connection script and database schemas
+- `public`: store html fragments
+- `routes`: store server accessible routes
+- `views`: handlebar views (none-use)
 
 ## Quick Start Guide
 Before start development or testing, please make sure all required dependencies have been installed.
