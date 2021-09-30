@@ -26,7 +26,10 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>const mongoose = require("mongoose");
+            <pre class="prettyprint source linenums"><code>/**
+ * @module Contact
+ */
+const mongoose = require("mongoose");
 const { populate } = require("../models/contactSchema");
 
 const passport = require("passport");
@@ -123,33 +126,33 @@ const createNewContact = async (req, res) => {
         let newContact = null
         if (existAccountContact == null &amp;&amp; dupContact == null) {
             newContact = await Contact.create({
-                "lastName": req.body.lastName,
-                "firstName": req.body.firstName,
-                "portraits" : req.body.portraits,
-                "email": req.body.email,
-                "phone" : req.body.phone,
-                "meetRecord": req.body.meetRecord,
-                "occupation": req.body.occupation,
-                "addDate": Date.now(),
-                "note": req.body.note,
-                "status": true,
-                "ownerAccount" : mongoose.Types.ObjectId(req.user._id),
-                "linkedAccount" : null
+                lastName: req.body.lastName,
+                firstName: req.body.firstName,
+                portraits : req.body.portraits,
+                email: req.body.email,
+                phone : req.body.phone,
+                meetRecord: req.body.meetRecord,
+                occupation: req.body.occupation,
+                addDate: Date.now(),
+                note: req.body.note,
+                status: true,
+                ownerAccount : mongoose.Types.ObjectId(req.user._id),
+                linkedAccount : null
             })
         } else if (existAccountContact != null &amp;&amp; dupContact != null) {
             newContact = await Contact.create({
-                "lastName": existAccountContact.lastName,
-                "firstName": existAccountContact.firstName,
-                "portraits" : existAccountContact.portraits,
-                "email": existAccountContact.email,
-                "phone" : existAccountContact.phone,
-                "meetRecord": existAccountContact.meetRecord,
-                "occupation": existAccountContact.occupation,
-                "addDate": Date.now(),
-                "note": existAccountContact.note,
-                "status": false,
-                "ownerAccount" : mongoose.Types.ObjectId(req.user._id),
-                "linkedAccount" : existAccountContact._id
+                lastName: existAccountContact.lastName,
+                firstName: existAccountContact.firstName,
+                portraits: existAccountContact.portraits,
+                email: existAccountContact.email,
+                phone: existAccountContact.phone,
+                meetRecord: existAccountContact.meetRecord,
+                occupation: existAccountContact.occupation,
+                addDate: Date.now(),
+                note: existAccountContact.note,
+                status: false,
+                ownerAccount : mongoose.Types.ObjectId(req.user._id),
+                linkedAccount : existAccountContact._id
             })
         } else if (dupContact != null){
             res.send(dupContact)
@@ -305,7 +308,7 @@ const updateContactInfo = async (req, res) => {
     }
     try {
 		await Contact.updateOne({_id: mongoose.Types.ObjectId(req.body._idOfContact)}, query)
-        const contacts = await Contact.findOne({_id: mongoose.Types.ObjectId(req.body._idOfContact)}).lean()
+    const contacts = await Contact.findOne({_id: mongoose.Types.ObjectId(req.body._idOfContact)}).lean()
 		res.json(contacts)
 	} catch (err) {
 		console.log(err)
@@ -401,19 +404,35 @@ const contactPhotoUpload = async (req, res) => {
 };
 
 /**
- * function that allow user to delete a contact based on the given object_id
- * @param  {express.Request} req contain the object id of the contact is body
- * @param  {express.Response} res contains database query result
+ * function that delete one contact from the contact lists
+ * @param  {express.Request} req contain the object id in the request params
+ * @param  {express.Response} res send success information
  */
-const deleteOneContact = async (req, res) => {
+ const deleteOneContact = async (req, res) => {
   try {
-    await Contact.delete({ _id: req.params._id });
-    res.json({ success: true });
+    // req.body._id is the id of contact that need to be upload
+    const contacts = await User.findOne({
+      userName: req.params.userName,
+    }).lean();
+
+    const contactList = contacts.contactList.filter(
+      (contact) => contact.contact.toString() !== req.params.contact_id,
+    );
+    // console.log(contactList);
+
+    // update contact list
+    await User.findOneAndUpdate(
+      { userName: req.params.userName },
+      { contactList: contactList },
+    );
+    await Contact.deleteOne({ _id: req.params.contact_id });
+
+    res.json({ status: "success" });
   } catch (err) {
     console.log(err);
+    res.json({ status: "failed" });
   }
 };
-
 module.exports = {
     createNewContact,
     showAllContact,
@@ -437,13 +456,13 @@ module.exports = {
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#contactPhotoUpload">contactPhotoUpload</a></li><li><a href="global.html#createNewContact">createNewContact</a></li><li><a href="global.html#deleteOneContact">deleteOneContact</a></li><li><a href="global.html#duplicateContact">duplicateContact</a></li><li><a href="global.html#existAccount">existAccount</a></li><li><a href="global.html#linkToAccount">linkToAccount</a></li><li><a href="global.html#listCompare">listCompare</a></li><li><a href="global.html#searchContact">searchContact</a></li><li><a href="global.html#showAllContact">showAllContact</a></li><li><a href="global.html#showOneContact">showOneContact</a></li><li><a href="global.html#synchronizationContactInfo">synchronizationContactInfo</a></li><li><a href="global.html#updateContactInfo">updateContactInfo</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-Contact.html">Contact</a></li><li><a href="module-profile.html">profile</a></li><li><a href="module-Record.html">Record</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.7</a> on Thu Sep 30 2021 12:06:10 GMT+1000 (Australian Eastern Standard Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.7</a> on Thu Sep 30 2021 18:25:03 GMT+1000 (Australian Eastern Standard Time)
 </footer>
 
 <script> prettyPrint(); </script>
