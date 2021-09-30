@@ -7,7 +7,7 @@ const recordSchema = new mongoose.Schema({
     meetingPerson: {type: mongoose.Schema.Types.ObjectId, ref: 'Contact'},
 	dateTime: {type: Date, required: true},
     location: {type: String, required: true},
-    notes: {type: Array},
+    notes: {type: String},
     pictures: [{
 		data: Buffer,
 		contentType: String 

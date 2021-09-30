@@ -21,11 +21,12 @@ const createRecord = async (req, res) => {
         "contact_id": 12354325
         "dateTime": "2000/10/10",
         "location": "University of Melbourne",
+        "note": "the notes",
         "linkedAccount": "account",
         "ownerAccount" : "ownerAccount"
     }*/
     try {
-        const {contact_id, dateTime, location, linkedAccount} = req.body
+        const {contact_id, dateTime, location, note, linkedAccount} = req.body
         if (dateTime==null) {
             dateTimeOut = new Date.now()
         } else {
@@ -37,6 +38,7 @@ const createRecord = async (req, res) => {
             "meetingPerson": contact_id,
             "dateTime": dateTimeOut,
             "location": location,
+            "note": note,
             "linkedAccount" : linkedAccount,
             "ownerAccount" : req.user._id
         })
@@ -53,16 +55,22 @@ const createRecord = async (req, res) => {
     }
 }
 
+
 /**
 * show All Records for the user
 * @param {express.Request} req 
 * @param {express.Response} res - response from the system.
 */
 const showAllRecords = async (req,res) => {
-    console.log(req.user._id)
-    const ownerAccount = await User.findOne({_id: mongoose.Types.ObjectId(req.user._id)}).populate("recordList").lean()
-    
-    res.json(ownerAccount.recordList)
+    const ownerAccount = await User.findOne({_id: mongoose.Types.ObjectId(req.user._id)}).lean()
+    const recordListIds = ownerAccount.recordList;
+    recordList = new Array();
+    var order;
+    for (order in recordListIds) {
+        record = await Record.findOne({_id: mongoose.Types.ObjectId(recordListIds[order])}).populate("meetingPerson").populate("linkedAccount").lean()
+        recordList.push(record)
+    }
+    if(recordList != null) res.json(recordList)
 }
 
 const searchRecord = async (req, res) => {
