@@ -156,6 +156,7 @@ const showAllContact = async (req, res) => {
     ],
     })
     .populate("contactList.contact")
+    .lean()
     // .lean();
   res.json(ownerAccount.contactList);
 // }catch(err){

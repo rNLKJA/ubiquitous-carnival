@@ -36,31 +36,31 @@ describe('unit test of createNewContact form contactController.js', () => {
             firstName: "test",
             occupation: "test",
             contactList: {contact: "test_id"},
-            populate: jest.fn().mockResolvedValue(this),
-            lean:jest.fn().mockResolvedValue(this),
+            populate: jest.fn()
         })
         
+
         User.findOne.mockImplementationOnce(() => ({
-            populate: jest.fn().mockReturnValue({
+            populate: jest.fn().mockReturnValueOnce({
                 userName: "test", 
                 email: [],
                 phone:[],
                 lastName: "test",
                 firstName: "test",
                 occupation: "test",
-                contactList: {contact: "replace"},
-                __v: 0
-            })
-        })).mockImplementationOnce(() => ({
-            lean: jest.fn().mockReturnValue({
-                userName: "test", 
-                email: [],
-                phone:[],
-                lastName: "test",
-                firstName: "test",
-                occupation: "test",
-                contactList: {contact: "replace"},
-            })
+                contactList: {contact: "replace"}
+            }),
+            populate: jest.fn().mockImplementationOnce(() => ({
+                lean: jest.fn().mockReturnValue({
+                    userName: "test", 
+                    email: [],
+                    phone:[],
+                    lastName: "test",
+                    firstName: "test",
+                    occupation: "test",
+                    contactList: {contact: "replace"},
+                })
+            }))
         }))
 
         // User.findOne.mockImplementation(() => ({
