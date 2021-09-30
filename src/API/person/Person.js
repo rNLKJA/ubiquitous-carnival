@@ -208,8 +208,15 @@ const Person = () => {
         newobj.focus();
     };
 
-    const addNew = () => {
-        var word = prompt("addNew","")
+    const addNewEmail = () => {
+        var word = prompt("Input A New Email","")
+        if (word) {
+            alert(word);
+        }
+    }
+
+    const addNewPhone = () => {
+        var word = prompt("Input A New Phone","")
         if (word) {
             alert(word);
         }
@@ -266,13 +273,16 @@ const Person = () => {
 
                 <div className="contactInformation">
                     <h2>Contact Information</h2>
-
+                    <div>
                         <label>Email: </label>
-                        {profile.email}
-                        <button onClick={addNew}>+</button>
-
+                        <div>{profile.email}</div>
+                        <button onClick={addNewEmail}>+</button>
+                    </div>
+                    <div>
                         <label>Phone: </label>
-                        {profile.phone}
+                        <div>{profile.phone}</div>
+                        <button onClick={addNewPhone}>+</button>
+                    </div>
                 </div>
             </div>
 
