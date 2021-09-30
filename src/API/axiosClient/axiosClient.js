@@ -3,7 +3,7 @@ import axios from 'axios';
 const fetchClient = () => {
   const defaultOptions = {
     baseURL: "https://crm4399.herokuapp.com",
-    method: ['get',"post"],
+    method: 'get',
     headers: {
       'Content-Type': 'application/json',
     },
@@ -15,7 +15,7 @@ const fetchClient = () => {
   // Set the AUTH token for any request
   instance.interceptors.request.use(function (config) {
     console.log('using axios instance')
-    
+
     const token = localStorage.getItem('jwt')
     console.log('axios get the token ' + token)
     config.headers.Authorization =  token ? token : '';

@@ -37,7 +37,7 @@ const Person = () => {
             lastName,
             occupation,
         };
-        axios
+
             fetchClient.post(BASE_URL + "/profile/updateProfile", profile)
             .then(() => console.log("upload new information"))
             .catch((err) => {
@@ -47,6 +47,24 @@ const Person = () => {
         setFirstName("");
         setLastName("");
         setOccupation("");
+
+    };
+
+    const submitFirstName = (e) => {
+        e.preventDefault();
+
+        const firstName = {
+            firstName,
+        };
+
+        fetchClient.post(BASE_URL + "/profile/updateFirstName", firstName)
+            .then(() => console.log("upload new information"))
+            .catch((err) => {
+                console.error(err);
+            });
+
+        setFirstName("");
+
 
     };
 
@@ -108,7 +126,7 @@ const Person = () => {
                 <h1>Personal Information</h1>
                 <div className="basicInformation">
                     <h2>Basic Information</h2>
-                    <form className="contact-form" method="POST" onSubmit={Submit}>
+                    <form className="contact-form" method="POST" onSubmit={submitFirstName}>
                         <div>
                             <label>First name: </label>
                             {profile.firstName}
@@ -120,6 +138,9 @@ const Person = () => {
                                 value={firstName}
                             ></input>
                         </div>
+                        <input type="submit" value="Create" />
+                    </form>
+                    <form className="contact-form" method="POST" onSubmit={Submit}>
 
                         <div>
                             <label>Given name: </label>
@@ -152,7 +173,16 @@ const Person = () => {
                     <h2>Contact Information</h2>
                     <form className="contact-form" method="POST" onSubmit={addEmail}>
                         <label>Email: </label>
-                        {profile.email}
+                        {profile.email.map((email) => {
+                            return (
+                                <label
+                                    key={new Date().toISOString()}
+                                    style={{ color: "rgb(47,71,137)" }}
+                                >
+                                    Email: {email}
+                                </label>
+                            );
+                        })}
                         <input
                             name="phone"
                             type="text"
@@ -164,7 +194,16 @@ const Person = () => {
                     </form>
                     <form className="contact-form" method="POST" onSubmit={addPhone}>
                         <label>Phone: </label>
-                        {profile.phone}
+                        {profile.phone.map((phone) => {
+                            return (
+                                <label
+                                    key={new Date().toISOString()}
+                                    style={{ color: "rgb(47,71,137)" }}
+                                >
+                                    Phone: {phone}
+                                </label>
+                            );
+                        })}
                         <input
                             name="phone"
                             type="text"

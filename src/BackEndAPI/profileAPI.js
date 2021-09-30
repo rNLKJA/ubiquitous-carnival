@@ -11,6 +11,11 @@ function updateProfile(profileInfo) {
   return fetchClient.post(endpoint, profileInfo).then((res) => res.data);
 }
 
+function updateFirstName(firstName) {
+  const endpoint = BASE_URL + "/profile/updateFirstName";
+  return fetchClient.post(endpoint, firstName).then((res) => res.data);
+}
+
 function showProfile() {
   const endpoint = BASE_URL + "/profile/showProfile";
   return fetchClient.get(endpoint).then((res) => res.data);
@@ -74,6 +79,17 @@ export function useUpdateProfile() {
       lastName: lastName,
       occupation: occupation,
       status: status,
+    });
+  }
+  return;
+}
+
+export function useUpdateFirstName() {
+  const [firstName, setFirstName] = useState("");
+
+  function onSubmit() {
+    updateFirstName({
+      firstName: firstName,
     });
   }
   return;
