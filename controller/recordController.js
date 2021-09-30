@@ -21,27 +21,28 @@ const createRecord = async (req, res) => {
     request header: user
     request body:
     {  
-        "contact_id": 12354325
+        "contact_id": "6131e5b0e0accb25d09663f6",
         "dateTime": "2000/10/10",
         "location": "University of Melbourne",
-        "note": "the notes",
+        "notes": "the notes",
         "linkedAccount": "account",
         "ownerAccount" : "ownerAccount"
     }*/
     try {
-        const {contact_id, dateTime, location, note, linkedAccount} = req.body
+        const {contact_id, dateTime, location, notes, linkedAccount} = req.body
         if (dateTime==null) {
             dateTimeOut = new Date.now()
         } else {
             dateTimeOut = new Date(dateTime)
-        } 
+        }
         
-        //meetingPerson = await Contact.findOne({_id: mongoose.Types.ObjectId(contact_id)}).lean()
+        meetingPerson = await Contact.findOne({_id: mongoose.Types.ObjectId(contact_id)}).lean()
+        if (meetingPerson == null) throw err
         newRecord = await Record.create({
             "meetingPerson": contact_id,
             "dateTime": dateTimeOut,
             "location": location,
-            "note": note,
+            "notes": notes,
             "linkedAccount" : linkedAccount,
             "ownerAccount" : req.user._id
         })
@@ -52,7 +53,7 @@ const createRecord = async (req, res) => {
                 recordList: newRecord._id
             } 
             })
-        res.send("Record Create Successfully")
+        res.json(newRecord)
     }catch(err){
         res.send("Database query failed")
     }
