@@ -6,13 +6,8 @@ const BASE_URL = "https://crm4399.herokuapp.com";
 
 axios.defaults.withCredentials = true;
 
-function updateProfile(profileInfo) {
-  const endpoint = BASE_URL + "/profile/updateProfile";
-  return fetchClient.post(endpoint, profileInfo).then((res) => res.data);
-}
-
-function updateFirstName(firstName) {
-  const endpoint = BASE_URL + "/profile/updateFirstName";
+function editFirstName(firstName) {
+  const endpoint = BASE_URL + "/profile/editFirstName";
   return fetchClient.post(endpoint, firstName).then((res) => res.data);
 }
 
@@ -67,29 +62,16 @@ export function useShowProfile() {
   };
 }
 
-export function useUpdateProfile() {
+export function useeditFirstName() {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [occupation, setOccupation] = useState("");
   const [status, setStatus] = useState("");
 
   function onSubmit() {
-    updateProfile({
+    editFirstName({
       firstName: firstName,
-      lastName: lastName,
-      occupation: occupation,
-      status: status,
-    });
-  }
-  return;
-}
 
-export function useUpdateFirstName() {
-  const [firstName, setFirstName] = useState("");
-
-  function onSubmit() {
-    updateFirstName({
-      firstName: firstName,
     });
   }
   return;

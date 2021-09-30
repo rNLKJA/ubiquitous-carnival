@@ -13,6 +13,7 @@ const BASE_URL = "https://crm4399.herokuapp.com";
 
 const Person = () => {
     const { loading, profile, error } = useShowProfile();
+
     const [userName, setUserName] = useState("");
     const [person, setPerson] = useState({
         firstName: "",
@@ -26,6 +27,7 @@ const Person = () => {
     const [email, setEmail] = useState("");
     const [phone, setPhone] = useState("");
     const [occupation, setOccupation] = useState("");
+    const [status, setStatus] = useState("");
 
     const inputEl = useRef(null);
 
@@ -34,37 +36,17 @@ const Person = () => {
 
         const profile = {
             firstName,
-            lastName,
-            occupation,
-        };
 
-            fetchClient.post(BASE_URL + "/profile/updateProfile", profile)
+        };
+        axios
+            fetchClient.post(BASE_URL + "/profile/editFirstName", profile)
             .then(() => console.log("upload new information"))
             .catch((err) => {
                 console.error(err);
             });
+        console.log(profile);
 
         setFirstName("");
-        setLastName("");
-        setOccupation("");
-
-    };
-
-    const submitFirstName = (e) => {
-        e.preventDefault();
-
-        const firstName = {
-            firstName,
-        };
-
-        fetchClient.post(BASE_URL + "/profile/updateFirstName", firstName)
-            .then(() => console.log("upload new information"))
-            .catch((err) => {
-                console.error(err);
-            });
-
-        setFirstName("");
-
 
     };
 
@@ -97,11 +79,12 @@ const Person = () => {
         setEmail("");
     }
 
-    /*const onButtonClick = () => {
+    const onButtonClick = () => {
         var element = inputEl.current;
         var oldhtml = element.innerHTML;
         var newobj = document.createElement('input');
         newobj.type = 'text';
+
         newobj.value = oldhtml;
         newobj.onblur = function() {
             element.innerHTML = this.value == oldhtml ? oldhtml : this.value;
@@ -113,8 +96,8 @@ const Person = () => {
         newobj.setSelectionRange(0, oldhtml.length);
         newobj.focus();
 
-        ref={inputEl} onClick={onButtonClick}
-    };*/
+
+    };
 
 
 
@@ -126,10 +109,10 @@ const Person = () => {
                 <h1>Personal Information</h1>
                 <div className="basicInformation">
                     <h2>Basic Information</h2>
-                    <form className="contact-form" method="POST" onSubmit={submitFirstName}>
+                    <form className="contact-form" method="POST" onSubmit={Submit}>
                         <div>
                             <label>First name: </label>
-                            {profile.firstName}
+                            <div ref={inputEl} onClick={onButtonClick}>{profile.firstName}</div>
                             <input
                                 name="firstName"
                                 type="text"
@@ -140,79 +123,30 @@ const Person = () => {
                         </div>
                         <input type="submit" value="Create" />
                     </form>
-                    <form className="contact-form" method="POST" onSubmit={Submit}>
 
                         <div>
                             <label>Given name: </label>
                             {profile.lastName}
-                            <input
-                                name="lastName"
-                                type="text"
-                                placeholder="Please enter the new Last Name"
-                                onChange={(e) => setLastName(e.target.value)}
-                                value={lastName}
-                            ></input>
                         </div>
                         <div>
                             <label>Occupation: </label>
                             {profile.occupation}
-                            <input
-                                name="occupation"
-                                type="text"
-                                placeholder="Please enter the new occupation"
-                                onChange={(e) => setOccupation(e.target.value)}
-                                value={occupation}
-                            ></input>
                         </div>
-                        <input type="submit" value="Create" />
-                    </form>
+                        <div>
+                            <label>Status: </label>
+                            {profile.status}
+                        </div>
+
                 </div>
 
 
                 <div className="contactInformation">
                     <h2>Contact Information</h2>
-                    <form className="contact-form" method="POST" onSubmit={addEmail}>
+
                         <label>Email: </label>
-                        {profile.email.map((email) => {
-                            return (
-                                <label
-                                    key={new Date().toISOString()}
-                                    style={{ color: "rgb(47,71,137)" }}
-                                >
-                                    Email: {email}
-                                </label>
-                            );
-                        })}
-                        <input
-                            name="phone"
-                            type="text"
-                            placeholder="Please enter the new Email"
-                            onChange={(e) => setEmail(e.target.value)}
-                            value={email}
-                        ></input>
-                        <input type="submit" value="Create" />
-                    </form>
-                    <form className="contact-form" method="POST" onSubmit={addPhone}>
+                        {profile.email}
                         <label>Phone: </label>
-                        {profile.phone.map((phone) => {
-                            return (
-                                <label
-                                    key={new Date().toISOString()}
-                                    style={{ color: "rgb(47,71,137)" }}
-                                >
-                                    Phone: {phone}
-                                </label>
-                            );
-                        })}
-                        <input
-                            name="phone"
-                            type="text"
-                            placeholder="Please enter the new Phone"
-                            onChange={(e) => setPhone(e.target.value)}
-                            value={phone}
-                        ></input>
-                        <input type="submit" value="Create" />
-                    </form>
+                        {profile.phone}
                 </div>
             </div>
 
