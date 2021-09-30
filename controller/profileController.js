@@ -8,34 +8,96 @@ const passport = require('passport');
 require('../config/passport')(passport);
 
 /**
-* Upload the firstName, lastName and occupation
-* @param {express.Request} req - firstName, lastName and occupation from client
+* set the first Name
+* @param {express.Request} req - first name from client
 * @param {express.Response} res - response from the system.
 */
-const updateProfile = async(req, res) => {
+const editFirstName = async(req, res) => {
     /*{   
-        "firstName": "Hongji",
-        "lastName": "Huang",
-        "occupation": "Student",
-        "status" : "Single"
+        "firstName": "Hongji"
     }*/
-
-    const {firstName, lastName, occupation, status} = req.body
-
-    await userModel.updateOne({_id: req.user._id}, 
-        {
-            firstName: firstName,
-            lastName: lastName,
-            occupation: occupation,
-            status: status
-        },
-        function(err) {
-            if(err) res.send("update fail")
-            else    res.send("update success")
-        }
-    )
+    try {
+        const editFirstName = await userModel.findOneAndUpdate( 
+            {_id: req.user._id},
+            { $set: {"firstName": req.body.firstName}},
+            { upsert: true, new: true }
+        )
+        res.send("update success")
+    } 
+    catch(err) {
+        res.send("update fail")
+        throw(err)
+    }
 }
 
+/**
+* set the last Name
+* @param {express.Request} req - last name from client
+* @param {express.Response} res - response from the system.
+*/
+const editLastName = async(req, res) => {
+    /*{   
+        "lastName": "Huang"
+    }*/
+    try {
+        const editLastName = await userModel.findOneAndUpdate( 
+            {_id: req.user._id},
+            { $set: {"lastName": req.body.lastName}},
+            { upsert: true, new: true }
+        )
+        res.send("update success")
+    } 
+    catch(err) {
+        res.send("update fail")
+        throw(err)
+    }
+}
+
+/**
+* Set the occupation
+* @param {express.Request} req - occupation from client
+* @param {express.Response} res - response from the system.
+*/
+const editOccupation = async(req, res) => {
+    /*{   
+        "occupation": "student"
+    }*/
+    try {
+        const editLastName = await userModel.findOneAndUpdate( 
+            {_id: req.user._id},
+            { $set: {"occupation": req.body.occupation}},
+            { upsert: true, new: true }
+        )
+        res.send("update success")
+    } 
+    catch(err) {
+        res.send("update fail")
+        throw(err)
+    }
+}
+
+/**
+* Set the status
+* @param {express.Request} req - status from client
+* @param {express.Response} res - response from the system.
+*/
+const editStatus = async(req, res) => {
+    /*{   
+        "status": "Single"
+    }*/
+    try {
+        const editLastName = await userModel.findOneAndUpdate( 
+            {_id: req.user._id},
+            { $set: {"status": req.body.status}},
+            { upsert: true, new: true }
+        )
+        res.send("update success")
+    } 
+    catch(err) {
+        res.send("update fail")
+        throw(err)
+    }
+}
 
 /**
 * Add the phone number
@@ -168,8 +230,11 @@ const showProfile = async(req, res) => {
 }
 
 module.exports = {
-    updateProfile,
     uploadPhoto,
+    editFirstName,
+    editLastName,
+    editOccupation,
+    editStatus,
     addPhone,
     delPhone,
     addEmail,
