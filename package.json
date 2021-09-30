@@ -14,6 +14,7 @@
     "express-session": "^1.17.2",
     "express-validator": "^6.12.1",
     "jest": "^27.2.3",
+    "jsdoc": "^3.6.7",
     "mongoose": "^5.13.7",
     "multer": "^1.4.3",
     "nodejs": "0.0.0",
