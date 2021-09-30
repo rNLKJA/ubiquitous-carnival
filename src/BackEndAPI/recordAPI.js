@@ -1,18 +1,19 @@
 import { useState, useEffect } from "react";
-
+import fetchClient from '../API/axiosClient/axiosClient'
 import axios from "axios";
 const BASE_URL = "http://localhost:5000";
 
 axios.defaults.withCredentials = true;
 
 function createRecord(recordInfo) {
-  const endpoint = BASE_URL + "/record/createRecord";
-  return axios.post(endpoint, recordInfo).then((res) => res.data);
+  const endpoint =  "/record/createRecord";
+  return fetchClient.post(endpoint, recordInfo).then((res) => res.data);
 }
 
 function showAllRecords() {
-    const endpoint = BASE_URL + "/record/showRecords";
-    return axios.get(endpoint).then((res) => res.data);
+    const endpoint =  "/record/showRecord";
+    return fetchClient.get(endpoint).then((res) => res.data
+    );
 }
 
 

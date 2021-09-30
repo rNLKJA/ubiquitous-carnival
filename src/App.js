@@ -21,6 +21,7 @@ import AddUser from "./API/contact/addOneContact";
 import ManualInput from "./API/contact/manual-input";
 import QrCode from "./API/contact/qr-code";
 import UserID from "./API/contact/user-id";
+import CreateRecord from "./API/record/AddRecord"
 
 // defined the map function
 function App() {
@@ -63,6 +64,12 @@ function App() {
               exact
               path="/record"
               component={Record}
+            ></ProtectedRouters>
+
+            <ProtectedRouters
+              exact
+              path="/createRecord"
+              component={CreateRecord}
             ></ProtectedRouters>
             {/* <ProtectedRouters
               exact
