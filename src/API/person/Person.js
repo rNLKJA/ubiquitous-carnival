@@ -88,17 +88,13 @@ const Person = () => {
         newobj.value = oldhtml;
         newobj.onblur = function() {
             element.innerHTML = this.value == oldhtml ? oldhtml : this.value;
+            setFirstName(this.value);
         }
         element.innerHTML = '';
         element.appendChild(newobj);
-        setFirstName(newobj);
-        console.log("uploading");
         newobj.setSelectionRange(0, oldhtml.length);
         newobj.focus();
-
-
     };
-
 
 
 
@@ -113,13 +109,6 @@ const Person = () => {
                         <div>
                             <label>First name: </label>
                             <div ref={inputEl} onClick={onButtonClick}>{profile.firstName}</div>
-                            <input
-                                name="firstName"
-                                type="text"
-                                placeholder="Please enter the new First Name"
-                                onChange={(e) => setFirstName(e.target.value)}
-                                value={firstName}
-                            ></input>
                         </div>
                         <input type="submit" value="Create" />
                     </form>
