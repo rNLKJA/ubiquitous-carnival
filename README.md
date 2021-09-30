@@ -76,6 +76,8 @@ nodemon app.js
 
 For backend function testing, using POSTMAN to test the backend routes and relevant API functions.
 
+Check POSTMAN testing instruction [here](https://docs.google.com/document/d/1scp54-mT29K6mYz5KajW095xjlhTU-73p0TnbOa5hmU/edit#)
+
 [Download](https://drive.google.com/file/d/1MN0yOcuoQaosnn4B1lC_HAvFVgCMHaV8/view?usp=sharing) POSTMAN testing JSON
 
 For built-in JEST function testing, use `npm test`.
