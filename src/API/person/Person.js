@@ -144,6 +144,7 @@ const Person = () => {
         newobj.value = oldhtml;
         newobj.onblur = function() {
             element.innerHTML = this.value == oldhtml ? oldhtml : this.value;
+            element.innerHTML = this.value == '' ? oldhtml : this.value;
             setFirstName(this.value);
         }
         element.innerHTML = '';
@@ -161,6 +162,7 @@ const Person = () => {
         newobj.value = oldhtml;
         newobj.onblur = function() {
             element.innerHTML = this.value == oldhtml ? oldhtml : this.value;
+            element.innerHTML = this.value == '' ? oldhtml : this.value;
             setLastName(this.value);
         }
         element.innerHTML = '';
@@ -178,6 +180,7 @@ const Person = () => {
         newobj.value = oldhtml;
         newobj.onblur = function() {
             element.innerHTML = this.value == oldhtml ? oldhtml : this.value;
+            element.innerHTML = this.value == '' ? oldhtml : this.value;
             setOccupation(this.value);
         }
         element.innerHTML = '';
@@ -195,7 +198,9 @@ const Person = () => {
         newobj.value = oldhtml;
         newobj.onblur = function() {
             element.innerHTML = this.value == oldhtml ? oldhtml : this.value;
+            element.innerHTML = this.value == '' ? oldhtml : this.value;
             setStatus(this.value);
+
         }
         element.innerHTML = '';
         element.appendChild(newobj);
@@ -220,13 +225,7 @@ const Person = () => {
                             <div ref={inputE1} onClick={editFirstName}>
                                 <div>{profile.firstName}</div>
                             </div>
-                            <input
-                                name="firstName"
-                                type="text"
-                                placeholder="Please enter the new First Name"
-                                onChange={(e) => setFirstName(e.target.value)}
-                                value={firstName}
-                            ></input>
+
                         </div>
                         <input type="submit" value="Create" />
                     </form>
@@ -234,13 +233,7 @@ const Person = () => {
                         <div>
                             <label>Last name: </label>
                             <div ref={inputE2} onClick={editLastName}>{profile.lastName}</div>
-                            <input
-                                name="lastname"
-                                type="text"
-                                placeholder="Please enter the new Last Name"
-                                onChange={(e) => setLastName(e.target.value)}
-                                value={lastName}
-                            ></input>
+
                         </div>
                         <input type="submit" value="Create" />
                     </form>
@@ -249,13 +242,7 @@ const Person = () => {
                         <div>
                             <label>Occupation: </label>
                             <div ref={inputE3} onClick={editOccupation}>{profile.occupation}</div>
-                            <input
-                                name="occupation"
-                                type="text"
-                                placeholder="Please enter the new Occupation"
-                                onChange={(e) => setOccupation(e.target.value)}
-                                value={occupation}
-                            ></input>
+
                         </div>
                         <input type="submit" value="Create" />
                     </form>
@@ -263,13 +250,7 @@ const Person = () => {
                         <div>
                             <label>Status: </label>
                             <div ref={inputE4} onClick={editStatus}>{profile.status}</div>
-                            <input
-                                name="status"
-                                type="text"
-                                placeholder="Please enter the new status"
-                                onChange={(e) => setStatus(e.target.value)}
-                                value={status}
-                            ></input>
+
                         </div>
                         <input type="submit" value="Create" />
                     </form>
