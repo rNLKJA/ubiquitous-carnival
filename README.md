@@ -7,6 +7,16 @@ This repository is created for [University of Melbourne](https://www.unimelb.edu
 
 ---
 
+## Deployment Access Link and Working Branches
+| Server | Working Branch | Deployment |
+| ---- | ---- | ---- |
+| Back-End | https://bit.ly/3urzPG9 | https://crm4399.herokuapp.com/ |
+| Front-End | https://bit.ly/3imk1zI | https://pcrm4399.herokuapp.com/login |
+
+**Please view front end with screen size 375 x 875px (iPhoneX screen size)**
+
+---
+
 <img src="https://icons-for-free.com/iconfiles/png/512/notion-1324440204874385945.png" width=2.3% align="left"> For progress tracking & view notes, please accesss via [notion](https://www.notion.so/huangsunchuangyu/COMP30022-IT-Project-e0687c4d6a7b4ee18d164b25c9bc93d8).
 
 
