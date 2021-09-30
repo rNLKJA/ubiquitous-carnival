@@ -227,7 +227,7 @@ const Person = () => {
                             </div>
 
                         </div>
-                        <input type="submit" value="Create" />
+                        <input type="submit" value="save" />
                     </form>
                     <form className="lastname" method="POST" onSubmit={submitLastName}>
                         <div>
@@ -235,7 +235,7 @@ const Person = () => {
                             <div ref={inputE2} onClick={editLastName}>{profile.lastName}</div>
 
                         </div>
-                        <input type="submit" value="Create" />
+                        <input type="submit" value="save" />
                     </form>
 
                     <form className="occupation" method="POST" onSubmit={submitOccupation}>
@@ -244,7 +244,7 @@ const Person = () => {
                             <div ref={inputE3} onClick={editOccupation}>{profile.occupation}</div>
 
                         </div>
-                        <input type="submit" value="Create" />
+                        <input type="submit" value="save" />
                     </form>
                     <form className="status" method="POST" onSubmit={submitStatus}>
                         <div>
@@ -252,7 +252,7 @@ const Person = () => {
                             <div ref={inputE4} onClick={editStatus}>{profile.status}</div>
 
                         </div>
-                        <input type="submit" value="Create" />
+                        <input type="submit" value="save" />
                     </form>
                 </div>
 
@@ -262,6 +262,7 @@ const Person = () => {
 
                         <label>Email: </label>
                         {profile.email}
+                        <button></button>
 
                         <label>Phone: </label>
                         {profile.phone}
