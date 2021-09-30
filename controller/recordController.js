@@ -41,14 +41,12 @@ const createRecord = async (req, res) => {
             "ownerAccount" : req.user._id
         })
         await newRecord.save()
-        console.log(newRecord._id)
         await User.findOneAndUpdate(
             { _id: req.user._id }, 
             { $push: { 
                 recordList: newRecord._id
             } 
             })
-        
         res.send("Record Create Successfully")
     }catch(err){
         res.send("Database query failed")
@@ -61,7 +59,9 @@ const createRecord = async (req, res) => {
 * @param {express.Response} res - response from the system.
 */
 const showAllRecords = async (req,res) => {
-    const ownerAccount = await User.findOne({_id: mongoose.Types.ObjectId(req.user._id)}).populate("RecordList.record").lean()
+    console.log(req.user._id)
+    const ownerAccount = await User.findOne({_id: mongoose.Types.ObjectId(req.user._id)}).populate("recordList").lean()
+    
     res.json(ownerAccount.recordList)
 }
 
