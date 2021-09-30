@@ -127,7 +127,7 @@ const createNewContact = async (req, res) => {
                 linkedAccount : existAccountContact._id
             })
         } else if (dupContact != null){
-            res.send(dupContact)
+            res.send("repeat, Contact!", dupContact)
             return
         }
         // const formedContact = new Contact(newContact)
@@ -148,16 +148,20 @@ const createNewContact = async (req, res) => {
  * @param {express.Response} res - response from the system contain a list of contact of the user .
  */
 const showAllContact = async (req, res) => {
-  const ownerAccount = await User.findOne({
+  // try{
+    const ownerAccount = await User.findOne({
     $or: [
       { userName: req.body.userName },
       { _id: mongoose.Types.ObjectId(req.user._id) },
     ],
-  })
+    })
     .populate("contactList.contact")
-    .lean();
+    // .lean();
   res.json(ownerAccount.contactList);
-};
+// }catch(err){
+//   return res.send("database query fail")
+//   }
+}
 
 /**
  * gives a onject id of Contact, return all its information in response
