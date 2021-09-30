@@ -59,12 +59,9 @@ npm install --dependencies # install required dependencies only
 
 ## Application Deploy Instruction
 
-## Quick Start Guide
-Before start development or testing, please make sure all required dependencies have been installed.
-
-For convenience purpose, please use `nodemon` instead of `node`.
+## Start Application
 ```bash
-nodemon app.js
+npm start
 ```
 
 ## License
