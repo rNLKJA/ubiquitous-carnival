@@ -275,7 +275,10 @@ const Person = () => {
                     <h2>Contact Information</h2>
                     <div>
                         <label>Email: </label>
-                        <div>{profile.email}</div>
+                        <div>{profile.email.map(function (item){
+                            return <div> {item} </div>
+                        })
+                        }</div>
                         <button onClick={addNewEmail}>+</button>
                     </div>
                     <div>
