@@ -1,4 +1,32 @@
-const mongoose = require("mongoose");
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: contactController.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: contactController.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>const mongoose = require("mongoose");
 const { populate } = require("../models/contactSchema");
 
 const passport = require("passport");
@@ -93,35 +121,35 @@ const createNewContact = async (req, res) => {
         }
         //!!generate one meeting record automatically!
         let newContact = null
-        if (existAccountContact == null && dupContact == null) {
+        if (existAccountContact == null &amp;&amp; dupContact == null) {
             newContact = await Contact.create({
-                lastName: req.body.lastName,
-                firstName: req.body.firstName,
-                portraits : req.body.portraits,
-                email: req.body.email,
-                phone : req.body.phone,
-                meetRecord: req.body.meetRecord,
-                occupation: req.body.occupation,
-                addDate: Date.now(),
-                note: req.body.note,
-                status: true,
-                ownerAccount : mongoose.Types.ObjectId(req.user._id),
-                linkedAccount : null
+                "lastName": req.body.lastName,
+                "firstName": req.body.firstName,
+                "portraits" : req.body.portraits,
+                "email": req.body.email,
+                "phone" : req.body.phone,
+                "meetRecord": req.body.meetRecord,
+                "occupation": req.body.occupation,
+                "addDate": Date.now(),
+                "note": req.body.note,
+                "status": true,
+                "ownerAccount" : mongoose.Types.ObjectId(req.user._id),
+                "linkedAccount" : null
             })
-        } else if (existAccountContact != null && dupContact != null) {
+        } else if (existAccountContact != null &amp;&amp; dupContact != null) {
             newContact = await Contact.create({
-                lastName: existAccountContact.lastName,
-                firstName: existAccountContact.firstName,
-                portraits: existAccountContact.portraits,
-                email: existAccountContact.email,
-                phone: existAccountContact.phone,
-                meetRecord: existAccountContact.meetRecord,
-                occupation: existAccountContact.occupation,
-                addDate: Date.now(),
-                note: existAccountContact.note,
-                status: false,
-                ownerAccount : mongoose.Types.ObjectId(req.user._id),
-                linkedAccount : existAccountContact._id
+                "lastName": existAccountContact.lastName,
+                "firstName": existAccountContact.firstName,
+                "portraits" : existAccountContact.portraits,
+                "email": existAccountContact.email,
+                "phone" : existAccountContact.phone,
+                "meetRecord": existAccountContact.meetRecord,
+                "occupation": existAccountContact.occupation,
+                "addDate": Date.now(),
+                "note": existAccountContact.note,
+                "status": false,
+                "ownerAccount" : mongoose.Types.ObjectId(req.user._id),
+                "linkedAccount" : existAccountContact._id
             })
         } else if (dupContact != null){
             res.send(dupContact)
@@ -189,7 +217,7 @@ const searchContact = async (req, res) => {
         var nameSearch = req.body.searchContent.split(" ")
         var matchContacts = []
         try{
-            for (var i = 0; i <= nameSearch.length(); i++){
+            for (var i = 0; i &lt;= nameSearch.length(); i++){
             var potentailContacts = await Contact.find({
                 $and: [ {ownerAccount: req.user._id},
                         {$or : [{firstName: nameSearch[i]}, {lastName: nameSearch[i]}]}
@@ -277,7 +305,7 @@ const updateContactInfo = async (req, res) => {
     }
     try {
 		await Contact.updateOne({_id: mongoose.Types.ObjectId(req.body._idOfContact)}, query)
-    const contacts = await Contact.findOne({_id: mongoose.Types.ObjectId(req.body._idOfContact)}).lean()
+        const contacts = await Contact.findOne({_id: mongoose.Types.ObjectId(req.body._idOfContact)}).lean()
 		res.json(contacts)
 	} catch (err) {
 		console.log(err)
@@ -301,22 +329,22 @@ const synchronizationContactInfo = async (req, res) => {
     if (contact.linkedAccount == null){
         return res.send('no account linked to this contact')
     }
-    if (contact.linkedAccount.lastName !== undefined && contact.lastName != contact.linkedAccount.lastName ){
+    if (contact.linkedAccount.lastName !== undefined &amp;&amp; contact.lastName != contact.linkedAccount.lastName ){
         query["lastName"] =  contact.linkedAccount.lastName
     }
-    if (contact.linkedAccount.firstName !== undefined && contact.firstName != contact.linkedAccount.firstName){
+    if (contact.linkedAccount.firstName !== undefined &amp;&amp; contact.firstName != contact.linkedAccount.firstName){
         query["firstName"] = contact.linkedAccount.firstName
     }
-    if (contact.linkedAccount.phone !== undefined && !(listCompare(contact.phone, contact.linkedAccount.phone))){
+    if (contact.linkedAccount.phone !== undefined &amp;&amp; !(listCompare(contact.phone, contact.linkedAccount.phone))){
         query["phone"] = contact.linkedAccount.phone
     }
-    if (contact.linkedAccount.email !== undefined && !(listCompare(contact.email, contact.linkedAccount.email))){
+    if (contact.linkedAccount.email !== undefined &amp;&amp; !(listCompare(contact.email, contact.linkedAccount.email))){
         query["email"] = contact.linkedAccount.email
     }
-    if (contact.linkedAccount.occupation !== undefined && contact.occupation != contact.linkedAccount.occupation){
+    if (contact.linkedAccount.occupation !== undefined &amp;&amp; contact.occupation != contact.linkedAccount.occupation){
         query["occupation"] = contact.linkedAccount.occupation
     }
-    if (contact.linkedAccount.portrait !== undefined && contact.portrait != contact.linkedAccount.portrait){
+    if (contact.linkedAccount.portrait !== undefined &amp;&amp; contact.portrait != contact.linkedAccount.portrait){
         query['portrait'] = contact.linkedAccount.portrait
     }
     const updatedContact = await Contact.findOneAndUpdate(
@@ -340,7 +368,7 @@ const listCompare = (currentList, targetList) => {
   if (currentList.length != targetList.length) {
     return 0;
   } else {
-    for (var i = 0; i <= currentList.length; i++) {
+    for (var i = 0; i &lt;= currentList.length; i++) {
       if (currentList[i] != targetList[i]) {
         return 0;
       }
@@ -373,35 +401,19 @@ const contactPhotoUpload = async (req, res) => {
 };
 
 /**
- * function that delete one contact from the contact lists
- * @param  {express.Request} req contain the object id in the request params
- * @param  {express.Response} res send success information
+ * function that allow user to delete a contact based on the given object_id
+ * @param  {express.Request} req contain the object id of the contact is body
+ * @param  {express.Response} res contains database query result
  */
- const deleteOneContact = async (req, res) => {
+const deleteOneContact = async (req, res) => {
   try {
-    // req.body._id is the id of contact that need to be upload
-    const contacts = await User.findOne({
-      userName: req.params.userName,
-    }).lean();
-
-    const contactList = contacts.contactList.filter(
-      (contact) => contact.contact.toString() !== req.params.contact_id,
-    );
-    // console.log(contactList);
-
-    // update contact list
-    await User.findOneAndUpdate(
-      { userName: req.params.userName },
-      { contactList: contactList },
-    );
-    await Contact.deleteOne({ _id: req.params.contact_id });
-
-    res.json({ status: "success" });
+    await Contact.delete({ _id: req.params._id });
+    res.json({ success: true });
   } catch (err) {
     console.log(err);
-    res.json({ status: "failed" });
   }
 };
+
 module.exports = {
     createNewContact,
     showAllContact,
@@ -415,3 +427,26 @@ module.exports = {
     deleteOneContact,
     synchronizationContactInfo
 }
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#contactPhotoUpload">contactPhotoUpload</a></li><li><a href="global.html#createNewContact">createNewContact</a></li><li><a href="global.html#deleteOneContact">deleteOneContact</a></li><li><a href="global.html#duplicateContact">duplicateContact</a></li><li><a href="global.html#existAccount">existAccount</a></li><li><a href="global.html#linkToAccount">linkToAccount</a></li><li><a href="global.html#listCompare">listCompare</a></li><li><a href="global.html#searchContact">searchContact</a></li><li><a href="global.html#showAllContact">showAllContact</a></li><li><a href="global.html#showOneContact">showOneContact</a></li><li><a href="global.html#synchronizationContactInfo">synchronizationContactInfo</a></li><li><a href="global.html#updateContactInfo">updateContactInfo</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.7</a> on Thu Sep 30 2021 12:06:10 GMT+1000 (Australian Eastern Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
