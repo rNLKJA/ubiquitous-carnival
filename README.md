@@ -31,6 +31,7 @@ This repository is created for [University of Melbourne](https://www.unimelb.edu
 <!-- [<img src="https://cdn.freebiesupply.com/logos/large/2x/the-university-of-melbourne-logo-svg-vector.svg" width=20% align=left> -->
   - [COMP30022 Group Project Team 4399](#-comp30022-group-project-team-4399)
   - [Team members](#team-members)
+  - [Javascript Documentation](#javascript-documentation)
   - [Software Dependencies](#software-dependencies)
   - [Directories](#directories)
   - [Quick Start Guide](#quick-start-guide)
@@ -46,6 +47,13 @@ This repository is created for [University of Melbourne](https://www.unimelb.edu
 | Sunchuangyu Huang | Scrum Master | sunchuangyuh@student.unimelb.edu |
 | Wei Zhao | Front End Leader | weizhao1@student.unimelb.edu.au |
 | Yixiao Tian | Communication leader | yixiaot@student.unimelb.edu.au |
+
+## Javascript API Documentation
+- [Contact Controller](https://github.com/Harrison-Huang666/COMP30022-49/blob/Back-End/out/contactController.html)
+- [Profile Controller](https://github.com/Harrison-Huang666/COMP30022-49/blob/Back-End/out/profileController.html)
+- [Record Controller](https://github.com/Harrison-Huang666/COMP30022-49/blob/Back-End/out/recordController.html)
+- [User Controller](https://github.com/Harrison-Huang666/COMP30022-49/blob/Back-End/out/userController.html)
+- [Authentication Controller](https://github.com/Harrison-Huang666/COMP30022-49/blob/Back-End/out/emalAuth.html)
 
 ## Software Dependencies
 
@@ -65,6 +73,7 @@ npm install --dependencies # install required dependencies only
 - `public`: store html fragments
 - `routes`: store server accessible routes
 - `views`: handlebar views (none-use)
+- `out`: store javascript doc
 
 ## Quick Start Guide
 Before start development or testing, please make sure all required dependencies have been installed.
@@ -81,6 +90,8 @@ Check POSTMAN testing instruction [here](https://docs.google.com/document/d/1scp
 [Download](https://drive.google.com/file/d/1MN0yOcuoQaosnn4B1lC_HAvFVgCMHaV8/view?usp=sharing) POSTMAN testing JSON
 
 For built-in JEST function testing, use `npm test`.
+
+
 
 ## License
 
