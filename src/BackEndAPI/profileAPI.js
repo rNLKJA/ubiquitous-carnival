@@ -16,26 +16,50 @@ function showProfile() {
   return fetchClient.get(endpoint).then((res) => res.data);
 }
 
+/**
+* Back-End API: add a phone to profile
+* @param {json} phone - the phone number of client
+* @return {express.Response} res - response from the back-end server.
+*/
 function addPhone(phone) {
   const endpoint = BASE_URL + "/profile/addPhone";
   return fetchClient.post(endpoint, phone).then((res) => res.data);
 }
 
+/**
+* Back-End API: del a phone to profile
+* @param {json} phone - the phone number of client
+* @return {express.Response} res - response from the back-end server.
+*/
 function delPhone(phone) {
   const endpoint = BASE_URL + "/profile/delPhone";
   return fetchClient.post(endpoint, phone).then((res) => res.data);
 }
 
+/**
+* Back-End API: add a email to profile
+* @param {json} phone - the email address of client
+* @return {express.Response} res - response from the back-end server.
+*/
 function addEmail(email) {
   const endpoint = BASE_URL + "/profile/addEmail";
   return fetchClient.post(endpoint, email).then((res) => res.data);
 }
 
+/**
+* Back-End API: delete a email to profile
+* @param {json} phone - the email address of client
+* @return {express.Response} res - response from the back-end server.
+*/
 function delEmail(email) {
   const endpoint = BASE_URL + "/profile/delEmail";
   return fetchClient.post(endpoint, email).then((res) => res.data);
 }
 
+/**
+* React_Use_Function: Show the profile information for the client
+* @return {json} json file contains the profile information
+*/
 export function useShowProfile() {
   const [loading, setLoading] = useState(true);
   const [profile, setProfile] = useState([]);
@@ -80,6 +104,9 @@ export function useUpdateProfile() {
   return;
 }
 
+/**
+* React_Use_Function: use add phone function
+*/
 export function useAddPhone() {
   const [phone, setPhone] = useState("");
 
@@ -91,6 +118,9 @@ export function useAddPhone() {
   return;
 }
 
+/**
+* React_Use_Function: use del phone function
+*/
 export function useDelPhone() {
   const [phone, setPhone] = useState("");
 
@@ -102,6 +132,9 @@ export function useDelPhone() {
   return;
 }
 
+/**
+* React_Use_Function: use add email function
+*/
 export function useAddEmail() {
   const [email, setPhone] = useState("");
 
@@ -113,6 +146,9 @@ export function useAddEmail() {
   return;
 }
 
+/**
+* React_Use_Function: use del email function
+*/
 export function useDelEmail() {
   const [email, setPhone] = useState("");
 
