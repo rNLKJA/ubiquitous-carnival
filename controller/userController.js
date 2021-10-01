@@ -176,7 +176,7 @@ const register = async (req, res) => {
 /**
  * this middleware function will create a temporary user document wait for new user finish regist
  * @param  {express.Request} req contain contact information that used to create user
- * @param  {express.Respones} res contain obejct id of temporary user document
+ * @param  {express.Response} res contain obejct id of temporary user document
  * @param  {express.Next} next
  */
 const emailFastRegister = async (req, res, next) => {
@@ -210,8 +210,8 @@ const emailFastRegister = async (req, res, next) => {
 
 /**
  * confirm user register through email link, activity user's account
- * @param  {express.Request} req this contain resiger information of temporary user
- * @param  {express.Respones} res this contain auth result of temporary user register
+ * @param  {express.Request} req this contain register information of temporary user
+ * @param  {express.Response} res this contain auth result of temporary user register
  */
 const emailFastRegisterConfirm = async (req, res) => {
     // should we adding email to this part?

@@ -22,7 +22,7 @@ const createRecord = async (req, res) => {
     request body:
     {  
         "contact_id": "6131e5b0e0accb25d09663f6",
-        "dateTime": "2000/10/10",
+        "dateTime": "2021-10-01T10:28:10.018Z",
         "location": "University of Melbourne",
         "notes": "the notes",
         "linkedAccount": "account",
@@ -30,14 +30,19 @@ const createRecord = async (req, res) => {
     }*/
     try {
         const {contact_id, dateTime, location, notes, linkedAccount} = req.body
-        if (dateTime==null) {
-            dateTimeOut = new Date.now()
-        } else {
-            dateTimeOut = new Date(dateTime)
-        }
+        const date = new Date();
+        const offset = date.getTimezoneOffset();
         
+        if (dateTime==null) {
+            dateTimeOut = date.getTime() - offset*1000*60
+        } else {
+            dateTimeOut = dateTime
+        }
         meetingPerson = await Contact.findOne({_id: mongoose.Types.ObjectId(contact_id)}).lean()
         if (meetingPerson == null) throw err
+        if (linkedAccount != null) {
+            if (await User.findOne({_id: mongoose.Types.ObjectId(linkedAccount)}).lean() == null) throw err
+        }
         newRecord = await Record.create({
             "meetingPerson": contact_id,
             "dateTime": dateTimeOut,
