@@ -21,6 +21,7 @@ const Person = () => {
     const [phone, setPhone] = useState("");
     const [occupation, setOccupation] = useState("");
     const [status, setStatus] = useState("");
+    const [delEmail, setDelEmail] = useState("");
 
     const inputE1 = useRef(null);
     const inputE2 = useRef();
@@ -116,6 +117,24 @@ const Person = () => {
         setEmail("");
 
     };
+    const submitDelEmail = (e) => {
+        e.preventDefault();
+
+        const profile = {
+            email,
+
+        };
+        axios
+        fetchClient.post(BASE_URL + "/profile/delEmail", profile)
+            .then(() => console.log("upload del"))
+            .catch((err) => {
+                console.error(err);
+            });
+
+        setEmail("");
+
+    };
+
 
     const submitNewPhone = (e) => {
         e.preventDefault();
@@ -135,34 +154,6 @@ const Person = () => {
 
     };
 
-    const addPhone = (e) => {
-        e.preventDefault();
-
-        const phone = {
-            phone,
-        };
-        axios
-        fetchClient.post(BASE_URL + "/profile/addPhone", phone)
-            .then(() => console.log(profile))
-            .catch((err) => {
-                console.error(err);
-            });
-
-        setPhone("");
-    }
-    const addEmail = (e) => {
-        e.preventDefault();
-
-        const email = email;
-        axios
-        fetchClient.post(BASE_URL + "/profile/addEmail", email)
-            .then(() => console.log(profile))
-            .catch((err) => {
-                console.error(err);
-            });
-
-        setEmail("");
-    }
 
     const editFirstName = () => {
         var element = inputE1.current;
@@ -254,6 +245,8 @@ const Person = () => {
 
 
 
+
+
     return (
         <div className="sub-container">
             <div>
@@ -266,7 +259,6 @@ const Person = () => {
                             <div ref={inputE1} onClick={editFirstName}>
                                 <div>{profile.firstName}</div>
                             </div>
-
                         </div>
                         <input type="submit" value="save" />
                     </form>
@@ -299,15 +291,16 @@ const Person = () => {
 
                 <div className="contactInformation">
                     <h2>Contact Information</h2>
+                    <label>Email: </label>
                     <form className="newEmail" method="POST" onSubmit={submitNewEmail}>
-                        <label>Email: </label>
-                        {profile.email && profile.email.map(function (item) {
-                            return <div> {item} </div>
-                        })}
-
                         <button onClick={addNewEmail}>+</button>
-                        <input type="submit" value="save"/>
                     </form>
+                    {profile.email && profile.email.map(function (item) {
+                        return      <form className="delEmail" method="POST" onSubmit={submitDelEmail}>
+                                        <div> {item}{console.log(profile.email)} </div>
+                                        <button onClick={setEmail.bind(this,item)}>-</button>
+                                    </form>
+                        })}
                     <div>
                         <label>Phone: </label>
                         <div>{profile.phone}</div>
