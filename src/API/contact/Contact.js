@@ -41,7 +41,7 @@ const Contact = () => {
   const screenWidth = window.innerWidth;
 
   const handleChange = (e) => {
-    e.preventDefault;
+    e.preventDefault();
     setSearchTerm(e.target.value);
   };
 
