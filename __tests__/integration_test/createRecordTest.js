@@ -41,5 +41,22 @@ describe('Integration test: Test for create Record', () => {
             });
     });
       
+    test('Test 2: Add a record without the meeting dateTime', () => {
+        return agent
+            .post('/record/createRecord') 
+            .set('Content-Type', 'application/json')
+            .set('Authorization', jwtToken)
+            .send({
+                "contact_id": "123456",
+                "dateTime": null,
+                "location": "University of Melbourne",
+                "notes": "the notes",
+                "linkedAccount": null
+            })
+            .then(res => {
+            expect(res.statusCode).toBe(200);
+            expect(res.dateTime).not.toBe(null);
+            });
+    });
 
 });
