@@ -154,7 +154,7 @@ const Contact = () => {
             <button
               className="delete-btn"
               style={{ color: "red" }}
-              onClick={deleteHandler}
+              onClick={() => deleteHandler()}
             >
               Delete The Contact
             </button>
