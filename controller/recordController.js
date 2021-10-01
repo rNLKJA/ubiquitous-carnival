@@ -1,6 +1,3 @@
-/**
- * @module Record
- */
 const mongoose = require('mongoose')
 const Record = mongoose.model('Record')
 const passport = require('passport')

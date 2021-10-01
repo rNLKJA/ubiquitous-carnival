@@ -1,6 +1,3 @@
-/**
- * @module profile
- */
 const mongoose = require('mongoose')
 const userModel = mongoose.model('User')
 const fs = require('fs')

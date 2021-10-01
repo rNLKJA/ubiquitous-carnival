@@ -1,6 +1,3 @@
-/**
- * @module Contact
- */
 const mongoose = require("mongoose");
 const { populate } = require("../models/contactSchema");
 

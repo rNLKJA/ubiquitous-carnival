@@ -26,7 +26,7 @@ transport.verify(function (error, success) {
 });
 /**
  * this function can random generator a code with certain length
- * @param  {int} length
+ * @param  {int} length length of the code generated
  */
 const autoCodeGenerator = (length) => {
   var code = "";
