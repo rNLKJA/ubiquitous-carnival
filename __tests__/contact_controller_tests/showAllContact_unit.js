@@ -27,7 +27,6 @@ describe('unit test of createNewContact form contactController.js', () => {
         res.send.mockClear();
         res.json.mockClear();
         
-        
         User.findOne = jest.fn().mockResolvedValue({
             userName: "test", 
             email: [],
@@ -35,7 +34,7 @@ describe('unit test of createNewContact form contactController.js', () => {
             lastName: "test",
             firstName: "test",
             occupation: "test",
-            contactList: {contact: "test_id"},
+            contactList: [{contact: "test_id"}],
             populate: jest.fn()
         })
         
@@ -48,7 +47,7 @@ describe('unit test of createNewContact form contactController.js', () => {
                 lastName: "test",
                 firstName: "test",
                 occupation: "test",
-                contactList: {contact: "replace"}
+                contactList: [{contact: "replace"}]
             }),
             populate: jest.fn().mockImplementationOnce(() => ({
                 lean: jest.fn().mockReturnValue({
@@ -58,7 +57,7 @@ describe('unit test of createNewContact form contactController.js', () => {
                     lastName: "test",
                     firstName: "test",
                     occupation: "test",
-                    contactList: {contact: "replace"},
+                    contactList: [{contact: "replace"}],
                 })
             }))
         }))
@@ -78,11 +77,41 @@ describe('unit test of createNewContact form contactController.js', () => {
         contactController.showAllContact(req, res)
     })
 
-    test("Test case 1: test with user create contact that didn't have an account", ()=>{
+    test("Test case 1: give a user'id return a list of object(contact)", ()=>{
         expect(res.json).toHaveBeenCalledTimes(1);
-        expect(res.json).toHaveBeenCalledWith({
+        expect(res.json).toHaveBeenCalledWith([{
             contact: "replace"
+        }])
+    })
+})
+
+describe("Unit testing showAllContact from contactController with invalid userId", () => {
+    const req = {
+        user: {
+            _id : 'wrong Id'
+        }
+    }
+
+    const res = {
+        send: jest.fn()
+    }
+
+    beforeAll(() => {
+
+        res.send.mockClear();
+
+        User.findOne = jest.fn().mockResolvedValue();
+
+        User.findOne.mockImplementation(() => {
+            throw new Error();
         })
+
+        contactController.showAllContact(req, res)
+    })
+
+    test("test case 1: testing with invalid user id, excepting error message", ()=>{
+        expect(res.send).toHaveBeenCalledTimes(1);
+        expect(res.send).toHaveBeenCalledWith("database query fail")
     })
 })
 

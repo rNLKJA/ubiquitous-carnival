@@ -138,7 +138,7 @@ const createNewContact = async (req, res) => {
         res.json(newContact)
     }catch(err){
         res.send("Database query failed")
-        throw(err)
+        console.log(err)
     }
 };
 
@@ -148,7 +148,7 @@ const createNewContact = async (req, res) => {
  * @param {express.Response} res - response from the system contain a list of contact of the user .
  */
 const showAllContact = async (req, res) => {
-  // try{
+  try{
     const ownerAccount = await User.findOne({
     $or: [
       { userName: req.body.userName },
@@ -159,9 +159,9 @@ const showAllContact = async (req, res) => {
     .lean()
     // .lean();
   res.json(ownerAccount.contactList);
-// }catch(err){
-//   return res.send("database query fail")
-//   }
+  }catch(err){
+    return res.send("database query fail")
+  }
 }
 
 /**
@@ -176,7 +176,7 @@ const showOneContact = async (req, res) => {
     }).lean();
     res.send(contactDetail);
   } catch (err) {
-    res.send(err);
+    res.send("Database query fail, something wrong with contact Id");
   }
 };
 
@@ -196,8 +196,9 @@ const searchContact = async (req, res) => {
         //direct search by name?
         var nameSearch = req.body.searchContent.split(" ")
         var matchContacts = []
+        console.log(nameSearch, nameSearch.length)
         try{
-            for (var i = 0; i <= nameSearch.length(); i++){
+            for (var i = 0; i < nameSearch.length; i++){
             var potentailContacts = await Contact.find({
                 $and: [ {ownerAccount: req.user._id},
                         {$or : [{firstName: nameSearch[i]}, {lastName: nameSearch[i]}]}
@@ -253,6 +254,7 @@ const searchContact = async (req, res) => {
     res.json(contacts);
   } catch (err) {
     console.log(err);
+    res.send("search failed")
   }
 };
 
@@ -271,10 +273,10 @@ const updateContactInfo = async (req, res) => {
     if (req.body.firstName != ''){
         query["firstName"] = req.body.firstName
     }
-    if (req.body.phone != ''){
+    if (req.body.phone != []){
         query["phone"] = req.body.phone
     }
-    if (req.body.email != ''){
+    if (req.body.email != []){
         query["email"] = req.body.email
     }
     if (req.body.occupation != ''){
@@ -284,12 +286,12 @@ const updateContactInfo = async (req, res) => {
         query["note"] = req.body.note
     }
     try {
-		await Contact.updateOne({_id: mongoose.Types.ObjectId(req.body._idOfContact)}, query)
-    const contacts = await Contact.findOne({_id: mongoose.Types.ObjectId(req.body._idOfContact)}).lean()
-		res.json(contacts)
-	} catch (err) {
-		console.log(err)
-	}
+      const contacts = await Contact.findOneAndUpdate({_id: mongoose.Types.ObjectId(req.body._idOfContact)}, query, {new:true}).lean()
+		  res.json(contacts)
+    } catch (err) {
+      console.log(err)
+      res.json("update failed")
+    }
 
 }
 /**
@@ -309,32 +311,33 @@ const synchronizationContactInfo = async (req, res) => {
     if (contact.linkedAccount == null){
         return res.send('no account linked to this contact')
     }
-    if (contact.linkedAccount.lastName !== undefined && contact.lastName != contact.linkedAccount.lastName ){
+    if (contact.linkedAccount.lastName && contact.lastName !== contact.linkedAccount.lastName ){
         query["lastName"] =  contact.linkedAccount.lastName
     }
-    if (contact.linkedAccount.firstName !== undefined && contact.firstName != contact.linkedAccount.firstName){
+    if (contact.linkedAccount.firstName && contact.firstName !== contact.linkedAccount.firstName){
         query["firstName"] = contact.linkedAccount.firstName
     }
-    if (contact.linkedAccount.phone !== undefined && !(listCompare(contact.phone, contact.linkedAccount.phone))){
+    if (contact.linkedAccount.phone && !(listCompare(contact.phone, contact.linkedAccount.phone))){
         query["phone"] = contact.linkedAccount.phone
     }
-    if (contact.linkedAccount.email !== undefined && !(listCompare(contact.email, contact.linkedAccount.email))){
+    if (contact.linkedAccount.email && !(listCompare(contact.email, contact.linkedAccount.email))){
         query["email"] = contact.linkedAccount.email
     }
-    if (contact.linkedAccount.occupation !== undefined && contact.occupation != contact.linkedAccount.occupation){
+    if (contact.linkedAccount.occupation && contact.occupation !== contact.linkedAccount.occupation){
         query["occupation"] = contact.linkedAccount.occupation
     }
-    if (contact.linkedAccount.portrait !== undefined && contact.portrait != contact.linkedAccount.portrait){
+    if (contact.linkedAccount.portrait && contact.portrait !== contact.linkedAccount.portrait){
         query['portrait'] = contact.linkedAccount.portrait
     }
     const updatedContact = await Contact.findOneAndUpdate(
       { _id: mongoose.Types.ObjectId(req.body._idOfContact) },
       query,
       { new: true },
-    );
+    ).lean();
     res.json(updatedContact);
   } catch (err) {
     console.log(err);
+    res.json("update failed")
   }
 };
 
@@ -389,7 +392,7 @@ const contactPhotoUpload = async (req, res) => {
   try {
     // req.body._id is the id of contact that need to be upload
     const contacts = await User.findOne({
-      userName: req.params.userName,
+      userName: req.user.userName,
     }).lean();
 
     const contactList = contacts.contactList.filter(
@@ -399,7 +402,7 @@ const contactPhotoUpload = async (req, res) => {
 
     // update contact list
     await User.findOneAndUpdate(
-      { userName: req.params.userName },
+      { userName: req.user.userName },
       { contactList: contactList },
     );
     await Contact.deleteOne({ _id: req.params.contact_id });
@@ -410,6 +413,8 @@ const contactPhotoUpload = async (req, res) => {
     res.json({ status: "failed" });
   }
 };
+
+
 module.exports = {
     createNewContact,
     showAllContact,
