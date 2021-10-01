@@ -42,7 +42,6 @@ export function useShowProfile() {
   const [error, setError] = useState(false);
 
   useEffect(() => {
-    // console.log(showProfile());
     showProfile()
       .then((profile) => {
         setProfile(profile);

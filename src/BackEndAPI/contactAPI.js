@@ -7,14 +7,14 @@ const BASE_URL = "https://crm4399.herokuapp.com";
 axios.defaults.withCredentials = true;
 
 function getContacts() {
-  const endpoind = BASE_URL + "/contact/showContact";
-  return fetchClient.get(endpoind).then((res) => res.data);
+  const endpoint = BASE_URL + "/contact/showContact";
+  return fetchClient.get(endpoint).then((res) => res.data);
 }
 
 // json file of contact info
 function createContact(contactInfo) {
-  const endpoind = BASE_URL + "/contact/createContact";
-  return fetchClient.post(endpoind, contactInfo).then((res) => res.data);
+  const endpoint = BASE_URL + "/contact/createContact";
+  return fetchClient.post(endpoint, contactInfo).then((res) => res.data);
 }
 
 //object ID as input
@@ -79,7 +79,7 @@ export function useCreateContact() {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [occupation, setOccupation] = useState("");
-  const [portriat, setPortriat] = useState("");
+  const [portrait, setPortrait] = useState("");
   const [note, setNote] = useState("");
 
   function onSubmit() {
@@ -89,7 +89,7 @@ export function useCreateContact() {
       firstName: firstName,
       lastName: lastName,
       occupation: occupation,
-      portriat: portriat,
+      portrait: portrait,
       note: note,
     });
     //redirect if needed
