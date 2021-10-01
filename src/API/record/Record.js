@@ -2,12 +2,9 @@ import { Input } from "@material-ui/icons";
 import Select from 'react-select'
 import React, { useState} from "react";
 import "./record.css";
-import TextField from '@mui/material/TextField';
-import AdapterDateFns from '@mui/lab/AdapterDateFns';
-import LocalizationProvider from '@mui/lab/LocalizationProvider';
-import DateTimePicker from '@mui/lab/DateTimePicker';
+
 import {useShowAllRecords, useCreateRecord} from '../../BackEndAPI/recordAPI'
-import {useContacts} from '../../BackEndAPI/contactAPI'
+
 import add_record from "./add-record.jpg";
 
 const Record = () => {
@@ -36,7 +33,6 @@ export const RecordList = () => {
       <div>
         <h1>Record</h1>
         {records.map((record) => {
-          console.log(record)
           return (
             <OneRecord record = {record} key={record._id}/>
           )
@@ -64,10 +60,6 @@ export const OneRecord = (prop) => {
     </div>
   )
 }
-
-
-
-
 
 
 export function convert(str) {
