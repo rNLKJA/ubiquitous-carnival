@@ -6,9 +6,24 @@ const BASE_URL = "https://crm4399.herokuapp.com";
 
 axios.defaults.withCredentials = true;
 
-function updateProfile(profileInfo) {
-  const endpoint = BASE_URL + "/profile/createRecord";
-  return fetchClient.post(endpoint, profileInfo).then((res) => res.data);
+function editFirstName(firstName) {
+  const endpoint = BASE_URL + "/profile/editFirstName";
+  return fetchClient.post(endpoint, firstName).then((res) => res.data);
+}
+
+function editLastName(lastName) {
+  const endpoint = BASE_URL + "/profile/editLastName";
+  return fetchClient.post(endpoint, lastName).then((res) => res.data);
+}
+
+function editOccupation(occupation) {
+  const endpoint = BASE_URL + "/profile/editOccupation";
+  return fetchClient.post(endpoint, occupation).then((res) => res.data);
+}
+
+function editStatus(status) {
+  const endpoint = BASE_URL + "/profile/editStatus";
+  return fetchClient.post(endpoint, status).then((res) => res.data);
 }
 
 function showProfile() {
@@ -16,66 +31,43 @@ function showProfile() {
   return fetchClient.get(endpoint).then((res) => res.data);
 }
 
-/**
-* Back-End API: add a phone to profile
-* @param {json} phone - the phone number of client
-* @return {express.Response} res - response from the back-end server.
-*/
 function addPhone(phone) {
   const endpoint = BASE_URL + "/profile/addPhone";
   return fetchClient.post(endpoint, phone).then((res) => res.data);
 }
 
-/**
-* Back-End API: del a phone to profile
-* @param {json} phone - the phone number of client
-* @return {express.Response} res - response from the back-end server.
-*/
 function delPhone(phone) {
   const endpoint = BASE_URL + "/profile/delPhone";
   return fetchClient.post(endpoint, phone).then((res) => res.data);
 }
 
-/**
-* Back-End API: add a email to profile
-* @param {json} phone - the email address of client
-* @return {express.Response} res - response from the back-end server.
-*/
 function addEmail(email) {
   const endpoint = BASE_URL + "/profile/addEmail";
   return fetchClient.post(endpoint, email).then((res) => res.data);
 }
 
-/**
-* Back-End API: delete a email to profile
-* @param {json} phone - the email address of client
-* @return {express.Response} res - response from the back-end server.
-*/
 function delEmail(email) {
   const endpoint = BASE_URL + "/profile/delEmail";
   return fetchClient.post(endpoint, email).then((res) => res.data);
 }
 
-/**
-* React_Use_Function: Show the profile information for the client
-* @return {json} json file contains the profile information
-*/
 export function useShowProfile() {
   const [loading, setLoading] = useState(true);
   const [profile, setProfile] = useState([]);
   const [error, setError] = useState(false);
 
   useEffect(() => {
+    // console.log(showProfile());
     showProfile()
-      .then((profile) => {
-        setProfile(profile);
-        setLoading(false);
-      })
-      .catch((e) => {
-        console.log(e);
-        setError(e);
-        setLoading(false);
-      });
+        .then((profile) => {
+          setProfile(profile);
+          setLoading(false);
+        })
+        .catch((e) => {
+          console.log(e);
+          setError(e);
+          setLoading(false);
+        });
   }, []);
 
   return {
@@ -85,28 +77,58 @@ export function useShowProfile() {
   };
 }
 
-export function useUpdateProfile() {
-  const [userName, setUserName] = useState("");
+export function useeditFirstName() {
   const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [occupation, setOccupation] = useState("");
-  const [status, setStatus] = useState("");
+
 
   function onSubmit() {
-    updateProfile({
-      userName: userName,
+    editFirstName({
       firstName: firstName,
-      lastName: lastName,
-      occupation: occupation,
-      status: status,
+
     });
   }
   return;
 }
 
-/**
-* React_Use_Function: use add phone function
-*/
+export function useeditLastName() {
+  const [lastName, setLastName] = useState("");
+
+
+  function onSubmit() {
+    editLastName({
+      lastName: lastName,
+
+    });
+  }
+  return;
+}
+
+export function useeditOccupation() {
+  const [occupation, setOccupation] = useState("");
+
+
+  function onSubmit() {
+    editOccupation({
+      occupation: occupation,
+
+    });
+  }
+  return;
+}
+
+export function useeditStatus() {
+  const [status, setStatus] = useState("");
+
+
+  function onSubmit() {
+    editStatus({
+      status: status,
+
+    });
+  }
+  return;
+}
+
 export function useAddPhone() {
   const [phone, setPhone] = useState("");
 
@@ -118,9 +140,6 @@ export function useAddPhone() {
   return;
 }
 
-/**
-* React_Use_Function: use del phone function
-*/
 export function useDelPhone() {
   const [phone, setPhone] = useState("");
 
@@ -132,9 +151,6 @@ export function useDelPhone() {
   return;
 }
 
-/**
-* React_Use_Function: use add email function
-*/
 export function useAddEmail() {
   const [email, setPhone] = useState("");
 
@@ -146,9 +162,6 @@ export function useAddEmail() {
   return;
 }
 
-/**
-* React_Use_Function: use del email function
-*/
 export function useDelEmail() {
   const [email, setPhone] = useState("");
 
