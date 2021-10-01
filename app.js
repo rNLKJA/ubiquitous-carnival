@@ -29,11 +29,17 @@ app.use(
   }),
 );
 
-app.use(cors({
-	origin: ["http://localhost:3000","https://pcrm4399.herokuapp.com","https://www.4399crm.com"],
-	method: ["GET" , "POST"],
-	credentials : true
-}))
+app.use(
+  cors({
+    origin: [
+      "http://localhost:3000",
+      "https://pcrm4399.herokuapp.com",
+      "https://www.4399crm.com",
+    ],
+    method: ["GET", "POST"],
+    credentials: true,
+  }),
+);
 
 app.use(cookieParser());
 //middleware that's required for passport to operate
@@ -64,10 +70,13 @@ const profileRouter = require("./routes/profileRouter");
 const contactRouter = require("./routes/contactRouter");
 const recordRouter = require("./routes/recordRouter");
 const userRouter = require("./routes/userRouter");
+const apiRouter = require("./routes/apiRouter");
+
 app.use("/profile", profileRouter);
 app.use("/contact", contactRouter);
 app.use("/record", recordRouter);
 app.use("/user", userRouter);
+app.use("/api", apiRouter);
 
 // handling invalid links
 app.all("*", (req, res) => {
@@ -81,5 +90,4 @@ app.listen(process.env.PORT || 3000, () => {
   );
 });
 
-
-module.exports = app
+module.exports = app;
