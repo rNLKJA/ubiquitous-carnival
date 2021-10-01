@@ -77,6 +77,11 @@ const showAllRecords = async (req,res) => {
     if(recordList != null) res.json(recordList)
 }
 
+/**
+* search the records for the user, by meetingPerson or location or occupation
+* @param {express.Request} req - the query json from front end
+* @param {express.Response} res - response from the system.
+*/
 const searchRecord = async (req, res) => {
     const validationErrors = expressValidator.validationResult(req)
     if (!validationErrors.isEmpty()){
