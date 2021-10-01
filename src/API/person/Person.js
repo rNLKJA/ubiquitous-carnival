@@ -239,9 +239,7 @@ const Person = () => {
 
     const addNewEmail = () => {
         var word = prompt("Input A New Email","")
-        if (word) {
-            alert(word);
-        }
+        setEmail(word);
     }
 
     const addNewPhone = () => {
@@ -301,14 +299,15 @@ const Person = () => {
 
                 <div className="contactInformation">
                     <h2>Contact Information</h2>
-                    <div>
+                    <form className="newEmail" method="POST" onSubmit={submitNewEmail}>
                         <label>Email: </label>
                         {profile.email && profile.email.map(function (item) {
                             return <div> {item} </div>
                         })}
 
                         <button onClick={addNewEmail}>+</button>
-                    </div>
+                        <input type="submit" value="save"/>
+                    </form>
                     <div>
                         <label>Phone: </label>
                         <div>{profile.phone}</div>
