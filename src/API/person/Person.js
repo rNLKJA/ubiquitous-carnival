@@ -13,16 +13,12 @@ const BASE_URL = "https://crm4399.herokuapp.com";
 
 const Person = () => {
     const { loading, profile, error } = useShowProfile();
-
-    const [userName, setUserName] = useState("");
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
     const [email, setEmail] = useState("");
     const [phone, setPhone] = useState("");
     const [occupation, setOccupation] = useState("");
     const [status, setStatus] = useState("");
-    const [delEmail, setDelEmail] = useState("");
-
     const inputE1 = useRef(null);
     const inputE2 = useRef();
     const inputE3 = useRef();
