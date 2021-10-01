@@ -8,7 +8,7 @@ const BASE_URL = "https://crm4399.herokuapp.com";
  * @param {JSON} user this json contain the informtion for user to login 
  * @returns {JSON} this contain JWT token
  */
-function loginUser(user){
+async function loginUser(user){
     const {userName, password} = user;
 
     if (!userName || !password){
