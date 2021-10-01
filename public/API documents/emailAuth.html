@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Module: profile</title>
+    <title>JSDoc: emailAuth</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Module: profile</h1>
+    <h1 class="page-title">Email Auth</h1>
 
     
 
@@ -28,6 +28,7 @@
 
 <header>
     
+        <h2></h2>
         
     
 </header>
@@ -36,6 +37,45 @@
     <div class="container-overview">
     
         
+
+        
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
 
         
     
@@ -64,7 +104,7 @@
     
 
     
-    <h4 class="name" id="~addEmail"><span class="type-signature">(async, inner) </span>addEmail<span class="signature">(req, res)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="autoCodeGenerator"><span class="type-signature"></span>autoCodeGenerator<span class="signature">(length)</span><span class="type-signature"></span></h4>
     
 
     
@@ -72,7 +112,7 @@
 
 
 <div class="description">
-    Add the email address
+    this function can random generator a code with certain length
 </div>
 
 
@@ -108,13 +148,13 @@
 
         <tr>
             
-                <td class="name"><code>req</code></td>
+                <td class="name"><code>length</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">express.Request</span>
+<span class="param-type">int</span>
 
 
             
@@ -124,30 +164,7 @@
 
             
 
-            <td class="description last">Username and email address from client</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>res</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">express.Response</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">response from the system.</td>
+            <td class="description last">length of the code generated</td>
         </tr>
 
     
@@ -188,7 +205,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="profileController.js.html">profileController.js</a>, <a href="profileController.js.html#line89">line 89</a>
+        <a href="emailAuth.js.html">emailAuth.js</a>, <a href="emailAuth.js.html#line31">line 31</a>
     </li></ul></dd>
     
 
@@ -224,7 +241,7 @@
     
 
     
-    <h4 class="name" id="~addPhone"><span class="type-signature">(async, inner) </span>addPhone<span class="signature">(req, res)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="emailAuthSend"><span class="type-signature">(async) </span>emailAuthSend<span class="signature">(req, res)</span><span class="type-signature"></span></h4>
     
 
     
@@ -232,7 +249,7 @@
 
 
 <div class="description">
-    Add the phone number
+    this function will send a email that user input to implement email verify
 </div>
 
 
@@ -284,7 +301,7 @@
 
             
 
-            <td class="description last">phone number from client</td>
+            <td class="description last">this contains the eamil that user input when register</td>
         </tr>
 
     
@@ -307,7 +324,7 @@
 
             
 
-            <td class="description last">response from the system.</td>
+            <td class="description last">this contain the response from system of email sending result</td>
         </tr>
 
     
@@ -348,7 +365,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="profileController.js.html">profileController.js</a>, <a href="profileController.js.html#line45">line 45</a>
+        <a href="emailAuth.js.html">emailAuth.js</a>, <a href="emailAuth.js.html#line45">line 45</a>
     </li></ul></dd>
     
 
@@ -384,7 +401,7 @@
     
 
     
-    <h4 class="name" id="~delEmail"><span class="type-signature">(async, inner) </span>delEmail<span class="signature">(req, res)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="emailCodeVerify"><span class="type-signature">(async) </span>emailCodeVerify<span class="signature">(req, res, next)</span><span class="type-signature"></span></h4>
     
 
     
@@ -392,7 +409,7 @@
 
 
 <div class="description">
-    delete the email address
+    this function will compare the input verify code with database to finish email verify
 </div>
 
 
@@ -444,7 +461,7 @@
 
             
 
-            <td class="description last">Username and email address that want to delete</td>
+            <td class="description last">this contains the email and verify code that user input</td>
         </tr>
 
     
@@ -467,7 +484,30 @@
 
             
 
-            <td class="description last">response from the system.</td>
+            <td class="description last">this contains the response of system if fail to verify</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>next</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">express.Next</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">this will led to next (middleware) function</td>
         </tr>
 
     
@@ -508,7 +548,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="profileController.js.html">profileController.js</a>, <a href="profileController.js.html#line113">line 113</a>
+        <a href="emailAuth.js.html">emailAuth.js</a>, <a href="emailAuth.js.html#line86">line 86</a>
     </li></ul></dd>
     
 
@@ -544,7 +584,7 @@
     
 
     
-    <h4 class="name" id="~delPhone"><span class="type-signature">(async, inner) </span>delPhone<span class="signature">(req, res)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="emailRegisterCodeSend"><span class="type-signature">(async) </span>emailRegisterCodeSend<span class="signature">(req, res)</span><span class="type-signature"></span></h4>
     
 
     
@@ -552,7 +592,7 @@
 
 
 <div class="description">
-    delete the phone number
+    this function will send a link to user who register while others adding them as contact for finish register
 </div>
 
 
@@ -604,7 +644,7 @@
 
             
 
-            <td class="description last">Username and phone number that want to delete</td>
+            <td class="description last">contain temporary user information and object id</td>
         </tr>
 
     
@@ -617,7 +657,7 @@
             <td class="type">
             
                 
-<span class="param-type">express.Response</span>
+<span class="param-type">express.Request</span>
 
 
             
@@ -627,7 +667,7 @@
 
             
 
-            <td class="description last">response from the system.</td>
+            <td class="description last">system response of result message of email sending</td>
         </tr>
 
     
@@ -668,7 +708,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="profileController.js.html">profileController.js</a>, <a href="profileController.js.html#line70">line 70</a>
+        <a href="emailAuth.js.html">emailAuth.js</a>, <a href="emailAuth.js.html#line106">line 106</a>
     </li></ul></dd>
     
 
@@ -704,7 +744,7 @@
     
 
     
-    <h4 class="name" id="~showProfile"><span class="type-signature">(async, inner) </span>showProfile<span class="signature">(req, res)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="emailRegisterVerify"><span class="type-signature">(async) </span>emailRegisterVerify<span class="signature">(req, res, next)</span><span class="type-signature"></span></h4>
     
 
     
@@ -712,7 +752,7 @@
 
 
 <div class="description">
-    Get the profile data of user
+    this function will verify whether email register opened in right time range
 </div>
 
 
@@ -764,7 +804,7 @@
 
             
 
-            <td class="description last"></td>
+            <td class="description last">contain information that user input to finish fast register</td>
         </tr>
 
     
@@ -787,7 +827,30 @@
 
             
 
-            <td class="description last">response from the system.</td>
+            <td class="description last">system response</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>next</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">express.Next</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">this will led to next (middleware) function</td>
         </tr>
 
     
@@ -828,327 +891,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="profileController.js.html">profileController.js</a>, <a href="profileController.js.html#line154">line 154</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id="~updateProfile"><span class="type-signature">(async, inner) </span>updateProfile<span class="signature">(req, res)</span><span class="type-signature"></span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    Upload the firstName, lastName and occupation
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>req</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">express.Request</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">firstName, lastName and occupation from client</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>res</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">express.Response</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">response from the system.</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="profileController.js.html">profileController.js</a>, <a href="profileController.js.html#line15">line 15</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id="~uploadPhoto"><span class="type-signature">(async, inner) </span>uploadPhoto<span class="signature">(req, res)</span><span class="type-signature"></span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    function that allow user upload their photo and store in database
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>req</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">express.Request</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">contain the file information of uploaded file</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>res</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">express.Response</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">contain the user information after uploaded</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="profileController.js.html">profileController.js</a>, <a href="profileController.js.html#line131">line 131</a>
+        <a href="emailAuth.js.html">emailAuth.js</a>, <a href="emailAuth.js.html#line151">line 151</a>
     </li></ul></dd>
     
 
@@ -1194,13 +937,13 @@
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-Contact.html">Contact</a></li><li><a href="module-profile.html">profile</a></li><li><a href="module-Record.html">Record</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>emailAuth</h3><ul><li><a href="emailAuth.html#autoCodeGenerator">autoCodeGenerator</a></li><li><a href="emailAuth.html#emailAuthSend">emailAuthSend</a></li><li><a href="emailAuth.html#emailCodeVerify">emailCodeVerify</a></li><li><a href="emailAuth.html#emailRegisterCodeSend">emailRegisterCodeSend</a></li><li><a href="emailAuth.html#emailRegisterVerify">emailRegisterVerify</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.7</a> on Thu Sep 30 2021 18:25:03 GMT+1000 (Australian Eastern Standard Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.7</a> on Fri Oct 01 2021 19:07:39 GMT+1000 (Australian Eastern Standard Time)
 </footer>
 
 <script> prettyPrint(); </script>
