@@ -252,13 +252,6 @@ const Person = () => {
         setPhone(word);
     }
 
-
-
-
-
-
-
-
     return (
         <div className="sub-container">
             <div>
@@ -267,34 +260,30 @@ const Person = () => {
                     <h2>Basic Information</h2>
                     <form className="firstname" method="POST" onSubmit={submitFirstName}>
                         <div>
-                            <label>First name: </label>
-                            <div ref={inputE1} onClick={editFirstName}>
-                                <div>{profile.firstName}</div>
-                            </div>
+                            <div>First name: </div>
+                            <div className="firstValue" ref={inputE1} onClick={editFirstName}>{profile.firstName}</div>
                         </div>
                         <input type="submit" value="save" />
                     </form>
                     <form className="lastname" method="POST" onSubmit={submitLastName}>
                         <div>
-                            <label>Last name: </label>
-                            <div ref={inputE2} onClick={editLastName}>{profile.lastName}</div>
+                            <div>Last name: </div>
+                            <div className="lastValue" ref={inputE2} onClick={editLastName}>{profile.lastName}</div>
                         </div>
                         <input type="submit" value="save" />
                     </form>
 
                     <form className="occupation" method="POST" onSubmit={submitOccupation}>
                         <div>
-                            <label>Occupation: </label>
-                            <div ref={inputE3} onClick={editOccupation}>{profile.occupation}</div>
-
+                            <div>Occupation: </div>
+                            <div className="occupationValue" ref={inputE3} onClick={editOccupation}>{profile.occupation}</div>
                         </div>
                         <input type="submit" value="save" />
                     </form>
                     <form className="status" method="POST" onSubmit={submitStatus}>
                         <div>
-                            <label>Status: </label>
-                            <div ref={inputE4} onClick={editStatus}>{profile.status}</div>
-
+                            <div>Status: </div>
+                            <div className="statusValue" ref={inputE4} onClick={editStatus}>{profile.status}</div>
                         </div>
                         <input type="submit" value="save" />
                     </form>
@@ -303,25 +292,36 @@ const Person = () => {
 
                 <div className="contactInformation">
                     <h2>Contact Information</h2>
-                    <label>Email: </label>
+                    <label className="emailTitle">Email: </label>
                     <form className="newEmail" method="POST" onSubmit={submitNewEmail}>
                         <button onClick={addNewEmail}>+</button>
+                        <br/>
                     </form>
                     {profile.email && profile.email.map(function (item) {
                         return      <form className="delEmail" method="POST" onSubmit={submitDelEmail}>
-                                        <div> {item} </div>
+                                        <div className= "email"> {item} </div>
                                         <button onClick={setEmail.bind(this,item)}>-</button>
                                     </form>
                         })}
-                    <label>Phone: </label>
+                    <br/>
+                    <div className="phoneTitle">Phone: </div>
                     <form className="newPhone" method="POST" onSubmit={submitNewPhone}>
                         <button onClick={addNewPhone}>+</button>
+                        <br/>
                     </form>
                     {profile.phone && profile.phone.map(function (item) {
-                        return      <form className="delPhone" method="POST" onSubmit={submitDelPhone}>
-                                        <div> {item} </div>
-                                        <button onClick={setPhone.bind(this,item)}>-</button>
+                        return      <form className="onePhone" method="POST" onSubmit={submitDelPhone}>
+                                        <div className="delPhone">
+                                            <div className="phone">
+                                                {item}
+                                            </div>
+                                            <div className="delPhone-btn">
+                                                <button onClick={setPhone.bind(this,item)}>-</button>
+                                            </div>
+                                        </div>
                                     </form>
+
+
                     })}
 
 
