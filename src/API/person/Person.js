@@ -276,7 +276,6 @@ const Person = () => {
                         <div>
                             <label>Last name: </label>
                             <div ref={inputE2} onClick={editLastName}>{profile.lastName}</div>
-
                         </div>
                         <input type="submit" value="save" />
                     </form>
@@ -304,7 +303,9 @@ const Person = () => {
                     <h2>Contact Information</h2>
                     <div>
                         <label>Email: </label>
-                        {profile.email}
+                        {profile.email && profile.email.map(function (item) {
+                            return <div> {item} </div>
+                        })}
 
                         <button onClick={addNewEmail}>+</button>
                     </div>
