@@ -15,13 +15,6 @@ const Person = () => {
     const { loading, profile, error } = useShowProfile();
 
     const [userName, setUserName] = useState("");
-    const [person, setPerson] = useState({
-        firstName: "",
-        lastName: "",
-        email: [],
-        occupation: "",
-        phone: [],
-    });
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
     const [email, setEmail] = useState("");
@@ -103,6 +96,42 @@ const Person = () => {
             });
 
         setStatus("");
+
+    };
+
+    const submitNewEmail = (e) => {
+        e.preventDefault();
+
+        const profile = {
+            email,
+
+        };
+        axios
+        fetchClient.post(BASE_URL + "/profile/addEmail", profile)
+            .then(() => console.log("upload new information"))
+            .catch((err) => {
+                console.error(err);
+            });
+
+        setEmail("");
+
+    };
+
+    const submitNewPhone = (e) => {
+        e.preventDefault();
+
+        const profile = {
+            phone,
+
+        };
+        axios
+        fetchClient.post(BASE_URL + "/profile/addPhone", profile)
+            .then(() => console.log("upload new information"))
+            .catch((err) => {
+                console.error(err);
+            });
+
+        setPhone("");
 
     };
 
@@ -275,10 +304,8 @@ const Person = () => {
                     <h2>Contact Information</h2>
                     <div>
                         <label>Email: </label>
-                        <div>{profile.email.map(function (item){
-                            return <div> {item} </div>
-                        })
-                        }</div>
+                        {profile.email}
+
                         <button onClick={addNewEmail}>+</button>
                     </div>
                     <div>
