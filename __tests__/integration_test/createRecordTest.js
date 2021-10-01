@@ -41,27 +41,6 @@ describe('Integration test: Test for create Record', () => {
             expect(res.text).toContain('Database query failed');
             });
     });
-
-    /*
-    // Test Case 2: Food ID = 1234 (Food = DOES NOT EXIST)
-    // look up food with INVALID object ID
-    test('Test 2 (lookup INVALID food): ??? (1234)', () => {
-        return agent
-          // send a request to app on the route /food/:id
-          // with id = 1234
-          .get('/foods/1234')
-          .set('Cookie', cookie)
-          .then((response) => {
-            // HTTP response code should be OK/200 
-            expect(response.statusCode).toBe(200);
-            // FoodBuddy App will return a page, so expect html  
-            //expect(response.type).toBe('text/html');
-            // we expect the server to respond with the message:
-            // Error: Food not found!  
-            expect(response.text).toContain('Error: Food not found!');
-          });
-      });
-*/
       
 
 });
