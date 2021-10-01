@@ -5,19 +5,32 @@ import axios from "axios";
 const BASE_URL = "https://crm4399.herokuapp.com";
 
 axios.defaults.withCredentials = true;
-
+/**
+ * this function will post to back end and return all contact of a user
+ * @returns {JSON} response from back end contain contact list
+ */
 function getContacts() {
   const endpoint = BASE_URL + "/contact/showContact";
   return fetchClient.get(endpoint).then((res) => res.data);
 }
 
 // json file of contact info
+/**
+ * this function will post to back end with contact information to create a contact document
+ * @param {JSON} contactInfo a JSON object that contain information to create a contact
+ * @returns {JSON} the JSON object that from the database after create
+ */
 function createContact(contactInfo) {
   const endpoint = BASE_URL + "/contact/createContact";
   return fetchClient.post(endpoint, contactInfo).then((res) => res.data);
 }
 
 //object ID as input
+/**
+ * this fucntion will post to back end with an object id of contact and return the detail information of that contact
+ * @param {String} contactObjectId the Object Id as string of a contact
+ * @returns {JSON} the full detail of an contact 
+ */
 function ShowOneContact(contactObjectId) {
   const endpoint = BASE_URL + "/contact/showOneContact";
   return fetchClient
