@@ -24,7 +24,7 @@ apiRouter.get("/recordController", (req, res) => {
 });
 
 apiRouter.get("/emailAuth", (req, res) => {
-  res.sendFile(path.join(__dirname, "../public/API documents/emalAuth.html"));
+  res.sendFile(path.join(__dirname, "../public/API documents/emailAuth.html"));
 });
 
 apiRouter.get("/profileController", (req, res) => {
