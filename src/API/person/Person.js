@@ -135,6 +135,24 @@ const Person = () => {
 
     };
 
+    const submitDelPhone = (e) => {
+        e.preventDefault();
+
+        const profile = {
+            phone,
+
+        };
+        axios
+        fetchClient.post(BASE_URL + "/profile/delPhone", profile)
+            .then(() => console.log("upload del"))
+            .catch((err) => {
+                console.error(err);
+            });
+
+        setPhone("");
+
+    };
+
 
     const submitNewPhone = (e) => {
         e.preventDefault();
@@ -235,9 +253,7 @@ const Person = () => {
 
     const addNewPhone = () => {
         var word = prompt("Input A New Phone","")
-        if (word) {
-            alert(word);
-        }
+        setPhone(word);
     }
 
 
@@ -297,15 +313,22 @@ const Person = () => {
                     </form>
                     {profile.email && profile.email.map(function (item) {
                         return      <form className="delEmail" method="POST" onSubmit={submitDelEmail}>
-                                        <div> {item}{console.log(profile.email)} </div>
+                                        <div> {item} </div>
                                         <button onClick={setEmail.bind(this,item)}>-</button>
                                     </form>
                         })}
-                    <div>
-                        <label>Phone: </label>
-                        <div>{profile.phone}</div>
+                    <label>Phone: </label>
+                    <form className="newPhone" method="POST" onSubmit={submitNewPhone}>
                         <button onClick={addNewPhone}>+</button>
-                    </div>
+                    </form>
+                    {profile.phone && profile.phone.map(function (item) {
+                        return      <form className="delPhone" method="POST" onSubmit={submitDelPhone}>
+                                        <div> {item} </div>
+                                        <button onClick={setPhone.bind(this,item)}>-</button>
+                                    </form>
+                    })}
+
+
                 </div>
             </div>
 
