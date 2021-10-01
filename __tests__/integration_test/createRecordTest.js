@@ -10,8 +10,7 @@ describe('Integration test: Test for create Record', () => {
     // store the token
     let jwtToken = null;
 
-    beforeAll(() => {
-        jest.setTimeout(10000)
+    beforeAll(() => 
         agent
         .post('/user/login') 
         .set('Content-Type', 'application/json')
@@ -21,7 +20,7 @@ describe('Integration test: Test for create Record', () => {
         })
         .then(res => {
             jwtToken = res.body.token
-        })}
+        })
     );
 
     test('Test 1: Add a record with invalid contact_id', () => {
