@@ -20,7 +20,7 @@ const editFirstName = async(req, res) => {
             { upsert: true, new: true }
         )
         res.send("update success")
-    } 
+    }
     catch(err) {
         res.send("update fail")
         throw(err)

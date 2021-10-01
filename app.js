@@ -75,11 +75,13 @@ app.all("*", (req, res) => {
   res.status(404).send();
 });
 
-app.listen(process.env.PORT || 3000, () => {
-  console.log(
-    `the team 4399's server is listening at PORT: ${process.env.PORT}`,
-  );
-});
+if(!module.parent){
+  app.listen(process.env.PORT || 3000, () => {
+    console.log(
+      `the team 4399's server is listening at PORT: ${process.env.PORT}`
+    );
+  });
+}
 
 
 module.exports = app
