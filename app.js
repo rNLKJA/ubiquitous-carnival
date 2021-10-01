@@ -71,12 +71,14 @@ const contactRouter = require("./routes/contactRouter");
 const recordRouter = require("./routes/recordRouter");
 const userRouter = require("./routes/userRouter");
 const apiRouter = require("./routes/apiRouter");
+const testRouter = require("./routes/testRouter");
 
 app.use("/profile", profileRouter);
 app.use("/contact", contactRouter);
 app.use("/record", recordRouter);
 app.use("/user", userRouter);
 app.use("/api", apiRouter);
+app.use("/test", testRouter);
 
 // handling invalid links
 app.all("*", (req, res) => {
