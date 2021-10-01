@@ -3,13 +3,16 @@
 const request = require('supertest');
 const app = require('../../app'); 
 
+
 describe('Integration test: Test for create Record', () => {
     let agent = request.agent(app);
 
     // store the token
     let jwtToken = null;
 
-    beforeAll(() => agent
+    beforeAll(() => {
+        jest.setTimeout(10000)
+        agent
         .post('/user/login') 
         .set('Content-Type', 'application/json')
         .send({
@@ -18,7 +21,7 @@ describe('Integration test: Test for create Record', () => {
         })
         .then(res => {
             jwtToken = res.body.token
-        })
+        })}
     );
 
     test('Test 1: Add a record with invalid contact_id', () => {

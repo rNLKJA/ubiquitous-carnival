@@ -26,7 +26,8 @@
     "passport-local": "^1.0.0",
     "path": "^0.12.7",
     "react": "^17.0.2",
-    "react-native": "^0.64.2"
+    "react-native": "^0.64.2",
+    "supertest": "^6.1.6"
   },
   "scripts": {
     "test": "jest",
@@ -46,5 +47,13 @@
   "bugs": {
     "url": "https://github.com/Harrison-Huang666/COMP30022-49/issues"
   },
-  "homepage": "https://github.com/Harrison-Huang666/COMP30022-49#readme"
+  "homepage": "https://github.com/Harrison-Huang666/COMP30022-49#readme",
+  "devDependencies": {
+    "jest-html-reporter": "^3.4.1"
+  },
+  "jest-html-reporter": {
+    "pageTitle": "Test Report",
+    "outputPath": "./test-report.html",
+    "includeFailureMsg": true
+  }
 }
