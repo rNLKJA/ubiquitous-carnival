@@ -51,7 +51,7 @@ export const OneRecord = (prop) => {
     <div className = "record-list-item">
       <p>
       <label>Name: </label>
-      {prop.record.meetingPerson.firstName + " " + prop.record.meetingPerson.lastName}
+      {prop.record.meetingPerson? prop.record.meetingPerson.firstName + " " + prop.record.meetingPerson.lastName : "Contact_id is invalid, please check"}
       </p>
       <p>
         <label>Location: </label>
