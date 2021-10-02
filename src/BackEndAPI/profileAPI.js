@@ -6,14 +6,25 @@ const BASE_URL = "https://crm4399.herokuapp.com";
 
 axios.defaults.withCredentials = true;
 
-/**
-* Back-End API: edit the firstName of client
-* @param {JSON} firstName - the firstName of client
-* @return {JSON} res - response from the back-end server.
-*/
 function editFirstName(firstName) {
   const endpoint = BASE_URL + "/profile/editFirstName";
   return fetchClient.post(endpoint, firstName).then((res) => res.data);
+}
+
+function editLastName(lastName) {
+  const endpoint = BASE_URL + "/profile/editLastName";
+  return fetchClient.post(endpoint, lastName).then((res) => res.data);
+}
+
+function editOccupation(occupation) {
+  const endpoint = BASE_URL + "/profile/editOccupation";
+  return fetchClient.post(endpoint, occupation).then((res) => res.data);
+}
+
+function editStatus(status) {
+  const endpoint = BASE_URL + "/profile/editStatus";
+  return fetchClient.post(endpoint, status).then((res) => res.data);
+
 }
 
 /**
@@ -106,15 +117,16 @@ export function useShowProfile() {
   useEffect(() => {
     // console.log(showProfile());
     showProfile()
-        .then((profile) => {
-          setProfile(profile);
-          setLoading(false);
-        })
-        .catch((e) => {
-          console.log(e);
-          setError(e);
-          setLoading(false);
-        });
+      .then((profile) => {
+        setProfile(profile);
+        setLoading(false);
+      })
+      .catch((e) => {
+        console.log(e);
+        setError(e);
+        setLoading(false);
+      });
+
   }, []);
 
   return {
@@ -124,10 +136,9 @@ export function useShowProfile() {
   };
 }
 
-/**
-* React_Use_Function: use edit firstName function
-*/
-export function useEditFirstName() {
+
+export function useeditFirstName() {
+
   const [firstName, setFirstName] = useState("");
 
 
@@ -140,10 +151,9 @@ export function useEditFirstName() {
   return;
 }
 
-/**
-* React_Use_Function: use edit lastName function
-*/
-export function useEditLastName() {
+
+export function useeditLastName() {
+
   const [lastName, setLastName] = useState("");
 
 
@@ -154,6 +164,34 @@ export function useEditLastName() {
     });
   }
   return;
+
+}
+
+export function useeditOccupation() {
+  const [occupation, setOccupation] = useState("");
+
+
+  function onSubmit() {
+    editOccupation({
+      occupation: occupation,
+
+    });
+  }
+  return;
+}
+
+export function useeditStatus() {
+  const [status, setStatus] = useState("");
+
+
+  function onSubmit() {
+    editStatus({
+      status: status,
+
+    });
+  }
+  return;
+
 }
 
 /**

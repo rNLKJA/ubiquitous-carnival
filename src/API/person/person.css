@@ -1,0 +1,61 @@
+
+.person{
+
+}
+
+.basicInformation{
+    width: 45%;
+    height: 100%;
+    float: left;
+    border-radius: 5px;
+    border: 1px solid black;
+
+}
+.contactInformation{
+    width: 45%;
+    height: 100%;
+    float: right;
+    border-radius: 5px;
+    border: 1px solid black;
+
+}
+
+.firstValue{
+    float: left;
+}
+.lastValue{
+     float: left;
+}
+.occupationValue{
+      float: left;
+}
+
+.statusValue{
+    float: left;
+}
+
+.emailTitle{
+    float: left;
+}
+
+.email{
+    float: left;
+}
+
+.phoneTitle{
+    float: left;
+}
+
+.newPhone{
+
+}
+
+.phone{
+    float: left;
+
+}
+
+.delPhone-btn{
+
+
+}
