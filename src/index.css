@@ -31,12 +31,13 @@ a {
     width: 375px;
     height: 75px;
     position: fixed;
-    border-right: 2px double rgb(47, 71, 137);
+    border-top: 2px double rgb(47, 71, 137);
     background-color: white;
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     /* grid-gap: 5px; */
-    justify-content: space-around;
+    padding-left: 10px;
+    justify-content: space-between;
     bottom: 0;
     border-top: 0.5rem double rgb(47, 71, 137);
     /* padding-left: 10px; */

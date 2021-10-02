@@ -10,7 +10,7 @@ import Home from "./API/home/home";
 import Contact from "./API/contact/Contact";
 import Person from "./API/person/Person";
 import Record from "./API/record/Record";
-import Search from "./API/search/Search";
+// import Search from "./API/search/Search";
 import Error from "./API/error/Error";
 import Login from "./API/auth/Login";
 import Registration from "./API/auth/Registration";
@@ -21,6 +21,7 @@ import AddUser from "./API/contact/addOneContact";
 import ManualInput from "./API/contact/manual-input";
 import QrCode from "./API/contact/qr-code";
 import UserID from "./API/contact/user-id";
+import CreateRecord from "./API/record/AddRecord"
 
 // defined the map function
 function App() {
@@ -64,11 +65,17 @@ function App() {
               path="/record"
               component={Record}
             ></ProtectedRouters>
+
             <ProtectedRouters
+              exact
+              path="/createRecord"
+              component={CreateRecord}
+            ></ProtectedRouters>
+            {/* <ProtectedRouters
               exact
               path="/search"
               component={Search}
-            ></ProtectedRouters>
+            ></ProtectedRouters> */}
             <ProtectedRouters
               exact
               path="/setting"

@@ -3,7 +3,8 @@ import "./contact.css";
 // import qr_code from "./qr-code.png";
 // import hand_write from "./notes.png";
 import "./manual-input.css";
-import axios from "axios";
+// import axios from "axios";
+import fetchClient from "../axiosClient/axiosClient";
 
 const AddUser = () => {
   const BASE_URL = "https://crm4399.herokuapp.com";
@@ -31,7 +32,7 @@ const AddUser = () => {
       note,
     };
 
-    axios
+    fetchClient
       .post(BASE_URL + "/contact/createContact", contact)
       .then(() => console.log("Create a new contact"))
       .catch((err) => {
@@ -56,7 +57,7 @@ const AddUser = () => {
         </a>
 
         <form className="contact-form" method="POST" onSubmit={handleSubmit}>
-          <label for="firstName">First Name: </label>
+          <label htmlFor="firstName">First Name: </label>
           <input
             name="firstName"
             type="text"
@@ -66,7 +67,7 @@ const AddUser = () => {
             required
           ></input>
 
-          <label for="lastName">Last Name: </label>
+          <label htmlFor="lastName">Last Name: </label>
           <input
             name="lastName"
             type="text"
@@ -76,7 +77,7 @@ const AddUser = () => {
             required
           ></input>
 
-          <label for="email">E-mail: </label>
+          <label htmlFor="email">E-mail: </label>
           <input
             name="email"
             type="email"
@@ -86,7 +87,7 @@ const AddUser = () => {
             required
           ></input>
 
-          <label for="phone">Phone: </label>
+          <label htmlFor="phone">Phone: </label>
           <input
             name="phone"
             type="text"
@@ -96,7 +97,7 @@ const AddUser = () => {
             required
           ></input>
 
-          <label for="occupation">Occupation: </label>
+          <label htmlFor="occupation">Occupation: </label>
           <input
             name="occupation"
             type="text"
@@ -106,7 +107,7 @@ const AddUser = () => {
             required
           ></input>
 
-          <label for="meetRecord">Occupation: </label>
+          <label htmlFor="meetRecord">Meeting Record: </label>
           <input
             name="meetRecord"
             type="text"
@@ -116,7 +117,7 @@ const AddUser = () => {
             required
           ></input>
 
-          <label for="note">Occupation: </label>
+          <label htmlFor="note">Notes: </label>
           <input
             name="note"
             type="text"

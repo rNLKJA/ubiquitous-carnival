@@ -28,7 +28,7 @@ const Login = () => {
     let data = { username: username, password: password };
     console.log("trying to login user :", data.username);
     await loginUser(data);
-
+    localStorage.setItem("userName", username);
     window.location.href = "/";
   };
 

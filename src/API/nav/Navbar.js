@@ -37,7 +37,7 @@ const Navbar = () => {
       {/* disable calendar display function */}
 
       {/* link to search route */}
-      <div className="navbar">
+      {/* <div className="navbar">
         <Link to="/search">
           <img
             className="nav-icon"
@@ -45,7 +45,7 @@ const Navbar = () => {
             alt="search-icon"
           />
         </Link>
-      </div>
+      </div> */}
 
       {/* link to map route */}
       <div className="navbar">

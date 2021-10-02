@@ -13,7 +13,7 @@ export default function useAuth() {
     const loginUser = async (data) => {
         const { username, password } = data;
         console.log("loging user")
-            return axios.post(BASE_URL+'/user/login', {
+            return fetchClient.post(BASE_URL+'/user/login', {
                 userName: username,
                 password: password,
             }).then((res) => {

@@ -1,10 +1,14 @@
 import React from "react";
-import { useState, useEffect } from "react";
+import { useState, useCallback } from "react";
 import "./contact.css";
 import { useContacts } from "../../BackEndAPI/contactAPI";
 // import { requirePropFactory } from "@material-ui/core";
 import Loading from "./pending";
 import add_user from "./add-user.png";
+import fetchClient from "../axiosClient/axiosClient";
+
+// const BASE_URL = "http://localhost:5000";
+const BASE_URL = "https://crm4399.herokuapp.com";
 
 const Contact = () => {
   const { loading, contacts, error } = useContacts();
@@ -20,7 +24,7 @@ const Contact = () => {
 
   const [searchTerm, setSearchTerm] = useState("");
 
-  const searchContacts = () => {
+  const searchContacts = useCallback(() => {
     return contacts.filter((contact) =>
       (
         contact.contact.firstName +
@@ -32,13 +36,34 @@ const Contact = () => {
         .toLowerCase()
         .includes(searchTerm.toLowerCase()),
     );
-  };
+  });
 
   const screenWidth = window.innerWidth;
 
   const handleChange = (e) => {
-    e.preventDefault;
+    e.preventDefault();
     setSearchTerm(e.target.value);
+  };
+
+  const deleteHandler = () => {
+    console.log(oneContact);
+
+    fetchClient
+      .get(
+        BASE_URL +
+          "/contact/deleteOneContact/" +
+          localStorage.getItem("userName") +
+          "/" +
+          oneContact._id,
+      )
+      .then((response) => {
+        if (response.data.status == "success") {
+          alert("You've delete a contact :D");
+          window.location.href = "/contact";
+        } else {
+          alert("Opps, something wrong X_X fail to delete the contact");
+        }
+      });
   };
 
   return (
@@ -126,6 +151,13 @@ const Contact = () => {
             <div className="note" style={{ height: "300px" }}>
               <input value={oneContact.note}></input>
             </div>
+            <button
+              className="delete-btn"
+              style={{ color: "red" }}
+              onClick={() => deleteHandler()}
+            >
+              Delete The Contact
+            </button>
           </div>
         )}
 
