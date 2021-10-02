@@ -39,4 +39,23 @@ apiRouter.get("/userController", (req, res) => {
   );
 });
 
+apiRouter.get("/contactAPI", (req, res) => {
+  res.sendFile(
+    path.join(__dirname, "../public/API documents/contactAPI.html"),
+  );
+});
+
+apiRouter.get("/profileAPI", (req, res) => {
+  res.sendFile(
+    path.join(__dirname, "../public/API documents/profileAPI.html"),
+  );
+});
+
+apiRouter.get("/recordAPI", (req, res) => {
+  res.sendFile(
+    path.join(__dirname, "../public/API documents/recordAPI.html"),
+  );
+});
+
+
 module.exports = apiRouter;

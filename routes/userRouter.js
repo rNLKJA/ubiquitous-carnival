@@ -1,4 +1,4 @@
-  const express = require('express');
+const express = require('express');
 
 const userRouter = express.Router();
 const emailAuth = require('../config/emailAuth');
