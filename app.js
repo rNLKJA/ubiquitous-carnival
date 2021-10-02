@@ -57,7 +57,7 @@ app.get("/", (req, res) => {
 				<iframe src="https://giphy.com/embed/fWj2TR9mfYJ56" width="480"\
 				height="264" frameBorder="0" class="giphy-embed" allowFullScreen>\
 				</iframe><p hidden><a href="https://giphy.com/gifs/supernatural-yes\
-				-dean-winchester-fWj2TR9mfYJ56">via GIPHY</a></p>',
+				-dean-winchester-fWj2TR9mfYJ56">via GIPHY</a></p><p><a href="/api/contactController" style="font-weight:bold; text-decoration: none">API Documentation</a></p><footer>Group 049 Team 4399</footer>',
   );
 });
 
@@ -86,10 +86,10 @@ app.all("*", (req, res) => {
   res.status(404).send();
 });
 
-if(!module.parent){
+if (!module.parent) {
   app.listen(process.env.PORT || 3000, () => {
     console.log(
-      `the team 4399's server is listening at PORT: ${process.env.PORT}`
+      `the team 4399's server is listening at PORT: ${process.env.PORT}`,
     );
   });
 }
