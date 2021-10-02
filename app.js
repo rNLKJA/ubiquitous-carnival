@@ -52,13 +52,7 @@ app.use(express.static("public"));
 // start app
 app.get("/", (req, res) => {
   console.log("Hey, there is an access request !!! ");
-  res.send(
-    '<p>The server is currently listening on port 4399</p>\
-				<iframe src="https://giphy.com/embed/fWj2TR9mfYJ56" width="480"\
-				height="264" frameBorder="0" class="giphy-embed" allowFullScreen>\
-				</iframe><p hidden><a href="https://giphy.com/gifs/supernatural-yes\
-				-dean-winchester-fWj2TR9mfYJ56">via GIPHY</a></p><p><a href="/api/contactController" style="font-weight:bold; text-decoration: none">API Documentation</a></p><footer>Group 049 Team 4399</footer>',
-  );
+  return res.sendFile("./public/index.html");
 });
 
 // TODO: remove testing module
