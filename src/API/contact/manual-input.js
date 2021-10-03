@@ -47,14 +47,37 @@ const AddUser = () => {
     setOccupation("");
     setMeetRecord("");
     setNote("");
+
+    window.location.href = "/contact";
   };
+
+  // const [image, setImage] = useState("");
+
+  // const uploadImage = async (e) => {
+  //   e.preventDefault();
+  //   // console.log(image);
+
+  //   const formData = new FormData();
+  //   formData.append("portrait", image);
+
+  //   await fetchClient
+  //     .post("http://localhost:5000/profile/uploadUserImage", formData)
+  //     .then((res) => console.log(res));
+
+  //   console.log("posted");
+  // };
 
   return (
     <React.Fragment>
       <div className="sub-container">
-        <a href="javascript:history.go(-1)" className="back-button">
+        <a href="/addUser" className="back-button">
           Back
         </a>
+
+        {/* <div className="upload-img">
+          <input type="file" onChange={(e) => setImage(e.target.files[0])} />
+          <button onClick={uploadImage}>Upload</button>
+        </div> */}
 
         <form className="contact-form" method="POST" onSubmit={handleSubmit}>
           <label htmlFor="firstName">First Name: </label>
@@ -90,8 +113,10 @@ const AddUser = () => {
           <label htmlFor="phone">Phone: </label>
           <input
             name="phone"
-            type="text"
-            placeholder="Please enter the phone number"
+            type="tel"
+            pattern="[0-9]{10}"
+            maxlength={10}
+            placeholder="Please enter the phone number follow the pattern #### ### ###"
             onChange={(e) => setPhone(e.target.value)}
             value={phone}
             required
@@ -114,17 +139,16 @@ const AddUser = () => {
             placeholder="Please enter the meetRecord"
             onChange={(e) => setMeetRecord(e.target.value)}
             value={meetRecord}
-            required
           ></input>
 
           <label htmlFor="note">Notes: </label>
-          <input
+          <textarea
             name="note"
             type="text"
             placeholder="Add Notes"
             onChange={(e) => setNote(e.target.value)}
             value={note}
-          ></input>
+          ></textarea>
 
           <input type="submit" value="Create" />
         </form>

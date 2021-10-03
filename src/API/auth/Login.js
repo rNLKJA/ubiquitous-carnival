@@ -9,6 +9,8 @@ import useAuth from "../../hooks/useAuth";
 
 import welcome from "./welcome.png";
 
+import Error from "../error/Error";
+
 Axios.defaults.withCredentials = true;
 
 const Login = () => {
@@ -16,12 +18,20 @@ const Login = () => {
 
   const [password, setPassword] = useState("");
 
-  const [loginState, setLoginState] = useState({
-    status: false,
-    username: "not login yet",
-  });
+  // const [loginState, setLoginState] = useState({
+  //   status: false,
+  //   username: "not login yet",
+  // });
 
   const { loginUser, error } = useAuth();
+
+  if (error) {
+    return (
+      <>
+        <Error msg={error} />
+      </>
+    );
+  }
 
   const handleLogin = async (event) => {
     event.preventDefault();
@@ -59,16 +69,20 @@ const Login = () => {
           />
         </div>
 
-        <input
-          className="login-btn"
-          type="button"
-          value="login"
-          onClick={handleLogin}
-        />
+        <div style={{ width: "100%" }}>
+          <input
+            className="login-btn"
+            type="button"
+            value="login"
+            onClick={handleLogin}
+          />
+        </div>
 
-        <button className="signup-btn" onClick={handleSignup}>
-          Create a new account
-        </button>
+        <div style={{ width: "100%" }}>
+          <button className="signup-btn" onClick={handleSignup}>
+            Create a new account
+          </button>
+        </div>
       </div>
     </div>
   );

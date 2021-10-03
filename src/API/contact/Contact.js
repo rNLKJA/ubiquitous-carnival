@@ -74,11 +74,25 @@ const Contact = () => {
     return <div className="error">Opps, there is some thing wrong X_X </div>;
   }
 
+  if (loading) {
+    return (
+      <div className="sub-container">
+        <div className="loading">
+          <h1>Loading Your Contact</h1>
+          <h1>(っ˘ω˘ς )</h1>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="sub-container">
-      {loading && <div className="loading">Loading</div>}
       <div className="contact">
         {/* display contact as a list */}
+
+        <div className="contact-heading">
+          <h1>Contact</h1>
+        </div>
 
         {screenWidth <= 1024 && !oneContact.selected && (
           <React.Fragment>

@@ -1,4 +1,24 @@
 @media only screen and (max-width: 1024px) {
+  input {
+    width: 100%;
+  }
+
+  .loading {
+    padding: 10px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    position: absolute;
+    text-align: center;
+    color: rgb(47, 71, 137);
+  }
+
+  .contact-heading {
+    position: fixed;
+    top: -4.8rem;
+    color: rgb(47, 71, 137);
+  }
+
   .contact {
     position: fixed;
     display: flex;
@@ -11,10 +31,10 @@
   }
 
   .search-box {
-    border-radius: 15px;
+    border-radius: 5px;
     border: none;
     border-bottom: rgb(47, 71, 137) 1px solid;
-    width: 100%;
+    width: 97%;
     height: 1.5rem;
     padding-left: 0.5rem;
     padding-right: 0.5rem;
@@ -124,7 +144,7 @@
     justify-content: center;
   }
 
-  .contact > input {
+  /* .contact > input {
     color: rgb(47, 71, 137);
     padding-left: 10px;
     font-size: 20px;
@@ -132,7 +152,7 @@
     border-radius: 10px;
     border: transparent;
     border-bottom: 0.5px double rgb(47, 71, 137);
-  }
+  } */
 
   .add-contact > img {
     width: 3rem;
