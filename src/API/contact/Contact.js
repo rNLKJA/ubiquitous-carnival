@@ -7,6 +7,7 @@ import Loading from "./pending";
 import add_user from "./add-user.png";
 import fetchClient from "../axiosClient/axiosClient";
 import SelectedContact from "./SelectedContact.jsx";
+import SelectedContactLarge from "./SelectedContact-large.jsx";
 import People from "./People.jsx";
 import Person from "./Person.jsx";
 
@@ -79,19 +80,22 @@ const Contact = () => {
       <div className="contact">
         {/* display contact as a list */}
 
-        {screenWidth <= 375 && !oneContact.selected && (
+        {screenWidth <= 1024 && !oneContact.selected && (
           <React.Fragment>
             <a href="./addUser">
               <div className="add-contact">
                 <img src={add_user} alt="add contact"></img>
               </div>
             </a>
-            <input
-              className="search-box"
-              value={searchTerm}
-              onChange={(e) => handleChange(e)}
-              placeholder="Search for a name"
-            ></input>
+            <div>
+              <input
+                className="search-box"
+                value={searchTerm}
+                onChange={(e) => handleChange(e)}
+                placeholder="Search for a name"
+                size={40}
+              ></input>
+            </div>
 
             <div className="contactList">
               <div className="contactList-items">
@@ -104,7 +108,7 @@ const Contact = () => {
           </React.Fragment>
         )}
 
-        {screenWidth <= 375 && oneContact.selected && (
+        {screenWidth <= 1024 && oneContact.selected && (
           <div className="contactDetail">
             <SelectedContact
               oneContact={oneContact}
@@ -114,7 +118,7 @@ const Contact = () => {
           </div>
         )}
 
-        {screenWidth > 375 && (
+        {screenWidth > 1024 && (
           <div className="contactList">
             <div className="contactList-items">
               {contacts.map((person) => (
@@ -129,7 +133,7 @@ const Contact = () => {
         )}
 
         {/* display a specific information if screen width greater than 375 px */}
-        {screenWidth > 375 && (
+        {screenWidth > 1024 && (
           <div>
             {!oneContact.selected && (
               <div className="contactDetail">
@@ -137,53 +141,7 @@ const Contact = () => {
               </div>
             )}
             {oneContact.selected && (
-              <div className="contactDetail">
-                <img
-                  src={require("./portrarit.png")}
-                  alt="protrait.png"
-                  style={{ paddingTop: "15px" }}
-                />
-                <div className="name">
-                  <label>First Name: </label>
-                  {oneContact.firstName}
-                </div>
-                <div className="name">
-                  <label>Last Name: </label>
-                  {oneContact.lastName}
-                </div>
-                <div className="occupation">
-                  <label>Occupation: </label>
-                  {oneContact.occupation}
-                </div>
-                <div className="linkedAccount">
-                  <label>Linked Account: </label>
-                  {oneContact.linkedAccount}
-                </div>
-                <div className="email">
-                  {oneContact.email.map((mail) => {
-                    return (
-                      <label key={new Date().toISOString()}>
-                        Email Address: {mail}
-                      </label>
-                    );
-                  })}
-                </div>
-                <div className="phone">
-                  {oneContact.phone.map((phone) => {
-                    return (
-                      <label
-                        key={new Date().toISOString()}
-                        style={{ color: "rgb(47,71,137)" }}
-                      >
-                        Phone: {phone}
-                      </label>
-                    );
-                  })}
-                </div>
-                <div className="note" style={{ height: "300px" }}>
-                  <input value={oneContact.note}></input>
-                </div>
-              </div>
+              <SelectedContactLarge oneContact={oneContact} />
             )}
           </div>
         )}

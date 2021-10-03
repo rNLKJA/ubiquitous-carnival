@@ -21,7 +21,8 @@ import AddUser from "./API/contact/addOneContact";
 import ManualInput from "./API/contact/manual-input";
 import QrCode from "./API/contact/qr-code";
 import UserID from "./API/contact/user-id";
-import CreateRecord from "./API/record/AddRecord"
+import CreateRecord from "./API/record/AddRecord";
+import logo from "./logo.png";
 
 // defined the map function
 function App() {
@@ -31,7 +32,9 @@ function App() {
     <div className="container">
       {/* define the route */}
       {/* TODO: login route and regist route */}
-
+      <div className="heading">
+        <img className="logo" src={logo}></img>
+      </div>
       <Router>
         <UserContext.Provider value={{ user, setUser, isLoading }}>
           {/* <NavbarTop /> */}
