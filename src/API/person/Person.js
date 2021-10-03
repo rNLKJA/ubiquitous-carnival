@@ -31,7 +31,7 @@ const Person = () => {
             firstName,
 
         };
-        axios
+        
             fetchClient.post(BASE_URL + "/profile/editFirstName", profile)
             .then(() => console.log("upload new information"))
             .catch((err) => {
@@ -49,7 +49,7 @@ const Person = () => {
             lastName,
 
         };
-        axios
+        
             fetchClient.post(BASE_URL + "/profile/editLastName", profile)
             .then(() => console.log("upload new information"))
             .catch((err) => {
@@ -67,7 +67,7 @@ const Person = () => {
             occupation,
 
         };
-        axios
+        
         fetchClient.post(BASE_URL + "/profile/editOccupation", profile)
             .then(() => console.log("upload new information"))
             .catch((err) => {
@@ -85,7 +85,7 @@ const Person = () => {
             status,
 
         };
-        axios
+        
         fetchClient.post(BASE_URL + "/profile/editStatus", profile)
             .then(() => console.log("upload new information"))
             .catch((err) => {
@@ -103,7 +103,7 @@ const Person = () => {
             email,
 
         };
-        axios
+        
         fetchClient.post(BASE_URL + "/profile/addEmail", profile)
             .then(() => console.log("upload new information"))
             .catch((err) => {
@@ -120,7 +120,7 @@ const Person = () => {
             email,
 
         };
-        axios
+        
         fetchClient.post(BASE_URL + "/profile/delEmail", profile)
             .then(() => console.log("upload del"))
             .catch((err) => {
@@ -138,7 +138,7 @@ const Person = () => {
             phone,
 
         };
-        axios
+        
         fetchClient.post(BASE_URL + "/profile/delPhone", profile)
             .then(() => console.log("upload del"))
             .catch((err) => {
@@ -157,7 +157,7 @@ const Person = () => {
             phone,
 
         };
-        axios
+        
         fetchClient.post(BASE_URL + "/profile/addPhone", profile)
             .then(() => console.log("upload new information"))
             .catch((err) => {

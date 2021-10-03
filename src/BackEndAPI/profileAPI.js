@@ -6,26 +6,6 @@ const BASE_URL = "https://crm4399.herokuapp.com";
 
 axios.defaults.withCredentials = true;
 
-function editFirstName(firstName) {
-  const endpoint = BASE_URL + "/profile/editFirstName";
-  return fetchClient.post(endpoint, firstName).then((res) => res.data);
-}
-
-function editLastName(lastName) {
-  const endpoint = BASE_URL + "/profile/editLastName";
-  return fetchClient.post(endpoint, lastName).then((res) => res.data);
-}
-
-function editOccupation(occupation) {
-  const endpoint = BASE_URL + "/profile/editOccupation";
-  return fetchClient.post(endpoint, occupation).then((res) => res.data);
-}
-
-function editStatus(status) {
-  const endpoint = BASE_URL + "/profile/editStatus";
-  return fetchClient.post(endpoint, status).then((res) => res.data);
-
-}
 
 /**
 * Back-End API: edit the lastName of client
@@ -137,147 +117,147 @@ export function useShowProfile() {
 }
 
 
-export function useeditFirstName() {
+// export function useeditFirstName() {
 
-  const [firstName, setFirstName] = useState("");
-
-
-  function onSubmit() {
-    editFirstName({
-      firstName: firstName,
-
-    });
-  }
-  return;
-}
+//   const [firstName, setFirstName] = useState("");
 
 
-export function useeditLastName() {
+//   function onSubmit() {
+//     editFirstName({
+//       firstName: firstName,
 
-  const [lastName, setLastName] = useState("");
-
-
-  function onSubmit() {
-    editLastName({
-      lastName: lastName,
-
-    });
-  }
-  return;
-
-}
-
-export function useeditOccupation() {
-  const [occupation, setOccupation] = useState("");
+//     });
+//   }
+//   return;
+// }
 
 
-  function onSubmit() {
-    editOccupation({
-      occupation: occupation,
+// export function useeditLastName() {
 
-    });
-  }
-  return;
-}
-
-export function useeditStatus() {
-  const [status, setStatus] = useState("");
+//   const [lastName, setLastName] = useState("");
 
 
-  function onSubmit() {
-    editStatus({
-      status: status,
+//   function onSubmit() {
+//     editLastName({
+//       lastName: lastName,
 
-    });
-  }
-  return;
+//     });
+//   }
+//   return;
 
-}
+// }
 
-/**
-* React_Use_Function: use edit occupation function
-*/
-export function useEditOccupation() {
-  const [occupation, setOccupation] = useState("");
+// export function useeditOccupation() {
+//   const [occupation, setOccupation] = useState("");
 
 
-  function onSubmit() {
-    editOccupation({
-      occupation: occupation,
+//   function onSubmit() {
+//     editOccupation({
+//       occupation: occupation,
 
-    });
-  }
-  return;
-}
+//     });
+//   }
+//   return;
+// }
 
-/**
-* React_Use_Function: use edit status function
-*/
-export function useEditStatus() {
-  const [status, setStatus] = useState("");
+// export function useeditStatus() {
+//   const [status, setStatus] = useState("");
 
 
-  function onSubmit() {
-    editStatus({
-      status: status,
+//   function onSubmit() {
+//     editStatus({
+//       status: status,
 
-    });
-  }
-  return;
-}
+//     });
+//   }
+//   return;
 
-/**
-* React_Use_Function: use add phone function
-*/
-export function useAddPhone() {
-  const [phone, setPhone] = useState("");
+// }
 
-  function onSubmit() {
-    addPhone({
-      phone: phone,
-    });
-  }
-  return;
-}
+// /**
+// * React_Use_Function: use edit occupation function
+// */
+// export function useEditOccupation() {
+//   const [occupation, setOccupation] = useState("");
 
-/**
-* React_Use_Function: use del phone function
-*/
-export function useDelPhone() {
-  const [phone, setPhone] = useState("");
 
-  function onSubmit() {
-    delPhone({
-      phone: phone,
-    });
-  }
-  return;
-}
+//   function onSubmit() {
+//     editOccupation({
+//       occupation: occupation,
 
-/**
-* React_Use_Function: use add email function
-*/
-export function useAddEmail() {
-  const [email, setPhone] = useState("");
+//     });
+//   }
+//   return;
+// }
 
-  function onSubmit() {
-    addEmail({
-      email: email,
-    });
-  }
-  return;
-}
+// /**
+// * React_Use_Function: use edit status function
+// */
+// export function useEditStatus() {
+//   const [status, setStatus] = useState("");
 
-/**
-* React_Use_Function: use del email function
-*/
-export function useDelEmail() {
-  const [email, setPhone] = useState("");
 
-  function onSubmit() {
-    delEmail({
-      email: email,
-    });
-  }
-  return;
-}
+//   function onSubmit() {
+//     editStatus({
+//       status: status,
+
+//     });
+//   }
+//   return;
+// }
+
+// /**
+// * React_Use_Function: use add phone function
+// */
+// export function useAddPhone() {
+//   const [phone, setPhone] = useState("");
+
+//   function onSubmit() {
+//     addPhone({
+//       phone: phone,
+//     });
+//   }
+//   return;
+// }
+
+// /**
+// * React_Use_Function: use del phone function
+// */
+// export function useDelPhone() {
+//   const [phone, setPhone] = useState("");
+
+//   function onSubmit() {
+//     delPhone({
+//       phone: phone,
+//     });
+//   }
+//   return;
+// }
+
+// /**
+// * React_Use_Function: use add email function
+// */
+// export function useAddEmail() {
+//   const [email, setPhone] = useState("");
+
+//   function onSubmit() {
+//     addEmail({
+//       email: email,
+//     });
+//   }
+//   return;
+// }
+
+// /**
+// * React_Use_Function: use del email function
+// */
+// export function useDelEmail() {
+//   const [email, setPhone] = useState("");
+
+//   function onSubmit() {
+//     delEmail({
+//       email: email,
+//     });
+//   }
+//   return;
+// }
