@@ -10,6 +10,7 @@ import SelectedContact from "./SelectedContact.jsx";
 import SelectedContactLarge from "./SelectedContact-large.jsx";
 import People from "./People.jsx";
 import Person from "./Person.jsx";
+import Error from "../error/Error";
 
 // const BASE_URL = "http://localhost:5000";
 const BASE_URL = "https://crm4399.herokuapp.com";
@@ -71,7 +72,11 @@ const Contact = () => {
   };
 
   if (error) {
-    return <div className="error">Opps, there is some thing wrong X_X </div>;
+    return (
+      <div className="sub-container">
+        <Error msg={"There is something wrong with Contact X_X"} />
+      </div>
+    );
   }
 
   if (loading) {
