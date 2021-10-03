@@ -12,7 +12,8 @@ import { convert } from "./Record";
 import fetchClient from "../axiosClient/axiosClient";
 import Error from "../error/Error";
 
-import React, { useState, useCallback, useRef } from "react";
+import React, { useState } from "react";
+import Map from "../map/google_map/map_acmp";
 
 const CreateRecord = () => {
   const [currentTime, setCurrentTime] = useState(new Date());
@@ -95,6 +96,7 @@ const CreateRecord = () => {
           required
           className="location"
         ></input>
+
         <br />
         <div className="timer-container">
           <LocalizationProvider dateAdapter={AdapterDateFns}>
@@ -110,6 +112,7 @@ const CreateRecord = () => {
             />
           </LocalizationProvider>
         </div>
+
         <input
           className="submit-button"
           type="button"

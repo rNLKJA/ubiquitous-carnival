@@ -1,61 +1,78 @@
-
-.person{
-
+.person {
 }
 
-.basicInformation{
-    width: 45%;
-    height: 100%;
-    float: left;
-    border-radius: 5px;
-    border: 1px solid black;
-
+.basicInformation {
+  width: 100%;
+  height: 100%;
+  float: left;
+  border-radius: 5px;
+  border: 1px solid black;
 }
-.contactInformation{
-    width: 45%;
-    height: 100%;
-    float: right;
-    border-radius: 5px;
-    border: 1px solid black;
-
+.contactInformation {
+  width: 100%;
+  height: 100%;
+  float: right;
+  border-radius: 5px;
+  border: 1px solid black;
 }
 
-.firstValue{
-    float: left;
-}
-.lastValue{
-     float: left;
-}
-.occupationValue{
-      float: left;
+.information-container {
+  display: flex;
+  flex-direction: column;
 }
 
-.statusValue{
-    float: left;
+.firstValue {
+  float: left;
+}
+.lastValue {
+  float: left;
+}
+.occupationValue {
+  float: left;
 }
 
-.emailTitle{
-    float: left;
+.statusValue {
+  float: left;
 }
 
-.email{
-    float: left;
+.emailTitle {
+  float: left;
 }
 
-.phoneTitle{
-    float: left;
+.email {
+  float: left;
 }
 
-.newPhone{
-
+.phoneTitle {
+  float: left;
 }
 
-.phone{
-    float: left;
-
+.newPhone {
 }
 
-.delPhone-btn{
+.phone {
+  float: left;
+}
 
+.delPhone-btn {
+}
 
+.logout-btn {
+  top: -3.2rem;
+  right: 1rem;
+  position: fixed;
+  font-size: 16px;
+  height: 75px;
+  height: 30px;
+}
+
+.info-container {
+  display: grid;
+  grid-template-columns: 1fr 3fr 1fr;
+  gap: 0.5rem;
+}
+
+.Label {
+  background-color: royalblue;
+  color: white;
 }
