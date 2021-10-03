@@ -1,11 +1,14 @@
 import React from "react";
-import { useState, useCallback } from "react";
+import { useState } from "react";
 import "./contact.css";
 import { useContacts } from "../../BackEndAPI/contactAPI";
 // import { requirePropFactory } from "@material-ui/core";
 import Loading from "./pending";
 import add_user from "./add-user.png";
 import fetchClient from "../axiosClient/axiosClient";
+import SelectedContact from "./SelectedContact.jsx";
+import People from "./People.jsx";
+import Person from "./Person.jsx";
 
 // const BASE_URL = "http://localhost:5000";
 const BASE_URL = "https://crm4399.herokuapp.com";
@@ -24,7 +27,7 @@ const Contact = () => {
 
   const [searchTerm, setSearchTerm] = useState("");
 
-  const searchContacts = useCallback(() => {
+  const searchContacts = () => {
     return contacts.filter((contact) =>
       (
         contact.contact.firstName +
@@ -36,7 +39,7 @@ const Contact = () => {
         .toLowerCase()
         .includes(searchTerm.toLowerCase()),
     );
-  });
+  };
 
   const screenWidth = window.innerWidth;
 
@@ -57,7 +60,7 @@ const Contact = () => {
           oneContact._id,
       )
       .then((response) => {
-        if (response.data.status == "success") {
+        if (response.data.status === "success") {
           alert("You've delete a contact :D");
           window.location.href = "/contact";
         } else {
@@ -103,66 +106,11 @@ const Contact = () => {
 
         {screenWidth <= 375 && oneContact.selected && (
           <div className="contactDetail">
-            <button
-              className="back"
-              onClick={() => {
-                setOneContact({ ...oneContact, selected: false });
-              }}
-            >
-              Back
-            </button>
-            <img
-              src={require("./portrarit.png")}
-              alt="protrait.png"
-              style={{ paddingTop: "15px" }}
+            <SelectedContact
+              oneContact={oneContact}
+              setOneContact={setOneContact}
+              deleteHandler={deleteHandler}
             />
-            <div className="name">
-              <label>First Name: </label>
-              {oneContact.firstName}
-            </div>
-            <div className="name">
-              <label>Last Name: </label>
-              {oneContact.lastName}
-            </div>
-            <div className="occupation">
-              <label>Occupation: </label>
-              {oneContact.occupation}
-            </div>
-            <div className="linkedAccount">
-              <label>Linked Account: </label>
-              {oneContact.linkedAccount}
-            </div>
-            <div className="email">
-              {oneContact.email.map((mail) => {
-                return (
-                  <label key={new Date().toISOString()}>
-                    Email Address: {mail}
-                  </label>
-                );
-              })}
-            </div>
-            <div className="phone">
-              {oneContact.phone.map((phone) => {
-                return (
-                  <label
-                    key={new Date().toISOString()}
-                    style={{ color: "rgb(47,71,137)" }}
-                  >
-                    Phone: {phone}
-                  </label>
-                );
-              })}
-            </div>
-            <div className="note" style={{ height: "300px" }}>
-              <input value={oneContact.note}></input>
-            </div>
-            <button
-              className="delete-btn"
-              style={{ color: "red" }}
-              onClick={() => deleteHandler()}
-            >
-              Delete The Contact
-            </button>
           </div>
         )}
 
@@ -245,54 +193,6 @@ const Contact = () => {
 };
 
 export default Contact;
-
-export const People = ({ contacts, setOneContact }) => {
-  return (
-    <div>
-      {contacts.map((person) => {
-        return (
-          <Person
-            prop={person}
-            key={person._id}
-            setOneContact={setOneContact}
-          />
-        );
-      })}
-    </div>
-  );
-};
-
-export const Person = ({ prop, setOneContact }) => {
-  return (
-    <div
-      className="person"
-      onClick={() => {
-        setOneContact({ ...prop.contact, selected: true });
-      }}
-    >
-      <div className="profile">
-        <img
-          src={require("./index.jpg")}
-          alt={`${prop.lastname} portfolio`}
-        ></img>
-      </div>
-      <div className="info">
-        <p>
-          <b className="class">First Name: </b>
-          {prop.contact.firstName}
-        </p>
-        <p>
-          <b className="class">Last Name: </b>
-          {prop.contact.lastName}
-        </p>
-        <p>
-          <b className="class">Occupation: </b>
-          {prop.contact.occupation}
-        </p>
-      </div>
-    </div>
-  );
-};
 
 export const PersonInfo = ({ prop }) => {
   return <div className="personInfo"></div>;
