@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import fetchClient from '../API/axiosClient/axiosClient'
+import fetchClient from "../API/axiosClient/axiosClient";
 import axios from "axios";
 // const BASE_URL = "https://crm4399.herokuapp.com";
 const BASE_URL = "https://crm4399.herokuapp.com";
@@ -20,16 +20,16 @@ function getContacts() {
  * @param {JSON} contactInfo a JSON object that contain information to create a contact
  * @returns {JSON} the JSON object that from the database after create
  */
-function createContact(contactInfo) {
-  const endpoint = BASE_URL + "/contact/createContact";
-  return fetchClient.post(endpoint, contactInfo).then((res) => res.data);
-}
+// function createContact(contactInfo) {
+//   const endpoint = BASE_URL + "/contact/createContact";
+//   return fetchClient.post(endpoint, contactInfo).then((res) => res.data);
+// }
 
 //object ID as input
 /**
  * this fucntion will post to back end with an object id of contact and return the detail information of that contact
  * @param {String} contactObjectId the Object Id as string of a contact
- * @returns {JSON} the full detail of an contact 
+ * @returns {JSON} the full detail of an contact
  */
 function ShowOneContact(contactObjectId) {
   const endpoint = BASE_URL + "/contact/showOneContact";
@@ -38,10 +38,9 @@ function ShowOneContact(contactObjectId) {
     .then((res) => res.data);
 }
 
-
 /**
-* React_Use_Function: use show contactlist of user
-*/
+ * React_Use_Function: use show contactlist of user
+ */
 export function useContacts() {
   const [loading, setLoading] = useState(true);
   const [contacts, setContacts] = useState([]);
@@ -67,8 +66,8 @@ export function useContacts() {
 }
 
 /**
-* React_Use_Function: use show one contact detail
-*/
+ * React_Use_Function: use show one contact detail
+ */
 export function useShowOneContact() {
   const [loading, setLoading] = useState(true);
   const [contact, setContact] = useState();
@@ -92,30 +91,29 @@ export function useShowOneContact() {
     error,
   };
 }
-//TODO:Put that function in Pages instead of API
 /**
-* React_Use_Function: use create contact
-*/
-export function useCreateContact() {
-  const [email, setEmail] = useState([]);
-  const [phone, setPhone] = useState([]);
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [occupation, setOccupation] = useState("");
-  const [portrait, setPortrait] = useState("");
-  const [note, setNote] = useState("");
+ * React_Use_Function: use create contact
+ */
+// export function useCreateContact() {
+//   const [email, setEmail] = useState([]);
+//   const [phone, setPhone] = useState([]);
+//   const [firstName, setFirstName] = useState("");
+//   const [lastName, setLastName] = useState("");
+//   const [occupation, setOccupation] = useState("");
+//   const [portrait, setPortrait] = useState("");
+//   const [note, setNote] = useState("");
 
-  function onSubmit() {
-    createContact({
-      email: email,
-      phone: phone,
-      firstName: firstName,
-      lastName: lastName,
-      occupation: occupation,
-      portrait: portrait,
-      note: note,
-    });
-    //redirect if needed
-  }
-  return; //html for form
-}
+//   function onSubmit() {
+//     createContact({
+//       email: email,
+//       phone: phone,
+//       firstName: firstName,
+//       lastName: lastName,
+//       occupation: occupation,
+//       portrait: portrait,
+//       note: note,
+//     });
+//     //redirect if needed
+//   }
+//   return; //html for form
+// }

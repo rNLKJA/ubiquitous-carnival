@@ -66,8 +66,13 @@ const Contact = () => {
       });
   };
 
+  if (error) {
+    return <div className="error">Opps, there is some thing wrong X_X </div>;
+  }
+
   return (
     <div className="sub-container">
+      {loading && <div className="loading">Loading</div>}
       <div className="contact">
         {/* display contact as a list */}
 
