@@ -33,7 +33,7 @@ function App() {
       {/* define the route */}
       {/* TODO: login route and regist route */}
       <div className="heading">
-        <img className="logo" src={logo}></img>
+        <img className="logo" src={logo} alt="4399CRM logo"></img>
       </div>
       <Router>
         <UserContext.Provider value={{ user, setUser, isLoading }}>
