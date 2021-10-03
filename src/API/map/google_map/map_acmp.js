@@ -23,11 +23,14 @@ import "@reach/combobox/styles.css";
 // import { formatRelative } from "date-fns";
 import mapStyle from "./mapStyles";
 // import { Info, LaptopWindows } from "@material-ui/icons";
+import "./map.css";
+
+import compass from "../compass.png";
 
 const libraries = ["places"];
 const mapContainerStyle = {
-  width: "80%",
-  height: "30vh",
+  width: "100%",
+  height: "78vh",
 };
 
 const center = {
@@ -81,7 +84,7 @@ const Map = () => {
 
   // error handling, check the google map is loading correctly
   if (loadError) return "Error loading maps";
-  if (!isLoaded) return "loading map"; // TODO: add loading component
+  if (!isLoaded) return "loading map";
 
   // return component
   return (
@@ -176,7 +179,7 @@ const Locate = ({ panTo, setAddress }) => {
         );
       }}
     >
-      <img src={require("../compass.png")} alt="compass - locate" />
+      <img src={compass} alt="compass - locate" />
     </button>
   );
 };
