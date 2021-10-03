@@ -186,7 +186,7 @@ const Locate = ({ panTo, setAddress }) => {
 
 // define the search function
 // this function should fetch the user input (address) then convert it to geolocation and pin it on the map
-const Search = ({ panTo, setAddress }) => {
+const Search = ({ panTo, setAddress, setMeetCoordinate }) => {
   // generate variables and functions
   const {
     ready,
