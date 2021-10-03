@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useRef } from "react";
+import React, { useState, useCallback, useRef, useEffect } from "react";
 import {
   GoogleMap,
   useLoadScript,
@@ -25,12 +25,12 @@ import mapStyle from "./mapStyles";
 // import { Info, LaptopWindows } from "@material-ui/icons";
 import "./map.css";
 
-import compass from "../compass.png";
+import compass from "./compass.png";
 
 const libraries = ["places"];
 const mapContainerStyle = {
   width: "100%",
-  height: "78vh",
+  height: "30vh",
 };
 
 const center = {
@@ -45,7 +45,7 @@ const options = {
 };
 
 // return map component
-const Map = ({ setMeetCoordinate }) => {
+const Map = ({ setLocation, setGeoCoords }) => {
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
     libraries,
@@ -57,6 +57,7 @@ const Map = ({ setMeetCoordinate }) => {
     text: "The University of Melbourne",
   });
   const [selected, setSelected] = useState(null);
+
   // set the callback function
   const onMapClick = useCallback((event) => {
     fetchAddress(
@@ -66,6 +67,8 @@ const Map = ({ setMeetCoordinate }) => {
       },
       setAddress,
     );
+
+    // console.log(selected, address);
   }, []);
 
   // pin the location
@@ -81,6 +84,12 @@ const Map = ({ setMeetCoordinate }) => {
 
   // set react reference function
   const mapRef = useRef();
+
+  useEffect(() => {
+    // console.log(address);
+    setGeoCoords({ lat: address.lat, lng: address.lng });
+    setLocation(address.text);
+  }, [address, selected]);
 
   // error handling, check the google map is loading correctly
   if (loadError) return "Error loading maps";
@@ -98,12 +107,16 @@ const Map = ({ setMeetCoordinate }) => {
         </h4> */}
 
         {/* define the address search box and locate buttom  */}
-        <Search
-          key={new Date().toISOString()}
-          panTo={panTo}
-          setAddress={setAddress}
-        />
-        <Locate panTo={panTo} setAddress={setAddress} />
+        <div className="top-bar">
+          <Search
+            key={new Date().toISOString()}
+            panTo={panTo}
+            setAddress={setAddress}
+            setLocation={setLocation}
+            setGeoCoords={setGeoCoords}
+          />
+          <Locate panTo={panTo} setAddress={setAddress} />
+        </div>
 
         {/* load google API libraries */}
         <GoogleMap
@@ -169,10 +182,10 @@ const Locate = ({ panTo, setAddress }) => {
               ...coord,
               text: text,
             });
-            console.log({
-              ...coord,
-              text,
-            });
+            // console.log({
+            //   ...coord,
+            //   text,
+            // });
           },
           () => null,
           options,
@@ -186,7 +199,7 @@ const Locate = ({ panTo, setAddress }) => {
 
 // define the search function
 // this function should fetch the user input (address) then convert it to geolocation and pin it on the map
-const Search = ({ panTo, setAddress, setMeetCoordinate }) => {
+const Search = ({ panTo, setAddress, setGeoCoords, setLocation }) => {
   // generate variables and functions
   const {
     ready,
@@ -216,6 +229,9 @@ const Search = ({ panTo, setAddress, setMeetCoordinate }) => {
 
             panTo({ lat, lng });
             setAddress({ lat, lng, text: address });
+            // console.log(address);
+            setGeoCoords({ lat, lng });
+            setLocation(address);
           } catch (err) {
             console.log("error");
           }

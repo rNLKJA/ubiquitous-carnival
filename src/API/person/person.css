@@ -1,5 +1,5 @@
-.person {
-}
+/* .person {
+} */
 
 .basicInformation {
   width: 100%;
@@ -47,15 +47,15 @@
   float: left;
 }
 
-.newPhone {
-}
+/* .newPhone {
+} */
 
 .phone {
   float: left;
 }
 
-.delPhone-btn {
-}
+/* .delPhone-btn {
+} */
 
 .logout-btn {
   top: -3.2rem;

@@ -13,13 +13,14 @@ import fetchClient from "../axiosClient/axiosClient";
 import Error from "../error/Error";
 
 import React, { useState } from "react";
-import Map from "../map/google_map/map_acmp";
+import Map from "./map";
 
 const CreateRecord = () => {
   const [currentTime, setCurrentTime] = useState(new Date());
   const { loading, contacts, error } = useContacts();
   const [selected, setSelected] = useState("");
   const [location, setLocation] = useState("");
+  const [geoCoords, setGeoCoords] = useState({ lat: -37.7972, lng: 144.961 });
 
   if (error) {
     return <Error msg={"Something Wrong with Record Component"}></Error>;
@@ -45,13 +46,15 @@ const CreateRecord = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+
+    // return console.log(location);
     const recordInfo = {
       contact_id: selected,
       location: location,
       dateTime: currentTime,
     };
 
-    console.log(recordInfo);
+    // console.log(recordInfo);
 
     fetchClient
       .post("/record/createRecord", recordInfo)
@@ -85,6 +88,23 @@ const CreateRecord = () => {
           getOptionValue={(option) => option.value}
           getOptionLabel={(option) => option.value}
         />
+
+        <br />
+        <div className="timer-container">
+          <LocalizationProvider dateAdapter={AdapterDateFns}>
+            <DateTimePicker
+              renderInput={(params) => <TextField {...params} />}
+              label="Meeting time"
+              value={currentTime}
+              onChange={(newValue) => {
+                setCurrentTime(convert(newValue));
+              }}
+              minDate={new Date("2020-02-14")}
+              maxTime={new Date()}
+            />
+          </LocalizationProvider>
+        </div>
+
         <br />
         <label htmlFor="location">Location: </label>
         <input
@@ -97,21 +117,22 @@ const CreateRecord = () => {
           className="location"
         ></input>
 
-        <br />
-        <div className="timer-container">
-          <LocalizationProvider dateAdapter={AdapterDateFns}>
-            <DateTimePicker
-              renderInput={(params) => <TextField {...params} />}
-              label="meeting time"
-              value={currentTime}
-              onChange={(newValue) => {
-                setCurrentTime(convert(newValue));
-              }}
-              minDate={new Date("2020-02-14")}
-              maxTime={new Date()}
-            />
-          </LocalizationProvider>
-        </div>
+        <input
+          htmlFor="geoCoords"
+          type="number"
+          step="any"
+          value={geoCoords.lat}
+          hidden
+        />
+        <input
+          htmlFor="geoCoords"
+          type="number"
+          step="any"
+          value={geoCoords.lng}
+          hidden
+        />
+
+        <Map setLocation={setLocation} setGeoCoords={setGeoCoords} />
 
         <input
           className="submit-button"

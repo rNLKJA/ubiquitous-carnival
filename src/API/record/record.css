@@ -71,4 +71,20 @@
     padding-left: 1rem;
     padding-right: 10px;
   }
+
+  .submit-button:hover {
+    color: white;
+    background-color: rgb(47, 71, 137);
+  }
+
+  .submit-button {
+    width: 100%;
+    color: rgb(47, 71, 137);
+    background-color: transparent;
+    border: none;
+    border-top: rgb(47, 71, 137) 1px solid;
+    border-left: rgb(47, 71, 137) 1px solid;
+    border-right: rgb(47, 71, 137) 1px solid;
+    border-bottom: rgb(47, 71, 137) 2px double;
+  }
 }

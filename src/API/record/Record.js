@@ -1,10 +1,10 @@
-import { Input } from "@material-ui/icons";
-import Select from "react-select";
-import React, { useState } from "react";
+// import { Input } from "@material-ui/icons";
+// import Select from "react-select";
+import React from "react";
 import "./record.css";
 import Error from "../error/Error";
 
-import { useShowAllRecords, useCreateRecord } from "../../BackEndAPI/recordAPI";
+import { useShowAllRecords } from "../../BackEndAPI/recordAPI";
 
 import add_record from "./add-record.jpg";
 

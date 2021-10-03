@@ -98,12 +98,14 @@ const Map = ({ setMeetCoordinate }) => {
         </h4> */}
 
         {/* define the address search box and locate buttom  */}
-        <Search
-          key={new Date().toISOString()}
-          panTo={panTo}
-          setAddress={setAddress}
-        />
-        <Locate panTo={panTo} setAddress={setAddress} />
+        <div className="top-bar">
+          <Search
+            key={new Date().toISOString()}
+            panTo={panTo}
+            setAddress={setAddress}
+          />
+          <Locate panTo={panTo} setAddress={setAddress} />
+        </div>
 
         {/* load google API libraries */}
         <GoogleMap
