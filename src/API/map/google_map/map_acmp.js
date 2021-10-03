@@ -45,7 +45,7 @@ const options = {
 };
 
 // return map component
-const Map = () => {
+const Map = ({ setMeetCoordinate }) => {
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
     libraries,
@@ -71,7 +71,7 @@ const Map = () => {
   // pin the location
   const panTo = React.useCallback(({ lat, lng }) => {
     mapRef.current.panTo({ lat, lng });
-    mapRef.current.setZoom(19);
+    mapRef.current.setZoom(16);
   }, []);
 
   // save map component
@@ -119,7 +119,7 @@ const Map = () => {
             position={address}
             icon={{
               url: "./google-maps.png",
-              scaledSize: new window.google.maps.Size(30, 30),
+              scaledSize: new window.google.maps.Size(50, 50),
               origin: new window.google.maps.Point(0, 0),
               anchor: new window.google.maps.Point(15, 15),
             }}

@@ -1,6 +1,6 @@
 // import { Input } from "@material-ui/icons";
 import Select from "react-select";
-import React, { useState } from "react";
+
 import "./record.css";
 import TextField from "@mui/material/TextField";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
@@ -11,6 +11,8 @@ import { useContacts } from "../../BackEndAPI/contactAPI";
 import { convert } from "./Record";
 import fetchClient from "../axiosClient/axiosClient";
 import Error from "../error/Error";
+
+import React, { useState, useCallback, useRef } from "react";
 
 const CreateRecord = () => {
   const [currentTime, setCurrentTime] = useState(new Date());
