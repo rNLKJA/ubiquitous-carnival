@@ -1,6 +1,10 @@
 // import required dependencies
 import React from "react";
 import { Link } from "react-router-dom";
+import settingIMG from './icon/set.png'
+import contactIMG from './icon/contact.png'
+import recordIMG from './icon/record.png'
+import mapIMG from './icon/map.png'
 
 // define navigation bar component
 const Navbar = () => {
@@ -11,7 +15,7 @@ const Navbar = () => {
         <Link to="/contact">
           <img
             className="nav-icon"
-            src={require("./icon/contact.png")}
+            src={contactIMG}
             alt="contact-icon"
           />
         </Link>
@@ -22,7 +26,7 @@ const Navbar = () => {
         <Link to="/record">
           <img
             className="nav-icon"
-            src={require("./icon/record.png")}
+            src={recordIMG}
             alt="record-icon"
           />
         </Link>
@@ -52,7 +56,7 @@ const Navbar = () => {
         <Link to="/map">
           <img
             className="nav-icon"
-            src={require("./icon/map.png")}
+            src={mapIMG}
             alt="map-icon"
           />
         </Link>
@@ -63,7 +67,7 @@ const Navbar = () => {
         <Link to="/setting">
           <img
             className="nav-icon"
-            src={require("./icon/set.png")}
+            src={settingIMG}
             alt="set-icon"
           />
         </Link>
