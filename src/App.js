@@ -31,7 +31,7 @@ function App() {
   return (
     <div className="container">
       {/* define the route */}
-      {/* TODO: login route and regist route */}
+
       <div className="heading">
         <a href="/">
           <img className="logo" src={logo} alt="4399CRM logo"></img>
