@@ -89,7 +89,7 @@ const Map = ({ setLocation, setGeoCoords }) => {
     // console.log(address);
     setGeoCoords({ lat: address.lat, lng: address.lng });
     setLocation(address.text);
-  }, [address, selected]);
+  }, [address, selected, setGeoCoords, setLocation]);
 
   // error handling, check the google map is loading correctly
   if (loadError) return "Error loading maps";
