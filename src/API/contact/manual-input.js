@@ -18,7 +18,7 @@ const AddUser = () => {
   const [meetRecord, setMeetRecord] = useState("");
   const [note, setNote] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     const contact = {
@@ -32,7 +32,7 @@ const AddUser = () => {
       note,
     };
 
-    fetchClient
+    await fetchClient
       .post(BASE_URL + "/contact/createContact", contact)
       .then(() => console.log("Create a new contact"))
       .catch((err) => {
@@ -48,7 +48,7 @@ const AddUser = () => {
     setMeetRecord("");
     setNote("");
 
-    window.location.href = "/contact";
+    // window.location.href = "/contact";
   };
 
   // const [image, setImage] = useState("");
@@ -115,7 +115,7 @@ const AddUser = () => {
             name="phone"
             type="tel"
             pattern="[0-9]{10}"
-            maxlength={10}
+            maxLength={10}
             placeholder="Please enter the phone number follow the pattern #### ### ###"
             onChange={(e) => setPhone(e.target.value)}
             value={phone}
