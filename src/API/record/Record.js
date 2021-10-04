@@ -1,6 +1,6 @@
 // import { Input } from "@material-ui/icons";
 // import Select from "react-select";
-import React,{ useState,useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import "./record.css";
 import Error from "../error/Error";
 
@@ -9,7 +9,6 @@ import { useShowAllRecords } from "../../BackEndAPI/recordAPI";
 import add_record from "./add-record.jpg";
 
 const Record = () => {
-
   const [searchTerm, setSearchTerm] = useState("");
 
   const { loading, records, error } = useShowAllRecords();
@@ -25,17 +24,15 @@ const Record = () => {
 
   return (
     <div className="sub-container">
-      
       <div className="heading-record">
-        <h1>Record</h1>
+        {/* <h1>Record</h1> */}
         <a href="./createRecord">
-        <div className="add-record">
-          <img src={add_record} alt="add record"></img>
-        </div>
-      </a>
+          <div className="add-record">
+            <img src={add_record} alt="add record"></img>
+          </div>
+        </a>
       </div>
       <div className="record-container">
-        
         <div>
           <input
             className="search-box"
@@ -45,7 +42,12 @@ const Record = () => {
             size={40}
           ></input>
         </div>
-        <RecordList  records = {records} search_key={searchTerm} loading={loading} error={error}/>
+        <RecordList
+          records={records}
+          search_key={searchTerm}
+          loading={loading}
+          error={error}
+        />
       </div>
     </div>
   );
@@ -54,23 +56,23 @@ const Record = () => {
 export default Record;
 
 export const RecordList = (prop) => {
-  console.log("keyword is "+prop.search_key)
+  console.log("keyword is " + prop.search_key);
   const searchRecords = () => {
-
-      if (prop.records!==undefined) {
-       
-        return prop.records.filter((record) =>  
-          ( 
-            
-            record.meetingPerson.firstName + " " +
-            record.meetingPerson.lastName + " " +
-            record.location
-          ).toLowerCase()
-          .includes(prop.search_key.toLowerCase())
+    if (prop.records !== undefined) {
+      return prop.records.filter((record) =>
+        (
+          record.meetingPerson.firstName +
+          " " +
+          record.meetingPerson.lastName +
+          " " +
+          record.location
         )
-      }
-  }
-  
+          .toLowerCase()
+          .includes(prop.search_key.toLowerCase()),
+      );
+    }
+  };
+
   if (prop.error) {
     return (
       <div className="sub-container">
@@ -90,20 +92,23 @@ export const RecordList = (prop) => {
     );
   }
 
-  let fitterRecords = searchRecords()
+  let fitterRecords = searchRecords();
 
   return (
     <div>
       <h1>Record</h1>
-      { (fitterRecords.length >=1) ? fitterRecords.map((record) => {
-        return <OneRecord record={record} key={record._id} />;
-      }) : 
-      <div className="sub-container">
-        <div className="loading">
-          <h1>Record not found</h1> 
-          <h1>(っ˘ω˘ς )</h1>
+      {fitterRecords.length >= 1 ? (
+        fitterRecords.map((record) => {
+          return <OneRecord record={record} key={record._id} />;
+        })
+      ) : (
+        <div className="sub-container">
+          <div className="loading">
+            <h1>Record not found</h1>
+            <h1>(っ˘ω˘ς )</h1>
+          </div>
         </div>
-      </div>}
+      )}
     </div>
   );
 };
