@@ -1,5 +1,5 @@
 import React from "react";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 // import axios from "axios";
 import LogoutUser from "../../hooks/useLogout";
 import "./person.css";
@@ -9,6 +9,10 @@ import fetchClient from "../axiosClient/axiosClient";
 const BASE_URL = "https://crm4399.herokuapp.com";
 
 const Person = () => {
+  useEffect(() => {
+    document.title = "Personal Information";
+  }, []);
+
   const { loading, profile, error } = useShowProfile();
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");

@@ -3,7 +3,7 @@ import Map1 from "./google_map/map_acmp";
 
 const Map = () => {
   useEffect(() => {
-    document.title = "Contact";
+    document.title = "Map";
   }, []);
   return (
     <div className="sub-container">
