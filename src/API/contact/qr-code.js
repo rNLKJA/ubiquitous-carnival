@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import "./contact.css";
 // import qr_code from "./qr-code.png";
 // import hand_write from "./notes.png";
