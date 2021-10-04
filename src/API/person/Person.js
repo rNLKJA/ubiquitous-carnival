@@ -5,6 +5,7 @@ import LogoutUser from "../../hooks/useLogout";
 import "./person.css";
 import { useShowProfile } from "../../BackEndAPI/profileAPI";
 import fetchClient from "../axiosClient/axiosClient";
+import Error from "../error/Error";
 
 const BASE_URL = "https://crm4399.herokuapp.com";
 
@@ -24,6 +25,25 @@ const Person = () => {
   const inputE2 = useRef();
   const inputE3 = useRef();
   const inputE4 = useRef();
+
+  if (error) {
+    return (
+      <div className="sub-container">
+        <Error msg={"There is something wrong with Contact X_X"} />
+      </div>
+    );
+  }
+
+  if (loading) {
+    return (
+      <div className="sub-container">
+        <div className="loading">
+          <h1>Loading Your Contact</h1>
+          <h1>(っ˘ω˘ς )</h1>
+        </div>
+      </div>
+    );
+  }
 
   const submitFirstName = (e) => {
     e.preventDefault();
