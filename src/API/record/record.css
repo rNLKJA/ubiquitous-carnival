@@ -62,8 +62,9 @@
     width: 40px;
     height: 40px;
     position: fixed;
-    right: 15px;
-    top: 20px;
+    right: 1.5rem;
+    top: -3.5rem;
+    color: rgb(47, 71, 137);
   }
 
   .location {
@@ -86,5 +87,16 @@
     border-left: rgb(47, 71, 137) 1px solid;
     border-right: rgb(47, 71, 137) 1px solid;
     border-bottom: rgb(47, 71, 137) 2px double;
+  }
+
+  .heading-record {
+    width: 100%;
+    position: fixed;
+    top: -4.7rem;
+    text-align: center;
+  }
+
+  .heading-record > h1 {
+    color: rgb(47, 71, 137);
   }
 }

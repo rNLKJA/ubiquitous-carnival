@@ -56,13 +56,15 @@ const CreateRecord = () => {
 
     // console.log(recordInfo);
 
-    fetchClient
+    await fetchClient
       .post("/record/createRecord", recordInfo)
-      .then(() => console.log("Create a new record"))
+      .then(() => alert("Create a new record"))
       .catch((err) => {
         alert(err);
         console.error(err);
       });
+
+    window.location.href = "/record";
   };
 
   const onchangeSelect = (event) => {
@@ -122,6 +124,7 @@ const CreateRecord = () => {
           type="number"
           step="any"
           value={geoCoords.lat}
+          onChange={() => {}}
           hidden
         />
         <input
@@ -129,6 +132,7 @@ const CreateRecord = () => {
           type="number"
           step="any"
           value={geoCoords.lng}
+          onChange={() => {}}
           hidden
         />
 

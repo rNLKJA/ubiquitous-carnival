@@ -11,12 +11,15 @@ import add_record from "./add-record.jpg";
 const Record = () => {
   return (
     <div className="sub-container">
+      <a href="./createRecord">
+        <div className="add-record">
+          <img src={add_record} alt="add record"></img>
+        </div>
+      </a>
+      <div className="heading-record">
+        <h1>Record</h1>
+      </div>
       <div className="record-container">
-        <a href="./createRecord">
-          <div className="add-record">
-            <img src={add_record} alt="add record"></img>
-          </div>
-        </a>
         <RecordList />
       </div>
     </div>
@@ -46,7 +49,6 @@ export const RecordList = () => {
 
   return (
     <div>
-      <h1>Record</h1>
       {records.map((record) => {
         return <OneRecord record={record} key={record._id} />;
       })}
