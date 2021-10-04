@@ -1,8 +1,11 @@
 // import required dependencies
-import React from "react";
+import React, { useEffect } from "react";
 import img from "./home-gif.gif";
 
 const Home = () => {
+  useEffect(() => {
+    document.title = "Home Page";
+  }, []);
   return (
     <div className="sub-container">
       <div className="home">
