@@ -97,6 +97,8 @@ const Map = ({ setMeetCoordinate }) => {
           {address.text}
         </h4> */}
 
+        <h1 className="heading-map">Map</h1>
+
         {/* define the address search box and locate buttom  */}
         <div className="top-bar">
           <Search
