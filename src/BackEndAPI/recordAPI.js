@@ -52,23 +52,3 @@ export function useShowAllRecords() {
       error,
     };
 }
-
-/**
-* React_Use_Function: Create the Record for the client
-*/
-export function useCreateRecord() {
-    const [contact_id, setContactId] = useState("");
-    const [clientUsername, setClientUsername] = useState("");
-    const [dateTime, setDateTime] = useState("");
-    const [location, setLocation] = useState("");
-  
-    function onSubmit() {
-      createRecord({
-        contact_id: contact_id,
-        clientUsername: clientUsername,
-        dateTime: dateTime,
-        location: location
-      });
-    }
-    return;
-}

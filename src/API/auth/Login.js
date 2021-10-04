@@ -27,9 +27,9 @@ const Login = () => {
 
   if (error) {
     return (
-      <>
+      <div>
         <Error msg={error} />
-      </>
+      </div>
     );
   }
 
