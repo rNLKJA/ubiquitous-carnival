@@ -1,5 +1,5 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./contact.css";
 import { useContacts } from "../../BackEndAPI/contactAPI";
 // import { requirePropFactory } from "@material-ui/core";
@@ -16,6 +16,10 @@ import Error from "../error/Error";
 const BASE_URL = "https://crm4399.herokuapp.com";
 
 const Contact = () => {
+  useEffect(() => {
+    document.title = "Contact";
+  }, []);
+
   const { loading, contacts, error } = useContacts();
   const [oneContact, setOneContact] = useState({
     firstName: "",

@@ -1,4 +1,4 @@
-import { flexbox, grid } from "@mui/system";
+// import { flexbox, grid } from "@mui/system";
 import React from "react";
 // import "bootstrap/dist/css/bootstrap.min.css"
 // import axios from "axios";
@@ -89,7 +89,7 @@ class Registration extends React.Component {
     };
     await fetchClient
       // .post("http://localhost:5000/user/sendEmailCode", data)
-      .post("https://crm4399.herokuapp.com/user/signup", data)
+      .post("https://crm4399.herokuapp.com/user/sendEmailCode", data)
       .then((response) => {
         if (response.data.status) {
           window.location.href = "/";

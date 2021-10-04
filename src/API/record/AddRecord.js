@@ -12,10 +12,14 @@ import { convert } from "./Record";
 import fetchClient from "../axiosClient/axiosClient";
 import Error from "../error/Error";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Map from "./map";
 
 const CreateRecord = () => {
+  useEffect(() => {
+    document.title = "Add Record";
+  }, []);
+
   const [currentTime, setCurrentTime] = useState(new Date());
   const { loading, contacts, error } = useContacts();
   const [selected, setSelected] = useState("");

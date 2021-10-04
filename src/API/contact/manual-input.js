@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./contact.css";
 // import qr_code from "./qr-code.png";
 // import hand_write from "./notes.png";
@@ -7,6 +7,9 @@ import "./manual-input.css";
 import fetchClient from "../axiosClient/axiosClient";
 
 const AddUser = () => {
+  useEffect(() => {
+    document.title = "Add a new Contact";
+  }, []);
   const BASE_URL = "https://crm4399.herokuapp.com";
   // const BASE_URL = "http://localhost:5000";
 

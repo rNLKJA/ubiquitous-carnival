@@ -1,7 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Map1 from "./google_map/map_acmp";
 
 const Map = () => {
+  useEffect(() => {
+    document.title = "Map";
+  }, []);
   return (
     <div className="sub-container">
       <div className="map-container">

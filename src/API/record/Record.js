@@ -1,6 +1,6 @@
 // import { Input } from "@material-ui/icons";
 // import Select from "react-select";
-import React,{ useState} from "react";
+import React,{ useState,useEffect} from "react";
 import "./record.css";
 import Error from "../error/Error";
 
@@ -18,6 +18,10 @@ const Record = () => {
     e.preventDefault();
     setSearchTerm(e.target.value);
   };
+
+  useEffect(() => {
+    document.title = "Record";
+  }, []);
 
   return (
     <div className="sub-container">
