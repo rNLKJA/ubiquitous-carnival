@@ -25,7 +25,7 @@ const Record = () => {
   return (
     <div className="sub-container">
       <div className="heading-record">
-        {/* <h1>Record</h1> */}
+        <h1>Record</h1>
         <a href="./createRecord">
           <div className="add-record">
             <img src={add_record} alt="add record"></img>
@@ -96,7 +96,7 @@ export const RecordList = (prop) => {
 
   return (
     <div>
-      <h1>Record</h1>
+      {/* <h1>Record</h1> */}
       {fitterRecords.length >= 1 ? (
         fitterRecords.map((record) => {
           return <OneRecord record={record} key={record._id} />;
