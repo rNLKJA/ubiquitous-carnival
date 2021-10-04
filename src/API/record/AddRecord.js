@@ -67,8 +67,10 @@ const CreateRecord = () => {
         alert(err);
         console.error(err);
       });
+      setLocation("")
+      setSelected("")
 
-    window.location.href = "/record";
+      window.location.href = "/record"
   };
 
   const onchangeSelect = (event) => {
