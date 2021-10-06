@@ -116,7 +116,7 @@ const Contact = () => {
                   <img src={add_user} alt="add contact"></img>
                 </div>
               </a>
-              <div>
+              <div style={{ width: "97%" }}>
                 <input
                   className="search-box"
                   value={searchTerm}

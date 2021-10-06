@@ -79,10 +79,24 @@
   .person {
     display: grid;
     grid-template-columns: 1fr 3fr;
-    border: 1px rgb(47, 71, 137) solid;
-    border-radius: 15px;
-    padding: 5px;
-    margin-top: 10px;
+    width: 94%;
+    height: 150px;
+    padding: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    /* margin-top: 200px; */
+    background-color: #fcfcfc;
+    letter-spacing: 1px;
+    font-weight: 100;
+
+    color: rgba(0, 0, 0, 0.6);
+
+    /* overflow: hidden; */
+    border: solid 1px rgba(0, 0, 0, 0.15);
+    border-radius: 20px;
+
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
+    position: relative;
   }
 
   .person:hover {
@@ -90,9 +104,18 @@
     color: white;
   }
 
+  .profile {
+    height: 100%;
+    position: relative;
+  }
+
   .profile > img {
-    width: 75px;
-    height: 75px;
+    top: 50%;
+    left: 50%;
+    position: absolute;
+    transform: translate(-50%, -50%);
+    width: 80%;
+    height: 80%;
     border-radius: 50%;
     padding-right: 10px;
   }
@@ -143,16 +166,6 @@
     align-items: center;
     justify-content: center;
   }
-
-  /* .contact > input {
-    color: rgb(47, 71, 137);
-    padding-left: 10px;
-    font-size: 20px;
-    width: 98%;
-    border-radius: 10px;
-    border: transparent;
-    border-bottom: 0.5px double rgb(47, 71, 137);
-  } */
 
   .add-contact > img {
     width: 3rem;
