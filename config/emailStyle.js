@@ -4,11 +4,11 @@ const emailStyle = (authCode) => {
 	</div>
 
 	<div class='heading'>
-  <h1 style="background: linear-gradient(120deg,#8be9fd,#ff79c6);-webkit-background-clip: text;color: transparent;"><span style="background: linear-gradient(120deg,#8be9fd,#ff79c6);-webkit-background-clip: text;color: transparent;">4399 CRM Authentication Code</span></h1>
-</div>
+		<h1 style="background: linear-gradient(120deg,#8be9fd,#ff79c6);-webkit-background-clip: text;color: transparent;">
+			<span style="background: linear-gradient(120deg,#8be9fd,#ff79c6);-webkit-background-clip: text;color: transparent;">4399 CRM Authentication Code</span>
+		</h1>
+	</div>
 		
-		
-
 	<div class='footer'>
 		<hr style='color:green' />
 		<p style="text-align:right; padding:20px;color:#6272a4;">COMP30022 IT Project Team 4399</p>
