@@ -25,7 +25,7 @@ const CreateRecord = () => {
   const [selected, setSelected] = useState("");
   const [location, setLocation] = useState("");
   const [geoCoords, setGeoCoords] = useState({ lat: -37.7972, lng: 144.961 });
-
+  const [notes , setNotes] = useState("")
   if (error) {
     return <Error msg={"Something Wrong with Record Component"}></Error>;
   }
@@ -48,20 +48,20 @@ const CreateRecord = () => {
     };
   });
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
+  const handleSubmit = async () => {
 
     // return console.log(location);
     const recordInfo = {
       contact_id: selected,
       location: location,
       dateTime: currentTime,
+      notes:notes
     };
 
-    // console.log(recordInfo);
+    console.log(recordInfo);
 
     await fetchClient
-      .post("/record/createRecord", recordInfo)
+      .post("http://localhost:5000/record/createRecord", recordInfo)
       .then(() => alert("Create a new record"))
       .catch((err) => {
         alert(err);
@@ -82,6 +82,13 @@ const CreateRecord = () => {
     window.location.href = "/record";
   };
 
+  const selectStyles = {
+    menu: base => ({
+      ...base,
+      zIndex: 100
+    })
+  };
+
   return (
     <div className="sub-container">
       <a href="/record" onClick={backToPreviousPage} className="back-button">
@@ -95,6 +102,8 @@ const CreateRecord = () => {
           options={names}
           getOptionValue={(option) => option.value}
           getOptionLabel={(option) => option.value}
+          styles = {selectStyles}
+            
         />
 
         <br />
@@ -144,12 +153,21 @@ const CreateRecord = () => {
 
         <Map setLocation={setLocation} setGeoCoords={setGeoCoords} />
 
+                
+        <input
+          name="notes"
+          type="text"
+          placeholder="add notes"
+          onChange={(e) => {setNotes(e.target.value)}}
+        />      
+
         <input
           className="submit-button"
           type="button"
           value="create"
           onClick={handleSubmit}
         />
+        
       </form>
     </div>
   );
