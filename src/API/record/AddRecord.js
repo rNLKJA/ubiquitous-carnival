@@ -64,6 +64,7 @@ const CreateRecord = () => {
 
     await fetchClient
       .post("http://localhost:5000/record/createRecord", recordInfo)
+      // .post("http://localhost:5000/record/createRecord", recordInfo)
       .then(() => alert("Create a new record"))
       .catch((err) => {
         alert(err);
