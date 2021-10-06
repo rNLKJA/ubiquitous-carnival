@@ -2,7 +2,7 @@ const emailStyle = (authCode) => {
   return `
 	<div class='container' style='font-family: system-ui;background: #383A59;color:#f8f8f2;padding:0;margin:0;width:100%;height:100%'>
 		<div class='heading' style="background-color: #282942;width: 100%;height: 80px;">
-		<h1 style="text-align: left;padding: 20px;"><span style="background:linear-gradient(120deg,#8be9fd,#ff79c6);-webkit-background-clip: text;color: transparent;">4399 CRM Authentication Code</span></h1>
+		<h1 style="text-align: left;padding: 20px;"><span style="background:linear-gradient(120deg,#8be9fd,#ff79c6);background-clip: text;color: transparent;">4399 CRM Authentication Code</span></h1>
 		</div>
 
 		<div class='content' style="padding: 20px;">
@@ -20,7 +20,7 @@ const emailStyle = (authCode) => {
 			<p style="color:white">Best Regards.</p>
 		</div>
 		
-		<div class='footer'>
+		<div >
 			<hr style='color:green' />
 			<p style="text-align:right; padding:20px;color:#6272a4;">COMP30022 IT Project Team 4399</p>
 
