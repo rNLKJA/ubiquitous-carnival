@@ -14,6 +14,7 @@ import Error from "../error/Error";
 
 import React, { useState, useEffect } from "react";
 import Map from "./map";
+import Heading from "../heading/heading.jsx";
 
 const CreateRecord = () => {
   useEffect(() => {
@@ -25,19 +26,21 @@ const CreateRecord = () => {
   const [selected, setSelected] = useState("");
   const [location, setLocation] = useState("");
   const [geoCoords, setGeoCoords] = useState({ lat: -37.7972, lng: 144.961 });
-  const [notes , setNotes] = useState("")
+  const [notes, setNotes] = useState("");
   if (error) {
     return <Error msg={"Something Wrong with Record Component"}></Error>;
   }
 
   if (loading) {
     return (
-      <div className="sub-container">
-        <div className="loading">
-          <h1>Loading</h1>
-          <h1> ヽ(*・ω・)ﾉ</h1>
+      <React.Fragment>
+        <div className="sub-container">
+          <div className="loading">
+            <h1>Loading</h1>
+            <h1> ヽ(*・ω・)ﾉ</h1>
+          </div>
         </div>
-      </div>
+      </React.Fragment>
     );
   }
 
@@ -49,13 +52,12 @@ const CreateRecord = () => {
   });
 
   const handleSubmit = async () => {
-
     // return console.log(location);
     const recordInfo = {
       contact_id: selected,
       location: location,
       dateTime: currentTime,
-      notes:notes
+      notes: notes,
     };
 
     console.log(recordInfo);
@@ -67,10 +69,10 @@ const CreateRecord = () => {
         alert(err);
         console.error(err);
       });
-      setLocation("")
-      setSelected("")
+    setLocation("");
+    setSelected("");
 
-      window.location.href = "/record"
+    window.location.href = "/record";
   };
 
   const onchangeSelect = (event) => {
@@ -83,93 +85,96 @@ const CreateRecord = () => {
   };
 
   const selectStyles = {
-    menu: base => ({
+    menu: (base) => ({
       ...base,
-      zIndex: 100
-    })
+      zIndex: 100,
+    }),
   };
 
   return (
-    <div className="sub-container">
-      <a href="/record" onClick={backToPreviousPage} className="back-button">
-        Back
-      </a>
-      <form className="record-form">
-        <label>Person YOU MET</label>
-        <br />
-        <Select
-          onChange={onchangeSelect}
-          options={names}
-          getOptionValue={(option) => option.value}
-          getOptionLabel={(option) => option.value}
-          styles = {selectStyles}
-            
-        />
+    <React.Fragment>
+      <Heading />
+      <div className="sub-container">
+        <a href="/record" onClick={backToPreviousPage} className="back-button">
+          Back
+        </a>
+        <form className="record-form">
+          <label>Person YOU MET</label>
+          <br />
+          <Select
+            onChange={onchangeSelect}
+            options={names}
+            getOptionValue={(option) => option.value}
+            getOptionLabel={(option) => option.value}
+            styles={selectStyles}
+          />
 
-        <br />
-        <div className="timer-container">
-          <LocalizationProvider dateAdapter={AdapterDateFns}>
-            <DateTimePicker
-              renderInput={(params) => <TextField {...params} />}
-              label="Meeting time"
-              value={currentTime}
-              onChange={(newValue) => {
-                setCurrentTime(convert(newValue));
-              }}
-              minDate={new Date("2020-02-14")}
-              maxTime={new Date()}
-            />
-          </LocalizationProvider>
-        </div>
+          <br />
+          <div className="timer-container">
+            <LocalizationProvider dateAdapter={AdapterDateFns}>
+              <DateTimePicker
+                renderInput={(params) => <TextField {...params} />}
+                label="Meeting time"
+                value={currentTime}
+                onChange={(newValue) => {
+                  setCurrentTime(convert(newValue));
+                }}
+                minDate={new Date("2020-02-14")}
+                maxTime={new Date()}
+              />
+            </LocalizationProvider>
+          </div>
 
-        <br />
-        <label htmlFor="location">Location: </label>
-        <input
-          name="location"
-          type="text"
-          placeholder="Please enter the location"
-          onChange={(e) => setLocation(e.target.value)}
-          value={location}
-          required
-          className="location"
-        ></input>
+          <br />
+          <label htmlFor="location">Location: </label>
+          <input
+            name="location"
+            type="text"
+            placeholder="Please enter the location"
+            onChange={(e) => setLocation(e.target.value)}
+            value={location}
+            required
+            className="location"
+          ></input>
 
-        <input
-          htmlFor="geoCoords"
-          type="number"
-          step="any"
-          value={geoCoords.lat}
-          onChange={() => {}}
-          hidden
-        />
-        <input
-          htmlFor="geoCoords"
-          type="number"
-          step="any"
-          value={geoCoords.lng}
-          onChange={() => {}}
-          hidden
-        />
+          <input
+            htmlFor="geoCoords"
+            type="number"
+            step="any"
+            value={geoCoords.lat}
+            onChange={() => {}}
+            hidden
+          />
+          <input
+            htmlFor="geoCoords"
+            type="number"
+            step="any"
+            value={geoCoords.lng}
+            onChange={() => {}}
+            hidden
+          />
 
-        <Map setLocation={setLocation} setGeoCoords={setGeoCoords} />
+          <Map setLocation={setLocation} setGeoCoords={setGeoCoords} />
 
-                
-        <input
-          name="notes"
-          type="text"
-          placeholder="add notes"
-          onChange={(e) => {setNotes(e.target.value)}}
-        />      
+          <textarea
+            name="notes"
+            type="text"
+            placeholder="add notes"
+            onChange={(e) => {
+              setNotes(e.target.value);
+            }}
+            style={{ minWidth: "98.5%", minHeight: "50%" }}
+          />
 
-        <input
-          className="submit-button"
-          type="button"
-          value="create"
-          onClick={handleSubmit}
-        />
-        
-      </form>
-    </div>
+          <input
+            className="submit-button"
+            type="button"
+            value="Create"
+            onClick={handleSubmit}
+          />
+        </form>
+      </div>
+    </React.Fragment>
   );
 };
 
