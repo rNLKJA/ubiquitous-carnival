@@ -49,7 +49,7 @@ const emailAuthSend = async (req, res) => {
     {
       from: "team4399Auth@gmail.com",
       to: email,
-      subject: "vertify your email with code",
+      subject: "Vertify your Email with Code",
       html: emailStyle(authCode),
     },
     function (error, data) {
