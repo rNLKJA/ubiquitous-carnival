@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import "./record.css";
 import Error from "../error/Error";
-
+import 'font-awesome/css/font-awesome.min.css';
 import { useShowAllRecords } from "../../BackEndAPI/recordAPI";
 import RecordDetail from "./recordDetail";
 import add_record from "./add-record.jpg";
@@ -51,14 +51,9 @@ const Record = () => {
               </a>
             </div>
             <div className="record-container">
-              <div>
-                <input
-                  className="search-box"
-                  value={searchTerm}
-                  onChange={(e) => handleChange(e)}
-                  placeholder="Search for a name"
-                  size={40}
-                ></input>
+              <div class="search-box1">
+                <button class="btn-search"><i className="fa fa-search"></i></button>
+                <input type="text" class="input-search" placeholder="Type to Search..." onChange={(e) => handleChange(e)} value={searchTerm}/>
               </div>
               <RecordList
                 records={records}
@@ -71,15 +66,16 @@ const Record = () => {
           </React.Fragment>
         )}
 
-        {oneRecord.selected && (
-          <div>
-            {console.log("此时的reocrd is ", oneRecord)}
-            <RecordDetail record={oneRecord} setOneRecord={setOneRecord} />
-          </div>
-        )}
+      
+
+    {oneRecord.selected && (
+      <div>
+
+        <RecordDetail record={oneRecord} setOneRecord={setOneRecord} />
       </div>
-    </React.Fragment>
-  );
+  )}
+  </div>
+  </React.Fragment>)
 };
 
 export default Record;
@@ -144,41 +140,58 @@ export const RecordList = (prop) => {
         </div>
       )}
     </div>
-  );
-};
+
+  )
+    }
 
 export const OneRecord = (prop) => {
   return (
-    <div
-      className="record-list-item"
-      onClick={() => {
-        prop.setOneRecord({ ...prop.record, selected: true });
-        console.log(prop.record);
-      }}
-    >
-      <p>
-        <label>Name: </label>
-        {prop.record.meetingPerson
-          ? prop.record.meetingPerson.firstName +
-            " " +
-            prop.record.meetingPerson.lastName
-          : "Contact_id is invalid, please check"}
-      </p>
-      <p>
-        <label>Location: </label>
-        {prop.record.location}
-      </p>
-      <p>
-        <label>Date: </label>
-        {convert(prop.record.dateTime)}
-      </p>
+    <div className="col-md-4 animated fadeIn" onClick={() => {
+      prop.setOneRecord({ ...prop.record, selected: true })
+      console.log(prop.record)}}>
+      <div className="card">
+      <div className="card-body">
+      <div className="avatar">
+
+        <i className="fa fa-users"></i>
+      </div>
+        <h3 className="card-title">
+          {prop.record.meetingPerson
+            ? prop.record.meetingPerson.firstName +
+              " " +
+              prop.record.meetingPerson.lastName
+            : "Contact_id is invalid, please check"}
+        </h3>
+        <p className="card-text">
+          <i className="fa fa-location-arrow"></i>{' '+ prop.record.location}
+            
+          <br />
+          <i className="fa fa-phone"></i> {' '+prop.record.meetingPerson.phone}
+          <br />
+          {convert(prop.record.dateTime)}
+        </p>  
+        
+        </div>
+      </div>
     </div>
   );
 };
 
+
+// This function convert the dateTime to a a formal string
 export function convert(str) {
   var date = new Date(str),
     month = ("0" + (date.getMonth() + 1)).slice(-2),
     day = ("0" + date.getDate()).slice(-2);
-  return [date.getFullYear(), month, day].join("-");
+    var hours = date.getHours();
+    var minutes = date.getMinutes();
+    var ampm = hours >= 12 ? 'pm' : 'am';
+    hours = hours % 12;
+    hours = hours ? hours : 12; // the hour '0' should be '12'
+    minutes = ('0'+minutes).slice(-2)
+    var strTime = ' ' + hours + ':' + minutes + ' ' + ampm;  
+   
+  return [date.getFullYear(), month, day].join("-") + strTime;
 }
+
+
