@@ -43,7 +43,6 @@ const autoCodeGenerator = (length) => {
  */
 const emailAuthSend = async (req, res) => {
   const email = req.body.email; // read email from the request formdata field
-  // console.log(email);
 
   const authCode = autoCodeGenerator(6);
   transport.sendMail(
