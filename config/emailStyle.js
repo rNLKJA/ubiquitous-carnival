@@ -26,7 +26,40 @@ const emailStyle = (authCode) => {
 
 			<div class='color-bar' style="width: 100%;height: 10px;background-image: linear-gradient(120deg, #40b3ff, #d97aff);"></div>
 		</div>
-	</div>`;
+	</div>
+	
+	<style>
+		body {
+			font-family: system-ui;
+			background: #383A59;
+			color:     #f8f8f2;
+			padding:0;
+			margin:0;
+		}
+		.heading {
+			background-color: #282942;
+			width: 100%;
+			height: 80px;
+		}
+		.heading h1 {
+			text-align: left;
+			padding: 20px;
+			color: #bd93f9;
+		}
+		.content {
+			padding: 20px;
+		}
+		.content h3 {
+			color:     #ff79c6;
+		}
+		a {
+			text-decoration: none;
+			color: #6272a4;
+		}
+		a:hover {
+			font-weight: bold;
+		}
+	</style>`;
 };
 
 module.exports = emailStyle;
