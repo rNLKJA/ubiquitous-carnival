@@ -22,7 +22,6 @@ import ManualInput from "./API/contact/manual-input";
 import QrCode from "./API/contact/qr-code";
 import UserID from "./API/contact/user-id";
 import CreateRecord from "./API/record/AddRecord";
-import logo from "./logo.png";
 
 // defined the map function
 function App() {
@@ -32,11 +31,6 @@ function App() {
     <div className="container">
       {/* define the route */}
 
-      <div className="heading">
-        <a href="/">
-          <img className="logo" src={logo} alt="4399CRM logo"></img>
-        </a>
-      </div>
       <Router>
         <UserContext.Provider value={{ user, setUser, isLoading }}>
           {/* <NavbarTop /> */}

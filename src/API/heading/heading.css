@@ -1,0 +1,13 @@
+.heading {
+  width: 100%;
+  height: 5rem;
+  position: fixed;
+  order: 1;
+  border-bottom: 0.2rem solid rgb(47, 71, 137);
+}
+
+.logo {
+  height: 4rem;
+  padding-top: 0.5rem;
+  padding-left: 1rem;
+}

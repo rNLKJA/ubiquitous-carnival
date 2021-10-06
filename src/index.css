@@ -18,7 +18,7 @@ a {
     height: 5rem;
     position: fixed;
     order: 1;
-    border-bottom: 2px double rgb(47, 71, 137);
+    border-bottom: 0.2rem solid rgb(47, 71, 137);
   }
 
   .logo {
@@ -79,6 +79,8 @@ a {
     margin: 0px;
     /* background-color: gray; */
     transform: translate(-50%, -50%);
+    /* background: linear-gradient(120deg, #8be9fd, #ff79c6); */
+    /* opacity: 0.3; */
     order: 2;
   }
   .home {

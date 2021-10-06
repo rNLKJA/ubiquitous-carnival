@@ -7,22 +7,23 @@ import Error from "../error/Error";
 import { useShowAllRecords } from "../../BackEndAPI/recordAPI";
 import RecordDetail from "./recordDetail";
 import add_record from "./add-record.jpg";
+import Heading from "../heading/heading.jsx";
 
 const Record = () => {
   const [searchTerm, setSearchTerm] = useState("");
 
   const { loading, records, error } = useShowAllRecords();
 
-  const [oneRecord , setOneRecord] = useState({
-    meetingPerson:'',
-    location:'',
-    occupation: '',
-    notes: '',
-    dateTime: '',
+  const [oneRecord, setOneRecord] = useState({
+    meetingPerson: "",
+    location: "",
+    occupation: "",
+    notes: "",
+    dateTime: "",
     selected: false,
-  })
+  });
 
-  console.log("one record IS ",oneRecord)
+  console.log("one record IS ", oneRecord);
 
   const handleChange = (e) => {
     e.preventDefault();
@@ -34,39 +35,48 @@ const Record = () => {
   }, []);
 
   return (
-    <div className="sub-container">
-      {!oneRecord.selected && (
-      <React.Fragment>
-        <div className="heading-record">
-        <h1>Record</h1>
-        <a href="./createRecord">
-          <div className="add-record">
-            <img src={add_record} alt="add record"></img>
-          </div>
-        </a>
-      </div>
-      <div className="record-container">
-        <div>
-          <input
-            className="search-box"
-            value={searchTerm}
-            onChange={(e) => handleChange(e)}
-            placeholder="Search for a name"
-            size={40}
-          ></input>
-        </div>
-        <RecordList  records = {records} search_key={searchTerm} loading={loading} error={error} setOneRecord = {setOneRecord}/>
-      </div>
-      </React.Fragment>
-      )}
+    <React.Fragment>
+      <Heading />
+      <div className="sub-container">
+        {!oneRecord.selected && (
+          <React.Fragment>
+            <div className="heading-record">
+              <h1>Record</h1>
+              <a href="./createRecord">
+                <div className="add-record">
+                  <img src={add_record} alt="add record"></img>
+                </div>
+              </a>
+            </div>
+            <div className="record-container">
+              <div>
+                <input
+                  className="search-box"
+                  value={searchTerm}
+                  onChange={(e) => handleChange(e)}
+                  placeholder="Search for a name"
+                  size={40}
+                ></input>
+              </div>
+              <RecordList
+                records={records}
+                search_key={searchTerm}
+                loading={loading}
+                error={error}
+                setOneRecord={setOneRecord}
+              />
+            </div>
+          </React.Fragment>
+        )}
 
-    {oneRecord.selected && (
-      <div>
-        {console.log("此时的reocrd is " , oneRecord )}
-        <RecordDetail record={oneRecord} setOneRecord={setOneRecord} />
+        {oneRecord.selected && (
+          <div>
+            {console.log("此时的reocrd is ", oneRecord)}
+            <RecordDetail record={oneRecord} setOneRecord={setOneRecord} />
+          </div>
+        )}
       </div>
-    )}
-    </div>
+    </React.Fragment>
   );
 };
 
@@ -113,27 +123,37 @@ export const RecordList = (prop) => {
 
   return (
     <div>
-      <h1>Record</h1>
-      { (fitterRecords.length >=1) ? fitterRecords.map((record) => {
-        return <OneRecord record={record} key={record._id} setOneRecord = {prop.setOneRecord}/>;
-      }) : 
-      <div className="sub-container">
-        <div className="loading">
-          <h1>Record not found</h1> 
-          <h1>(っ˘ω˘ς )</h1>
+      {fitterRecords.length >= 1 ? (
+        fitterRecords.map((record) => {
+          return (
+            <OneRecord
+              record={record}
+              key={record._id}
+              setOneRecord={prop.setOneRecord}
+            />
+          );
+        })
+      ) : (
+        <div className="sub-container">
+          <div className="loading">
+            <h1>You don't have any record</h1>
+            <h1>(っ˘ω˘ς )</h1>
+          </div>
         </div>
-      
-    </div>}
-          
+      )}
     </div>
-  )
-    }
+  );
+};
 
 export const OneRecord = (prop) => {
   return (
-    <div className="record-list-item" onClick={() => {
-      prop.setOneRecord({ ...prop.record, selected: true })
-      console.log(prop.record)}}>
+    <div
+      className="record-list-item"
+      onClick={() => {
+        prop.setOneRecord({ ...prop.record, selected: true });
+        console.log(prop.record);
+      }}
+    >
       <p>
         <label>Name: </label>
         {prop.record.meetingPerson

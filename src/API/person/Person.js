@@ -6,6 +6,7 @@ import "./person.css";
 import { useShowProfile } from "../../BackEndAPI/profileAPI";
 import fetchClient from "../axiosClient/axiosClient";
 import Error from "../error/Error";
+import Heading from "../heading/heading.jsx";
 
 const BASE_URL = "https://crm4399.herokuapp.com";
 
@@ -263,116 +264,127 @@ const Person = () => {
   };
 
   return (
-    <div className="sub-container">
-      <div className="information-container">
-        <h1>Personal Information</h1>
-        <div className="basicInformation">
-          <h2>Basic Information</h2>
-          <form className="firstname" method="POST" onSubmit={submitFirstName}>
-            <div className="info-container">
-              <div className="Label">First name: </div>
-              <div className="firstValue" ref={inputE1} onClick={editFirstName}>
-                {profile.firstName}
-              </div>
-              <div>
-                <input type="submit" value="save" />
-              </div>
-            </div>
-          </form>
-          <form className="lastname" method="POST" onSubmit={submitLastName}>
-            <div className="info-container">
-              <div className="Label">Last name: </div>
-              <div className="lastValue" ref={inputE2} onClick={editLastName}>
-                {profile.lastName}
-              </div>
-              <div>
-                <input type="submit" value="save" />
-              </div>
-            </div>
-          </form>
-
-          <form
-            className="occupation"
-            method="POST"
-            onSubmit={submitOccupation}
-          >
-            <div className="info-container">
-              <div className="Label">Occupation: </div>
-              <div
-                className="occupationValue"
-                ref={inputE3}
-                onClick={editOccupation}
-              >
-                {profile.occupation}
-              </div>
-              <div>
-                <input type="submit" value="save" />
-              </div>
-            </div>
-          </form>
-          <form className="status" method="POST" onSubmit={submitStatus}>
-            <div className="info-container">
-              <div className="Label">Status: </div>
-              <div className="statusValue" ref={inputE4} onClick={editStatus}>
-                {profile.status}
-              </div>
-              <div>
-                <input type="submit" value="save" />
-              </div>
-            </div>
-          </form>
-        </div>
-
-        <div className="contactInformation">
-          <h2>Contact Information</h2>
-          <label className="emailTitle">Email: </label>
-          <form className="newEmail" method="POST" onSubmit={submitNewEmail}>
-            <button onClick={addNewEmail}>+</button>
-            <br />
-          </form>
-          {profile.email &&
-            profile.email.map(function (item) {
-              return (
-                <form
-                  className="delEmail"
-                  method="POST"
-                  onSubmit={submitDelEmail}
+    <React.Fragment>
+      <Heading />
+      <div className="sub-container">
+        <div className="information-container">
+          <h1>Personal Information</h1>
+          <div className="basicInformation">
+            <h2>Basic Information</h2>
+            <form
+              className="firstname"
+              method="POST"
+              onSubmit={submitFirstName}
+            >
+              <div className="info-container">
+                <div className="Label">First name: </div>
+                <div
+                  className="firstValue"
+                  ref={inputE1}
+                  onClick={editFirstName}
                 >
-                  <div className="email"> {item} </div>
-                  <button onClick={setEmail.bind(this, item)}>-</button>
-                </form>
-              );
-            })}
-          <br />
-          <div className="phoneTitle">Phone: </div>
-          <form className="newPhone" method="POST" onSubmit={submitNewPhone}>
-            <button onClick={addNewPhone}>+</button>
-            <br />
-          </form>
-          {profile.phone &&
-            profile.phone.map(function (item) {
-              return (
-                <form
-                  className="onePhone"
-                  method="POST"
-                  onSubmit={submitDelPhone}
+                  {profile.firstName}
+                </div>
+                <div>
+                  <input type="submit" value="save" />
+                </div>
+              </div>
+            </form>
+            <form className="lastname" method="POST" onSubmit={submitLastName}>
+              <div className="info-container">
+                <div className="Label">Last name: </div>
+                <div className="lastValue" ref={inputE2} onClick={editLastName}>
+                  {profile.lastName}
+                </div>
+                <div>
+                  <input type="submit" value="save" />
+                </div>
+              </div>
+            </form>
+
+            <form
+              className="occupation"
+              method="POST"
+              onSubmit={submitOccupation}
+            >
+              <div className="info-container">
+                <div className="Label">Occupation: </div>
+                <div
+                  className="occupationValue"
+                  ref={inputE3}
+                  onClick={editOccupation}
                 >
-                  <div className="delPhone">
-                    <div className="phone">{item}</div>
-                    <div className="delPhone-btn">
-                      <button onClick={setPhone.bind(this, item)}>-</button>
+                  {profile.occupation}
+                </div>
+                <div>
+                  <input type="submit" value="save" />
+                </div>
+              </div>
+            </form>
+            <form className="status" method="POST" onSubmit={submitStatus}>
+              <div className="info-container">
+                <div className="Label">Status: </div>
+                <div className="statusValue" ref={inputE4} onClick={editStatus}>
+                  {profile.status}
+                </div>
+                <div>
+                  <input type="submit" value="save" />
+                </div>
+              </div>
+            </form>
+          </div>
+
+          <div className="contactInformation">
+            <h2>Contact Information</h2>
+            <label className="emailTitle">Email: </label>
+            <form className="newEmail" method="POST" onSubmit={submitNewEmail}>
+              <button onClick={addNewEmail}>+</button>
+              <br />
+            </form>
+            {profile.email &&
+              profile.email.map(function (item) {
+                return (
+                  <form
+                    className="delEmail"
+                    method="POST"
+                    onSubmit={submitDelEmail}
+                  >
+                    <div className="email"> {item} </div>
+                    <button onClick={setEmail.bind(this, item)}>-</button>
+                  </form>
+                );
+              })}
+            <br />
+            <div className="phoneTitle">Phone: </div>
+            <form className="newPhone" method="POST" onSubmit={submitNewPhone}>
+              <button onClick={addNewPhone}>+</button>
+              <br />
+            </form>
+            {profile.phone &&
+              profile.phone.map(function (item) {
+                return (
+                  <form
+                    className="onePhone"
+                    method="POST"
+                    onSubmit={submitDelPhone}
+                  >
+                    <div className="delPhone">
+                      <div className="phone">{item}</div>
+                      <div className="delPhone-btn">
+                        <button onClick={setPhone.bind(this, item)}>-</button>
+                      </div>
                     </div>
-                  </div>
-                </form>
-              );
-            })}
+                  </form>
+                );
+              })}
+          </div>
         </div>
-      </div>
 
-      <button className="logout-btn" onClick={LogoutUser}>
-        logout
-      </button>
-    </div>
+        <button className="logout-btn" onClick={LogoutUser}>
+          logout
+        </button>
+      </div>
+    </React.Fragment>
   );
 };
 

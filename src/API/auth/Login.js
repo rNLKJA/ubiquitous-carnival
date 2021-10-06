@@ -42,9 +42,9 @@ const Login = () => {
     window.location.href = "/";
   };
 
-  const handleSignup = (event) => {
-    window.location.href = "/signup";
-  };
+  // const handleSignup = (event) => {
+  //   window.location.href = "/signup";
+  // };
 
   return (
     <div className="sub-container">
@@ -53,7 +53,7 @@ const Login = () => {
         <h1>CRM Login</h1>
 
         <div>
-          <label>Username :</label>
+          <label style={{ color: "rgb(47, 71, 137)" }}>Username :</label>
           <input
             type="text"
             value={username}
@@ -61,7 +61,7 @@ const Login = () => {
           />
         </div>
         <div>
-          <label>Password :</label>
+          <label style={{ color: "rgb(47, 71, 137)" }}>Password :</label>
           <input
             type="password"
             value={password}
@@ -70,18 +70,15 @@ const Login = () => {
         </div>
 
         <div style={{ width: "100%" }}>
-          <input
-            className="login-btn"
-            type="button"
-            value="login"
-            onClick={handleLogin}
-          />
+          <button className="login-btn" type="button" onClick={handleLogin}>
+            Login
+          </button>
         </div>
 
         <div style={{ width: "100%" }}>
-          <button className="signup-btn" onClick={handleSignup}>
-            Create a new account
-          </button>
+          <a href="/signup" className="signup-btn">
+            Create a new account!
+          </a>
         </div>
       </div>
     </div>

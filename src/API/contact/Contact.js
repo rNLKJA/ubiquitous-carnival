@@ -11,6 +11,7 @@ import SelectedContactLarge from "./SelectedContact-large.jsx";
 import People from "./People.jsx";
 import Person from "./Person.jsx";
 import Error from "../error/Error";
+import Heading from "../heading/heading.jsx";
 
 // const BASE_URL = "http://localhost:5000";
 const BASE_URL = "https://crm4399.herokuapp.com";
@@ -85,91 +86,97 @@ const Contact = () => {
 
   if (loading) {
     return (
-      <div className="sub-container">
-        <div className="loading">
-          <h1>Loading Your Contact</h1>
-          <h1>(っ˘ω˘ς )</h1>
+      <React.Fragment>
+        <Heading />
+        <div className="sub-container">
+          <div className="loading">
+            <h1>Loading Your Contact</h1>
+            <h1>(っ˘ω˘ς )</h1>
+          </div>
         </div>
-      </div>
+      </React.Fragment>
     );
   }
 
   return (
-    <div className="sub-container">
-      <div className="contact">
-        {/* display contact as a list */}
+    <React.Fragment>
+      <Heading />
+      <div className="sub-container">
+        <div className="contact">
+          {/* display contact as a list */}
 
-        <div className="contact-heading">
-          <h1>Contact</h1>
-        </div>
+          <div className="contact-heading">
+            <h1>Contact</h1>
+          </div>
 
-        {screenWidth <= 1024 && !oneContact.selected && (
-          <React.Fragment>
-            <a href="./addUser">
-              <div className="add-contact">
-                <img src={add_user} alt="add contact"></img>
+          {screenWidth <= 1024 && !oneContact.selected && (
+            <React.Fragment>
+              <a href="./addUser">
+                <div className="add-contact">
+                  <img src={add_user} alt="add contact"></img>
+                </div>
+              </a>
+              <div>
+                <input
+                  className="search-box"
+                  value={searchTerm}
+                  onChange={(e) => handleChange(e)}
+                  placeholder="Search for a name"
+                  size={40}
+                ></input>
               </div>
-            </a>
-            <div>
-              <input
-                className="search-box"
-                value={searchTerm}
-                onChange={(e) => handleChange(e)}
-                placeholder="Search for a name"
-                size={40}
-              ></input>
-            </div>
 
+              <div className="contactList">
+                <div className="contactList-items">
+                  <People
+                    contacts={searchContacts()}
+                    setOneContact={setOneContact}
+                  />
+                </div>
+              </div>
+            </React.Fragment>
+          )}
+
+          {screenWidth <= 1024 && oneContact.selected && (
+            <div className="contactDetail">
+              <SelectedContact
+                oneContact={oneContact}
+                setOneContact={setOneContact}
+                deleteHandler={deleteHandler}
+              />
+            </div>
+          )}
+
+          {screenWidth > 1024 && (
             <div className="contactList">
               <div className="contactList-items">
-                <People
-                  contacts={searchContacts()}
-                  setOneContact={setOneContact}
-                />
+                {contacts.map((person) => (
+                  <Person
+                    prop={person}
+                    key={person._id}
+                    setOneContact={setOneContact}
+                  />
+                ))}
               </div>
             </div>
-          </React.Fragment>
-        )}
+          )}
 
-        {screenWidth <= 1024 && oneContact.selected && (
-          <div className="contactDetail">
-            <SelectedContact
-              oneContact={oneContact}
-              setOneContact={setOneContact}
-              deleteHandler={deleteHandler}
-            />
-          </div>
-        )}
-
-        {screenWidth > 1024 && (
-          <div className="contactList">
-            <div className="contactList-items">
-              {contacts.map((person) => (
-                <Person
-                  prop={person}
-                  key={person._id}
-                  setOneContact={setOneContact}
-                />
-              ))}
+          {/* display a specific information if screen width greater than 375 px */}
+          {screenWidth > 1024 && (
+            <div>
+              {!oneContact.selected && (
+                <div className="contactDetail">
+                  <Loading msg={"Please Select A Contact"} />
+                </div>
+              )}
+              {oneContact.selected && (
+                <SelectedContactLarge oneContact={oneContact} />
+              )}
             </div>
-          </div>
-        )}
-
-        {/* display a specific information if screen width greater than 375 px */}
-        {screenWidth > 1024 && (
-          <div>
-            {!oneContact.selected && (
-              <div className="contactDetail">
-                <Loading msg={"Please Select A Contact"} />
-              </div>
-            )}
-            {oneContact.selected && (
-              <SelectedContactLarge oneContact={oneContact} />
-            )}
-          </div>
-        )}
+          )}
+        </div>
       </div>
-    </div>
+    </React.Fragment>
   );
 };
 

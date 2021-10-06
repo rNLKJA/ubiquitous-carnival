@@ -1,6 +1,7 @@
 // import required dependencies
 import React, { useEffect } from "react";
 import img from "./home-gif.gif";
+import "./home.css";
 
 const Home = () => {
   useEffect(() => {
