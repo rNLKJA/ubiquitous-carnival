@@ -4,6 +4,7 @@ const nodemailer = require("nodemailer");
 const smtpTransport = require("nodemailer-smtp-transport");
 const EmailAuth = mongoose.model("EmailAuth");
 const EmailRegister = mongoose.model("EmailRegister");
+const emailStyle = require("./emailStyle.js");
 
 const transport = nodemailer.createTransport(
   smtpTransport({
@@ -50,11 +51,7 @@ const emailAuthSend = async (req, res) => {
       from: "team4399Auth@gmail.com",
       to: email,
       subject: "vertify your email with code",
-      html: `
-          <h4>Hello!</h4>
-          <p>You are registing account in <b>4399CRM</b></p>
-          <p>Your verify code is：<strong style="color: #ff4e2a;">${authCode}</strong></p>
-          <p><b>This code will expire in 5 mins</b></p>`,
+      html: emailStyle,
     },
     function (error, data) {
       console.log(error);
@@ -116,11 +113,7 @@ const emailRegisterCodeSend = async (req, res) => {
       from: "team4399Auth@gmail.com",
       to: email,
       subject: "Complete your resigter by access the Link",
-      html: `
-          <h4>Hello!</h4>
-          <p>You are registing account in <b>4399CRM</b></p>
-          <p>Your fast register link：<strong style="color: #ff4e2a;">${fastRegisterLink}</strong></p>
-          <p><b>This code will expire in 5 mins</b></p>`,
+      html: emailStyle(authCode),
     },
     function (error, data) {
       console.log(error);
