@@ -1,9 +1,5 @@
 const emailStyle = (authCode) => {
   return `<div class='heading'>
-		<h1 style="color:#ffb86c"><span>4399 CRM Authentication Code</span></h1>
-	</div>
-
-	<div class='heading'>
 		<h1 style="background: linear-gradient(120deg,#8be9fd,#ff79c6);-webkit-background-clip: text;color: transparent;">
 			<span style="background: linear-gradient(120deg,#8be9fd,#ff79c6);-webkit-background-clip: text;color: transparent;">4399 CRM Authentication Code</span>
 		</h1>
