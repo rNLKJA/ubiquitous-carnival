@@ -8,6 +8,7 @@ import { useShowAllRecords } from "../../BackEndAPI/recordAPI";
 import RecordDetail from "./recordDetail";
 import add_record from "./add-record.jpg";
 import Heading from "../heading/heading.jsx";
+import Navbar from "../nav/Navbar";
 
 const Record = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -36,6 +37,7 @@ const Record = () => {
 
   return (
     <React.Fragment>
+      <Navbar />
       <Heading />
       <div className="sub-container">
         {!oneRecord.selected && (

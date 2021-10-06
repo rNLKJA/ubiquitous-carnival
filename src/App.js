@@ -3,7 +3,7 @@ import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 // import Navbar and Map components
-import Navbar from "./API/nav/Navbar";
+
 import Map from "./API/map/Map";
 // import Calendar from "./API/calendar/Calendar";
 import Home from "./API/home/home";
@@ -34,7 +34,7 @@ function App() {
       <Router>
         <UserContext.Provider value={{ user, setUser, isLoading }}>
           {/* <NavbarTop /> */}
-          <Navbar />
+
           <Switch>
             <ProtectedRouters
               exact

@@ -11,6 +11,7 @@ import { useContacts } from "../../BackEndAPI/contactAPI";
 import { convert } from "./Record";
 import fetchClient from "../axiosClient/axiosClient";
 import Error from "../error/Error";
+import Navbar from "../nav/Navbar";
 
 import React, { useState, useEffect } from "react";
 import Map from "./map";
@@ -95,6 +96,7 @@ const CreateRecord = () => {
   return (
     <React.Fragment>
       <Heading />
+      <Navbar />
       <div className="sub-container">
         <a href="/record" onClick={backToPreviousPage} className="back-button">
           Back

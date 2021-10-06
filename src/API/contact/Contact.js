@@ -12,6 +12,7 @@ import People from "./People.jsx";
 import Person from "./Person.jsx";
 import Error from "../error/Error";
 import Heading from "../heading/heading.jsx";
+import Navbar from "../nav/Navbar";
 
 // const BASE_URL = "http://localhost:5000";
 const BASE_URL = "https://crm4399.herokuapp.com";
@@ -87,7 +88,6 @@ const Contact = () => {
   if (loading) {
     return (
       <React.Fragment>
-        <Heading />
         <div className="sub-container">
           <div className="loading">
             <h1>Loading Your Contact</h1>
@@ -100,6 +100,7 @@ const Contact = () => {
 
   return (
     <React.Fragment>
+      <Navbar />
       <Heading />
       <div className="sub-container">
         <div className="contact">
