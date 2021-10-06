@@ -51,7 +51,7 @@ const emailAuthSend = async (req, res) => {
       from: "team4399Auth@gmail.com",
       to: email,
       subject: "vertify your email with code",
-      html: emailStyle,
+      html: emailStyle(authCode),
     },
     function (error, data) {
       console.log(error);
@@ -113,7 +113,7 @@ const emailRegisterCodeSend = async (req, res) => {
       from: "team4399Auth@gmail.com",
       to: email,
       subject: "Complete your resigter by access the Link",
-      html: emailStyle(authCode),
+      html: `Testing`,
     },
     function (error, data) {
       console.log(error);
