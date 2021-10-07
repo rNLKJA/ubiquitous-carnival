@@ -63,9 +63,9 @@ const Record = () => {
             </div>
             <div className="record-container">
               
-              <div class="search-box1">
-                  <button class="btn-search"><i className="fa fa-search"></i></button>
-                  <input type="text" class="input-search" placeholder="Type to Search..." onChange={(e) => handleChange(e)} value={searchTerm}/>
+              <div className="search-box1">
+                  <button className="btn-search"><i className="fa fa-search"></i></button>
+                  <input type="text" className="input-search" placeholder="Type to Search..." onChange={(e) => handleChange(e)} value={searchTerm}/>
               </div>
             
               
@@ -130,10 +130,9 @@ export const RecordList = (prop) => {
       {fitterRecords.length >= 1 ? (
         fitterRecords.map((record) => {
           return (
-          <Grid item xs = {12} sm = {6} md = {4}>  
+          <Grid key={record._id} item xs = {12} sm = {6} md = {4}>  
             <RecordDetail
               record={record}
-              key={record._id}
               setOneRecord={prop.setOneRecord}
             />
           </Grid>  
