@@ -82,6 +82,7 @@ a {
     /* background: linear-gradient(120deg, #8be9fd, #ff79c6); */
     /* opacity: 0.3; */
     order: 2;
+    overflow: scroll;
   }
   .home {
     position: fixed;

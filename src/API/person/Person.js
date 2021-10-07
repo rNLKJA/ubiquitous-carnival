@@ -8,6 +8,7 @@ import fetchClient from "../axiosClient/axiosClient";
 import Error from "../error/Error";
 import Heading from "../heading/heading.jsx";
 import Navbar from "../nav/Navbar";
+import UpdatePassword from "./UpdatePassword";
 
 const BASE_URL = "https://crm4399.herokuapp.com";
 
@@ -383,11 +384,50 @@ const Person = () => {
         </div>
 
         <button className="logout-btn" onClick={LogoutUser}>
-          logout
+          Log out
         </button>
+
+        <UpdatePasswordComponent email={profile.email[0]} />
       </div>
     </React.Fragment>
   );
 };
 
 export default Person;
+
+export const UpdatePasswordComponent = ({ email }) => {
+  const [updatePassword, setUpdatePassword] = useState(false);
+  const [updatePasswordBtn, setUpdatePasswordBtn] = useState(true);
+
+  return (
+    <React.Fragment>
+      {updatePasswordBtn && (
+        <button
+          className="password-btn"
+          onClick={() => {
+            setUpdatePassword(!updatePassword);
+            setUpdatePasswordBtn(!updatePasswordBtn);
+          }}
+        >
+          Change Your Password
+        </button>
+      )}
+
+      {updatePassword && (
+        <React.Fragment>
+          <UpdatePassword email={email} />
+          <button
+            className="password-btn"
+            onClick={() => {
+              setUpdatePassword(!updatePassword);
+              setUpdatePasswordBtn(!updatePasswordBtn);
+            }}
+            style={{ border: "none", color: "red", marginBottom: "20px" }}
+          >
+            Abort Change
+          </button>
+        </React.Fragment>
+      )}
+    </React.Fragment>
+  );
+};
