@@ -27,6 +27,20 @@ class Registration extends React.Component {
   async onSubmit(event) {
     event.preventDefault();
 
+    // check password match the pattern or not
+    if (
+      /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\'\"\;\-\^\%\$\#\@\!\+\=\_\<\>\,\/\.\:\~\`\d]{8,}$/.test(
+        this.state.password,
+      ) !== true
+    ) {
+      console.log(
+        "Password need to contain at lest one digit or character, please try again.",
+      );
+      return alert(
+        "Password need to contain at lest one digit or character, please try again.",
+      );
+    }
+
     const register = {
       userName: this.state.userName,
       email: this.state.email,
@@ -132,12 +146,12 @@ class Registration extends React.Component {
               <br />
               <label className="form-label">Authentication Code</label>
               <input
-                type="number"
+                type="string"
                 placeholder="Please check your Email"
                 className="form-control form-group"
                 value={this.state.authCode}
                 maxLength={6}
-                step="any"
+                minLength={6}
                 onChange={this.changeAuthCode}
                 required
               />
