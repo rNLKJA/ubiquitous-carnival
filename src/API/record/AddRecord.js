@@ -15,7 +15,7 @@ import Navbar from "../nav/Navbar";
 import React, { useState, useEffect } from "react";
 import Map from "./map";
 import Heading from "../heading/heading.jsx";
-import Autocomplete from '@mui/material/Autocomplete';
+import Autocomplete from "@mui/material/Autocomplete";
 
 const CreateRecord = () => {
   useEffect(() => {
@@ -78,16 +78,14 @@ const CreateRecord = () => {
   };
 
   const setFieldValue = (value) => {
-    
-    if (value){
-      const { id, label } = value
+    if (value) {
+      const { id, label } = value;
       setSelected(id);
-      console.log(id , " + " ,label)
+      console.log(id, " + ", label);
     }
-    
   };
 
-  console.log(selected)
+  console.log(selected);
 
   const backToPreviousPage = () => {
     window.location.href = "/record";
@@ -109,14 +107,13 @@ const CreateRecord = () => {
           Back
         </a>
         <form className="record-form">
-          
           <Autocomplete
             label="Contacts"
             name="Contacts"
             options={names}
             sx={{ width: 300 }}
             isOptionEqualToValue={(option, value) => option.id === value.id}
-            onChange={ (e,v) => setFieldValue(v)}
+            onChange={(e, v) => setFieldValue(v)}
             renderInput={(params) => <TextField {...params} label="Contacts" />}
           />
           <br />

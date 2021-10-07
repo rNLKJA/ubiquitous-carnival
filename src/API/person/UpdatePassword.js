@@ -1,7 +1,7 @@
 import React from "react";
 import "./UpdatePassword.css"; // import required css
 import fetchClient from "../axiosClient/axiosClient";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 const UpdatePassword = ({ email }) => {
   const [oldPassword, setOldPassword] = useState("");
