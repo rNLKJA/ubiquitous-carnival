@@ -5,13 +5,14 @@ import fetchClient from "../axiosClient/axiosClient";
 // import hand_write from "./notes.png";
 
 const AddUser = () => {
-    const [userID, setUserID] = useState();
+    const [contact, setContact] = useState( {userName: ""} );
+    const [userName, setUserName] = useState("");
     const BASE_URL = "https://crm4399.herokuapp.com";
     const submitUserID = (e) => {
         e.preventDefault();
 
         const contact = {
-            userID,
+            userName,
         };
 
         fetchClient
@@ -21,20 +22,23 @@ const AddUser = () => {
                 console.error(err);
             });
 
-        setUserID("");
+        setUserName("");
     };
-
-    const typeID = () => {
-        var word = prompt("Input A user ID", "");
-        setUserID(word);
-    }
 
     return (
         <React.Fragment>
             <div className="sub-container">
                 <h1>Add by User ID</h1>
                 <form className="newID" method="POST" onSubmit={submitUserID}>
-                    <button onClick={typeID}>Add a New Contact</button>
+                    <input
+                        name="firstName"
+                        type="text"
+                        placeholder="Please enter the User Name"
+                        onChange={(e) => setUserName(e.target.value)}
+                        value={userName}
+                        required
+                    />
+                    <input type="submit" value="Create"/>
                     <br />
                 </form>
 

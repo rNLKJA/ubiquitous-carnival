@@ -25,6 +25,11 @@ const Person = () => {
   const inputE3 = useRef();
   const inputE4 = useRef();
 
+  useEffect(()=>{
+    console.log("Change happened")
+  },[email])
+
+
   const submitFirstName = (e) => {
     e.preventDefault();
 
@@ -102,11 +107,13 @@ const Person = () => {
 
     fetchClient
       .post(BASE_URL + "/profile/addEmail", profile)
-      .then(() => console.log("upload new information"))
+      .then(() => {
+        console.log("upload new information");
+        //window.location.reload(false);
+      })
       .catch((err) => {
         console.error(err);
       });
-
     setEmail("");
   };
   const submitDelEmail = (e) => {
@@ -118,7 +125,10 @@ const Person = () => {
 
     fetchClient
       .post(BASE_URL + "/profile/delEmail", profile)
-      .then(() => console.log("upload del"))
+      .then(() => {
+        console.log("upload del");
+        //window.location.reload(false);
+      })
       .catch((err) => {
         console.error(err);
       });
@@ -135,12 +145,16 @@ const Person = () => {
 
     fetchClient
       .post(BASE_URL + "/profile/delPhone", profile)
-      .then(() => console.log("upload del"))
+      .then(() => {
+        console.log("upload del");
+        window.location.reload(false);
+      })
       .catch((err) => {
         console.error(err);
       });
 
     setPhone("");
+
   };
 
   const submitNewPhone = (e) => {
@@ -152,7 +166,10 @@ const Person = () => {
 
     fetchClient
       .post(BASE_URL + "/profile/addPhone", profile)
-      .then(() => console.log("upload new information"))
+      .then(() => {
+        console.log("upload new information");
+        window.location.reload(false);
+      })
       .catch((err) => {
         console.error(err);
       });
@@ -215,9 +232,9 @@ const Person = () => {
   };
 
   const editStatus = () => {
-    var element = inputE4.current;
-    var oldhtml = element.innerHTML;
-    var newobj = document.createElement("input");
+    let element = inputE4.current;
+    let oldhtml = element.innerHTML;
+    let newobj = document.createElement("input");
     newobj.type = "text";
 
     newobj.value = oldhtml;
@@ -233,16 +250,18 @@ const Person = () => {
   };
 
   const addNewEmail = () => {
-    var word = prompt("Input A New Email", "");
+    let word = prompt("Input A New Email", "");
     setEmail(word);
   };
 
   const addNewPhone = () => {
-    var word = prompt("Input A New Phone", "");
+    let word = prompt("Input A New Phone", "");
     setPhone(word);
   };
 
+
   return (
+
     <div className="sub-container">
       <div className="information-container">
         <h1>Personal Information</h1>
@@ -352,6 +371,7 @@ const Person = () => {
       <button className="logout-btn" onClick={LogoutUser}>
         logout
       </button>
+
     </div>
   );
 };

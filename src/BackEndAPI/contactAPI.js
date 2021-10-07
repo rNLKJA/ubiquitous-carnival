@@ -20,10 +20,10 @@ function getContacts() {
  * @param {JSON} contactInfo a JSON object that contain information to create a contact
  * @returns {JSON} the JSON object that from the database after create
  */
-// function createContact(contactInfo) {
-//   const endpoint = BASE_URL + "/contact/createContact";
-//   return fetchClient.post(endpoint, contactInfo).then((res) => res.data);
-// }
+function createContact(contactInfo) {
+   const endpoint = BASE_URL + "/contact/createContact";
+   return fetchClient.post(endpoint, contactInfo).then((res) => res.data);
+ }
 
 //object ID as input
 /**
@@ -36,6 +36,13 @@ function ShowOneContact(contactObjectId) {
   return fetchClient
     .post(endpoint, { contactObjectId: contactObjectId })
     .then((res) => res.data);
+}
+
+function existAccount(contactObjectId) {
+  const endpoint = BASE_URL + "/contact/showOneContact";
+  return fetchClient
+      .post(endpoint, { contactObjectId: contactObjectId })
+      .then((res) => res.data);
 }
 
 /**
