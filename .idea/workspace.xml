@@ -3,9 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="aaaf103e-f306-4887-902f-3a9c719910ef" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/API/contact/qr-code.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/API/contact/qr-code.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/API/person/Person.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/API/person/Person.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -52,7 +49,7 @@
       <workItem from="1632913216088" duration="17073000" />
       <workItem from="1633099693483" duration="5173000" />
       <workItem from="1633508522601" duration="9600000" />
-      <workItem from="1633621044476" duration="1329000" />
+      <workItem from="1633621044476" duration="5945000" />
     </task>
     <servers />
   </component>
