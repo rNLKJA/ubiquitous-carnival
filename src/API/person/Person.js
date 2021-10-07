@@ -383,11 +383,11 @@ const Person = () => {
           </div>
         </div>
 
+        <UpdatePasswordComponent email={profile.email[0]} />
+
         <button className="logout-btn" onClick={LogoutUser}>
           Log out
         </button>
-
-        <UpdatePasswordComponent email={profile.email[0]} />
       </div>
     </React.Fragment>
   );

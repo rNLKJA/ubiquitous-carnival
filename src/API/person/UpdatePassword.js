@@ -2,6 +2,7 @@ import React from "react";
 import "./UpdatePassword.css"; // import required css
 import fetchClient from "../axiosClient/axiosClient";
 import { useState } from "react";
+import { WindowOutlined } from "@mui/icons-material";
 
 const UpdatePassword = ({ email }) => {
   const [oldPassword, setOldPassword] = useState("");
@@ -52,13 +53,13 @@ const UpdatePassword = ({ email }) => {
     };
 
     await fetchClient
-      .post("http://localhost:5000/user/changePassword", data)
-      // .post("https://crm4399.herokuapp.com/user/sendEmailCode", data)
+      // .post("http://localhost:5000/user/changePassword", data)
+      .post("https://crm4399.herokuapp.com/user/changePassword", data)
       .then((response) => {
         if (response.data.status) {
           alert("You've changed your password!");
           console.log("Password Changed");
-          window.location.reload();
+          window.location.href("/setting");
         } else if (response.data.password_diff) {
           alert("Your new password is the same as the old one. Update Fail.");
           console.log(
