@@ -103,6 +103,7 @@ const UpdatePassword = ({ email }) => {
           name="password"
           required
           value={newPassword1}
+          minLength={8}
           onChange={(e) => setNewPassword1(e.target.value)}
         ></input>
         <label>Please Re-enter Your NEW Password</label>
@@ -110,6 +111,7 @@ const UpdatePassword = ({ email }) => {
           type="password"
           name="re-password"
           required
+          minLength={8}
           value={newPassword2}
           onChange={(e) => setNewPassword2(e.target.value)}
         ></input>
@@ -125,6 +127,7 @@ const UpdatePassword = ({ email }) => {
         <input
           type="string"
           maxLength={6}
+          minLength={6}
           required
           value={authCode}
           onChange={(e) => setAuthCode(e.target.value)}
