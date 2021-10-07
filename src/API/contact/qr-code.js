@@ -30,11 +30,11 @@ const AddUser = () => {
     };
 
 
-    const [scanResultFile, setScanResultFile] =useState("");
+/*    const [scanResultFile, setScanResultFile] =useState("");
     const handleErrorFile = (error) =>{
         console.log(error);
-    }
-    const handleScanFile = (result) => {
+    }*/
+/*    const handleScanFile = (result) => {
         if (result){
             setScanResultFile(result);
         }
@@ -43,7 +43,7 @@ const AddUser = () => {
     const onScanFile = () => {
         qrRef.current.openImageDialog();
 
-    }
+    }*/
 
     const handleErrorWebCam = (error) => {
         console.log(error)
