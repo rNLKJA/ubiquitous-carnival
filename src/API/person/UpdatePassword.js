@@ -46,8 +46,8 @@ const UpdatePassword = ({ email }) => {
     }
     // check password match the pattern or not
     if (
-      /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\'\"\;\-\^\%\$\#\@\!\+\=\_\<\>\,\/\.\:\~\`\d]{8,}$/.test(
-        newPassword1,
+      /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z'";\-^%$#@!+=_<>,\\.:~`\d]{8,}$/.test(
+        this.state.password,
       ) !== true
     ) {
       console.log(

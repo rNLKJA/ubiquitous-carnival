@@ -29,7 +29,7 @@ class Registration extends React.Component {
 
     // check password match the pattern or not
     if (
-      /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\'\"\;\-\^\%\$\#\@\!\+\=\_\<\>\,\/\.\:\~\`\d]{8,}$/.test(
+      /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z'";\-^%$#@!+=_<>,\\.:~`\d]{8,}$/.test(
         this.state.password,
       ) !== true
     ) {
