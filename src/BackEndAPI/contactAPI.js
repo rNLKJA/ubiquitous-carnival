@@ -38,13 +38,6 @@ function ShowOneContact(contactObjectId) {
     .then((res) => res.data);
 }
 
-function existAccount(contactObjectId) {
-  const endpoint = BASE_URL + "/contact/showOneContact";
-  return fetchClient
-      .post(endpoint, { contactObjectId: contactObjectId })
-      .then((res) => res.data);
-}
-
 /**
  * React_Use_Function: use show contactlist of user
  */
