@@ -12,10 +12,10 @@ import { convert } from "./Record";
 import fetchClient from "../axiosClient/axiosClient";
 import Error from "../error/Error";
 import Navbar from "../nav/Navbar";
-
 import React, { useState, useEffect } from "react";
 import Map from "./map";
 import Heading from "../heading/heading.jsx";
+import Autocomplete from '@mui/material/Autocomplete';
 
 const CreateRecord = () => {
   useEffect(() => {
@@ -102,16 +102,16 @@ const CreateRecord = () => {
           Back
         </a>
         <form className="record-form">
-          <label>Person YOU MET</label>
-          <br />
-          <Select
-            onChange={onchangeSelect}
+          
+          <Autocomplete
+            disablePortal
+            id="combo-box-demo"
             options={names}
             getOptionValue={(option) => option.value}
             getOptionLabel={(option) => option.value}
-            styles={selectStyles}
+            sx={{ width: 300 }}
+            renderInput={(params) => <TextField {...params} label="Contacts" />}
           />
-
           <br />
           <div className="timer-container">
             <LocalizationProvider dateAdapter={AdapterDateFns}>

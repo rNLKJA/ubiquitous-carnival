@@ -9,7 +9,14 @@ import RecordDetail from "./recordDetail";
 import add_record from "./add-record.jpg";
 import Heading from "../heading/heading.jsx";
 import Navbar from "../nav/Navbar";
-
+import {Grid} from "@material-ui/core"
+import AddCommentIcon from '@mui/icons-material/AddComment';
+import Box from '@mui/material/Box';
+import Fab from '@mui/material/Fab';
+import AddIcon from '@mui/icons-material/Add';
+import EditIcon from '@mui/icons-material/Edit';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import NavigationIcon from '@mui/icons-material/Navigation';
 const Record = () => {
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -44,17 +51,24 @@ const Record = () => {
           <React.Fragment>
             <div className="heading-record">
               <h1>Record</h1>
-              <a href="./createRecord">
-                <div className="add-record">
-                  <img src={add_record} alt="add record"></img>
-                </div>
-              </a>
+              <Fab color="primary" aria-label="add" href = "./createRecord" sx = {{ width: "40px",
+                                        height: "40px",
+                                        position: "fixed",
+                                        right: "1.5rem",
+                                        top: "-3.5rem",
+                                        color: "black"}}>
+                <AddIcon />
+              </Fab>
+              
             </div>
             <div className="record-container">
+              
               <div class="search-box1">
-                <button class="btn-search"><i className="fa fa-search"></i></button>
-                <input type="text" class="input-search" placeholder="Type to Search..." onChange={(e) => handleChange(e)} value={searchTerm}/>
+                  <button class="btn-search"><i className="fa fa-search"></i></button>
+                  <input type="text" class="input-search" placeholder="Type to Search..." onChange={(e) => handleChange(e)} value={searchTerm}/>
               </div>
+            
+              
               <RecordList
                 records={records}
                 search_key={searchTerm}
@@ -66,17 +80,9 @@ const Record = () => {
           </React.Fragment>
         )}
 
-      
-
-    {oneRecord.selected && (
-      <div>
-
-        <RecordDetail record={oneRecord} setOneRecord={setOneRecord} />
-      </div>
-  )}
   </div>
   </React.Fragment>)
-};
+}
 
 export default Record;
 
@@ -120,16 +126,18 @@ export const RecordList = (prop) => {
   let fitterRecords = searchRecords();
 
   return (
-    <div>
+    <Grid container>
       {fitterRecords.length >= 1 ? (
         fitterRecords.map((record) => {
           return (
-            <OneRecord
+          <Grid item xs = {12} sm = {6} md = {4}>  
+            <RecordDetail
               record={record}
               key={record._id}
               setOneRecord={prop.setOneRecord}
             />
-          );
+          </Grid>  
+          )
         })
       ) : (
         <div className="sub-container">
@@ -139,7 +147,7 @@ export const RecordList = (prop) => {
           </div>
         </div>
       )}
-    </div>
+    </Grid>
 
   )
     }

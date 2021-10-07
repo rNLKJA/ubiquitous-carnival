@@ -183,7 +183,7 @@
     width: fit-content;
     height: fit-content;
     position: relative;
-    margin-inline-start: 15%;
+    margin-inline-start: 5%;
   }
   .input-search{
     height: 50px;
@@ -316,6 +316,8 @@
     font-size: 15px;
   }
 }
+
+
 
 
 
