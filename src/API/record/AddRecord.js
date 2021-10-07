@@ -12,10 +12,10 @@ import { convert } from "./Record";
 import fetchClient from "../axiosClient/axiosClient";
 import Error from "../error/Error";
 import Navbar from "../nav/Navbar";
-
 import React, { useState, useEffect } from "react";
 import Map from "./map";
 import Heading from "../heading/heading.jsx";
+import Autocomplete from '@mui/material/Autocomplete';
 
 const CreateRecord = () => {
   useEffect(() => {
@@ -47,8 +47,8 @@ const CreateRecord = () => {
 
   let names = contacts.map(function (contact, index) {
     return {
-      value: contact.contact.firstName + " " + contact.contact.lastName,
-      person: contact.contact._id,
+      label: contact.contact.firstName + " " + contact.contact.lastName,
+      id: contact.contact._id,
     };
   });
 
@@ -66,7 +66,7 @@ const CreateRecord = () => {
     await fetchClient
       // .post("http://localhost:5000/record/createRecord", recordInfo)
       .post("https://crm4399.herokuapp.com/record/createRecord", recordInfo)
-      .then(() => alert("Create a new record"))
+      .then(() => alert("Successfully create a record つ - - つ"))
       .catch((err) => {
         alert(err);
         console.error(err);
@@ -77,10 +77,17 @@ const CreateRecord = () => {
     window.location.href = "/record";
   };
 
-  const onchangeSelect = (event) => {
-    setSelected(event.person);
-    console.log("selected " + selected);
+  const setFieldValue = (value) => {
+    
+    if (value){
+      const { id, label } = value
+      setSelected(id);
+      console.log(id , " + " ,label)
+    }
+    
   };
+
+  console.log(selected)
 
   const backToPreviousPage = () => {
     window.location.href = "/record";
@@ -102,16 +109,16 @@ const CreateRecord = () => {
           Back
         </a>
         <form className="record-form">
-          <label>Person YOU MET</label>
-          <br />
-          <Select
-            onChange={onchangeSelect}
+          
+          <Autocomplete
+            label="Contacts"
+            name="Contacts"
             options={names}
-            getOptionValue={(option) => option.value}
-            getOptionLabel={(option) => option.value}
-            styles={selectStyles}
+            sx={{ width: 300 }}
+            isOptionEqualToValue={(option, value) => option.id === value.id}
+            onChange={ (e,v) => setFieldValue(v)}
+            renderInput={(params) => <TextField {...params} label="Contacts" />}
           />
-
           <br />
           <div className="timer-container">
             <LocalizationProvider dateAdapter={AdapterDateFns}>
