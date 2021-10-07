@@ -64,8 +64,8 @@ const CreateRecord = () => {
     console.log(recordInfo);
 
     await fetchClient
-      .post("http://localhost:5000/record/createRecord", recordInfo)
       // .post("http://localhost:5000/record/createRecord", recordInfo)
+      .post("https://crm4399.herokuapp.com/record/createRecord", recordInfo)
       .then(() => alert("Create a new record"))
       .catch((err) => {
         alert(err);
