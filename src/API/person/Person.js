@@ -14,6 +14,14 @@ const Person = () => {
   }, []);
 
   const { loading, profile, error } = useShowProfile();
+  const [oneProfile, setOneProfile] =useState({
+    firstName:profile.firstName,
+    lastName:profile.lastName,
+    occupation:profile.occupation,
+    status:profile.status,
+    email:profile.email,
+    phone:profile.phone
+  });
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -109,7 +117,6 @@ const Person = () => {
       .post(BASE_URL + "/profile/addEmail", profile)
       .then(() => {
         console.log("upload new information");
-        //window.location.reload(false);
       })
       .catch((err) => {
         console.error(err);
@@ -127,7 +134,6 @@ const Person = () => {
       .post(BASE_URL + "/profile/delEmail", profile)
       .then(() => {
         console.log("upload del");
-        //window.location.reload(false);
       })
       .catch((err) => {
         console.error(err);
@@ -147,7 +153,6 @@ const Person = () => {
       .post(BASE_URL + "/profile/delPhone", profile)
       .then(() => {
         console.log("upload del");
-        window.location.reload(false);
       })
       .catch((err) => {
         console.error(err);
@@ -168,7 +173,6 @@ const Person = () => {
       .post(BASE_URL + "/profile/addPhone", profile)
       .then(() => {
         console.log("upload new information");
-        window.location.reload(false);
       })
       .catch((err) => {
         console.error(err);
@@ -251,16 +255,31 @@ const Person = () => {
 
   const addNewEmail = () => {
     let word = prompt("Input A New Email", "");
+    setOneProfile({...oneProfile,email: profile.email.push(word)});
     setEmail(word);
   };
 
   const addNewPhone = () => {
     let word = prompt("Input A New Phone", "");
+    setOneProfile({...oneProfile,phone: profile.phone.push(word)});
     setPhone(word);
   };
 
+  const delEmail = (item) => {
+    let pos = profile.email.indexOf(item);
+    setOneProfile({...oneProfile,email: profile.email.splice(pos,1)});
+    setEmail(item);
+  }
 
-  return (
+  const delPhone = (item) => {
+    let pos = profile.phone.indexOf(item);
+    setOneProfile({...oneProfile, phone: profile.phone.splice(pos, 1)});
+    setPhone(item);
+  }
+
+
+
+    return (
 
     <div className="sub-container">
       <div className="information-container">
@@ -338,7 +357,7 @@ const Person = () => {
                   onSubmit={submitDelEmail}
                 >
                   <div className="email"> {item} </div>
-                  <button onClick={setEmail.bind(this, item)}>-</button>
+                  <button onClick={delEmail.bind(this,item)}>-</button>
                 </form>
               );
             })}
@@ -359,7 +378,7 @@ const Person = () => {
                   <div className="delPhone">
                     <div className="phone">{item}</div>
                     <div className="delPhone-btn">
-                      <button onClick={setPhone.bind(this, item)}>-</button>
+                      <button onClick={delPhone.bind(this,item)}>-</button>
                     </div>
                   </div>
                 </form>
