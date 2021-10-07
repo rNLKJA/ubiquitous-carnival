@@ -140,7 +140,7 @@ class Registration extends React.Component {
                   required
                 />
 
-                <button onClick={this.sendAuthCode}>Send Code </button>
+                <button onClick={this.sendAuthCode}>Send</button>
               </div>
 
               <br />
