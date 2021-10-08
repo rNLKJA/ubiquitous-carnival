@@ -120,6 +120,22 @@ const searchRecord = async (req, res) => {
 	}
 }
 
+const deleteOneRecord = async (req, res) =>{
+    try{
+        const recordId = req.body.recordId
+        const user = await User.findOne({_id: req.user._id}).lean()
+        
+        var recordList = user.recordList.filter(
+            (record) => record.toString() !== req.body.recordId 
+        )
+        
+        await Record.deleteOne({_id: recordId})
+        await User.findOneAndUpdate({_id:req.user._id}, {recordList:recordList})
+        res.json({status: "success"})
+    }catch(err){
+        res.json({status: "fail"})
+    }
+}
 
 module.exports = {
     createRecord,
