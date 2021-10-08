@@ -5,10 +5,6 @@ import LogoutUser from "../../hooks/useLogout";
 import "./person.css";
 import { useShowProfile } from "../../BackEndAPI/profileAPI";
 import fetchClient from "../axiosClient/axiosClient";
-import Error from "../error/Error";
-import Heading from "../heading/heading.jsx";
-import Navbar from "../nav/Navbar";
-import UpdatePassword from "./UpdatePassword";
 
 const BASE_URL = "https://crm4399.herokuapp.com";
 
@@ -18,6 +14,7 @@ const Person = () => {
   }, []);
 
   const { loading, profile, error } = useShowProfile();
+  const [oneProfile, setOneProfile] = useState(null);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -30,11 +27,7 @@ const Person = () => {
   const inputE4 = useRef();
 
   if (error) {
-    return (
-      <div className="sub-container">
-        <Error msg={"There is something wrong with Contact X_X"} />
-      </div>
-    );
+    return <div className="sub-container"></div>;
   }
 
   if (loading) {
@@ -256,19 +249,33 @@ const Person = () => {
   };
 
   const addNewEmail = () => {
-    var word = prompt("Input A New Email", "");
+    let word = prompt("Input A New Email", "");
     setEmail(word);
+    setOneProfile({ ...oneProfile, email: profile.email.push(word) });
   };
 
   const addNewPhone = () => {
-    var word = prompt("Input A New Phone", "");
+    let word = prompt("Input A New Phone", "");
     setPhone(word);
+    setOneProfile({ ...oneProfile, phone: profile.phone.push(word) });
+  };
+
+  const delEmail = (item) => {
+    let pos = profile.email.indexOf(item);
+    setEmail(item);
+    //problem is here
+    setOneProfile({ ...oneProfile, email: profile.email.splice(pos, 1) });
+  };
+
+  const delPhone = (item) => {
+    let pos = profile.phone.indexOf(item);
+    setPhone(item);
+    //problem is here
+    setOneProfile({ ...oneProfile, phone: profile.phone.splice(pos, 1) });
   };
 
   return (
     <React.Fragment>
-      <Navbar />
-      <Heading />
       <div className="sub-container">
         <div className="information-container">
           <h1>Personal Information</h1>
@@ -324,7 +331,7 @@ const Person = () => {
                 </div>
               </div>
             </form>
-            <form className="status" method="POST" onSubmit={submitStatus}>
+            {/* <form className="status" method="POST" onSubmit={submitStatus}>
               <div className="info-container">
                 <div className="Label">Status: </div>
                 <div className="statusValue" ref={inputE4} onClick={editStatus}>
@@ -334,7 +341,7 @@ const Person = () => {
                   <input type="submit" value="save" />
                 </div>
               </div>
-            </form>
+            </form> */}
           </div>
 
           <div className="contactInformation">
@@ -353,7 +360,7 @@ const Person = () => {
                     onSubmit={submitDelEmail}
                   >
                     <div className="email"> {item} </div>
-                    <button onClick={setEmail.bind(this, item)}>-</button>
+                    <button onClick={delEmail.bind(this, item)}>-</button>
                   </form>
                 );
               })}
@@ -374,7 +381,7 @@ const Person = () => {
                     <div className="delPhone">
                       <div className="phone">{item}</div>
                       <div className="delPhone-btn">
-                        <button onClick={setPhone.bind(this, item)}>-</button>
+                        <button onClick={delPhone.bind(this, item)}>-</button>
                       </div>
                     </div>
                   </form>
@@ -382,8 +389,6 @@ const Person = () => {
               })}
           </div>
         </div>
-
-        <UpdatePasswordComponent email={profile.email[0]} />
 
         <button className="logout-btn" onClick={LogoutUser}>
           Log out
@@ -394,40 +399,3 @@ const Person = () => {
 };
 
 export default Person;
-
-export const UpdatePasswordComponent = ({ email }) => {
-  const [updatePassword, setUpdatePassword] = useState(false);
-  const [updatePasswordBtn, setUpdatePasswordBtn] = useState(true);
-
-  return (
-    <React.Fragment>
-      {updatePasswordBtn && (
-        <button
-          className="password-btn"
-          onClick={() => {
-            setUpdatePassword(!updatePassword);
-            setUpdatePasswordBtn(!updatePasswordBtn);
-          }}
-        >
-          Change Your Password
-        </button>
-      )}
-
-      {updatePassword && (
-        <React.Fragment>
-          <UpdatePassword email={email} />
-          <button
-            className="password-btn"
-            onClick={() => {
-              setUpdatePassword(!updatePassword);
-              setUpdatePasswordBtn(!updatePasswordBtn);
-            }}
-            style={{ border: "none", color: "red", marginBottom: "20px" }}
-          >
-            Abort Change
-          </button>
-        </React.Fragment>
-      )}
-    </React.Fragment>
-  );
-};
