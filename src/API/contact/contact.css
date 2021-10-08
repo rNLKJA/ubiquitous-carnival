@@ -81,13 +81,14 @@
     grid-template-columns: 1fr 3fr;
     width: 94%;
     height: 150px;
-    padding: 20px;
+    /* padding: 20px; */
     margin-left: auto;
     margin-right: auto;
     /* margin-top: 200px; */
     background-color: #fcfcfc;
     letter-spacing: 1px;
     font-weight: 100;
+    margin-top: 20px;
 
     color: rgba(0, 0, 0, 0.6);
 
@@ -105,7 +106,8 @@
   }
 
   .profile {
-    height: 100%;
+    height: 150px;
+    width: 150px;
     position: relative;
   }
 
@@ -352,7 +354,10 @@
     border: 1px rgb(47, 71, 137) solid;
     border-radius: 15px;
     padding: 5px;
-    margin-top: 10px;
+    margin-top: 20px;
+    align-items: center;
+    vertical-align: middle;
+    justify-content: space-around;
   }
 
   .info {
@@ -369,6 +374,7 @@
     vertical-align: middle;
     padding: 5px;
     font-size: 15px;
+    overflow-y: scroll;
   }
 
   .info > p {

@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import "./contact.css";
 import NavBar from "../nav/navbar-addContact";
-import NavBar_bottom from "../nav/Navbar";
+import NavBarBottom from "../nav/Navbar";
 import Heading from "../heading/heading.jsx";
 
 const AddUser = () => {
@@ -16,7 +16,7 @@ const AddUser = () => {
           <NavBar />
         </div>
       </div>
-      <NavBar_bottom />
+      <NavBarBottom />
     </React.Fragment>
   );
 };
