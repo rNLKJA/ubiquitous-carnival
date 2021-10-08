@@ -22,6 +22,7 @@ import ManualInput from "./API/contact/manual-input";
 import QrCode from "./API/contact/qr-code";
 import UserID from "./API/contact/user-id";
 import CreateRecord from "./API/record/AddRecord";
+import Reset from "./API/restPassword/Reset";
 
 // defined the map function
 function App() {
@@ -105,6 +106,10 @@ function App() {
               path="/addUser/user-id"
               component={UserID}
             ></ProtectedRouters>
+
+            <Route path="/resetPassword">
+              <Reset />
+            </Route>
 
             <Route path="*">
               <Error msg={"AHHHHHHHH"} />
