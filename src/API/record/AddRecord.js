@@ -58,6 +58,7 @@ const CreateRecord = () => {
       contact_id: selected,
       location: location,
       dateTime: currentTime,
+      getCoords: geoCoords,
       notes: notes,
     };
 
