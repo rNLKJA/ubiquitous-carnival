@@ -18,7 +18,7 @@ const AddUser = () => {
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [occupation, setOccupation] = useState("");
-  const [meetRecord, setMeetRecord] = useState("");
+  // const [meetRecord, setMeetRecord] = useState("");
   const [note, setNote] = useState("");
 
   const handleSubmit = async (e) => {
@@ -31,7 +31,7 @@ const AddUser = () => {
       phone,
       occupation,
       portraits: "",
-      meetRecord,
+      // meetRecord,
       note,
     };
 
@@ -48,7 +48,7 @@ const AddUser = () => {
     setEmail("");
     setPhone("");
     setOccupation("");
-    setMeetRecord("");
+    // setMeetRecord("");
     setNote("");
 
     // window.location.href = "/contact";
@@ -135,14 +135,14 @@ const AddUser = () => {
             required
           ></input>
 
-          <label htmlFor="meetRecord">Meeting Record: </label>
+          {/* <label htmlFor="meetRecord">Meeting Record: </label>
           <input
             name="meetRecord"
             type="text"
             placeholder="Please enter the meetRecord"
             onChange={(e) => setMeetRecord(e.target.value)}
             value={meetRecord}
-          ></input>
+          ></input> */}
 
           <label htmlFor="note">Notes: </label>
           <textarea
