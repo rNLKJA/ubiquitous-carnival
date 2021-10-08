@@ -254,18 +254,62 @@ const emailFastRegisterConfirm = async (req, res) => {
 const updatePassword = async (req, res) => {
   const user = await userModel.findOne({ _id: req.user._id }).lean();
 
-  if (bcrypt.hash(req.body.oldPassword, 10) === user.password) {
+  const password = await bcrypt.hash(req.body.oldPassword, 10);
+  if (password === user.password) {
     return res.json({ status: false, password_diff: true });
   }
 
   try {
     await userModel.findOneAndUpdate(
       { _id: req.user._id },
-      { password: bcrypt.hash(req.body.newPassword1, 10) },
+      { password: password },
     );
     return res.json({ status: true });
   } catch (err) {
     return res.json({ status: false });
+  }
+};
+
+/**
+ * this function will reset userName
+ * @param  {express.Request} req this contains the userName and password
+ * @param  {express.Response} res this contains the response of system if fail to verify
+ */
+const resetPassword = async (req, res) => {
+  if (req.body.codeVerified !== "4399CRMVerified") {
+    return res.json({
+      status: false,
+      msg: "Invalid Access, You are not authorised to change the password!",
+    });
+  }
+
+  const password = await bcrypt.hash(req.body.password, 10);
+
+  try {
+    const user = await userModel.findOne({
+      userName: req.body.userName,
+    });
+
+    if (user.password === password) {
+      return res.json({
+        status: false,
+        msg: "You new password is the same as the old one X_X Reset Fail",
+      });
+    }
+
+    // console.log(typeof password);
+
+    await userModel.findOneAndUpdate(
+      {
+        userName: req.body.userName,
+      },
+      { password: password },
+    );
+
+    // console.log(verify);
+    return res.json({ status: true });
+  } catch (err) {
+    return res.json({ status: false, msg: "Query Error" });
   }
 };
 
@@ -275,5 +319,6 @@ module.exports = {
   isAuth,
   emailFastRegisterConfirm,
   emailFastRegister,
+  resetPassword,
   updatePassword,
 };

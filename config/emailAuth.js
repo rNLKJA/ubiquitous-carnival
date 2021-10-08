@@ -5,6 +5,7 @@ const smtpTransport = require("nodemailer-smtp-transport");
 const EmailAuth = mongoose.model("EmailAuth");
 const EmailRegister = mongoose.model("EmailRegister");
 const emailStyle = require("./emailStyle.js");
+const userModel = mongoose.model("User");
 
 const transport = nodemailer.createTransport(
   smtpTransport({
@@ -64,7 +65,7 @@ const emailAuthSend = async (req, res) => {
     setTimeout(async () => {
       await EmailAuth.deleteMany({ email: email });
     }, 1000 * 60 * 5);
-    res.send("your email code has been send!");
+    res.json({ status: true });
   } catch (err) {
     console.log(err);
   }
@@ -162,9 +163,79 @@ const emailRegisterVerify = async (req, res, next) => {
   next();
 };
 
+/**
+ * this function will send a email that user input to implement email verify
+ * @param  {express.Request} req this contains the userName to obtain user information
+ * @param  {express.Response} res this contain the response from system of email sending result
+ */
+const sendResetCode = async (req, res) => {
+  const user = await userModel.findOne({ userName: req.body.userName });
+
+  if (!user) {
+    return res.json({ status: false, msg: "User doesn't exist" });
+  }
+
+  const email = user.email[0]; // acquire email address
+
+  const authCode = autoCodeGenerator(6);
+
+  transport.sendMail(
+    {
+      from: "team4399Auth@gmail.com",
+      to: email,
+      subject: "Reset Your Password",
+      html: emailStyle(authCode),
+    },
+    function (error, data) {
+      // assert(error, 500, "fail to send vertify code")
+      transport.close();
+    },
+  );
+
+  try {
+    await EmailAuth.deleteMany({ email: email });
+    const AuthDocument = new EmailAuth({ email: email, authCode: authCode });
+    await AuthDocument.save();
+    setTimeout(async () => {
+      await EmailAuth.deleteMany({ email: email });
+    }, 1000 * 60 * 5);
+    return res.json({ status: true, email: email });
+  } catch (err) {
+    return res.json({ status: false });
+  }
+
+  return res.json({ status: false, msg: "Testing Fail" });
+};
+
+/**
+ * this function will compare the input verify code with database to finish email verify
+ * @param  {express.Request} req this contains the email and verify code that user input
+ * @param  {express.Response} res this contains the response of system if fail to verify
+ */
+const userCodeVerify = async (req, res) => {
+  try {
+    const verify = await EmailAuth.find({
+      email: req.body.email,
+      authCode: req.body.authCode,
+    });
+    // console.log(verify);
+    if (!verify.length) {
+      return res.send({ status: false, msg: "Wrong Code, please try again" });
+    }
+    await EmailAuth.deleteMany({ email: req.body.email });
+
+    res.send({ status: true });
+  } catch (err) {
+    res.send({ status: false, msg: "Query Error" });
+  }
+};
+
 module.exports = {
   emailAuthSend,
   emailCodeVerify,
   emailRegisterCodeSend,
   emailRegisterVerify,
+  autoCodeGenerator,
+  sendResetCode,
+  userCodeVerify,
 };
