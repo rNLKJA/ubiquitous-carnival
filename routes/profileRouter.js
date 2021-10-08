@@ -26,6 +26,6 @@ profileRouter.post('/editStatus', passport.authenticate('jwt', { session: false 
 
 profileRouter.get('/showProfile', passport.authenticate('jwt', { session: false }), (req,res) => profileController.showProfile(req,res))
 
-profileRouter.post('/uploadUserImage', upload.single('portrait'), (req,res) => profileController.uploadPhoto(req,res))
+profileRouter.post('/uploadUserImage', passport.authenticate('jwt', { session: false }), upload.single('portrait'), (req,res) => profileController.uploadPhoto(req,res))
 
 module.exports = profileRouter

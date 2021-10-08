@@ -11,7 +11,7 @@ const storage = multer.diskStorage({
     },
     filename : (req, file, cb) => {
         // body.targetId demenstrate which user/contact this image
-        const fileName = req.body._id+'-'+ Date.now().toString()+ path.extname(file.originalname);
+        const fileName = req.user._id+'-'+ file.originalname
         cb(null, fileName)
     } 
 })

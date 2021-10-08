@@ -186,8 +186,8 @@ const uploadPhoto = async (req, res) => {
   };
   try {
     //TODO: replace body._id to user._id
-    await userModel.updateOne({ _id: req.body._id }, { portrait: img });
-    const user = await userModel.findOne({ _id: req.body._id });
+    await userModel.updateOne({ _id: req.user._id }, { portrait: img });
+    const user = await userModel.findOne({ _id: req.user._id });
     console.log("update success");
     res.send(user);
   } catch (err) {
