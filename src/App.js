@@ -42,9 +42,12 @@ function App() {
               path="/"
               component={Home}
             ></ProtectedRouters>
-            <Route path="/login" component={Login}></Route>
-            <Route path="/signup">
+            <Route exact path="/login" component={Login}></Route>
+            <Route exact path="/signup">
               <Registration />
+            </Route>
+            <Route exact path="/resetPassword">
+              <Reset />
             </Route>
 
             <ProtectedRouters
@@ -106,10 +109,6 @@ function App() {
               path="/addUser/user-id"
               component={UserID}
             ></ProtectedRouters>
-
-            <Route path="/resetPassword">
-              <Reset />
-            </Route>
 
             <Route path="*">
               <Error msg={"AHHHHHHHH"} />

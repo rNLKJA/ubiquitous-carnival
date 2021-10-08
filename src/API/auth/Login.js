@@ -80,6 +80,12 @@ const Login = () => {
             Create a new account!
           </a>
         </div>
+
+        <div style={{ width: "100%" }}>
+          <a href="/resetPassword" className="signup-btn">
+            Forget password? Click here!
+          </a>
+        </div>
       </div>
     </div>
   );
