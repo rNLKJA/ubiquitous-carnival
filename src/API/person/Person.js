@@ -5,6 +5,8 @@ import LogoutUser from "../../hooks/useLogout";
 import "./person.css";
 import { useShowProfile } from "../../BackEndAPI/profileAPI";
 import fetchClient from "../axiosClient/axiosClient";
+import Heading from "../heading/heading";
+import Navbar from "../nav/Navbar";
 
 const BASE_URL = "https://crm4399.herokuapp.com";
 
@@ -276,6 +278,8 @@ const Person = () => {
 
   return (
     <React.Fragment>
+      <Heading />
+      <Navbar />
       <div className="sub-container">
         <div className="information-container">
           <h1>Personal Information</h1>
