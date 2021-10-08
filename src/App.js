@@ -79,11 +79,11 @@ function App() {
               path="/search"
               component={Search}
             ></ProtectedRouters> */}
-            <ProtectedRouters
+            {/* <ProtectedRouters
               exact
               path="/setting"
               component={Person}
-            ></ProtectedRouters>
+            ></ProtectedRouters> */}
 
             <ProtectedRouters
               exact
