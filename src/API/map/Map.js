@@ -4,9 +4,11 @@ import Heading from "../heading/heading.jsx";
 import Navbar from "../nav/Navbar";
 
 const Map = () => {
+  // change page title
   useEffect(() => {
     document.title = "Map";
   }, []);
+
   return (
     <React.Fragment>
       <Navbar />
