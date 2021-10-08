@@ -15,6 +15,7 @@ import LocationOnIcon from '@mui/icons-material/LocationOn';
 import PhoneIcon from '@mui/icons-material/Phone';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
+import fetchClient from "../axiosClient/axiosClient"
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
   return <IconButton {...other} />;
@@ -32,9 +33,16 @@ const RecordDetail = (prop) => {
     const handleExpandClick = () => {
         setExpanded(!expanded);
     };
-    const handleDelete = (e) => {
+    const handleDelete = async(e) => {
         e.preventDefault();
         window.confirm("delete this record ? ")
+        const recordId = {
+          recordId : prop.record._id
+        }
+
+        console.log("deleting ",recordId)
+        await fetchClient.post('http://localhost:5000/record/deleteOneRecord',{recordId : prop.record._id}).then((res)=>console.log(res.data.status))
+        window.location.href = "/record";
     }
     return (
         <Card  sx={{ maxWidth: 345, margin : 3}}>
