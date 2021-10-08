@@ -393,13 +393,12 @@ const Person = () => {
                 );
               })}
           </div>
+          <UpdatePasswordComponent email={profile.email[0]} />
+
+          <button className="logout-btn" onClick={LogoutUser}>
+            Log out
+          </button>
         </div>
-
-        <UpdatePasswordComponent email={profile.email[0]} />
-
-        <button className="logout-btn" onClick={LogoutUser}>
-          Log out
-        </button>
       </div>
     </React.Fragment>
   );

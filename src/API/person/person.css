@@ -76,3 +76,9 @@
   background-color: royalblue;
   color: white;
 }
+
+.information-container {
+  width: 100%;
+  overflow: scroll;
+  margin-bottom: 20px;
+}
