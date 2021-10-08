@@ -1,10 +1,10 @@
 // import required dependencies
 import React from "react";
 import { Link } from "react-router-dom";
-import settingIMG from './icon/set.png'
-import contactIMG from './icon/contact.png'
-import recordIMG from './icon/record.png'
-import mapIMG from './icon/map.png'
+import settingIMG from "./icon/set.png";
+import contactIMG from "./icon/contact.png";
+import recordIMG from "./icon/record.png";
+import mapIMG from "./icon/map.png";
 
 // define navigation bar component
 const Navbar = () => {
@@ -13,22 +13,14 @@ const Navbar = () => {
       <div className="navbar">
         {/* link to contact route */}
         <Link to="/contact">
-          <img
-            className="nav-icon"
-            src={contactIMG}
-            alt="contact-icon"
-          />
+          <img className="nav-icon" src={contactIMG} alt="contact-icon" />
         </Link>
       </div>
 
       {/* link to records route */}
       <div className="navbar">
         <Link to="/record">
-          <img
-            className="nav-icon"
-            src={recordIMG}
-            alt="record-icon"
-          />
+          <img className="nav-icon" src={recordIMG} alt="record-icon" />
         </Link>
       </div>
 
@@ -54,23 +46,19 @@ const Navbar = () => {
       {/* link to map route */}
       <div className="navbar">
         <Link to="/map">
-          <img
-            className="nav-icon"
-            src={mapIMG}
-            alt="map-icon"
-          />
+          <img className="nav-icon" src={mapIMG} alt="map-icon" />
         </Link>
       </div>
 
       {/* link to personal setting route */}
       <div className="navbar">
-        <Link to="/setting">
+        {/* <Link to="/setting">
           <img
             className="nav-icon"
             src={settingIMG}
             alt="set-icon"
           />
-        </Link>
+        </Link> */}
       </div>
     </nav>
   );
