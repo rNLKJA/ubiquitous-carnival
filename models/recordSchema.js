@@ -16,6 +16,8 @@ const recordSchema = new mongoose.Schema({
   ],
   linkedAccount: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
   ownerAccount: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+  lat: {type: Number, require:true},
+  lng: {type: Number, require:true}
 });
 
 const Record = mongoose.model("Record", recordSchema);

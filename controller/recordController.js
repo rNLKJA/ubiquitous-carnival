@@ -26,10 +26,9 @@ const createRecord = async (req, res) => {
         "ownerAccount" : "ownerAccount"
     }*/
     try {
-        const {contact_id, dateTime, location, notes, linkedAccount} = req.body
+        const {contact_id, location, dateTime, getCoords, notes} = req.body
         const date = new Date();
         const offset = date.getTimezoneOffset();
-        
         if (dateTime==null) {
             dateTimeOut = date.getTime() - offset*1000*60
         } else {
@@ -37,6 +36,7 @@ const createRecord = async (req, res) => {
         }
         meetingPerson = await Contact.findOne({_id: mongoose.Types.ObjectId(contact_id)}).lean()
         if (meetingPerson == null) throw err
+        const linkedAccount = meetingPerson.linkedAccount
         if (linkedAccount != null) {
             if (await User.findOne({_id: mongoose.Types.ObjectId(linkedAccount)}).lean() == null) throw err
         }
@@ -46,7 +46,9 @@ const createRecord = async (req, res) => {
             "location": location,
             "notes": notes,
             "linkedAccount" : linkedAccount,
-            "ownerAccount" : req.user._id
+            "ownerAccount" : req.user._id,
+            "lat": getCoords.lat,
+            "lng": getCoords.lng
         })
         await newRecord.save()
         await User.findOneAndUpdate(
