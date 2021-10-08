@@ -22,7 +22,7 @@ const Person = () => {
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [occupation, setOccupation] = useState("");
-  const [status, setStatus] = useState("");
+  // const [status, setStatus] = useState("");
   const inputE1 = useRef(null);
   const inputE2 = useRef();
   const inputE3 = useRef();
@@ -94,22 +94,22 @@ const Person = () => {
     setOccupation("");
   };
 
-  const submitStatus = (e) => {
-    e.preventDefault();
+  // const submitStatus = (e) => {
+  //   e.preventDefault();
 
-    const profile = {
-      status,
-    };
+  //   const profile = {
+  //     status,
+  //   };
 
-    fetchClient
-      .post(BASE_URL + "/profile/editStatus", profile)
-      .then(() => console.log("upload new information"))
-      .catch((err) => {
-        console.error(err);
-      });
+  //   fetchClient
+  //     .post(BASE_URL + "/profile/editStatus", profile)
+  //     .then(() => console.log("upload new information"))
+  //     .catch((err) => {
+  //       console.error(err);
+  //     });
 
-    setStatus("");
-  };
+  //   setStatus("");
+  // };
 
   const submitNewEmail = (e) => {
     e.preventDefault();
@@ -232,23 +232,23 @@ const Person = () => {
     newobj.focus();
   };
 
-  const editStatus = () => {
-    var element = inputE4.current;
-    var oldhtml = element.innerHTML;
-    var newobj = document.createElement("input");
-    newobj.type = "text";
+  // const editStatus = () => {
+  //   var element = inputE4.current;
+  //   var oldhtml = element.innerHTML;
+  //   var newobj = document.createElement("input");
+  //   newobj.type = "text";
 
-    newobj.value = oldhtml;
-    newobj.onblur = function () {
-      element.innerHTML = this.value === oldhtml ? oldhtml : this.value;
-      element.innerHTML = this.value === "" ? oldhtml : this.value;
-      setStatus(this.value);
-    };
-    element.innerHTML = "";
-    element.appendChild(newobj);
-    newobj.setSelectionRange(0, oldhtml.length);
-    newobj.focus();
-  };
+  //   newobj.value = oldhtml;
+  //   newobj.onblur = function () {
+  //     element.innerHTML = this.value === oldhtml ? oldhtml : this.value;
+  //     element.innerHTML = this.value === "" ? oldhtml : this.value;
+  //     setStatus(this.value);
+  //   };
+  //   element.innerHTML = "";
+  //   element.appendChild(newobj);
+  //   newobj.setSelectionRange(0, oldhtml.length);
+  //   newobj.focus();
+  // };
 
   const addNewEmail = () => {
     let word = prompt("Input A New Email", "");
