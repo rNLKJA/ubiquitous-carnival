@@ -140,5 +140,6 @@ const deleteOneRecord = async (req, res) =>{
 module.exports = {
     createRecord,
     showAllRecords,
-    searchRecord
+    searchRecord,
+    deleteOneRecord
 }
