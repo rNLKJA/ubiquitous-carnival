@@ -112,7 +112,7 @@ const Contact = () => {
 
           {screenWidth <= 1024 && !oneContact.selected && (
             <React.Fragment>
-              <a href="./addUser">
+              <a className="add-contact-a" href="./addUser">
                 <div className="add-contact">
                   <img src={add_user} alt="add contact"></img>
                 </div>

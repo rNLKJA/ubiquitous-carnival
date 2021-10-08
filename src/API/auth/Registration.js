@@ -41,6 +41,10 @@ class Registration extends React.Component {
       );
     }
 
+    if (this.state.password !== this.state.re_password) {
+      alert("Password inconsistent, please try again");
+    }
+
     const register = {
       userName: this.state.userName,
       email: this.state.email,
