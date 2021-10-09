@@ -37,7 +37,7 @@ const Navbar = () => {
         <Link to="/search">
           <img
             className="nav-icon"
-            src={require("./icon/Search.png")}
+            src={settingIMG}
             alt="search-icon"
           />
         </Link>
@@ -52,13 +52,13 @@ const Navbar = () => {
 
       {/* link to personal setting route */}
       <div className="navbar">
-        {/* <Link to="/setting">
+        <Link to="/setting">
           <img
             className="nav-icon"
             src={settingIMG}
             alt="set-icon"
           />
-        </Link> */}
+        </Link>
       </div>
     </nav>
   );
