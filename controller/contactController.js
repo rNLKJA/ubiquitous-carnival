@@ -62,6 +62,50 @@ const linkToAccount = async (req, res) => {
     }
 }
 
+
+const createContactbyUserName = async (req, res) => {
+  try {
+    const ownerAccount = await User.findOne({
+      _id:mongoose.Types.ObjectId(req.user._id)})
+    let existAccountContact = null
+    if (req.body.userName){
+      existAccountContact = await User.findOne({
+        userName: req.body.userName}).lean()
+    } 
+    const dupContact = await Contact.findOne({
+      lastName: req.body.lastName,
+      firstName: req.body.firstName,
+      phone: req.body.phone,
+      email:req.body.email,
+      ownerAccount: mongoose.Types.ObjectId(req.user._id)})
+    if (existAccountContact != null && dupContact == null) {
+        newContact = await Contact.create({
+            lastName: existAccountContact.lastName,
+            firstName: existAccountContact.firstName,
+            portraits: existAccountContact.portraits,
+            email: existAccountContact.email,
+            phone: existAccountContact.phone,
+            meetRecord: existAccountContact.meetRecord,
+            occupation: existAccountContact.occupation,
+            addDate: Date.now(),
+            note: existAccountContact.note,
+            status: true,
+            ownerAccount : mongoose.Types.ObjectId(req.user._id),
+            linkedAccount : existAccountContact._id
+        })
+    } else if (dupContact != null){
+      res.send("repeat, Contact!", dupContact)
+      return
+  }
+  const ContactIdLink = new ContactList({contact: newContact._id, addSince: Date.now()})
+  ownerAccount.contactList.push(ContactIdLink)
+  await ownerAccount.save()
+  res.json(newContact)
+  }catch(err){
+    res.send(err)
+  }
+}
+
 /**
  * create a new contact in database with information client give
  * @param {express.Request} req - basic information for add a contact and who is adding this account.
@@ -108,7 +152,7 @@ const createNewContact = async (req, res) => {
                 ownerAccount : mongoose.Types.ObjectId(req.user._id),
                 linkedAccount : null
             })
-        } else if (existAccountContact != null && dupContact != null) {
+        } else if (existAccountContact != null && dupContact == null) {
             newContact = await Contact.create({
                 lastName: existAccountContact.lastName,
                 firstName: existAccountContact.firstName,
@@ -192,17 +236,13 @@ const searchContact = async (req, res) => {
     if (req.body.nofillter == true){
         //direct search by name?
         var nameSearch = req.body.searchContent.split(" ")
-        var matchContacts = []
         console.log(nameSearch, nameSearch.length)
         try{
-            for (var i = 0; i < nameSearch.length; i++){
-            var potentailContacts = await Contact.find({
+            const matchContacts = await Contact.find({
                 $and: [ {ownerAccount: req.user._id},
-                        {$or : [{firstName: nameSearch[i]}, {lastName: nameSearch[i]}]}
+                        {$or : [{firstName: {$in:nameSearch}}, {lastName: {$in:nameSearch}}]}
                     ]
             }).lean()
-            matchContacts = [...new Set([...matchContacts, ...potentailContacts])]
-            }
             res.json(matchContacts)
             return
         }catch(err){
@@ -235,19 +275,32 @@ const searchContact = async (req, res) => {
     if (req.body.occupation != ''){
         query["occupation"] = {$regex: new RegExp(req.body.occupation, 'i') }
     }
-    if (req.body.addDate != ''){
-        // try {
-        const searchDate = new Date(req.body.addDate)
-        query["addDate"] = {$lt: searchDate.getTime()}
-            // var matchContacts = await Contact.find({ownerAccount: req.user._id, addDate: {$lt: searchDate.getTime()}})
-            // res.json(matchContacts)
-            // return
-        // } catch (err) {
-        //     console.log(err)
-        // }
-  }
+  //   if (req.body.addDate != ''){
+  //       // try {
+  //       const searchDate = new Date(req.body.addDate)
+  //       query["addDate"] = {$lt: searchDate}
+  //       console.log(searchDate.getTime())
+  //           // var matchContacts = await Contact.find({ownerAccount: req.user._id, addDate: {$lt: searchDate.getTime()}})
+  //           // res.json(matchContacts)
+  //           // return
+  //       // } catch (err) {
+  //       //     console.log(err)
+  //       // }
+  // }
   try {
-    const contacts = await Contact.find(query).lean();
+    var contacts = await Contact.find(query).lean();
+    console.log(contacts)
+    if (req.body.addDate != ''){
+      // try {
+      console.log(contacts)
+      const searchDate = new Date(req.body.addDate)
+      searchDate.setHours(35,0,0,0)
+      console.log(searchDate)
+      contacts = contacts.filter(
+        contact => contact.addDate < searchDate
+      )
+      
+    }
     res.json(contacts);
   } catch (err) {
     console.log(err);
@@ -423,5 +476,6 @@ module.exports = {
     searchContact,
     updateContactInfo,
     deleteOneContact,
-    synchronizationContactInfo
+    synchronizationContactInfo,
+    createContactbyUserName
 }
