@@ -1,5 +1,3 @@
-// import { Input } from "@material-ui/icons";
-import Select from "react-select";
 
 import "./record.css";
 import TextField from "@mui/material/TextField";
