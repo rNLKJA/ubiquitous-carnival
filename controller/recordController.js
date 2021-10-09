@@ -128,6 +128,8 @@ const deleteOneRecord = async (req, res) =>{
         var recordList = user.recordList.filter(
             (record) => record.toString() !== req.body.recordId 
         )
+
+        console.log(recordId)
         
         await Record.deleteOne({_id: recordId})
         await User.findOneAndUpdate({_id:req.user._id}, {recordList:recordList})
