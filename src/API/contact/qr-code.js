@@ -30,11 +30,11 @@ const AddUser = () => {
     };
 
 
-/*    const [scanResultFile, setScanResultFile] =useState("");
+    const [scanResultFile, setScanResultFile] =useState("");
     const handleErrorFile = (error) =>{
         console.log(error);
-    }*/
-/*    const handleScanFile = (result) => {
+    }
+    const handleScanFile = (result) => {
         if (result){
             setScanResultFile(result);
         }
@@ -43,7 +43,7 @@ const AddUser = () => {
     const onScanFile = () => {
         qrRef.current.openImageDialog();
 
-    }*/
+    }
 
     const handleErrorWebCam = (error) => {
         console.log(error)
@@ -63,7 +63,7 @@ const AddUser = () => {
             <div className="sub-container">
                 <h1 className="add-contact-container">QR Code</h1>
                 <div>
-{/*                    <button onClick={onScanFile}>Scan Qr Code</button>
+                    <button onClick={onScanFile}>Scan Qr Code</button>
                     <QrReader
                         ref={qrRef}
                         delay = {300}
@@ -72,7 +72,7 @@ const AddUser = () => {
                         onScan={handleScanFile}
                         legacyMode
                     />
-                    <div>Scanned Code:{scanResultFile}</div>*/}
+                    <div>Scanned Code:{scanResultFile}</div>
                     <h3>Qr Code Scan by Web Cam</h3>
                     <QrReader
                         delay = {300}

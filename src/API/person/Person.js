@@ -1,10 +1,12 @@
 import React from "react";
 import { useState, useRef, useEffect } from "react";
+import { Link } from "react-router-dom";
 // import axios from "axios";
 import LogoutUser from "../../hooks/useLogout";
 import "./person.css";
 import { useShowProfile } from "../../BackEndAPI/profileAPI";
 import fetchClient from "../axiosClient/axiosClient";
+import qr_code from "../nav/qr-code.png";
 
 const BASE_URL = "https://crm4399.herokuapp.com";
 
@@ -389,6 +391,11 @@ const Person = () => {
               })}
           </div>
         </div>
+        <Link to="/setting/qr">
+          <div className="qr-code">
+            <h1>QR Code</h1>
+          </div>
+        </Link>
 
         <button className="logout-btn" onClick={LogoutUser}>
           Log out
