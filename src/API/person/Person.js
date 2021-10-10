@@ -22,11 +22,10 @@ const Person = () => {
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [occupation, setOccupation] = useState("");
-  const [status, setStatus] = useState("");
   const inputE1 = useRef(null);
   const inputE2 = useRef();
   const inputE3 = useRef();
-  const inputE4 = useRef();
+
 
   if (error) {
     return <div className="sub-container"></div>;
@@ -94,22 +93,6 @@ const Person = () => {
     setOccupation("");
   };
 
-  const submitStatus = (e) => {
-    e.preventDefault();
-
-    const profile = {
-      status,
-    };
-
-    fetchClient
-      .post(BASE_URL + "/profile/editStatus", profile)
-      .then(() => console.log("upload new information"))
-      .catch((err) => {
-        console.error(err);
-      });
-
-    setStatus("");
-  };
 
   const submitNewEmail = (e) => {
     e.preventDefault();
@@ -232,23 +215,6 @@ const Person = () => {
     newobj.focus();
   };
 
-  const editStatus = () => {
-    var element = inputE4.current;
-    var oldhtml = element.innerHTML;
-    var newobj = document.createElement("input");
-    newobj.type = "text";
-
-    newobj.value = oldhtml;
-    newobj.onblur = function () {
-      element.innerHTML = this.value === oldhtml ? oldhtml : this.value;
-      element.innerHTML = this.value === "" ? oldhtml : this.value;
-      setStatus(this.value);
-    };
-    element.innerHTML = "";
-    element.appendChild(newobj);
-    newobj.setSelectionRange(0, oldhtml.length);
-    newobj.focus();
-  };
 
   const addNewEmail = () => {
     let word = prompt("Input A New Email", "");
@@ -279,10 +245,16 @@ const Person = () => {
   return (
     <React.Fragment>
       <div className="sub-container">
+        <div className="person-heading">
+          <h1>
+            Personal Information
+          </h1>
+        </div>
         <div className="information-container">
-          <h1>Personal Information</h1>
           <div className="basicInformation">
-            <h2>Basic Information</h2>
+            <div className="basic-heading">
+              <h2>Basic Information</h2>
+            </div>
             <form
               className="firstname"
               method="POST"
@@ -291,7 +263,7 @@ const Person = () => {
               <div className="info-container">
                 <div className="Label">First name: </div>
                 <div
-                  className="firstValue"
+                  className="Value"
                   ref={inputE1}
                   onClick={editFirstName}
                 >
@@ -305,7 +277,7 @@ const Person = () => {
             <form className="lastname" method="POST" onSubmit={submitLastName}>
               <div className="info-container">
                 <div className="Label">Last name: </div>
-                <div className="lastValue" ref={inputE2} onClick={editLastName}>
+                <div className="Value" ref={inputE2} onClick={editLastName}>
                   {profile.lastName}
                 </div>
                 <div>
@@ -322,7 +294,7 @@ const Person = () => {
               <div className="info-container">
                 <div className="Label">Occupation: </div>
                 <div
-                  className="occupationValue"
+                  className="Value"
                   ref={inputE3}
                   onClick={editOccupation}
                 >
@@ -333,26 +305,15 @@ const Person = () => {
                 </div>
               </div>
             </form>
-            {/* <form className="status" method="POST" onSubmit={submitStatus}>
-              <div className="info-container">
-                <div className="Label">Status: </div>
-                <div className="statusValue" ref={inputE4} onClick={editStatus}>
-                  {profile.status}
-                </div>
-                <div>
-                  <input type="submit" value="save" />
-                </div>
-              </div>
-            </form> */}
           </div>
-
+          <br/>
           <div className="contactInformation">
             <h2>Contact Information</h2>
             <label className="emailTitle">Email: </label>
             <form className="newEmail" method="POST" onSubmit={submitNewEmail}>
               <button onClick={addNewEmail}>+</button>
-              <br />
             </form>
+
             {profile.email &&
               profile.email.map(function (item) {
                 return (
@@ -362,7 +323,7 @@ const Person = () => {
                     onSubmit={submitDelEmail}
                   >
                     <div className="email"> {item} </div>
-                    <button onClick={delEmail.bind(this, item)}>-</button>
+                    <button className="del-btn" onClick={delEmail.bind(this, item)}>-</button>
                   </form>
                 );
               })}
@@ -376,25 +337,26 @@ const Person = () => {
               profile.phone.map(function (item) {
                 return (
                   <form
-                    className="onePhone"
+                    className="delPhone"
                     method="POST"
                     onSubmit={submitDelPhone}
                   >
-                    <div className="delPhone">
-                      <div className="phone">{item}</div>
-                      <div className="delPhone-btn">
-                        <button onClick={delPhone.bind(this, item)}>-</button>
-                      </div>
-                    </div>
+
+                    <div className="phone">{item}</div>
+
+                    <button className="del-btn" onClick={delPhone.bind(this, item)}>-</button>
+
+
                   </form>
                 );
               })}
           </div>
         </div>
+        <br/>
         <Link to="/setting/qr">
-          <div className="qr-code">
-            <h1>QR Code</h1>
-          </div>
+          <button className="qr-code">
+            QR Code
+          </button>
         </Link>
 
         <button className="logout-btn" onClick={LogoutUser}>
