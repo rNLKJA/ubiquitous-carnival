@@ -126,16 +126,7 @@
     box-shadow: 0.5px 0.5px;
     padding-top: 5px;
   }
-
-  .qr-code:hover{
-    background-color:lightskyblue;
-    border-radius: 8px;
-    right: 1rem;
-    position: fixed;
-    font-size: 15px;
-    height: 30px;
-  }
-
+  
 
 
 }
