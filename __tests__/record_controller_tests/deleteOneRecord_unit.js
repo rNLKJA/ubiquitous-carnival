@@ -1,15 +1,18 @@
 // allow to send http request to our app
 const mongoose = require('mongoose')
 
-const contactController = require("../../controller/contactController")
 
 const Contact = require("../../models/contactSchema")
+const Record = require('../../models/recordSchema')
 const { User } = require("../../models/userSchema")
 
-describe('unit test of deleteOneContact form contactController.js', () => {
+const recordController = require("../../controller/recordController")
+
+
+describe('unit test of deleteOneRecord form recordController.js', () => {
     const req = {
         user: {_id : '61503926028ce448aceda136', userName:"test"},
-        params:{contact_id : '615549ec49ed3c0016a6a18a'}
+        body:{recordId : '615549ec49ed3c0016a6a18a'}
     }
 
     const res = {
@@ -34,7 +37,7 @@ describe('unit test of deleteOneContact form contactController.js', () => {
             lastName: "test",
             firstName: "test",
             occupation: "test",
-            contactList: [{contact: "test_id"}, {contact:"615549ec49ed3c0016a6a18a"}]
+            recordList: ['1234', '4567']
         })
 
         User.findOne.mockImplementationOnce(() => ({
@@ -44,21 +47,21 @@ describe('unit test of deleteOneContact form contactController.js', () => {
                 lastName: "test",
                 firstName: "test",
                 occupation: "test",
-                contactList: [{contact: "test_id"}, {contact:"615549ec49ed3c0016a6a18a"}]
+                recordList: ['1234', '4567']
             })
         }))
 
         User.findOneAndUpdate = jest.fn().mockResolvedValue();
-        Contact.deleteOne = jest.fn().mockResolvedValue();
+        Record.deleteOne = jest.fn().mockResolvedValue();
 
-        contactController.deleteOneContact(req, res)
+        recordController.deleteOneRecord(req, res)
     })
 
-    test("Test case 1: give a contact Id, able to delete contact", ()=>{
+    test("Test case 1: give a valid record Id, record will be deleted", ()=>{
         expect(User.findOneAndUpdate).toHaveBeenCalledTimes(1)
         expect(User.findOneAndUpdate).toHaveBeenCalledWith(
-            {userName: "test"}, 
-            {contactList: [{contact: "test_id"}]}
+            {_id: mongoose.Types.ObjectId("61503926028ce448aceda136")}, 
+            {recordList: ['1234', '4567']}
         )
         expect(res.json).toHaveBeenCalledTimes(1);
         expect(res.json).toHaveBeenCalledWith({
@@ -67,10 +70,10 @@ describe('unit test of deleteOneContact form contactController.js', () => {
     })
 })
 
-describe("Unit testing deleteOneContact from contactController with invalid contact Id", () => {
+describe("Unit testing deleteOneRecord from recordController with invalid record Id", () => {
     const req = {
         user: {_id : '61503926028ce448aceda136'},
-        params:{contact_id : '1234567894', userName:"test"}
+        body:{recordId : '1234567894'}
     }
 
     const res = {
@@ -78,29 +81,35 @@ describe("Unit testing deleteOneContact from contactController with invalid cont
         json: jest.fn()
     }
 
-    // jest.mock("models", ()=> {
-    //     return {
-    //         ContactList : jest.fn().mockImplementation(() => { return {} })
-    //     }
-    // });
-
     beforeAll(() => {
         res.send.mockClear();
         res.json.mockClear();
         
-        User.findOne =jest.fn().mockResolvedValue();
+        User.findOne = jest.fn().mockResolvedValue({
+            userName: "test", 
+            email: [],
+            phone:[],
+            lastName: "test",
+            firstName: "test",
+            occupation: "test",
+            recordList: []
+        })
 
-        User.findOne.mockImplementationOnce(() => {
-            throw new Error();
-        });
+        User.findOne.mockImplementationOnce(() => ({
+                lean: jest.fn().mockReturnValue({
+                email: [],
+                phone:[],
+                lastName: "test",
+                firstName: "test",
+                occupation: "test",
+                recordList: []
+            })
+        }))
 
-        // User.findOneAndUpdate = jest.fn().mockResolvedValue();
-        // Contact.deleteOne = jest.fn().mockResolvedValue();
-        // Contact.deleteOne.mockImplementationOnce(() => {
-        //     throw new Error();
-        // });
-        
-        contactController.deleteOneContact(req, res)
+        User.findOneAndUpdate = jest.fn().mockResolvedValue();
+        Record.deleteOne = jest.fn().mockResolvedValue();
+
+        recordController.deleteOneRecord(req, res)
     })
 
     test("test case 1: testing with fail dabase query, excepting error message", ()=>{
@@ -108,4 +117,3 @@ describe("Unit testing deleteOneContact from contactController with invalid cont
         expect(res.json).toHaveBeenCalledWith({ status: "failed" })
     })
 })
-

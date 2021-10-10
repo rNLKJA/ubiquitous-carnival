@@ -26,7 +26,7 @@ const createRecord = async (req, res) => {
         "ownerAccount" : "ownerAccount"
     }*/
     try {
-        const {contact_id, location, dateTime, getCoords, notes} = req.body
+        const {contact_id, location, dateTime, geoCoords, notes} = req.body
         const date = new Date();
         const offset = date.getTimezoneOffset();
         if (dateTime==null) {
@@ -34,7 +34,7 @@ const createRecord = async (req, res) => {
         } else {
             dateTimeOut = dateTime
         }
-        meetingPerson = await Contact.findOne({_id: mongoose.Types.ObjectId(contact_id)}).lean()
+        var meetingPerson = await Contact.findOne({_id: mongoose.Types.ObjectId(contact_id)}).lean()
         if (meetingPerson == null) throw err
         const linkedAccount = meetingPerson.linkedAccount
         if (linkedAccount != null) {
@@ -47,8 +47,8 @@ const createRecord = async (req, res) => {
             "notes": notes,
             "linkedAccount" : linkedAccount,
             "ownerAccount" : req.user._id,
-            "lat": getCoords.lat,
-            "lng": getCoords.lng
+            "lat": geoCoords.lat,
+            "lng": geoCoords.lng
         })
         await newRecord.save()
         await User.findOneAndUpdate(
@@ -70,15 +70,20 @@ const createRecord = async (req, res) => {
 * @param {express.Response} res - response from the system.
 */
 const showAllRecords = async (req,res) => {
-    const ownerAccount = await User.findOne({_id: mongoose.Types.ObjectId(req.user._id)}).lean()
-    const recordListIds = ownerAccount.recordList;
-    recordList = new Array();
-    var order;
-    for (order in recordListIds) {
-        record = await Record.findOne({_id: mongoose.Types.ObjectId(recordListIds[order])}).populate("meetingPerson").populate("linkedAccount").lean()
-        recordList.push(record)
+    
+    try{
+        const ownerAccount = await User.findOne({_id: mongoose.Types.ObjectId(req.user._id)}).lean()
+        const recordListIds = ownerAccount.recordList;
+        recordList = new Array();
+        var order;
+        for (order in recordListIds) {
+            record = await Record.findOne({_id: mongoose.Types.ObjectId(recordListIds[order])}).populate("meetingPerson").populate("linkedAccount").lean()
+            recordList.push(record)
+        }
+        if(recordList != null) res.json(recordList)
+    }catch(err){
+        res.send("Database query failed")
     }
-    if(recordList != null) res.json(recordList)
 }
 
 /**
@@ -131,11 +136,11 @@ const deleteOneRecord = async (req, res) =>{
 
         console.log(recordId)
         
-        await Record.deleteOne({_id: recordId})
-        await User.findOneAndUpdate({_id:req.user._id}, {recordList:recordList})
+        await Record.deleteOne({_id: mongoose.Types.ObjectId(recordId)})
+        await User.findOneAndUpdate({_id:mongoose.Types.ObjectId(req.user._id)}, {recordList:recordList})
         res.json({status: "success"})
     }catch(err){
-        res.json({status: "fail"})
+        res.json({status: "failed"})
     }
 }
 

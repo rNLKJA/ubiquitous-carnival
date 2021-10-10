@@ -236,7 +236,6 @@ const searchContact = async (req, res) => {
     if (req.body.nofillter == true){
         //direct search by name?
         var nameSearch = req.body.searchContent.split(" ")
-        console.log(nameSearch, nameSearch.length)
         try{
             const matchContacts = await Contact.find({
                 $and: [ {ownerAccount: req.user._id},
@@ -275,32 +274,21 @@ const searchContact = async (req, res) => {
     if (req.body.occupation != ''){
         query["occupation"] = {$regex: new RegExp(req.body.occupation, 'i') }
     }
-  //   if (req.body.addDate != ''){
-  //       // try {
-  //       const searchDate = new Date(req.body.addDate)
-  //       query["addDate"] = {$lt: searchDate}
-  //       console.log(searchDate.getTime())
-  //           // var matchContacts = await Contact.find({ownerAccount: req.user._id, addDate: {$lt: searchDate.getTime()}})
-  //           // res.json(matchContacts)
-  //           // return
-  //       // } catch (err) {
-  //       //     console.log(err)
-  //       // }
-  // }
+    if (req.body.addDate != ''){
+        // try {
+        const searchDate = new Date(req.body.addDate)
+        query["addDate"] = {$lt: searchDate}
+        searchDate.setHours(35,0,0,0)
+        console.log(searchDate.getTime())
+            // var matchContacts = await Contact.find({ownerAccount: req.user._id, addDate: {$lt: searchDate.getTime()}})
+            // res.json(matchContacts)
+            // return
+        // } catch (err) {
+        //     console.log(err)
+        // }
+    }
   try {
     var contacts = await Contact.find(query).lean();
-    console.log(contacts)
-    if (req.body.addDate != ''){
-      // try {
-      console.log(contacts)
-      const searchDate = new Date(req.body.addDate)
-      searchDate.setHours(35,0,0,0)
-      console.log(searchDate)
-      contacts = contacts.filter(
-        contact => contact.addDate < searchDate
-      )
-      
-    }
     res.json(contacts);
   } catch (err) {
     console.log(err);
