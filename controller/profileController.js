@@ -14,7 +14,7 @@ const editFirstName = async (req, res) => {
         "firstName": "Hongji"
     }*/
   try {
-    const editFirstName = await userModel.findOneAndUpdate(
+    const editFirstNameFunction = await userModel.findOneAndUpdate(
       { _id: req.user._id },
       { $set: { firstName: req.body.firstName } },
       { upsert: true, new: true },
@@ -36,7 +36,7 @@ const editLastName = async (req, res) => {
         "lastName": "Huang"
     }*/
   try {
-    const editLastName = await userModel.findOneAndUpdate(
+    const editLastNameFunction = await userModel.findOneAndUpdate(
       { _id: req.user._id },
       { $set: { lastName: req.body.lastName } },
       { upsert: true, new: true },
@@ -58,7 +58,7 @@ const editOccupation = async (req, res) => {
         "occupation": "student"
     }*/
   try {
-    const editLastName = await userModel.findOneAndUpdate(
+    const editOccupationFunction = await userModel.findOneAndUpdate(
       { _id: req.user._id },
       { $set: { occupation: req.body.occupation } },
       { upsert: true, new: true },
@@ -80,9 +80,40 @@ const editStatus = async (req, res) => {
         "status": "Single"
     }*/
   try {
-    const editLastName = await userModel.findOneAndUpdate(
+    const editStatusFunction = await userModel.findOneAndUpdate(
       { _id: req.user._id },
       { $set: { status: req.body.status } },
+      { upsert: true, new: true },
+    );
+    res.send("update success");
+  } catch (err) {
+    res.send("update fail");
+    throw err;
+  }
+};
+
+/**
+ * Edit the Profile
+ * @param {express.Request} req - status from client
+ * @param {express.Response} res - response from the system.
+ */
+const editProfile = async (req, res) => {
+  /*{   
+        "firstName": "Hongji",
+        "lastName": "Huang",
+        "occupation": "student",
+        "status": "Single"
+    }*/
+  try {
+    const editProfileFunction = await userModel.findOneAndUpdate(
+      { _id: req.user._id },
+      { $set: {
+          firstName: req.body.firstName,
+          lastName: req.body.lastName,
+          occupation: req.body.occupation,
+          status: req.body.status
+        } 
+      },
       { upsert: true, new: true },
     );
     res.send("update success");
@@ -227,4 +258,5 @@ module.exports = {
   addEmail,
   delEmail,
   showProfile,
+  editProfile
 };

@@ -24,6 +24,8 @@ profileRouter.post('/editOccupation', passport.authenticate('jwt', { session: fa
 
 profileRouter.post('/editStatus', passport.authenticate('jwt', { session: false }), (req,res) => profileController.editStatus(req,res))
 
+profileRouter.post('/editProfile', passport.authenticate('jwt', { session: false }), (req,res) => profileController.editProfile(req,res))
+
 profileRouter.get('/showProfile', passport.authenticate('jwt', { session: false }), (req,res) => profileController.showProfile(req,res))
 
 profileRouter.post('/uploadUserImage', passport.authenticate('jwt', { session: false }), upload.single('portrait'), (req,res) => profileController.uploadPhoto(req,res))
