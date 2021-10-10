@@ -23,6 +23,12 @@ describe('Integration test: Test for create Record', () => {
             jwtToken = res.body.token
         })
     );
+    
+ afterAll((done) => {
+    // Closing the DB connection allows Jest to exit successfully.
+    mongoose.connection.close();
+    done();
+  });
 
     test('Test 1: Add a record with invalid contact_id', () => {
         return agent
