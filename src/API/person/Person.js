@@ -313,12 +313,12 @@ const Person = () => {
             <form className="newEmail" method="POST" onSubmit={submitNewEmail}>
               <button onClick={addNewEmail}>+</button>
             </form>
-
+            <div className="delEmail">
             {profile.email &&
               profile.email.map(function (item) {
                 return (
                   <form
-                    className="delEmail"
+                    className="del"
                     method="POST"
                     onSubmit={submitDelEmail}
                   >
@@ -327,6 +327,7 @@ const Person = () => {
                   </form>
                 );
               })}
+            </div>
             <br />
             <div className="phoneTitle">Phone: </div>
             <form className="newPhone" method="POST" onSubmit={submitNewPhone}>
@@ -346,8 +347,9 @@ const Person = () => {
 
                     <button className="del-btn" onClick={delPhone.bind(this, item)}>-</button>
 
-
+                    <br/>
                   </form>
+
                 );
               })}
           </div>

@@ -3,8 +3,11 @@
   <component name="ChangeListManager">
     <list default="true" id="aaaf103e-f306-4887-902f-3a9c719910ef" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/API/contact/qr-code.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/API/contact/qr-code.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/API/contact/user-id.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/API/contact/user-id.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/API/person/Person.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/API/person/Person.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/API/person/person.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/API/person/person.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/BackEndAPI/contactAPI.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/BackEndAPI/contactAPI.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -15,6 +18,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="JavaScript File" />
+        <option value="CSS File" />
       </list>
     </option>
   </component>
@@ -39,6 +43,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../COMP30022-49-Back-End" />
+    <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.standard" value="true" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
@@ -60,7 +65,7 @@
       <workItem from="1633621044476" duration="9422000" />
       <workItem from="1633801666107" duration="3191000" />
       <workItem from="1633866035446" duration="734000" />
-      <workItem from="1633892518868" duration="5664000" />
+      <workItem from="1633892518868" duration="7361000" />
     </task>
     <servers />
   </component>

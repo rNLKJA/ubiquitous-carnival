@@ -15,9 +15,8 @@ const AddUser = () => {
             userName,
         };
 
-				console.log(contact)
         await fetchClient
-            .post(BASE_URL + "/contact/createContact", contact)
+            .post(BASE_URL + "/contact/createContactByUserName", contact)
             .then(res => console.log(res)) // TODO: duplicate account issue
             .catch((err) => {
                 console.error(err);

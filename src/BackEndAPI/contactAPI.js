@@ -14,6 +14,11 @@ function getContacts() {
   return fetchClient.get(endpoint).then((res) => res.data);
 }
 
+function createContactByUserName() {
+  const endpoint = BASE_URL + "/contact/createContactByUserName";
+  return fetchClient.get(endpoint).then((res) => res.data);
+}
+
 // json file of contact info
 /**
  * this function will post to back end with contact information to create a contact document

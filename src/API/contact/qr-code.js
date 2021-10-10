@@ -12,16 +12,16 @@ const AddUser = () => {
     const [scanResultWebCam, setScanResultWebCam] = useState("");
     const [userName, setUserName] = useState("");
     const BASE_URL = "https://crm4399.herokuapp.com";
-    const submitUserID = (e) => {
+    const submitUserID = async (e) => {
         e.preventDefault();
 
         const contact = {
             userName,
         };
 
-        fetchClient
-            .post(BASE_URL + "/contact/createContact", contact)
-            .then(() => console.log("upload new information"))
+        await fetchClient
+            .post(BASE_URL + "/contact/createContactByUserName", contact)
+            .then(res => console.log(res)) // TODO: duplicate account issue
             .catch((err) => {
                 console.error(err);
             });
@@ -29,8 +29,7 @@ const AddUser = () => {
         setUserName("");
     };
 
-
-    const [scanResultFile, setScanResultFile] =useState("");
+/*    const [scanResultFile, setScanResultFile] =useState("");
     const handleErrorFile = (error) =>{
         console.log(error);
     }
@@ -43,7 +42,7 @@ const AddUser = () => {
     const onScanFile = () => {
         qrRef.current.openImageDialog();
 
-    }
+    }*/
 
     const handleErrorWebCam = (error) => {
         console.log(error)
@@ -63,7 +62,7 @@ const AddUser = () => {
             <div className="sub-container">
                 <h1 className="add-contact-container">QR Code</h1>
                 <div>
-                    <button onClick={onScanFile}>Scan Qr Code</button>
+{/*                    <button onClick={onScanFile}>Scan Qr Code</button>
                     <QrReader
                         ref={qrRef}
                         delay = {300}
@@ -72,8 +71,8 @@ const AddUser = () => {
                         onScan={handleScanFile}
                         legacyMode
                     />
-                    <div>Scanned Code:{scanResultFile}</div>
-                    <h3>Qr Code Scan by Web Cam</h3>
+                    <div>Scanned Code:{scanResultFile}</div>*/}
+
                     <QrReader
                         delay = {300}
                         style={{width: '100%'}}
