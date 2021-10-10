@@ -8,16 +8,17 @@ const AddUser = () => {
     const [contact, setContact] = useState( {userName: ""} );
     const [userName, setUserName] = useState("");
     const BASE_URL = "https://crm4399.herokuapp.com";
-    const submitUserID = (e) => {
+    const submitUserID = async (e) => {
         e.preventDefault();
 
         const contact = {
             userName,
         };
 
-        fetchClient
+				console.log(contact)
+        await fetchClient
             .post(BASE_URL + "/contact/createContact", contact)
-            .then(() => console.log("upload new information"))
+            .then(res => console.log(res)) // TODO: duplicate account issue
             .catch((err) => {
                 console.error(err);
             });
