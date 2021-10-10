@@ -9,7 +9,7 @@ const recordController = require("../../controller/recordController")
 
 
 
-
+/*
 describe('unit test of createRecord form recordController.js', () => {
     const req = {
         user: {_id : '61503926028ce448aceda136'},
@@ -116,7 +116,7 @@ describe('unit test of createRecord form recordController.js', () => {
             save: User.findOneAndUpdate
         })
     })
-})
+})*/
 
 
 describe('unit test of createRecord form recordController.js invalid situation', () => {
