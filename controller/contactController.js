@@ -68,18 +68,22 @@ const createContactbyUserName = async (req, res) => {
     const ownerAccount = await User.findOne({
       _id:mongoose.Types.ObjectId(req.user._id)})
     let existAccountContact = null
+    let dupContact = null
     if (req.body.userName){
       existAccountContact = await User.findOne({
         userName: req.body.userName}).lean()
+        dupContact = await Contact.findOne({
+          lastName: existAccountContact.lastName,
+          firstName: existAccountContact.firstName,
+          phone: existAccountContact.phone,
+          email: existAccountContact.email,
+          ownerAccount: mongoose.Types.ObjectId(req.user._id)})
     }else{
       return res.send("Username needed")
     }
-    const dupContact = await Contact.findOne({
-      lastName: req.body.lastName,
-      firstName: req.body.firstName,
-      phone: req.body.phone,
-      email:req.body.email,
-      ownerAccount: mongoose.Types.ObjectId(req.user._id)})
+    if (dupContact != null){
+      return res.json({status:"failed", contact: dupContact})
+    }
     if (existAccountContact != null && dupContact == null) {
         newContact = await Contact.create({
             lastName: existAccountContact.lastName,
@@ -95,16 +99,15 @@ const createContactbyUserName = async (req, res) => {
             ownerAccount : mongoose.Types.ObjectId(req.user._id),
             linkedAccount : existAccountContact._id
         })
-    } else if (dupContact != null){
-      res.send("repeat, Contact!", dupContact)
-      return
-  }
+    }
   const ContactIdLink = new ContactList({contact: newContact._id, addSince: Date.now()})
   ownerAccount.contactList.push(ContactIdLink)
   await ownerAccount.save()
   res.json(newContact)
   }catch(err){
-    res.send(err)
+    console.log(err)
+    return res.json({status:"failed"})
+
   }
 }
 
@@ -163,8 +166,7 @@ const createNewContact = async (req, res) => {
                 linkedAccount : existAccountContact._id
             })
         } else if (dupContact != null){
-            res.send("repeat, Contact!", dupContact)
-            return
+            return res.json({status:"failed", dupContact: dupContact})
         }
         // const formedContact = new Contact(newContact)
         // formedContact.save()
@@ -173,8 +175,9 @@ const createNewContact = async (req, res) => {
         await ownerAccount.save()
         res.json(newContact)
     }catch(err){
-        res.send("Database query failed")
-        console.log(err)
+      console.log(err)
+      return res.json({status:"failed"})
+        
     }
 };
 
