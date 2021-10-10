@@ -23,6 +23,12 @@ describe('Integration test: Test for profile', () => {
             jwtToken = res.body.token
         })
     );
+    
+    afterAll((done) => {
+    // Closing the DB connection allows Jest to exit successfully.
+    mongoose.connection.close();
+    done();
+    });
 
     test('Test 1: show the user file', () => {
         return agent
