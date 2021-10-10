@@ -36,12 +36,15 @@ describe("Integration test: Test for create Record", () => {
       .set("Content-Type", "application/json")
       .set("Authorization", jwtToken)
       .send({
-        contact_id: "123456",
-        dateTime: "2000/10/10",
+        contact_id: "123456885",
         location: "University of Melbourne",
-        notes: "the notes",
-        linkedAccount: null,
-      })
+        dateTime: "2021-10-01T10:28:10.018Z",
+        geoCoords: {
+            "lat": "122334545",
+            "lng": "52123456"
+        },
+        notes: "account"
+    })
       .then((res) => {
         expect(res.statusCode).toBe(200);
         expect(res.text).toContain("Database query failed");
@@ -55,11 +58,14 @@ describe("Integration test: Test for create Record", () => {
       .set("Authorization", jwtToken)
       .send({
         contact_id: "6131e5b0e0accb25d09663f6",
-        dateTime: null,
         location: "University of Melbourne",
-        notes: "the notes",
-        linkedAccount: null,
-      })
+        dateTime: null,
+        geoCoords: {
+            "lat": "122334545",
+            "lng": "52123456"
+        },
+        notes: "account"
+    })
       .then((res) => {
         expect(res.statusCode).toBe(200);
         expect(res.body.dateTime).not.toBe(null);
@@ -73,17 +79,20 @@ describe("Integration test: Test for create Record", () => {
       .set("Authorization", jwtToken)
       .send({
         contact_id: "6131e5b0e0accb25d09663f6",
-        dateTime: "2021-10-01T10:28:10.018Z",
         location: "University of Melbourne",
-        notes: "the notes",
-        linkedAccount: null,
-      })
+        dateTime: "2021-10-01T10:28:10.018Z",
+        geoCoords: {
+            "lat": "122334545",
+            "lng": "52123456"
+        },
+        notes: "account"
+    })
       .then((res) => {
         expect(res.statusCode).toBe(200);
         expect(res.body.dateTime).toBe("2021-10-01T10:28:10.018Z");
       });
   });
-
+/*
   test("Test 4: Add a record without the linkedAccount", () => {
     return agent
       .post("/record/createRecord")
@@ -91,17 +100,21 @@ describe("Integration test: Test for create Record", () => {
       .set("Authorization", jwtToken)
       .send({
         contact_id: "6131e5b0e0accb25d09663f6",
-        dateTime: "2021-10-01T10:28:10.018Z",
         location: "University of Melbourne",
-        notes: "the notes",
-        linkedAccount: null,
-      })
+        dateTime: "2021-10-01T10:28:10.018Z",
+        geoCoords: {
+            "lat": "122334545",
+            "lng": "52123456"
+        },
+        notes: "account"
+    })
       .then((res) => {
         expect(res.statusCode).toBe(200);
         expect(res.text).not.toContain("Database query failed");
       });
-  });
+  });*/
 
+  /*
   test("Test 4: Add a record with a linkedAccount, but the linkedAccount is invalid", () => {
     return agent
       .post("/record/createRecord")
@@ -109,17 +122,21 @@ describe("Integration test: Test for create Record", () => {
       .set("Authorization", jwtToken)
       .send({
         contact_id: "6131e5b0e0accb25d09663f6",
-        dateTime: "2021-10-01T10:28:10.018Z",
         location: "University of Melbourne",
-        notes: "the notes",
-        linkedAccount: "123456",
-      })
+        dateTime: "2021-10-01T10:28:10.018Z",
+        geoCoords: {
+            "lat": "122334545",
+            "lng": "52123456"
+        },
+        notes: "account"
+    })
       .then((res) => {
         expect(res.statusCode).toBe(200);
         expect(res.text).toContain("Database query failed");
       });
-  });
+  });*/
 
+  /*
   test("Test 5: Add a record with a linkedAccount, and the linkedAccount is valid", () => {
     return agent
       .post("/record/createRecord")
@@ -127,14 +144,18 @@ describe("Integration test: Test for create Record", () => {
       .set("Authorization", jwtToken)
       .send({
         contact_id: "6131e5b0e0accb25d09663f6",
-        dateTime: "2021-10-01T10:28:10.018Z",
         location: "University of Melbourne",
-        notes: "the notes",
-        linkedAccount: "61503926028ce448aceda136",
-      })
+        dateTime: "2021-10-01T10:28:10.018Z",
+        geoCoords: {
+            "lat": "122334545",
+            "lng": "52123456"
+        },
+        notes: "account"
+    })
       .then((res) => {
         expect(res.statusCode).toBe(200);
         expect(res.text).not.toContain("Database query failed");
       });
-  });
+  });*/
+  
 });
