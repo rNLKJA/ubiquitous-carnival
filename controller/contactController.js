@@ -71,7 +71,9 @@ const createContactbyUserName = async (req, res) => {
     if (req.body.userName){
       existAccountContact = await User.findOne({
         userName: req.body.userName}).lean()
-    } 
+    }else{
+      return res.send("Username needed")
+    }
     const dupContact = await Contact.findOne({
       lastName: req.body.lastName,
       firstName: req.body.firstName,
@@ -116,25 +118,18 @@ const createNewContact = async (req, res) => {
         //!! can not use object id as input
         const ownerAccount = await User.findOne({_id:mongoose.Types.ObjectId(req.user._id)})
         // if req is a user id
-        let existAccountContact = null
-        let dupContact = null
-        if (req.body.userName){
-            existAccountContact = await User.findOne({userName: req.body.userName}).lean()
-        } else {
         // Check if contact has account in app
-            existAccountContact = await User.findOne({
+        const existAccountContact = await User.findOne({
                 lastName: req.body.lastName,
                 firstName: req.body.firstName,
                 phone: req.body.phone,
                 email:req.body.email})
-            dupContact = await Contact.findOne({
-                lastName: req.body.lastName,
-                firstName: req.body.firstName,
-                phone: req.body.phone,
-                email:req.body.email,
-                ownerAccount: mongoose.Types.ObjectId(req.user._id)})
-            console.log("dupContact", dupContact)
-        }
+        const dupContact = await Contact.findOne({
+          lastName: req.body.lastName,
+          firstName: req.body.firstName,
+          phone: req.body.phone,
+          email:req.body.email,
+          ownerAccount: mongoose.Types.ObjectId(req.user._id)})
         //!!generate one meeting record automatically!
         let newContact = null
         if (existAccountContact == null && dupContact == null) {

@@ -16,6 +16,13 @@ contactRouter.post(
   passport.authenticate("jwt", { session: false }),
   (req, res) => contactController.createNewContact(req, res),
 );
+
+contactRouter.post(
+  "/createContactByuserName",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => contactController.createContactbyUserName(req, res),
+);
+
 contactRouter.get(
   "/showContact",
   passport.authenticate("jwt", { session: false }),
