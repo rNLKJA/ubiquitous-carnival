@@ -19,11 +19,13 @@ const createRecord = async (req, res) => {
     request body:
     {  
         "contact_id": "6131e5b0e0accb25d09663f6",
-        "dateTime": "2021-10-01T10:28:10.018Z",
         "location": "University of Melbourne",
-        "notes": "the notes",
-        "linkedAccount": "account",
-        "ownerAccount" : "ownerAccount"
+        "dateTime": "2021-10-01T10:28:10.018Z",
+        "geoCoords": {
+            "lat": "122334545", 
+            "lng":"52123456"
+        },
+        "notes": "account"
     }*/
     try {
         const {contact_id, location, dateTime, geoCoords, notes} = req.body
@@ -36,16 +38,16 @@ const createRecord = async (req, res) => {
         }
         var meetingPerson = await Contact.findOne({_id: mongoose.Types.ObjectId(contact_id)}).lean()
         if (meetingPerson == null) throw err
-        const linkedAccount = meetingPerson.linkedAccount
-        if (linkedAccount != null) {
-            if (await User.findOne({_id: mongoose.Types.ObjectId(linkedAccount)}).lean() == null) throw err
-        }
+        //const linkedAccount = meetingPerson.linkedAccount
+        //if (linkedAccount != null) {
+        //    if (await User.findOne({_id: mongoose.Types.ObjectId(linkedAccount)}).lean() == null) throw err
+        //}
         newRecord = await Record.create({
             "meetingPerson": contact_id,
             "dateTime": dateTimeOut,
             "location": location,
             "notes": notes,
-            "linkedAccount" : linkedAccount,
+            //"linkedAccount" : linkedAccount,
             "ownerAccount" : req.user._id,
             "lat": geoCoords.lat,
             "lng": geoCoords.lng
