@@ -82,7 +82,7 @@ const createContactbyUserName = async (req, res) => {
       return res.send("Username needed")
     }
     if (dupContact != null){
-      return res.json({status:"failed", contact: dupContact})
+      return res.json({status:false, contact: dupContact})
     }
     if (existAccountContact != null && dupContact == null) {
         newContact = await Contact.create({
@@ -103,10 +103,10 @@ const createContactbyUserName = async (req, res) => {
   const ContactIdLink = new ContactList({contact: newContact._id, addSince: Date.now()})
   ownerAccount.contactList.push(ContactIdLink)
   await ownerAccount.save()
-  res.json(newContact)
+  res.json({status: true, newContact: newContact})
   }catch(err){
     console.log(err)
-    return res.json({status:"failed"})
+    return res.json({status:false})
 
   }
 }
@@ -166,17 +166,17 @@ const createNewContact = async (req, res) => {
                 linkedAccount : existAccountContact._id
             })
         } else if (dupContact != null){
-            return res.json({status:"failed", dupContact: dupContact})
+            return res.json({status:false, dupContact: dupContact})
         }
         // const formedContact = new Contact(newContact)
         // formedContact.save()
         const ContactIdLink = new ContactList({contact: newContact._id, addSince: Date.now()})
         ownerAccount.contactList.push(ContactIdLink)
         await ownerAccount.save()
-        res.json(newContact)
+        res.json({status: true, newContact: newContact})
     }catch(err){
       console.log(err)
-      return res.json({status:"failed"})
+      return res.json({status:false})
         
     }
 };
