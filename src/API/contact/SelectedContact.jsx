@@ -39,11 +39,74 @@ export const DisplayContact = ({
   deleteHandler,
 }) => {
   const [contact, setContact] = useState(selectedContact);
+  const [phones, setPhones] = useState(
+    ConvertListStringToListObject(contact.phone, "phone"),
+  );
+  const [emails, setEmails] = useState(
+    ConvertListStringToListObject(contact.email, "email"),
+  );
+
+  const handleAddPhone = (e) => {
+    e.preventDefault();
+    setPhones([...phones, { phone: "" }]);
+  };
+
+  const handleAddEmail = (e) => {
+    e.preventDefault();
+    setEmails([...emails, { email: "" }]);
+  };
+
+  const removeHandler = (e, index, type) => {
+    e.preventDefault();
+    if (type === "phone") {
+      setPhones((prev) => prev.filter((item) => item !== prev[index]));
+    }
+
+    if (type === "email") {
+      setEmails((prev) => prev.filter((item) => item !== prev[index]));
+    }
+  };
 
   const handleSave = async (e) => {
     e.preventDefault();
 
     console.log(contact);
+  };
+
+  const phoneOnChange = (index, event) => {
+    event.preventDefault();
+    event.persist();
+
+    setPhones((prev) => {
+      return prev.map((item, i) => {
+        if (i !== index) {
+          return item;
+        }
+
+        return {
+          ...item,
+          [event.target.name]: event.target.value,
+        };
+      });
+    });
+  };
+
+  const emailOnChange = (index, event) => {
+    event.preventDefault();
+    event.persist();
+
+    setEmails((prev) => {
+      return prev.map((item, i) => {
+        if (i !== index) {
+          return item;
+        }
+
+        return {
+          ...item,
+          [event.target.name]: event.target.value,
+        };
+      });
+    });
   };
 
   return (
@@ -90,46 +153,57 @@ export const DisplayContact = ({
         ></input>
 
         <label>Phone:</label>
-        {contact.phone.map((phone) => {
+        {phones.map((phone, i) => {
           return (
-            <input
-              value={phone}
-              className="contact-input"
-              readOnly={contact.edit}
-              key={new Date().toISOString()}
-              required
-              minLength={10}
-              maxLength={10}
-              // onChange={(e) =>
-              //   setContact({ ...contact, phone: e.target.value })
-              // }
-            />
+            <div key={`${phone}-${i}`}>
+              <div>
+                <input
+                  type="text"
+                  value={phone.phone}
+                  className="contact-input"
+                  name="phone"
+                  readOnly={contact.edit}
+                  required
+                  minLength={10}
+                  maxLength={10}
+                  onChange={(e) => phoneOnChange(i, e)}
+                />
+              </div>
+              <button onClick={(e) => removeHandler(e, i, "phone")}>X</button>
+            </div>
           );
         })}
 
         {!contact.edit ? (
-          <button className="field-add-btn">Add Phone</button>
+          <button className="field-add-btn" onClick={handleAddPhone}>
+            Add Phone
+          </button>
         ) : null}
 
         <label>Email Address</label>
-        {contact.email.map((mail) => {
+        {emails.map((mail, i) => {
           return (
-            <input
-              value={mail}
-              type="email"
-              className="contact-input"
-              readOnly={contact.edit}
-              key={new Date().toISOString()}
-              required
-              // onChange={(e) =>
-              //   setContact({ ...contact, email: e.target.value })
-              // }
-            />
+            <div key={`${mail}-${i}`}>
+              <div>
+                <input
+                  value={mail.email}
+                  type="email"
+                  name="email"
+                  className="contact-input"
+                  readOnly={contact.edit}
+                  required
+                  onChange={(e) => emailOnChange(i, e)}
+                />
+              </div>
+              <button onClick={(e) => removeHandler(e, i, "email")}>X</button>
+            </div>
           );
         })}
 
         {!contact.edit ? (
-          <button className="field-add-btn">Add Email</button>
+          <button className="field-add-btn" onClick={handleAddEmail}>
+            Add Email
+          </button>
         ) : null}
 
         <label>Notes:</label>
@@ -164,4 +238,20 @@ export const DisplayContact = ({
       </form>
     </React.Fragment>
   );
+};
+
+const ConvertListStringToListObject = (items, type) => {
+  var result = [];
+  if (type === "phone") {
+    for (let i = 0; i < items.length; i++) {
+      result.push({ phone: items[i] });
+    }
+  }
+
+  if (type === "email") {
+    for (let i = 0; i < items.length; i++) {
+      result.push({ email: items[i] });
+    }
+  }
+  return result;
 };
