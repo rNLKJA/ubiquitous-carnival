@@ -333,24 +333,28 @@ const updateContactInfo = async (req, res) => {
   var query = {};
   // if name in submited form
   if (req.body.lastName !== "") {
-    query["lastName"] = req.bodylastName;
+    query["lastName"] = req.body.lastName;
   }
   if (req.body.firstName !== "") {
-    query["firstName"] = req.bodyfirstName;
+    query["firstName"] = req.body.firstName;
   }
-  query["phone"] = req.bodyphone;
+  query["phone"] = req.body.phone;
   if (req.body.email != []) {
     query["email"] = req.body.email;
   }
   query["occupation"] = req.body.occupation;
   query["note"] = req.body.note;
 
+  // console.log(query, req.body);
+
   try {
-    const contact = await Contact.findOneAndUpdate(
+    await Contact.findOneAndUpdate(
       { _id: mongoose.Types.ObjectId(req.body._id) },
       query,
       { new: true },
-    ).lean();
+    );
+    const contact = await Contact.findOne({ _id: req.body._id }).lean();
+    // console.log(contact);
     res.json({ status: true, contact: contact });
   } catch (err) {
     console.log(err);
