@@ -1,7 +1,16 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 // import portrait from "./portrarit.png";
 
 const SelectedContact = ({ setOneContact, oneContact, deleteHandler }) => {
+  // set selectedContact state with an additional property named edit
+  // if edit === true, allow user edit form
+  const [selectedContact, setSelectedContact] = useState({
+    ...oneContact,
+    edit: false,
+  });
+
+  console.log(selectedContact);
+
   return (
     <React.Fragment>
       <button
@@ -13,44 +22,34 @@ const SelectedContact = ({ setOneContact, oneContact, deleteHandler }) => {
         Back
       </button>
       {/* <img src={portrait} alt="protrait.png" style={{ paddingTop: "15px" }} /> */}
-      <div className="name">
+      <form style={{ textAlign: "left", padding: "20px" }}>
         <label>First Name: </label>
-        {oneContact.firstName}
-      </div>
-      <div className="name">
+        <input value={selectedContact.firstName} readOnly></input>
+
         <label>Last Name: </label>
-        {oneContact.lastName}
-      </div>
-      <div className="occupation">
+        <input value={selectedContact.lastName} readOnly></input>
+
         <label>Occupation: </label>
-        {oneContact.occupation}
-      </div>
-      <div className="linkedAccount">
-        <label>Linked Account: </label>
-        {oneContact.linkedAccount}
-      </div>
-      <div className="email">
-        {oneContact.email.map((mail) => {
-          return (
-            <label key={new Date().toISOString()}>Email Address: {mail}</label>
-          );
+        <input value={selectedContact.occupation} readOnly></input>
+
+        <label>Email Address</label>
+        {selectedContact.email.map((mail) => {
+          return <input value={mail} readOnly />;
         })}
-      </div>
-      <div className="phone">
-        {oneContact.phone.map((phone) => {
-          return (
-            <label
-              key={new Date().toISOString()}
-              style={{ color: "rgb(47,71,137)" }}
-            >
-              Phone: {phone}
-            </label>
-          );
+
+        <label>Phone:</label>
+        {selectedContact.phone.map((phone) => {
+          return <input value={phone} readOnly />;
         })}
-      </div>
-      <div className="note" style={{ height: "300px" }}>
-        <input value={oneContact.note}></input>
-      </div>
+
+        <label>Notes:</label>
+        <textarea
+          style={{ height: "auto" }}
+          value={oneContact.note}
+          readOnly
+        ></textarea>
+      </form>
+
       <button
         className="delete-btn"
         style={{ color: "red" }}
