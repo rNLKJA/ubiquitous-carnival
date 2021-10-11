@@ -5,23 +5,21 @@ import { useState } from "react";
 import { WindowOutlined } from "@mui/icons-material";
 
 const UpdatePassword = ({ email }) => {
-  const [oldPassword, setOldPassword] = useState("");
   const [newPassword1, setNewPassword1] = useState("");
   const [newPassword2, setNewPassword2] = useState("");
   const [authCode, setAuthCode] = useState("");
 
   const sendAuthCode = async (e) => {
+    e.stopPropagation();
     e.preventDefault();
     const data = {
       email: email,
     };
-    console.log(data);
     await fetchClient
-      .post("http://localhost:5000/user/sendEmailcode", data)
-      // .post("https://crm4399.herokuapp.com/user/sendEmailcode", data)
+      // .post("http://localhost:5000/user/sendEmailcode", data)
+      .post("https://crm4399.herokuapp.com/user/sendEmailcode", data)
       .then((response) => {
         if (response.data.status) {
-          window.location.href = "/";
         } else {
           alert(response.data);
         }
@@ -31,24 +29,17 @@ const UpdatePassword = ({ email }) => {
   const HandleSubmit = async (e) => {
     e.preventDefault();
 
+    // check password1 match password2
     if (newPassword1 !== newPassword2) {
       alert("Password In consistent, please re-enter your new password.");
       console.log("Password In consistent, please re-enter your new password.");
       return;
     }
-    if (newPassword1 === oldPassword) {
-      console.log(
-        "It seems like your old password is the same as the new password, please double check!",
-      );
-      alert(
-        "It seems like your old password is the same as the new password, please double check!",
-      );
-      return;
-    }
+
     // check password match the pattern or not
     if (
       /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z'";\-^%$#@!+=_<>,\\.:~`\d]{8,}$/.test(
-        this.state.password,
+        newPassword1,
       ) !== true
     ) {
       console.log(
@@ -61,7 +52,6 @@ const UpdatePassword = ({ email }) => {
 
     const data = {
       email,
-      oldPassword,
       newPassword1,
       authCode,
     };
@@ -70,15 +60,13 @@ const UpdatePassword = ({ email }) => {
       // .post("http://localhost:5000/user/changePassword", data)
       .post("https://crm4399.herokuapp.com/user/changePassword", data)
       .then((response) => {
+        console.log(response);
         if (response.data.status) {
           alert("You've changed your password!");
           console.log("Password Changed");
-          window.location.href("/setting");
-        } else if (response.data.password_diff) {
-          alert("Your new password is the same as the old one. Update Fail.");
-          console.log(
-            "Your new password is the same as the old one. Update Fail.",
-          );
+          window.location.href = "/setting";
+        } else if (!response.status) {
+          alert("Update failed.");
         }
       });
   };
@@ -90,14 +78,6 @@ const UpdatePassword = ({ email }) => {
         style={{ paddingTop: "20px" }}
         onSubmit={HandleSubmit}
       >
-        <label>Please Enter Your OLD Password</label>
-        <input
-          type="password"
-          name="old-password"
-          required
-          value={oldPassword}
-          onChange={(e) => setOldPassword(e.target.value)}
-        ></input>
         <label>Please Enter Your NEW Password</label>
         <input
           type="password"
