@@ -20,7 +20,16 @@ input {
 
 .field-add-btn {
   width: 95%;
+  height: 30px;
+  font-size: 16px;
   margin-bottom: 10px;
+  background-color: white;
+  color: rgb(47, 71, 137);
+}
+
+.field-add-btn:hover {
+  color: white;
+  background-color: rgb(47, 71, 137);
 }
 
 .edit-btn {
@@ -55,4 +64,9 @@ input {
   width: 30px;
   height: 30px;
   border-radius: 50%;
+}
+
+.multi-field-btn:hover {
+  background-color: rgb(47, 71, 137);
+  color: white;
 }

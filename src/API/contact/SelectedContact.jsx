@@ -1,6 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import "./editContact.css";
+import fetchClient from "../axiosClient/axiosClient";
 // import portrait from "./portrarit.png";
+
+const BASE_URL = "http://localhost:5000";
+// const BASE_URL = "https://crm4399.herokuapp.com";
 
 const SelectedContact = ({ setOneContact, oneContact, deleteHandler }) => {
   // set selectedContact state with an additional property named edit
@@ -38,14 +42,18 @@ export const DisplayContact = ({
   setSelectedContact,
   deleteHandler,
 }) => {
+  // defined variables
   const [contact, setContact] = useState(selectedContact);
+
   const [phones, setPhones] = useState(
-    ConvertListStringToListObject(contact.phone, "phone"),
+    [],
+    // ConvertListStringToListObject(contact.phone, "phone")
   );
   const [emails, setEmails] = useState(
     ConvertListStringToListObject(contact.email, "email"),
   );
 
+  // add input field
   const handleAddPhone = (e) => {
     e.preventDefault();
     setPhones([...phones, { phone: "" }]);
@@ -56,6 +64,7 @@ export const DisplayContact = ({
     setEmails([...emails, { email: "" }]);
   };
 
+  // used to move a particular input field
   const removeHandler = (e, index, type) => {
     e.preventDefault();
     if (type === "phone") {
@@ -67,12 +76,37 @@ export const DisplayContact = ({
     }
   };
 
-  const handleSave = async (e) => {
+  // submit handler
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    console.log(contact);
+    var email = ConvertListObjectToListValues(emails, "email");
+    var phone = ConvertListObjectToListValues(phones, "phone");
+    console.log(phone);
+
+    const data = {
+      ...contact,
+      phone,
+      email,
+    };
+
+    setContact(data);
+
+    await fetchClient
+      .post(BASE_URL + "/contact/updateContactInfo", data)
+      .then((response) => {
+        if (response.data.status) {
+          alert(
+            "Update contact information succeed!",
+            setSelectedContact({ ...data, edit: false }),
+          );
+        } else {
+          alert("Opps, something wrong, please try later.");
+        }
+      });
   };
 
+  // input field change handler
   const phoneOnChange = (index, event) => {
     event.preventDefault();
     event.persist();
@@ -115,7 +149,7 @@ export const DisplayContact = ({
         className="edit-btn"
         onClick={() => setContact({ ...contact, edit: !contact.edit })}
       >
-        {contact.edit ? "Edit" : "Cancel"}
+        {contact.edit ? "Cancel" : "Edit"}
       </button>
 
       <form className="edit-contact-form">
@@ -124,7 +158,7 @@ export const DisplayContact = ({
           type="text"
           value={contact.firstName}
           className="contact-input"
-          readOnly={contact.edit}
+          readOnly={!contact.edit}
           onChange={(e) =>
             setContact({ ...contact, firstName: e.target.value })
           }
@@ -136,7 +170,7 @@ export const DisplayContact = ({
           type="text"
           value={contact.lastName}
           className="contact-input"
-          readOnly={contact.edit}
+          readOnly={!contact.edit}
           onChange={(e) => setContact({ ...contact, lastName: e.target.value })}
         ></input>
 
@@ -145,7 +179,7 @@ export const DisplayContact = ({
           type="text"
           value={contact.occupation}
           className="contact-input"
-          readOnly={contact.edit}
+          readOnly={!contact.edit}
           onChange={(e) =>
             setContact({ ...contact, occupation: e.target.value })
           }
@@ -162,27 +196,30 @@ export const DisplayContact = ({
                   value={phone.phone}
                   className="contact-input"
                   name="phone"
-                  readOnly={contact.edit}
+                  readOnly={!contact.edit}
                   required
                   minLength={10}
+                  maxLength={10}
                   onChange={(e) => phoneOnChange(i, e)}
                 />
               </div>
-              <button
-                className="multi-field-btn"
-                onClick={(e) => removeHandler(e, i, "phone")}
-              >
-                X
-              </button>
+              {contact.edit && (
+                <button
+                  className="multi-field-btn"
+                  onClick={(e) => removeHandler(e, i, "phone")}
+                >
+                  X
+                </button>
+              )}
             </div>
           );
         })}
 
-        {!contact.edit ? (
+        {contact.edit && (
           <button className="field-add-btn" onClick={handleAddPhone}>
             Add Phone
           </button>
-        ) : null}
+        )}
 
         <label>Email Address</label>
         {emails.map((mail, i) => {
@@ -194,56 +231,58 @@ export const DisplayContact = ({
                   type="email"
                   name="email"
                   className="contact-input"
-                  readOnly={contact.edit}
+                  readOnly={!contact.edit}
                   required
                   onChange={(e) => emailOnChange(i, e)}
                 />
               </div>
-              <button
-                className="multi-field-btn"
-                onClick={(e) => removeHandler(e, i, "email")}
-              >
-                X
-              </button>
+              {contact.edit && (
+                <button
+                  className="multi-field-btn"
+                  onClick={(e) => removeHandler(e, i, "email")}
+                >
+                  X
+                </button>
+              )}
             </div>
           );
         })}
 
-        {!contact.edit ? (
+        {contact.edit && (
           <button className="field-add-btn" onClick={handleAddEmail}>
             Add Email
           </button>
-        ) : null}
+        )}
 
         <label>Notes:</label>
         <textarea
           style={{ height: "auto" }}
           value={contact.note}
-          readOnly={contact.edit}
+          readOnly={!contact.edit}
           onChange={(e) => setContact({ ...contact, note: e.target.value })}
         ></textarea>
 
-        {!contact.edit ? (
-          <button
-            type="submit"
-            className="save-btn"
-            onSubmit={() => handleSave()}
-          >
+        {contact.edit && (
+          <button className="save-btn" onClick={(e) => handleSubmit(e)}>
             Save Change
           </button>
-        ) : null}
+        )}
 
-        <button
-          className="delete-btn"
-          style={{ color: "red" }}
-          onClick={() => {
-            if (window.confirm("Are you sure you wanna delete this contact?")) {
-              deleteHandler();
-            }
-          }}
-        >
-          Delete The Contact
-        </button>
+        {contact.edit && (
+          <button
+            className="delete-btn"
+            style={{ color: "red" }}
+            onClick={() => {
+              if (
+                window.confirm("Are you sure you wanna delete this contact?")
+              ) {
+                deleteHandler();
+              }
+            }}
+          >
+            Delete The Contact
+          </button>
+        )}
       </form>
     </React.Fragment>
   );
@@ -262,5 +301,22 @@ const ConvertListStringToListObject = (items, type) => {
       result.push({ email: items[i] });
     }
   }
+  return result;
+};
+
+const ConvertListObjectToListValues = (items, type) => {
+  var result = [];
+  if (type === "phone") {
+    for (let i = 0; i < items.length; i++) {
+      result.push(items[i].phone);
+    }
+  }
+
+  if (type === "email") {
+    for (let i = 0; i < items.length; i++) {
+      result.push(items[i].email);
+    }
+  }
+
   return result;
 };
