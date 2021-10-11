@@ -10,15 +10,13 @@ describe("unit test of updateContactInfo form contactController.js", () => {
   const req = {
     user: { _id: "61503926028ce448aceda136" },
     body: {
-      contact: {
-        _idOfContact: "615454b320f2bc5738d53e1b",
-        lastName: "Bing",
-        firstName: "",
-        phone: [],
-        email: [],
-        occupation: "",
-        note: "",
-      },
+      _id: "615454b320f2bc5738d53e1b",
+      lastName: "Bing",
+      firstName: "",
+      phone: [],
+      email: [],
+      occupation: "",
+      note: "",
     },
   };
 
@@ -77,7 +75,7 @@ describe("unit test of updateContactInfo form contactController.js", () => {
 describe("Unit testing updateContactInfo from contactController with invalid contact Id", () => {
   const req = {
     user: { _id: "61503926028ce448aceda136" },
-    body: { contact: { _idOfContact: "123456789012" } },
+    body: { _id: "123456789012" },
   };
 
   const res = {
