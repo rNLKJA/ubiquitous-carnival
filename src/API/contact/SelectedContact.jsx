@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import "./editContact.css";
 import fetchClient from "../axiosClient/axiosClient";
 // import portrait from "./portrarit.png";
 
-const BASE_URL = "http://localhost:5000";
-// const BASE_URL = "https://crm4399.herokuapp.com";
+// const BASE_URL = "http://localhost:5000";
+const BASE_URL = "https://crm4399.herokuapp.com";
 
 const SelectedContact = ({ setOneContact, oneContact, deleteHandler }) => {
   // set selectedContact state with an additional property named edit
@@ -13,10 +13,6 @@ const SelectedContact = ({ setOneContact, oneContact, deleteHandler }) => {
     ...oneContact,
     edit: false,
   });
-
-  useEffect(() => {
-    console.log(selectedContact);
-  }, [selectedContact]);
 
   return (
     <React.Fragment>
@@ -93,6 +89,7 @@ export const DisplayContact = ({
     };
 
     setContact(data);
+    setSelectedContact(data);
 
     await fetchClient
       .post(BASE_URL + "/contact/updateContactInfo", data)
