@@ -9,14 +9,14 @@ const ShowQrCode = () => {
 
     const generateQR = async () => {
         try {
-            const response = await QRCode.toDataURL(profile.firstName);
+            const response = await QRCode.toDataURL(profile.userName);
             setImageUrl(response)
         }catch (error){
             console.log(error);
         }
     }
 
-    if (profile.firstName){
+    if (profile.userName){
         generateQR();
     }
 
