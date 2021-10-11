@@ -332,34 +332,29 @@ const searchContact = async (req, res) => {
 const updateContactInfo = async (req, res) => {
   var query = {};
   // if name in submited form
-  if (req.body.lastName != "") {
-    query["lastName"] = req.body.lastName;
+  if (req.body.contact.lastName != "") {
+    query["lastName"] = req.body.contact.lastName;
   }
-  if (req.body.firstName != "") {
-    query["firstName"] = req.body.firstName;
+  if (req.body.contact.firstName != "") {
+    query["firstName"] = req.body.contact.firstName;
   }
-  if (req.body.phone != []) {
-    query["phone"] = req.body.phone;
+  query["phone"] = req.body.contact.phone;
+  if (req.body.contact.email != []) {
+    query["email"] = req.body.contact.email;
   }
-  if (req.body.email != []) {
-    query["email"] = req.body.email;
-  }
-  if (req.body.occupation != "") {
-    query["occupation"] = req.body.occupation;
-  }
-  if (req.body.note != "") {
-    query["note"] = req.body.note;
-  }
+  query["occupation"] = req.body.contact.occupation;
+  query["note"] = req.body.contact.note;
+
   try {
-    const contacts = await Contact.findOneAndUpdate(
-      { _id: mongoose.Types.ObjectId(req.body._idOfContact) },
+    const contact = await Contact.findOneAndUpdate(
+      { _id: mongoose.Types.ObjectId(req.body.contact._id) },
       query,
       { new: true }
     ).lean();
-    res.json(contacts);
+    res.json({ status: true, contact: contact });
   } catch (err) {
     console.log(err);
-    res.json("update failed");
+    res.json({ status: false });
   }
 };
 /**
