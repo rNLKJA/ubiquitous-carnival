@@ -254,19 +254,19 @@ const emailFastRegisterConfirm = async (req, res) => {
 const updatePassword = async (req, res) => {
   const user = await userModel.findOne({ _id: req.user._id }).lean();
 
-  const password = await bcrypt.hash(req.body.oldPassword, 10);
-  if (password === user.password) {
-    return res.json({ status: false, password_diff: true });
-  }
-
   try {
+    const newPassword = await bcrypt.hash(req.body.newPassword1, 10);
+
     await userModel.findOneAndUpdate(
-      { _id: req.user._id },
-      { password: password },
+      {
+        _id: req.user._id,
+      },
+      { password: newPassword },
     );
+
     return res.json({ status: true });
   } catch (err) {
-    return res.json({ status: false });
+    return res.json({ status: false, msg: err });
   }
 };
 
@@ -282,7 +282,7 @@ const resetPassword = async (req, res) => {
       msg: "Invalid Access, You are not authorised to change the password!",
     });
   }
-
+  console.log(req.body.password);
   const password = await bcrypt.hash(req.body.password, 10);
 
   try {
@@ -309,7 +309,7 @@ const resetPassword = async (req, res) => {
     // console.log(verify);
     return res.json({ status: true });
   } catch (err) {
-    return res.json({ status: false, msg: "Query Error" });
+    return res.json({ status: false, msg: err });
   }
 };
 
