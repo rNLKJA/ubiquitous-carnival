@@ -15,6 +15,7 @@ import Heading from "../heading/heading.jsx";
 import Navbar from "../nav/Navbar";
 
 // const BASE_URL = "http://localhost:5000";
+
 const BASE_URL = "https://crm4399.herokuapp.com";
 
 const Contact = () => {
