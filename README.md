@@ -49,11 +49,11 @@ This repository is created for [University of Melbourne](https://www.unimelb.edu
 | Yixiao Tian | Communication leader | yixiaot@student.unimelb.edu.au |
 
 ## Javascript API Documentation
-- [Contact Controller](https://github.com/Harrison-Huang666/COMP30022-49/blob/Back-End/out/contactController.html)
-- [Profile Controller](https://github.com/Harrison-Huang666/COMP30022-49/blob/Back-End/out/profileController.html)
-- [Record Controller](https://github.com/Harrison-Huang666/COMP30022-49/blob/Back-End/out/recordController.html)
-- [User Controller](https://github.com/Harrison-Huang666/COMP30022-49/blob/Back-End/out/userController.html)
-- [Authentication Controller](https://github.com/Harrison-Huang666/COMP30022-49/blob/Back-End/out/emalAuth.html)
+- [Contact Controller](https://crm4399.herokuapp.com/api/contactController)
+- [Profile Controller](https://crm4399.herokuapp.com/api/profileController)
+- [Record Controller](https://crm4399.herokuapp.com/api/recordController)
+- [User Controller](https://crm4399.herokuapp.com/api/userController)
+- [Authentication Controller](https://crm4399.herokuapp.com/api/emailAuth)
 
 ## Software Dependencies
 

@@ -237,10 +237,11 @@ const showProfile = async (req, res) => {
     res.json({
       firstName: req.user.firstName,
       lastName: req.user.lastName,
+      userName: req.user.userName,
       occupation: req.user.occupation,
       status: req.user.status,
       email: req.user.email,
-      phone: req.user.phone,
+      phone: req.user.phone
     });
   } catch (err) {
     res.send("show fail");
