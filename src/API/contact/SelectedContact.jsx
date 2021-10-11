@@ -43,114 +43,67 @@ const SelectedContact = ({ setOneContact, oneContact, deleteHandler }) => {
 export default SelectedContact;
 
 export const DisplayContact = ({ contact, setContact }) => {
-  if (contact.edit) {
-    return (
-      <React.Fragment>
-        <button
-          className="edit-btn"
-          onClick={() => setContact({ ...contact, edit: false })}
-        >
-          Edit
-        </button>
-        <form className="edit-contact-form">
-          <label>First Name: </label>
-          <input className="contact-input" value={contact.firstName}></input>
+  return (
+    <React.Fragment>
+      <button
+        className="edit-btn"
+        onClick={() => setContact({ ...contact, edit: !contact.edit })}
+      >
+        Edit
+      </button>
+      <form className="edit-contact-form">
+        <label>First Name: </label>
+        <input
+          value={contact.firstName}
+          className="contact-input"
+          readOnly={contact.edit}
+        ></input>
 
-          <label>Last Name: </label>
-          <input className="contact-input" value={contact.lastName}></input>
+        <label>Last Name: </label>
+        <input
+          value={contact.lastName}
+          className="contact-input"
+          readOnly={contact.edit}
+        ></input>
 
-          <label>Occupation: </label>
-          <input className="contact-input" value={contact.occupation}></input>
+        <label>Occupation: </label>
+        <input
+          value={contact.occupation}
+          className="contact-input"
+          readOnly={contact.edit}
+        ></input>
 
-          <label>Email Address</label>
-          {contact.email.map((mail) => {
-            return (
-              <input
-                className="contact-input"
-                value={mail}
-                key={new Date().toISOString()}
-              />
-            );
-          })}
-          <button className="field-add-btn">Add Email</button>
+        <label>Email Address</label>
+        {contact.email.map((mail) => {
+          return (
+            <input
+              value={mail}
+              className="contact-input"
+              readOnly={contact.edit}
+              key={new Date().toISOString()}
+            />
+          );
+        })}
 
-          <label>Phone:</label>
-          {contact.phone.map((phone) => {
-            return (
-              <input
-                className="contact-input"
-                value={phone}
-                key={new Date().toISOString()}
-              />
-            );
-          })}
-          <button className="field-add-btn">Add Phone</button>
+        <label>Phone:</label>
+        {contact.phone.map((phone) => {
+          return (
+            <input
+              value={phone}
+              className="contact-input"
+              readOnly={contact.edit}
+              key={new Date().toISOString()}
+            />
+          );
+        })}
 
-          <label>Notes:</label>
-          <textarea style={{ height: "auto" }} value={contact.note}></textarea>
-        </form>
-      </React.Fragment>
-    );
-  } else {
-    return (
-      <React.Fragment>
-        <button onClick={() => setContact({ ...contact, edit: true })}>
-          Edit
-        </button>
-        <form className="edit-contact-form">
-          <label>First Name: </label>
-          <input
-            value={contact.firstName}
-            className="contact-input"
-            readOnly
-          ></input>
-
-          <label>Last Name: </label>
-          <input
-            value={contact.lastName}
-            className="contact-input"
-            readOnly
-          ></input>
-
-          <label>Occupation: </label>
-          <input
-            value={contact.occupation}
-            className="contact-input"
-            readOnly
-          ></input>
-
-          <label>Email Address</label>
-          {contact.email.map((mail) => {
-            return (
-              <input
-                value={mail}
-                className="contact-input"
-                readOnly
-                key={new Date().toISOString()}
-              />
-            );
-          })}
-
-          <label>Phone:</label>
-          {contact.phone.map((phone) => {
-            return (
-              <input
-                value={phone}
-                className="contact-input"
-                readOnly
-                key={new Date().toISOString()}
-              />
-            );
-          })}
-
-          <label>Notes:</label>
-          <textarea
-            style={{ height: "auto" }}
-            value={contact.note}
-            readOnly
-          ></textarea>
-        </form>
-      </React.Fragment>
-    );
-  }
+        <label>Notes:</label>
+        <textarea
+          style={{ height: "auto" }}
+          value={contact.note}
+          readOnly={contact.edit}
+        ></textarea>
+      </form>
+    </React.Fragment>
+  );
 };
