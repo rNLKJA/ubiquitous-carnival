@@ -1,4 +1,3 @@
-
 import "./record.css";
 import TextField from "@mui/material/TextField";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
@@ -63,8 +62,8 @@ const CreateRecord = () => {
     console.log(recordInfo);
 
     await fetchClient
-      // .post("http://localhost:5000/record/createRecord", recordInfo)
-      .post("https://crm4399.herokuapp.com/record/createRecord", recordInfo)
+      .post("http://localhost:5000/record/createRecord", recordInfo)
+      // .post("https://crm4399.herokuapp.com/record/createRecord", recordInfo)
       .then(() => alert("Successfully create a record つ - - つ"))
       .catch((err) => {
         alert(err);
@@ -73,7 +72,7 @@ const CreateRecord = () => {
     setLocation("");
     setSelected("");
 
-    window.location.href = "/record";
+    // window.location.href = "/record";
   };
 
   const setFieldValue = (value) => {
@@ -169,7 +168,7 @@ const CreateRecord = () => {
             onChange={(e) => {
               setNotes(e.target.value);
             }}
-            style={{ minWidth: "98.5%", minHeight: "50%" }}
+            style={{ minWidth: "98.5%", minHeight: "auto" }}
           />
 
           <input

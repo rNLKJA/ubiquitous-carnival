@@ -150,8 +150,8 @@
 
   .back {
     position: fixed;
-    left: 5%;
-    top: 3%;
+    right: 3rem;
+    top: -3.5rem;
     width: 50px;
     height: 25px;
     font-size: 14px;
