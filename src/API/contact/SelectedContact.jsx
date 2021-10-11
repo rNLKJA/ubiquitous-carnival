@@ -1,5 +1,5 @@
 import React from "react";
-import portrait from "./portrarit.png";
+// import portrait from "./portrarit.png";
 
 const SelectedContact = ({ setOneContact, oneContact, deleteHandler }) => {
   return (
