@@ -3,10 +3,14 @@ import "./Reset.css";
 import axios from "axios";
 import { WindowSharp } from "@mui/icons-material";
 
-const BASE_URL = "http://localhost:5000/user";
-// const BASE_URL = "https://crm4399.herokuapp.com/user";
+// const BASE_URL = "http://localhost:5000/user";
+const BASE_URL = "https://crm4399.herokuapp.com/user";
 
 const Reset = () => {
+  useEffect(() => {
+    document.title = "Rest Password";
+  }, []);
+
   const [codeValidation, setCodeValidation] = useState(false);
   const [codeSend, setCodeSend] = useState(false);
   const [password1, setPassword1] = useState("");
