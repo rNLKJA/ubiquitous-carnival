@@ -22,6 +22,7 @@ const Person = () => {
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [occupation, setOccupation] = useState("");
+  const [saveBtn, setSaveBtn] = useState(false);
   const inputE1 = useRef(null);
   const inputE2 = useRef();
   const inputE3 = useRef();
@@ -41,6 +42,31 @@ const Person = () => {
       </div>
     );
   }
+
+  const submitProfile = (e) => {
+    e.preventDefault();
+
+    const prof = {
+      firstName,
+      lastName,
+      occupation
+    };
+
+
+    fetchClient
+        .post(BASE_URL + "/profile/editProfile", prof)
+        .then(() => {
+          console.log("upload new information");
+          setSaveBtn(false);
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+
+    setFirstName("");
+    setLastName("");
+    setOccupation("");
+  };
 
   const submitFirstName = (e) => {
     e.preventDefault();
@@ -172,6 +198,13 @@ const Person = () => {
       element.innerHTML = this.value === oldhtml ? oldhtml : this.value;
       element.innerHTML = this.value === "" ? oldhtml : this.value;
       setFirstName(this.value);
+      setSaveBtn(true);
+      if(lastName == ""){
+        setLastName(profile.lastName);
+      }
+      if(occupation == ""){
+        setOccupation(profile.occupation);
+      }
     };
     element.innerHTML = "";
     element.appendChild(newobj);
@@ -190,6 +223,13 @@ const Person = () => {
       element.innerHTML = this.value === oldhtml ? oldhtml : this.value;
       element.innerHTML = this.value === "" ? oldhtml : this.value;
       setLastName(this.value);
+      setSaveBtn(true);
+      if(firstName == ""){
+        setFirstName(profile.firstName);
+      }
+      if(occupation == ""){
+        setOccupation(profile.occupation);
+      }
     };
     element.innerHTML = "";
     element.appendChild(newobj);
@@ -208,6 +248,13 @@ const Person = () => {
       element.innerHTML = this.value === oldhtml ? oldhtml : this.value;
       element.innerHTML = this.value === "" ? oldhtml : this.value;
       setOccupation(this.value);
+      setSaveBtn(true);
+      if(lastName == ""){
+        setLastName(profile.lastName);
+      }
+      if(firstName == ""){
+        setFirstName(profile.firstName);
+      }
     };
     element.innerHTML = "";
     element.appendChild(newobj);
@@ -256,9 +303,9 @@ const Person = () => {
               <h2>Basic Information</h2>
             </div>
             <form
-              className="firstname"
+              className="basic-Information"
               method="POST"
-              onSubmit={submitFirstName}
+              onSubmit={submitProfile}
             >
               <div className="info-container">
                 <div className="Label">First name: </div>
@@ -269,28 +316,13 @@ const Person = () => {
                 >
                   {profile.firstName}
                 </div>
-                <div>
-                  <input type="submit" value="save" />
-                </div>
               </div>
-            </form>
-            <form className="lastname" method="POST" onSubmit={submitLastName}>
               <div className="info-container">
                 <div className="Label">Last name: </div>
                 <div className="Value" ref={inputE2} onClick={editLastName}>
                   {profile.lastName}
                 </div>
-                <div>
-                  <input type="submit" value="save" />
-                </div>
               </div>
-            </form>
-
-            <form
-              className="occupation"
-              method="POST"
-              onSubmit={submitOccupation}
-            >
               <div className="info-container">
                 <div className="Label">Occupation: </div>
                 <div
@@ -300,10 +332,8 @@ const Person = () => {
                 >
                   {profile.occupation}
                 </div>
-                <div>
-                  <input type="submit" value="save" />
-                </div>
               </div>
+              {saveBtn ? (<input type="submit" value="save" />):null}
             </form>
           </div>
           <br/>
