@@ -198,7 +198,9 @@ const Person = () => {
       element.innerHTML = this.value === oldhtml ? oldhtml : this.value;
       element.innerHTML = this.value === "" ? oldhtml : this.value;
       setFirstName(this.value);
-      setSaveBtn(true);
+      if((this.value !== oldhtml) && (this.value !== "")){
+        setSaveBtn(true);
+      }
       if(lastName == ""){
         setLastName(profile.lastName);
       }
@@ -223,7 +225,9 @@ const Person = () => {
       element.innerHTML = this.value === oldhtml ? oldhtml : this.value;
       element.innerHTML = this.value === "" ? oldhtml : this.value;
       setLastName(this.value);
-      setSaveBtn(true);
+      if((this.value !== oldhtml) && (this.value !== "")){
+        setSaveBtn(true);
+      }
       if(firstName == ""){
         setFirstName(profile.firstName);
       }
@@ -248,7 +252,9 @@ const Person = () => {
       element.innerHTML = this.value === oldhtml ? oldhtml : this.value;
       element.innerHTML = this.value === "" ? oldhtml : this.value;
       setOccupation(this.value);
-      setSaveBtn(true);
+      if((this.value !== oldhtml) && (this.value !== "")){
+        setSaveBtn(true);
+      }
       if(lastName == ""){
         setLastName(profile.lastName);
       }
