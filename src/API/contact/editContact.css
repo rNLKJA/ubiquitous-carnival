@@ -1,6 +1,7 @@
 .delete-btn {
-  width: 85%;
+  width: 95%;
   height: 20px;
+  margin-top: 1rem;
 }
 
 input {
@@ -30,4 +31,9 @@ input {
   font-size: 14px;
   height: 30px;
   color: rgb(47, 71, 137);
+}
+
+.save-btn {
+  width: 95%;
+  margin-top: 1rem;
 }

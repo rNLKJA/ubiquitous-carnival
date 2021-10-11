@@ -25,32 +25,31 @@ const SelectedContact = ({ setOneContact, oneContact, deleteHandler }) => {
       {/* <img src={portrait} alt="protrait.png" style={{ paddingTop: "15px" }} /> */}
 
       <DisplayContact
-        contact={selectedContact}
-        setContact={setSelectedContact}
+        selectedContact={selectedContact}
+        setSelectedContact={setSelectedContact}
+        deleteHandler={deleteHandler}
       />
-
-      <button
-        className="delete-btn"
-        style={{ color: "red" }}
-        onClick={() => deleteHandler()}
-      >
-        Delete The Contact
-      </button>
     </React.Fragment>
   );
 };
 
 export default SelectedContact;
 
-export const DisplayContact = ({ contact, setContact }) => {
+export const DisplayContact = ({
+  selectedContact,
+  setSelectedContact,
+  deleteHandler,
+}) => {
+  const [contact, setContact] = useState(selectedContact);
   return (
     <React.Fragment>
       <button
         className="edit-btn"
         onClick={() => setContact({ ...contact, edit: !contact.edit })}
       >
-        Edit
+        {contact.edit ? "Edit" : "Cancel"}
       </button>
+
       <form className="edit-contact-form">
         <label>First Name: </label>
         <input
@@ -103,6 +102,21 @@ export const DisplayContact = ({ contact, setContact }) => {
           value={contact.note}
           readOnly={contact.edit}
         ></textarea>
+        <button className="save-btn" onClick={() => setContact(contact)}>
+          Save Change
+        </button>
+
+        <button
+          className="delete-btn"
+          style={{ color: "red" }}
+          onClick={() => {
+            if (window.confirm("Are you sure you wanna delete this contact?")) {
+              deleteHandler();
+            }
+          }}
+        >
+          Delete The Contact
+        </button>
       </form>
     </React.Fragment>
   );
