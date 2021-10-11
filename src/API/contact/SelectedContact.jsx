@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "./editContact.css";
 import fetchClient from "../axiosClient/axiosClient";
+// import { Contacts } from "@mui/icons-material";
 // import portrait from "./portrarit.png";
 
 // const BASE_URL = "http://localhost:5000";
@@ -25,11 +26,11 @@ const SelectedContact = ({ setOneContact, oneContact, deleteHandler }) => {
         Back
       </button>
       {/* <img src={portrait} alt="protrait.png" style={{ paddingTop: "15px" }} /> */}
-
       <DisplayContact
         selectedContact={selectedContact}
         setSelectedContact={setSelectedContact}
         deleteHandler={deleteHandler}
+        setOneContact={setOneContact}
       />
     </React.Fragment>
   );
@@ -41,6 +42,7 @@ export const DisplayContact = ({
   selectedContact,
   setSelectedContact,
   deleteHandler,
+  setOneContact,
 }) => {
   // defined variables
   const [contact, setContact] = useState(selectedContact);
@@ -88,7 +90,6 @@ export const DisplayContact = ({
       email,
     };
 
-    setContact(data);
     setSelectedContact(data);
 
     await fetchClient
@@ -98,11 +99,16 @@ export const DisplayContact = ({
           alert(
             "Update contact information succeed!\nRedirect to Contact Page",
           );
-          window.location.href = "/contact";
+          // window.location.href = "/contact";
         } else {
           alert("Opps, something wrong, please try later.");
         }
       });
+
+    window.location.href = "/contact";
+    // setContact({ ...contact, edit: false });
+
+    // setOneContact({ ...contact, edit: false, selected: false });
   };
 
   // input field change handler

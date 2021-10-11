@@ -22,7 +22,7 @@ const Contact = () => {
     document.title = "Contact";
   }, []);
 
-  var { loading, contacts, error } = useContacts();
+  const { loading, contacts, error } = useContacts();
   const [oneContact, setOneContact] = useState({
     firstName: "",
     lastName: "",
@@ -32,10 +32,6 @@ const Contact = () => {
     phone: [],
     selected: false,
   });
-
-  useEffect(() => {
-    console.log(oneContact);
-  }, [oneContact.selected]);
 
   const [searchTerm, setSearchTerm] = useState("");
 
