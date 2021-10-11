@@ -3,8 +3,8 @@ import "./Reset.css";
 import axios from "axios";
 import { WindowSharp } from "@mui/icons-material";
 
-// const BASE_URL = "http://localhost:5000/user";
-const BASE_URL = "https://crm4399.herokuapp.com/user";
+const BASE_URL = "http://localhost:5000/user";
+// const BASE_URL = "https://crm4399.herokuapp.com/user";
 
 const Reset = () => {
   const [codeValidation, setCodeValidation] = useState(false);
@@ -144,7 +144,7 @@ const Reset = () => {
               minLength={8}
             ></input>
 
-            <input type="submit" value="Send Code"></input>
+            <input type="submit" value="Change your password"></input>
           </form>
         )}
       </div>
