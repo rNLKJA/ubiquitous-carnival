@@ -30,7 +30,7 @@ const Record = () => {
     selected: false,
   });
 
-  console.log("one record IS ", oneRecord);
+  console.log(records);
 
   const handleChange = (e) => {
     e.preventDefault();
