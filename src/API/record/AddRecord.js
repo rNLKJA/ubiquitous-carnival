@@ -55,15 +55,14 @@ const CreateRecord = () => {
       contact_id: selected,
       location: location,
       dateTime: currentTime,
-      getCoords: geoCoords,
+      geoCoords: geoCoords,
       notes: notes,
     };
 
     console.log(recordInfo);
 
     await fetchClient
-      .post("http://localhost:5000/record/createRecord", recordInfo)
-      // .post("https://crm4399.herokuapp.com/record/createRecord", recordInfo)
+      .post("https://crm4399.herokuapp.com/record/createRecord", recordInfo)
       .then(() => alert("Successfully create a record つ - - つ"))
       .catch((err) => {
         alert(err);
