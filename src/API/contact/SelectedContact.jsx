@@ -155,8 +155,8 @@ export const DisplayContact = ({
         <label>Phone:</label>
         {phones.map((phone, i) => {
           return (
-            <div key={`${phone}-${i}`}>
-              <div>
+            <div key={`${phone}-${i}`} className="multi-field">
+              <div className="multi-field-input">
                 <input
                   type="text"
                   value={phone.phone}
@@ -165,11 +165,15 @@ export const DisplayContact = ({
                   readOnly={contact.edit}
                   required
                   minLength={10}
-                  maxLength={10}
                   onChange={(e) => phoneOnChange(i, e)}
                 />
               </div>
-              <button onClick={(e) => removeHandler(e, i, "phone")}>X</button>
+              <button
+                className="multi-field-btn"
+                onClick={(e) => removeHandler(e, i, "phone")}
+              >
+                X
+              </button>
             </div>
           );
         })}
@@ -183,8 +187,8 @@ export const DisplayContact = ({
         <label>Email Address</label>
         {emails.map((mail, i) => {
           return (
-            <div key={`${mail}-${i}`}>
-              <div>
+            <div key={`${mail}-${i}`} className="multi-field">
+              <div className="multi-field-input">
                 <input
                   value={mail.email}
                   type="email"
@@ -195,7 +199,12 @@ export const DisplayContact = ({
                   onChange={(e) => emailOnChange(i, e)}
                 />
               </div>
-              <button onClick={(e) => removeHandler(e, i, "email")}>X</button>
+              <button
+                className="multi-field-btn"
+                onClick={(e) => removeHandler(e, i, "email")}
+              >
+                X
+              </button>
             </div>
           );
         })}

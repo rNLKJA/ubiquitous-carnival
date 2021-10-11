@@ -38,3 +38,21 @@ input {
   width: 95%;
   margin-top: 1rem;
 }
+
+.multi-field {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  /* justify-content: center; */
+  align-items: center;
+}
+
+.multi-field-input {
+  width: 90%;
+}
+
+.multi-field-btn {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+}
