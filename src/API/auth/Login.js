@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 // import "bootstrap/dist/css/bootstrap.min.css"
 import "./login.css";
@@ -14,6 +14,10 @@ import Error from "../error/Error";
 Axios.defaults.withCredentials = true;
 
 const Login = () => {
+  useEffect(() => {
+    document.title = "4399CRM";
+  }, []);
+
   const [username, setUsername] = useState("");
 
   const [password, setPassword] = useState("");
