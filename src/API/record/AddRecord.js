@@ -1,4 +1,3 @@
-
 import "./record.css";
 import TextField from "@mui/material/TextField";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
@@ -169,7 +168,7 @@ const CreateRecord = () => {
             onChange={(e) => {
               setNotes(e.target.value);
             }}
-            style={{ minWidth: "98.5%", minHeight: "50%" }}
+            style={{ minWidth: "98.5%", minHeight: "auto" }}
           />
 
           <input
