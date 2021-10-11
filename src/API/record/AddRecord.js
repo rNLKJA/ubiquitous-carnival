@@ -54,10 +54,12 @@ const CreateRecord = () => {
     const recordInfo = {
       contact_id: selected,
       location: location,
-      dateTime: currentTime,
+      dateTime: convert(currentTime),
       geoCoords: geoCoords,
       notes: notes,
     };
+
+
 
     console.log(recordInfo);
 
@@ -82,18 +84,14 @@ const CreateRecord = () => {
     }
   };
 
-  console.log(selected);
+  console.log("TIME ",convert(currentTime));
+
 
   const backToPreviousPage = () => {
     window.location.href = "/record";
   };
 
-  const selectStyles = {
-    menu: (base) => ({
-      ...base,
-      zIndex: 100,
-    }),
-  };
+  
 
   return (
     <React.Fragment>
@@ -121,10 +119,12 @@ const CreateRecord = () => {
                 label="Meeting time"
                 value={currentTime}
                 onChange={(newValue) => {
-                  setCurrentTime(convert(newValue));
+                  setCurrentTime(newValue);
                 }}
-                minDate={new Date("2020-02-14")}
-                maxTime={new Date()}
+                minDate={new Date("2021-02-14")}
+                maxTime={new Date("2025-02-14")}
+                ampm = {true}
+                disableIgnoringDatePartForTimeValidation = {true}
               />
             </LocalizationProvider>
           </div>
