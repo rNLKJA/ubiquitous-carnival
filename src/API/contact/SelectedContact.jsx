@@ -12,7 +12,7 @@ const SelectedContact = ({ setOneContact, oneContact, deleteHandler }) => {
       >
         Back
       </button>
-      <img src={portrait} alt="protrait.png" style={{ paddingTop: "15px" }} />
+      {/* <img src={portrait} alt="protrait.png" style={{ paddingTop: "15px" }} /> */}
       <div className="name">
         <label>First Name: </label>
         {oneContact.firstName}
