@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./editContact.css";
 import fetchClient from "../axiosClient/axiosClient";
 // import portrait from "./portrarit.png";
@@ -13,6 +13,10 @@ const SelectedContact = ({ setOneContact, oneContact, deleteHandler }) => {
     ...oneContact,
     edit: false,
   });
+
+  useEffect(() => {
+    console.log(selectedContact);
+  }, [selectedContact]);
 
   return (
     <React.Fragment>
@@ -46,8 +50,7 @@ export const DisplayContact = ({
   const [contact, setContact] = useState(selectedContact);
 
   const [phones, setPhones] = useState(
-    [],
-    // ConvertListStringToListObject(contact.phone, "phone")
+    ConvertListStringToListObject(contact.phone, "phone"),
   );
   const [emails, setEmails] = useState(
     ConvertListStringToListObject(contact.email, "email"),
@@ -82,7 +85,6 @@ export const DisplayContact = ({
 
     var email = ConvertListObjectToListValues(emails, "email");
     var phone = ConvertListObjectToListValues(phones, "phone");
-    console.log(phone);
 
     const data = {
       ...contact,
@@ -97,9 +99,9 @@ export const DisplayContact = ({
       .then((response) => {
         if (response.data.status) {
           alert(
-            "Update contact information succeed!",
-            setSelectedContact({ ...data, edit: false }),
+            "Update contact information succeed!\nRedirect to Contact Page",
           );
+          window.location.href = "/contact";
         } else {
           alert("Opps, something wrong, please try later.");
         }
