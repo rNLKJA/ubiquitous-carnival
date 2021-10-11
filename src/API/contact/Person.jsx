@@ -41,14 +41,14 @@ const Person = ({ contact, setOneContact }) => {
   return (
     <Row gap={2} p={2.5}>
       <Item>
-        <Avatar classes={avatarStyles} src={'https://i.pravatar.cc/300?img=20'} />
+        <Avatar classes={avatarStyles} src={''} />
       </Item>
       <Row wrap grow gap={0.5} minWidth={0}>
         <Item grow minWidth={0}>
           <div className={cx(styles.name, styles.text)}>{contact.contact.firstName + ' ' + contact.contact.lastName}</div>
 
         </Item>
-        <Item position={'middle'}>
+        <Item position={'right'}>
           <Button className={styles.btn} variant={'outlined'} onClick={() => {
             setOneContact({ ...contact.contact, selected: true });
           }}>

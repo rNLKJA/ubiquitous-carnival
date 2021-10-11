@@ -14,11 +14,9 @@ const People = ({ contacts, setOneContact }) => {
 
         {contacts.map((contact) => {
           return (
-            <Grid key={contact.contact._id} item xs={12} sm={6} md={4}>
-              
+            <Grid key={contact.contact._id} item xs={10} sm={6} md={4}>
               <Person contact={contact} setOneContact={setOneContact} />
               <Divider variant={'middle'} className={styles.divider} />
-              
             </Grid>
           )
         })}
