@@ -5,6 +5,9 @@ import "./contact.css";
 import "./manual-input.css";
 // import axios from "axios";
 import fetchClient from "../axiosClient/axiosClient";
+import { Link } from "react-router-dom";
+import Heading from "../heading/heading.jsx";
+import NavBar from "../nav/Navbar";
 
 const AddUser = () => {
   useEffect(() => {
@@ -27,8 +30,8 @@ const AddUser = () => {
     const contact = {
       firstName,
       lastName,
-      email,
-      phone,
+      email: [email],
+      phone: [phone],
       occupation,
       portraits: "",
       // meetRecord,
@@ -72,10 +75,14 @@ const AddUser = () => {
 
   return (
     <React.Fragment>
+      <Heading />
+      <NavBar />
       <div className="sub-container">
-        <a href="/addUser" className="back-button">
-          Back
-        </a>
+        <Link to="/addUser">
+          <a href="/addUser" className="back-button">
+            Back
+          </a>
+        </Link>
 
         {/* <div className="upload-img">
           <input type="file" onChange={(e) => setImage(e.target.files[0])} />
@@ -153,7 +160,13 @@ const AddUser = () => {
             value={note}
           ></textarea>
 
-          <input type="submit" value="Create" />
+          <button
+            className="btn btn-primary"
+            style={{ padding: "0px" }}
+            type="submit"
+          >
+            Create Contact
+          </button>
         </form>
       </div>
     </React.Fragment>

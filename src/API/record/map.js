@@ -243,7 +243,7 @@ const Search = ({ panTo, setAddress, setGeoCoords, setLocation }) => {
             setValue(event.target.value);
           }}
           disabled={!ready}
-          placeholder="Enter an address"
+          placeholder="Search an address"
         />
         <ComboboxPopover>
           <ComboboxList>

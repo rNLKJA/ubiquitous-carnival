@@ -16,6 +16,7 @@ input {
 .edit-contact-form {
   text-align: left;
   padding: 20px;
+  width: 96%;
 }
 
 .field-add-btn {
@@ -57,7 +58,7 @@ input {
 }
 
 .multi-field-input {
-  width: 90%;
+  width: 100%;
 }
 
 .multi-field-btn {
@@ -69,4 +70,36 @@ input {
 .multi-field-btn:hover {
   background-color: rgb(47, 71, 137);
   color: white;
+}
+
+.button {
+  font-family: "Open Sans";
+  font-size: 16px;
+  font-weight: 400;
+  display: inline-block;
+  color: #fff;
+  /* border-radius: 0.25em; */
+  /* text-shadow: -1px -1px 0px rgba(0, 0, 0, 0.4); */
+}
+
+.touch {
+  transition: ease-in-out 0.2s;
+  line-height: 40px;
+  width: 40px;
+  padding: 0px;
+  text-align: center;
+}
+
+.delete {
+  background: orange;
+  border-radius: 50%;
+}
+
+.inlineIcon.delete:before {
+  color: orange;
+}
+
+.btn {
+  margin-bottom: 5px;
+  padding: none;
 }

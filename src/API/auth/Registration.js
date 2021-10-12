@@ -4,6 +4,8 @@ import React from "react";
 // import axios from "axios";
 import fetchClient from "../axiosClient/axiosClient";
 import "./registration.css";
+import { Link } from "react-router-dom";
+import welcomeImg from "./welcome.png";
 
 class Registration extends React.Component {
   constructor() {
@@ -121,12 +123,13 @@ class Registration extends React.Component {
     return (
       <div className="sub-container">
         <div className="registration">
+          <img src={welcomeImg} alt="welcomeImg" />
           <div className="form-div">
             <form onSubmit={this.onSubmit}>
               <label className="form-label">Username</label>
               <input
                 type="text"
-                placeholder="userName"
+                placeholder="Enter prefer userName"
                 onChange={this.changeUserName}
                 value={this.state.userName}
                 className="form-control form-group"
@@ -134,18 +137,21 @@ class Registration extends React.Component {
               />
 
               <label className="form-label">Email</label>
-              <div style={{ display: "flex", flexDirection: "row" }}>
-                <input
-                  type="text"
-                  placeholder="email"
-                  onChange={this.changeEmail}
-                  value={this.state.email}
-                  className="form-control form-group"
-                  required
-                />
-
-                <button onClick={this.sendAuthCode}>Send</button>
-              </div>
+              <input
+                type="email"
+                placeholder="Please Enter Your Email"
+                onChange={this.changeEmail}
+                value={this.state.email}
+                className="form-control form-group"
+                required
+              />
+              <button
+                className="btn btn-info"
+                style={{ height: "30px" }}
+                onClick={this.sendAuthCode}
+              >
+                Send Authentication Code
+              </button>
 
               <br />
               <label className="form-label">Authentication Code</label>
@@ -163,7 +169,7 @@ class Registration extends React.Component {
               <label className="form-label">Password</label>
               <input
                 type="password"
-                placeholder="password"
+                placeholder="Enter Password"
                 onChange={this.changePassword}
                 value={this.state.password}
                 className="form-control form-group"
@@ -172,18 +178,20 @@ class Registration extends React.Component {
 
               <input
                 type="password"
-                placeholder="double check password"
+                placeholder="Re-enter your password"
                 onChange={this.changeRePassword}
                 value={this.state.re_password}
                 className="form-control form-group"
                 required
               />
 
-              <input
-                type="submit"
-                className="btn btn-danger btn-block"
-                value="signup"
-              />
+              <button type="submit" className="btn btn-primary" value="signup">
+                Sign Up
+              </button>
+
+              <Link to="/login">Already have an account? Login via here!</Link>
+              <br />
+              <Link to="/login">Forget your password? Click here!</Link>
             </form>
           </div>
         </div>
