@@ -58,7 +58,7 @@ const linkToAccount = async (req, res) => {
         phone: accountCreateContact.phone,
         occupation: accountCreateContact.occupation,
       },
-      { $set: { linkedAccount: req.body.accountOfContact } }
+      { $set: { linkedAccount: req.body.accountOfContact } },
     );
     res.send(accountCreateContact);
   } catch (err) {
@@ -90,11 +90,16 @@ const createContactbyUserName = async (req, res) => {
         ownerAccount: mongoose.Types.ObjectId(req.user._id),
       });
     } else {
-      return res.send("Username needed");
+      return res.json({ status: false, msg: "Cannot find user!" });
     }
     if (dupContact != null) {
-      return res.json({ status: false, contact: dupContact });
+      return res.json({
+        status: false,
+        contact: dupContact,
+        msg: "You already add this contact!",
+      });
     }
+    // console.log(existAccountContact);
     if (existAccountContact != null && dupContact == null) {
       newContact = await Contact.create({
         lastName: existAccountContact.lastName,
@@ -120,7 +125,7 @@ const createContactbyUserName = async (req, res) => {
     res.json({ status: true, newContact: newContact });
   } catch (err) {
     console.log(err);
-    return res.json({ status: false });
+    return res.json({ status: false, msg: "Query Failure" });
   }
 };
 
@@ -351,7 +356,7 @@ const updateContactInfo = async (req, res) => {
     const contact = await Contact.findOneAndUpdate(
       { _id: mongoose.Types.ObjectId(req.body._id) },
       query,
-      { new: true }
+      { new: true },
     ).lean();
     // const contact = await Contact.findOne({ _id: req.body._id }).lean();
     // console.log(contact);
@@ -417,7 +422,7 @@ const synchronizationContactInfo = async (req, res) => {
     const updatedContact = await Contact.findOneAndUpdate(
       { _id: mongoose.Types.ObjectId(req.body._idOfContact) },
       query,
-      { new: true }
+      { new: true },
     ).lean();
     res.json(updatedContact);
   } catch (err) {
@@ -459,7 +464,7 @@ const contactPhotoUpload = async (req, res) => {
     const contact = await Contact.findOneAndUpdate(
       { _id: mongoose.Types.ObjectId(req.body._id) },
       { portrait: img },
-      { new: true }
+      { new: true },
     );
     console.log("update success");
     res.send(contact);
@@ -481,14 +486,14 @@ const deleteOneContact = async (req, res) => {
     }).lean();
 
     const contactList = contacts.contactList.filter(
-      (contact) => contact.contact.toString() !== req.params.contact_id
+      (contact) => contact.contact.toString() !== req.params.contact_id,
     );
     // console.log(contactList);
 
     // update contact list
     await User.findOneAndUpdate(
       { userName: req.user.userName },
-      { contactList: contactList }
+      { contactList: contactList },
     );
     await Contact.deleteOne({ _id: req.params.contact_id });
 
