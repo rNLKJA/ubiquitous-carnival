@@ -10,11 +10,11 @@ const People = ({ contacts, setOneContact }) => {
   const styles = useStyles();
   return (
     
-      <Grid container p={0} gap={0} className={styles.card}>
+      <Grid container gap={0.5} className={styles.card}  marginTop= {3}>
 
         {contacts.map((contact) => {
           return (
-            <Grid key={contact.contact._id} item xs={10} sm={6} md={4}>
+            <Grid key={contact.contact._id} item xs={12} sm={12} md={4} >
               <Person contact={contact} setOneContact={setOneContact} />
               <Divider variant={'middle'} className={styles.divider} />
             </Grid>

@@ -19,11 +19,11 @@ const usePersonStyles = makeStyles(() => ({
   },
   name: {
     fontWeight: 600,
-    fontSize: '0.8rem',
+    fontSize: '1rem',
     color: '#122740',
   },
   caption: {
-    fontSize: '0.875rem',
+    fontSize: '0.8rem',
     color: '#758392',
     marginTop: -4,
   },
@@ -44,8 +44,9 @@ const Person = ({ contact, setOneContact }) => {
         <Avatar  src={''} />
       </Item>
       <FlexRow wrap = "true" grow gap={0.5} minWidth={0}>
-        <Item grow minWidth={0} gap={0.5} textAlign =  "center">
+        <Item grow minWidth={0} gap={0.5} textAlign =  "center" position={'middle'}>
           <div className={cx(styles.name, styles.text)}>  { contact.contact.firstName + ' ' + contact.contact.lastName}</div>
+          <div className={cx(styles.caption, styles.text)}>  {"@"+contact.contact.occupation}</div>
 
         </Item>
         <Item position={'right'}>
