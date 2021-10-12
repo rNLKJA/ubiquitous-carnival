@@ -49,7 +49,7 @@ const Person = () => {
         <Navbar />
         <div className="sub-container">
           <div className="loading">
-            <h1>Loading Your Contact</h1>
+            <h1>Loading Your Information</h1>
             <h1>(っ˘ω˘ς )</h1>
           </div>
         </div>
