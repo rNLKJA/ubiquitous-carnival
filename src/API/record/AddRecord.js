@@ -13,6 +13,7 @@ import React, { useState, useEffect } from "react";
 import Map from "./map";
 import Heading from "../heading/heading.jsx";
 import Autocomplete from "@mui/material/Autocomplete";
+import { Link } from "react-router-dom";
 
 const CreateRecord = () => {
   useEffect(() => {
@@ -59,8 +60,6 @@ const CreateRecord = () => {
       notes: notes,
     };
 
-
-
     console.log(recordInfo);
 
     await fetchClient
@@ -84,23 +83,19 @@ const CreateRecord = () => {
     }
   };
 
-  console.log("TIME ",convert(currentTime));
-
-
-  const backToPreviousPage = () => {
-    window.location.href = "/record";
-  };
-
-  
+  console.log("TIME ", convert(currentTime));
 
   return (
     <React.Fragment>
       <Heading />
       <Navbar />
       <div className="sub-container">
-        <a href="/record" onClick={backToPreviousPage} className="back-button">
-          Back
-        </a>
+        <Link to="/record">
+          <a href="/record" className="back-button">
+            Back
+          </a>
+        </Link>
+
         <form className="record-form">
           <Autocomplete
             label="Contacts"
@@ -123,8 +118,8 @@ const CreateRecord = () => {
                 }}
                 minDate={new Date("2021-02-14")}
                 maxTime={new Date("2025-02-14")}
-                ampm = {true}
-                disableIgnoringDatePartForTimeValidation = {true}
+                ampm={true}
+                disableIgnoringDatePartForTimeValidation={true}
               />
             </LocalizationProvider>
           </div>

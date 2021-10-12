@@ -13,6 +13,7 @@ import People from "./People.jsx";
 import Error from "../error/Error";
 import Heading from "../heading/heading.jsx";
 import Navbar from "../nav/Navbar";
+import { Link } from "react-router-dom";
 
 // const BASE_URL = "http://localhost:5000";
 
@@ -110,11 +111,11 @@ const Contact = () => {
           <div className="contactList">
             {!oneContact.selected && (
               <>
-                <a className="add-contact-a" href="./addUser">
+                <Link to="/addUser">
                   <div className="add-contact">
                     <img src={add_user} alt="add contact"></img>
                   </div>
-                </a>
+                </Link>
                 <div className="contactList-items">
                   <div className="search-box1">
                     <button className="btn-search">

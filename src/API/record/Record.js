@@ -17,6 +17,8 @@ import AddIcon from "@mui/icons-material/Add";
 import EditIcon from "@mui/icons-material/Edit";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import NavigationIcon from "@mui/icons-material/Navigation";
+import { Link } from "react-router-dom";
+
 const Record = () => {
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -50,21 +52,22 @@ const Record = () => {
           <React.Fragment>
             <div className="heading-record">
               <h1>Record</h1>
-              <Fab
-                color="primary"
-                aria-label="add"
-                href="./createRecord"
-                sx={{
-                  width: "40px",
-                  height: "40px",
-                  position: "fixed",
-                  right: "1.5rem",
-                  top: "-3.5rem",
-                  color: "black",
-                }}
-              >
-                <AddIcon />
-              </Fab>
+              <Link to="/createRecord">
+                <Fab
+                  color="primary"
+                  aria-label="add"
+                  sx={{
+                    width: "40px",
+                    height: "40px",
+                    position: "fixed",
+                    right: "1.5rem",
+                    top: "-3.5rem",
+                    color: "black",
+                  }}
+                >
+                  <AddIcon />
+                </Fab>
+              </Link>
             </div>
             <div className="record-container">
               <div className="search-box1">
