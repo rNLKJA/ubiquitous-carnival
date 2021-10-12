@@ -27,12 +27,12 @@ const Navbar = () => {
       </Link> */}
 
       {/* link to contact route */}
-      <Link to="/addUser/manual-input">
+      {/* <Link to="/addUser/manual-input">
         <div className="manual">
           <img src={hand_write} alt="manual input"></img>
           <h1>Manual Input</h1>
         </div>
-      </Link>
+      </Link> */}
     </div>
   );
 };
