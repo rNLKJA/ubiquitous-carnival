@@ -144,7 +144,13 @@ export const RecordList = (prop) => {
       {fitterRecords.length >= 1 ? (
         fitterRecords.map((record) => {
           return (
-            <Grid key={record._id} item xs={12} sm={6} md={4}>
+            <Grid
+              key={record._id + new Date().toISOString()}
+              item
+              xs={12}
+              sm={6}
+              md={4}
+            >
               <RecordDetail record={record} setOneRecord={prop.setOneRecord} />
             </Grid>
           );

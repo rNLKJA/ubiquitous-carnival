@@ -158,19 +158,20 @@ const CreateRecord = () => {
           <textarea
             name="notes"
             type="text"
-            placeholder="add notes"
+            placeholder="Add notes here!"
             onChange={(e) => {
               setNotes(e.target.value);
             }}
             style={{ minWidth: "98.5%", minHeight: "auto" }}
           />
 
-          <input
-            className="submit-button"
+          <button
+            className="btn btn-primary"
             type="button"
-            value="Create"
             onClick={handleSubmit}
-          />
+          >
+            Create A Record
+          </button>
         </form>
       </div>
     </React.Fragment>
