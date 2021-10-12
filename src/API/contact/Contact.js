@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import "./contact.css";
 import { useContacts } from "../../BackEndAPI/contactAPI";
 // import { requirePropFactory } from "@material-ui/core";
-import Loading from "./pending";
+// import Loading from "./pending";
 import add_user from "./add-user.png";
 import fetchClient from "../axiosClient/axiosClient";
 import SelectedContact from "./SelectedContact.jsx";
@@ -17,7 +17,6 @@ import Navbar from "../nav/Navbar";
 // const BASE_URL = "http://localhost:5000";
 
 const BASE_URL = "https://crm4399.herokuapp.com";
-
 
 const Contact = () => {
   useEffect(() => {
@@ -64,10 +63,10 @@ const Contact = () => {
     fetchClient
       .get(
         BASE_URL +
-        "/contact/deleteOneContact/" +
-        localStorage.getItem("userName") +
-        "/" +
-        oneContact._id,
+          "/contact/deleteOneContact/" +
+          localStorage.getItem("userName") +
+          "/" +
+          oneContact._id,
       )
       .then((response) => {
         if (response.data.status === "success") {
@@ -101,7 +100,6 @@ const Contact = () => {
   }
 
   return (
-
     <React.Fragment>
       <Navbar />
       <Heading />
@@ -117,8 +115,8 @@ const Contact = () => {
                     <img src={add_user} alt="add contact"></img>
                   </div>
                 </a>
-                <div className="contactList-items" >
-                  <div className="search-box1" >
+                <div className="contactList-items">
+                  <div className="search-box1">
                     <button className="btn-search">
                       <i className="fa fa-search"></i>
                     </button>
@@ -136,8 +134,8 @@ const Contact = () => {
                     setOneContact={setOneContact}
                   />
                 </div>
-              </>)
-            }
+              </>
+            )}
             {screenWidth <= 1024 && oneContact.selected && (
               <div className="contactDetail">
                 <SelectedContact
@@ -148,7 +146,6 @@ const Contact = () => {
                 />
               </div>
             )}
-
           </div>
         </div>
       </div>
