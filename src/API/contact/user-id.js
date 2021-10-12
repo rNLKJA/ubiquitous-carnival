@@ -48,7 +48,7 @@ const AddUser = () => {
           <button className="back-button">Back</button>
         </Link>
         <div className="add-by-userName">
-          <h1>Add by User ID</h1>
+          <h1>Add Contact by User Name</h1>
           <form className="newID" method="POST" onSubmit={submitUserID}>
             <input
               name="firstName"
