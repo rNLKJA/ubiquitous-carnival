@@ -198,7 +198,7 @@
     /* flex-direction: column; */
     /* justify-content: center; */
     vertical-align: middle;
-    width: 280px;
+    width: 100%;
     height: 140px;
     background-color: white;
     border-radius: 10px;
@@ -280,7 +280,13 @@
 
   .addContact-nav {
     display: grid;
-    gap: 10px;
+    width: 100%;
+    /* gap: 10px; */
+    justify-content: space-around;
+  }
+
+  .nav-addContact {
+    width: 100%;
   }
 }
 
