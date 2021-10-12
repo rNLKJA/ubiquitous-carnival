@@ -3,6 +3,8 @@ import "./contact.css";
 import fetchClient from "../axiosClient/axiosClient";
 // import qr_code from "./qr-code.png";
 // import hand_write from "./notes.png";
+import Heading from "../heading/heading.jsx";
+import NavBar from "../nav/Navbar";
 
 const AddUser = () => {
   const [contact, setContact] = useState({ userName: "" });
@@ -27,6 +29,8 @@ const AddUser = () => {
 
   return (
     <React.Fragment>
+      <Heading />
+      <NavBar />
       <div className="sub-container">
         <h1>Add by User ID</h1>
         <form className="newID" method="POST" onSubmit={submitUserID}>
