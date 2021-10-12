@@ -277,17 +277,6 @@
     font-size: 30px;
     color: gray;
   }
-
-  .addContact-nav {
-    display: grid;
-    width: 100%;
-    /* gap: 10px; */
-    justify-content: space-around;
-  }
-
-  .nav-addContact {
-    width: 100%;
-  }
 }
 
 @media only screen and (min-width: 1024px) {

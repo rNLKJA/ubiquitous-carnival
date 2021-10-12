@@ -1,15 +1,11 @@
 import React, { useState, useEffect } from "react";
-
 // import "bootstrap/dist/css/bootstrap.min.css"
 import "./login.css";
-
 import Axios from "axios";
-
 import useAuth from "../../hooks/useAuth";
-
 import welcome from "./welcome.png";
-
 import Error from "../error/Error";
+import { Link } from "react-router-dom";
 
 Axios.defaults.withCredentials = true;
 
@@ -40,7 +36,7 @@ const Login = () => {
   const handleLogin = async (event) => {
     event.preventDefault();
     let data = { username: username, password: password };
-    console.log("trying to login user :", data.username);
+    // console.log("trying to login user :", data.username);
     await loginUser(data);
     localStorage.setItem("userName", username);
     window.location.href = "/";
@@ -80,15 +76,19 @@ const Login = () => {
         </div>
 
         <div style={{ width: "100%" }}>
-          <a href="/signup" className="signup-btn">
-            Create a new account!
-          </a>
+          <Link to="/signup">
+            <a href="/signup" className="signup-btn">
+              Create a new account!
+            </a>
+          </Link>
         </div>
 
         <div style={{ width: "100%" }}>
-          <a href="/resetPassword" className="signup-btn">
-            Forget password? Click here!
-          </a>
+          <Link to="/resetPassword">
+            <a href="/resetPassword" className="signup-btn">
+              Forget password? Click here!
+            </a>
+          </Link>
         </div>
       </div>
     </div>
