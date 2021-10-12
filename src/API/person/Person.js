@@ -326,9 +326,9 @@ const Person = () => {
       <Heading />
       <Navbar />
       <div className="sub-container">
-        <div className="person-heading">
+        {/* <div className="person-heading">
           <h1>Personal Information</h1>
-        </div>
+        </div> */}
         <div className="information-container">
           <div className="basicInformation">
             <div className="basic-heading">
