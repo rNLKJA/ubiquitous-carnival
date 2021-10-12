@@ -129,7 +129,7 @@ class Registration extends React.Component {
               <label className="form-label">Username</label>
               <input
                 type="text"
-                placeholder="userName"
+                placeholder="Enter prefer userName"
                 onChange={this.changeUserName}
                 value={this.state.userName}
                 className="form-control form-group"
