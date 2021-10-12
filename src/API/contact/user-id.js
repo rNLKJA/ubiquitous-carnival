@@ -11,8 +11,8 @@ import "./user-id.css";
 const AddUser = () => {
   // const [contact, setContact] = useState({ userName: "" });
   const [userName, setUserName] = useState("");
-  // const BASE_URL = "https://crm4399.herokuapp.com";
-  const BASE_URL = "http://localhost:5000";
+  const BASE_URL = "https://crm4399.herokuapp.com";
+  // const BASE_URL = "http://localhost:5000";
 
   const submitUserID = async (e) => {
     e.preventDefault();
@@ -25,9 +25,7 @@ const AddUser = () => {
       .post(BASE_URL + "/contact/createContactByUserName", contact)
       .then((res) => {
         if (res.data.status) {
-          alert(
-            `You add a new Contact! The Contact Name is ${res.data.newContact.userName} `,
-          );
+          alert(`You add a new Contact!`);
         } else {
           alert(`Something wrong, here is the error message:\n${res.data.msg}`);
         }
