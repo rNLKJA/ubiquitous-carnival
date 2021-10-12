@@ -277,6 +277,10 @@
     font-size: 30px;
     color: gray;
   }
+
+  .makeStyles-card-1 {
+    margin-top: 1rem;
+  }
 }
 
 @media only screen and (min-width: 1024px) {
