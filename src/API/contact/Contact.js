@@ -81,15 +81,21 @@ const Contact = () => {
 
   if (error) {
     return (
-      <div className="sub-container">
-        <Error msg={"There is something wrong with Contact X_X"} />
-      </div>
+      <React.Fragment>
+        <Heading />
+        <Navbar />
+        <div className="sub-container">
+          <Error msg={"There is something wrong with Contact X_X"} />
+        </div>
+      </React.Fragment>
     );
   }
 
   if (loading) {
     return (
       <React.Fragment>
+        <Heading />
+        <Navbar />
         <div className="sub-container">
           <div className="loading">
             <h1>Loading Your Contact</h1>

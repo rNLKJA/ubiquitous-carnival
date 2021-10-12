@@ -22,6 +22,7 @@ import ManualInput from "./API/contact/manual-input";
 import QrCode from "./API/contact/qr-code";
 import UserID from "./API/contact/user-id";
 import CreateRecord from "./API/record/AddRecord";
+import ShowQrCode from "./API/person/qr";
 import Reset from "./API/restPassword/Reset";
 
 // defined the map function
@@ -108,6 +109,11 @@ function App() {
               exact
               path="/addUser/user-id"
               component={UserID}
+            ></ProtectedRouters>
+            <ProtectedRouters
+              exact
+              path="/setting/qr"
+              component={ShowQrCode}
             ></ProtectedRouters>
 
             <Route path="*">

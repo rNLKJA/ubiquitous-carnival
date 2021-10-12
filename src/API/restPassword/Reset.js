@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./Reset.css";
 import axios from "axios";
 import { WindowSharp } from "@mui/icons-material";
+import { Link } from "react-router-dom";
 
 // const BASE_URL = "http://localhost:5000/user";
 const BASE_URL = "https://crm4399.herokuapp.com/user";
@@ -151,6 +152,10 @@ const Reset = () => {
             <input type="submit" value="Change your password"></input>
           </form>
         )}
+
+        <Link to="/login">Don't have an account? Click here!</Link>
+        <br />
+        <Link to="/login">Recall your password? Click here!</Link>
       </div>
     </div>
   );
