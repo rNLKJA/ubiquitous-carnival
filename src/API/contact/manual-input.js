@@ -30,8 +30,8 @@ const AddUser = () => {
     const contact = {
       firstName,
       lastName,
-      email,
-      phone,
+      email: [email],
+      phone: [phone],
       occupation,
       portraits: "",
       // meetRecord,
@@ -160,7 +160,13 @@ const AddUser = () => {
             value={note}
           ></textarea>
 
-          <input type="submit" value="Create" />
+          <button
+            className="btn btn-primary"
+            style={{ padding: "0px" }}
+            type="submit"
+          >
+            Create Contact
+          </button>
         </form>
       </div>
     </React.Fragment>
