@@ -15,6 +15,7 @@ import Heading from "../heading/heading.jsx";
 import Navbar from "../nav/Navbar";
 import { Link } from "react-router-dom";
 
+
 // const BASE_URL = "http://localhost:5000";
 
 const BASE_URL = "https://crm4399.herokuapp.com";
@@ -117,23 +118,20 @@ const Contact = () => {
           <div className="contactList">
             {!oneContact.selected && (
               <>
-                <Link to="/addUser">
+                <a className="add-contact-a" href="./addUser">
                   <div className="add-contact">
                     <img src={add_user} alt="add contact"></img>
                   </div>
-                </Link>
+                </a>
                 <div className="contactList-items">
-                  <div className="search-box1">
-                    <button className="btn-search">
-                      <i className="fa fa-search"></i>
-                    </button>
+                  <div style={{ width: "97%" }}>
                     <input
-                      type="text"
-                      className="input-search"
-                      placeholder="Type to Search..."
-                      onChange={(e) => handleChange(e)}
+                      className="search-box"
                       value={searchTerm}
-                    />
+                      onChange={(e) => handleChange(e)}
+                      placeholder="Search for a name"
+                      size={40}
+                    ></input>
                   </div>
 
                   <People
