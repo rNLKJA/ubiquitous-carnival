@@ -19,7 +19,8 @@ import {
   ComboboxOption,
 } from "@reach/combobox";
 import "@reach/combobox/styles.css";
-
+import { useShowAllRecords } from "../../../BackEndAPI/recordAPI";
+import Error from "../../error/Error";
 // import { formatRelative } from "date-fns";
 import mapStyle from "./mapStyles";
 // import { Info, LaptopWindows } from "@material-ui/icons";
@@ -45,11 +46,13 @@ const options = {
 };
 
 // return map component
-const Map = ({ setMeetCoordinate }) => {
+const Map = () => {
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
     libraries,
   });
+
+  const { loading, records, error } = useShowAllRecords();
 
   // set the address location
   const [address, setAddress] = useState({
@@ -58,15 +61,15 @@ const Map = ({ setMeetCoordinate }) => {
   });
   const [selected, setSelected] = useState(null);
   // set the callback function
-  const onMapClick = useCallback((event) => {
-    fetchAddress(
-      {
-        lat: event.latLng.lat(),
-        lng: event.latLng.lng(),
-      },
-      setAddress,
-    );
-  }, []);
+  // const onMapClick = useCallback((event) => {
+  //   fetchAddress(
+  //     {
+  //       lat: event.latLng.lat(),
+  //       lng: event.latLng.lng(),
+  //     },
+  //     setAddress,
+  //   );
+  // }, []);
 
   // pin the location
   const panTo = React.useCallback(({ lat, lng }) => {
@@ -85,6 +88,26 @@ const Map = ({ setMeetCoordinate }) => {
   // error handling, check the google map is loading correctly
   if (loadError) return "Error loading maps";
   if (!isLoaded) return "loading map";
+
+  if (error) {
+    return (
+      <div className="sub-container">
+        <Error msg={"There is something wrong with Contact X_X"} />
+      </div>
+    );
+  }
+
+  if (loading) {
+    return (
+      <div className="sub-container">
+        <div className="loading">
+          <h1>Loading the Map</h1>
+          <h1>(っ˘ω˘ς )</h1>
+          <h1>Please Wait</h1>
+        </div>
+      </div>
+    );
+  }
 
   // return component
   return (
@@ -115,22 +138,29 @@ const Map = ({ setMeetCoordinate }) => {
           zoom={14}
           center={center}
           options={options}
-          onClick={onMapClick}
+          // onClick={onMapClick}
           onLoad={onMapLoad}
         >
           {/* create marker to pin the location */}
-          <Marker
-            position={address}
-            icon={{
-              url: "./google-maps.png",
-              scaledSize: new window.google.maps.Size(50, 50),
-              origin: new window.google.maps.Point(0, 0),
-              anchor: new window.google.maps.Point(15, 15),
-            }}
-            onClick={() => {
-              setSelected(address);
-            }}
-          />
+
+          {records.map((record) => {
+            // console.log(record);
+            return (
+              <Marker
+                position={{ ...record }}
+                key={new Date().toISOString()}
+                icon={{
+                  url: "./google-maps.png",
+                  scaledSize: new window.google.maps.Size(50, 50),
+                  origin: new window.google.maps.Point(0, 0),
+                  anchor: new window.google.maps.Point(15, 15),
+                }}
+                onClick={() => {
+                  setSelected(record);
+                }}
+              />
+            );
+          })}
 
           {/* open up a info window when use click on it */}
           {selected ? (
@@ -139,7 +169,23 @@ const Map = ({ setMeetCoordinate }) => {
               onCloseClick={() => setSelected(null)}
             >
               <div>
-                <div>{selected.text}</div>
+                <form>
+                  <label>You Met</label>
+                  <input
+                    value={
+                      selected.meetingPerson.firstName +
+                      " " +
+                      selected.meetingPerson.lastName
+                    }
+                    readonly
+                  />
+                  <label>On</label>
+                  <input type="text" value={selected.dateTime} readonly />
+                  <label>At</label>
+                  <input type="text" value={selected.location} readonly />
+                  <label>Comments</label>
+                  <input type="text" readonly value={selected.notes}></input>
+                </form>
               </div>
             </InfoWindow>
           ) : null}
@@ -190,7 +236,7 @@ const Locate = ({ panTo, setAddress }) => {
 
 // define the search function
 // this function should fetch the user input (address) then convert it to geolocation and pin it on the map
-const Search = ({ panTo, setAddress, setMeetCoordinate }) => {
+const Search = ({ panTo, setAddress }) => {
   // generate variables and functions
   const {
     ready,

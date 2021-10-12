@@ -3,7 +3,7 @@ import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 // import Navbar and Map components
-import Navbar from "./API/nav/Navbar";
+
 import Map from "./API/map/Map";
 // import Calendar from "./API/calendar/Calendar";
 import Home from "./API/home/home";
@@ -22,8 +22,12 @@ import ManualInput from "./API/contact/manual-input";
 import QrCode from "./API/contact/qr-code";
 import UserID from "./API/contact/user-id";
 import CreateRecord from "./API/record/AddRecord";
+<<<<<<< HEAD
 import logo from "./logo.png";
 import ShowQrCode from "./API/person/qr";
+=======
+import Reset from "./API/restPassword/Reset";
+>>>>>>> Front-End-dev
 
 // defined the map function
 function App() {
@@ -33,24 +37,22 @@ function App() {
     <div className="container">
       {/* define the route */}
 
-      <div className="heading">
-        <a href="/">
-          <img className="logo" src={logo} alt="4399CRM logo"></img>
-        </a>
-      </div>
       <Router>
         <UserContext.Provider value={{ user, setUser, isLoading }}>
           {/* <NavbarTop /> */}
-          <Navbar />
+
           <Switch>
             <ProtectedRouters
               exact
               path="/"
               component={Home}
             ></ProtectedRouters>
-            <Route path="/login" component={Login}></Route>
-            <Route path="/signup">
+            <Route exact path="/login" component={Login}></Route>
+            <Route exact path="/signup">
               <Registration />
+            </Route>
+            <Route exact path="/resetPassword">
+              <Reset />
             </Route>
 
             <ProtectedRouters

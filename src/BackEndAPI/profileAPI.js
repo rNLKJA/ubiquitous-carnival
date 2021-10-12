@@ -6,94 +6,97 @@ const BASE_URL = "https://crm4399.herokuapp.com";
 
 axios.defaults.withCredentials = true;
 
+<<<<<<< HEAD
 
 function editProfile(profile) {
   const endpoint = BASE_URL + "/profile/editProfile";
   return fetchClient.post(endpoint, profile).then((res) => res.data);
 }
 
+=======
+>>>>>>> Front-End-dev
 /**
-* Back-End API: edit the lastName of client
-* @param {JSON} lastName - the lastName of client
-* @return {JSON} res - response from the back-end server.
-*/
-function editLastName(lastName) {
-  const endpoint = BASE_URL + "/profile/editLastName";
-  return fetchClient.post(endpoint, lastName).then((res) => res.data);
-}
+ * Back-End API: edit the lastName of client
+ * @param {JSON} lastName - the lastName of client
+ * @return {JSON} res - response from the back-end server.
+ */
+// function editLastName(lastName) {
+//   const endpoint = BASE_URL + "/profile/editLastName";
+//   return fetchClient.post(endpoint, lastName).then((res) => res.data);
+// }
 
 /**
-* Back-End API: edit the occupation of client
-* @param {JSON} occupation - the occupation of client
-* @return {JSON} res - response from the back-end server.
-*/
-function editOccupation(occupation) {
-  const endpoint = BASE_URL + "/profile/editOccupation";
-  return fetchClient.post(endpoint, occupation).then((res) => res.data);
-}
+ * Back-End API: edit the occupation of client
+ * @param {JSON} occupation - the occupation of client
+ * @return {JSON} res - response from the back-end server.
+ */
+// function editOccupation(occupation) {
+//   const endpoint = BASE_URL + "/profile/editOccupation";
+//   return fetchClient.post(endpoint, occupation).then((res) => res.data);
+// }
 
 /**
-* Back-End API: edit the status of client
-* @param {JSON} status - the status of client
-* @return {JSON} res - response from the back-end server.
-*/
-function editStatus(status) {
-  const endpoint = BASE_URL + "/profile/editStatus";
-  return fetchClient.post(endpoint, status).then((res) => res.data);
-}
+ * Back-End API: edit the status of client
+ * @param {JSON} status - the status of client
+ * @return {JSON} res - response from the back-end server.
+ */
+// function editStatus(status) {
+//   const endpoint = BASE_URL + "/profile/editStatus";
+//   return fetchClient.post(endpoint, status).then((res) => res.data);
+// }
 
 /**
-* Back-End API: show profile
-* @return {JSON} res - response from the back-end server.
-*/
+ * Back-End API: show profile
+ * @return {JSON} res - response from the back-end server.
+ */
 function showProfile() {
   const endpoint = BASE_URL + "/profile/showProfile";
   return fetchClient.get(endpoint).then((res) => res.data);
 }
 
 /**
-* Back-End API: add a phone to profile
-* @param {JSON} phone - the phone number of client
-* @return {JSON} res - response from the back-end server.
-*/
-function addPhone(phone) {
-  const endpoint = BASE_URL + "/profile/addPhone";
-  return fetchClient.post(endpoint, phone).then((res) => res.data);
-}
+ * Back-End API: add a phone to profile
+ * @param {JSON} phone - the phone number of client
+ * @return {JSON} res - response from the back-end server.
+ */
+// function addPhone(phone) {
+//   const endpoint = BASE_URL + "/profile/addPhone";
+//   return fetchClient.post(endpoint, phone).then((res) => res.data);
+// }
 
 /**
-* Back-End API: del a phone to profile
-* @param {JSON} phone - the phone number of client
-* @return {JSON} res - response from the back-end server.
-*/
-function delPhone(phone) {
-  const endpoint = BASE_URL + "/profile/delPhone";
-  return fetchClient.post(endpoint, phone).then((res) => res.data);
-}
+ * Back-End API: del a phone to profile
+ * @param {JSON} phone - the phone number of client
+ * @return {JSON} res - response from the back-end server.
+ */
+// function delPhone(phone) {
+//   const endpoint = BASE_URL + "/profile/delPhone";
+//   return fetchClient.post(endpoint, phone).then((res) => res.data);
+// }
 
 /**
-* Back-End API: add a email to profile
-* @param {JSON} email - the email address of client
-* @return {JSON} res - response from the back-end server.
-*/
-function addEmail(email) {
-  const endpoint = BASE_URL + "/profile/addEmail";
-  return fetchClient.post(endpoint, email).then((res) => res.data);
-}
+ * Back-End API: add a email to profile
+ * @param {JSON} email - the email address of client
+ * @return {JSON} res - response from the back-end server.
+ */
+// function addEmail(email) {
+//   const endpoint = BASE_URL + "/profile/addEmail";
+//   return fetchClient.post(endpoint, email).then((res) => res.data);
+// }
 
 /**
-* Back-End API: delete a email to profile
-* @param {JSON} email - the email address of client
-* @return {JSON} res - response from the back-end server.
-*/
-function delEmail(email) {
-  const endpoint = BASE_URL + "/profile/delEmail";
-  return fetchClient.post(endpoint, email).then((res) => res.data);
-}
+ * Back-End API: delete a email to profile
+ * @param {JSON} email - the email address of client
+ * @return {JSON} res - response from the back-end server.
+ */
+// function delEmail(email) {
+//   const endpoint = BASE_URL + "/profile/delEmail";
+//   return fetchClient.post(endpoint, email).then((res) => res.data);
+// }
 
 /**
-* React_Use_Function: use show profile function
-*/
+ * React_Use_Function: use show profile function
+ */
 export function useShowProfile() {
   const [loading, setLoading] = useState(true);
   const [profile, setProfile] = useState([]);
@@ -111,7 +114,6 @@ export function useShowProfile() {
         setError(e);
         setLoading(false);
       });
-
   }, []);
 
   return {
@@ -121,11 +123,9 @@ export function useShowProfile() {
   };
 }
 
-
 // export function useeditFirstName() {
 
 //   const [firstName, setFirstName] = useState("");
-
 
 //   function onSubmit() {
 //     editFirstName({
@@ -136,11 +136,9 @@ export function useShowProfile() {
 //   return;
 // }
 
-
 // export function useeditLastName() {
 
 //   const [lastName, setLastName] = useState("");
-
 
 //   function onSubmit() {
 //     editLastName({
@@ -155,7 +153,6 @@ export function useShowProfile() {
 // export function useeditOccupation() {
 //   const [occupation, setOccupation] = useState("");
 
-
 //   function onSubmit() {
 //     editOccupation({
 //       occupation: occupation,
@@ -167,7 +164,6 @@ export function useShowProfile() {
 
 // export function useeditStatus() {
 //   const [status, setStatus] = useState("");
-
 
 //   function onSubmit() {
 //     editStatus({
@@ -185,7 +181,6 @@ export function useShowProfile() {
 // export function useEditOccupation() {
 //   const [occupation, setOccupation] = useState("");
 
-
 //   function onSubmit() {
 //     editOccupation({
 //       occupation: occupation,
@@ -200,7 +195,6 @@ export function useShowProfile() {
 // */
 // export function useEditStatus() {
 //   const [status, setStatus] = useState("");
-
 
 //   function onSubmit() {
 //     editStatus({

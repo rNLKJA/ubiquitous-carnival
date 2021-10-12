@@ -5,6 +5,9 @@ import "./contact.css";
 import "./manual-input.css";
 // import axios from "axios";
 import fetchClient from "../axiosClient/axiosClient";
+import { Link } from "react-router-dom";
+import Heading from "../heading/heading.jsx";
+import NavBar from "../nav/Navbar";
 
 const AddUser = () => {
   useEffect(() => {
@@ -18,7 +21,7 @@ const AddUser = () => {
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [occupation, setOccupation] = useState("");
-  const [meetRecord, setMeetRecord] = useState("");
+  // const [meetRecord, setMeetRecord] = useState("");
   const [note, setNote] = useState("");
 
   const handleSubmit = async (e) => {
@@ -27,11 +30,11 @@ const AddUser = () => {
     const contact = {
       firstName,
       lastName,
-      email,
-      phone,
+      email: [email],
+      phone: [phone],
       occupation,
       portraits: "",
-      meetRecord,
+      // meetRecord,
       note,
     };
 
@@ -48,7 +51,7 @@ const AddUser = () => {
     setEmail("");
     setPhone("");
     setOccupation("");
-    setMeetRecord("");
+    // setMeetRecord("");
     setNote("");
 
     // window.location.href = "/contact";
@@ -72,10 +75,14 @@ const AddUser = () => {
 
   return (
     <React.Fragment>
+      <Heading />
+      <NavBar />
       <div className="sub-container">
-        <a href="/addUser" className="back-button">
-          Back
-        </a>
+        <Link to="/addUser">
+          <a href="/addUser" className="back-button">
+            Back
+          </a>
+        </Link>
 
         {/* <div className="upload-img">
           <input type="file" onChange={(e) => setImage(e.target.files[0])} />
@@ -135,14 +142,14 @@ const AddUser = () => {
             required
           ></input>
 
-          <label htmlFor="meetRecord">Meeting Record: </label>
+          {/* <label htmlFor="meetRecord">Meeting Record: </label>
           <input
             name="meetRecord"
             type="text"
             placeholder="Please enter the meetRecord"
             onChange={(e) => setMeetRecord(e.target.value)}
             value={meetRecord}
-          ></input>
+          ></input> */}
 
           <label htmlFor="note">Notes: </label>
           <textarea
@@ -153,7 +160,13 @@ const AddUser = () => {
             value={note}
           ></textarea>
 
-          <input type="submit" value="Create" />
+          <button
+            className="btn btn-primary"
+            style={{ padding: "0px" }}
+            type="submit"
+          >
+            Create Contact
+          </button>
         </form>
       </div>
     </React.Fragment>

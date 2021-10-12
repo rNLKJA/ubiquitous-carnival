@@ -1,19 +1,19 @@
-import React, { useState } from "react";
-
+import React, { useState, useEffect } from "react";
 // import "bootstrap/dist/css/bootstrap.min.css"
 import "./login.css";
-
 import Axios from "axios";
-
 import useAuth from "../../hooks/useAuth";
-
 import welcome from "./welcome.png";
-
 import Error from "../error/Error";
+import { Link } from "react-router-dom";
 
 Axios.defaults.withCredentials = true;
 
 const Login = () => {
+  useEffect(() => {
+    document.title = "4399CRM";
+  }, []);
+
   const [username, setUsername] = useState("");
 
   const [password, setPassword] = useState("");
@@ -36,15 +36,15 @@ const Login = () => {
   const handleLogin = async (event) => {
     event.preventDefault();
     let data = { username: username, password: password };
-    console.log("trying to login user :", data.username);
+    // console.log("trying to login user :", data.username);
     await loginUser(data);
     localStorage.setItem("userName", username);
     window.location.href = "/";
   };
 
-  const handleSignup = (event) => {
-    window.location.href = "/signup";
-  };
+  // const handleSignup = (event) => {
+  //   window.location.href = "/signup";
+  // };
 
   return (
     <div className="sub-container">
@@ -53,7 +53,7 @@ const Login = () => {
         <h1>CRM Login</h1>
 
         <div>
-          <label>Username :</label>
+          <label style={{ color: "rgb(47, 71, 137)" }}>Username :</label>
           <input
             type="text"
             value={username}
@@ -61,7 +61,7 @@ const Login = () => {
           />
         </div>
         <div>
-          <label>Password :</label>
+          <label style={{ color: "rgb(47, 71, 137)" }}>Password :</label>
           <input
             type="password"
             value={password}
@@ -70,18 +70,25 @@ const Login = () => {
         </div>
 
         <div style={{ width: "100%" }}>
-          <input
-            className="login-btn"
-            type="button"
-            value="login"
-            onClick={handleLogin}
-          />
+          <button className="login-btn" type="button" onClick={handleLogin}>
+            Login
+          </button>
         </div>
 
         <div style={{ width: "100%" }}>
-          <button className="signup-btn" onClick={handleSignup}>
-            Create a new account
-          </button>
+          <Link to="/signup">
+            <a href="/signup" className="signup-btn">
+              Create a new account!
+            </a>
+          </Link>
+        </div>
+
+        <div style={{ width: "100%" }}>
+          <Link to="/resetPassword">
+            <a href="/resetPassword" className="signup-btn">
+              Forget password? Click here!
+            </a>
+          </Link>
         </div>
       </div>
     </div>

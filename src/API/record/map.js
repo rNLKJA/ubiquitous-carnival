@@ -97,7 +97,7 @@ const Map = ({ setLocation, setGeoCoords }) => {
 
   // return component
   return (
-    <div className="google-map">
+    <div className="google-map-1">
       <React.Fragment>
         {/* <h3>IT project: group 4399</h3>
         <h4>
@@ -107,7 +107,7 @@ const Map = ({ setLocation, setGeoCoords }) => {
         </h4> */}
 
         {/* define the address search box and locate buttom  */}
-        <div className="top-bar">
+        <div className="top-bar-1">
           <Search
             key={new Date().toISOString()}
             panTo={panTo}
@@ -243,7 +243,7 @@ const Search = ({ panTo, setAddress, setGeoCoords, setLocation }) => {
             setValue(event.target.value);
           }}
           disabled={!ready}
-          placeholder="Enter an address"
+          placeholder="Search an address"
         />
         <ComboboxPopover>
           <ComboboxList>
