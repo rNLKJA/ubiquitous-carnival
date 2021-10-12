@@ -5,6 +5,7 @@ import fetchClient from "../axiosClient/axiosClient";
 // import hand_write from "./notes.png";
 import Heading from "../heading/heading.jsx";
 import NavBar from "../nav/Navbar";
+import { Link } from "react-router-dom";
 
 const AddUser = () => {
   const [contact, setContact] = useState({ userName: "" });
@@ -32,6 +33,11 @@ const AddUser = () => {
       <Heading />
       <NavBar />
       <div className="sub-container">
+        <Link to="/record">
+          <a href="/addUser" className="back-button">
+            Back
+          </a>
+        </Link>
         <h1>Add by User ID</h1>
         <form className="newID" method="POST" onSubmit={submitUserID}>
           <input
