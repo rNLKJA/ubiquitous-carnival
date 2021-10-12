@@ -1,4 +1,3 @@
-
 import "./record.css";
 import TextField from "@mui/material/TextField";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
@@ -14,6 +13,7 @@ import React, { useState, useEffect } from "react";
 import Map from "./map";
 import Heading from "../heading/heading.jsx";
 import Autocomplete from "@mui/material/Autocomplete";
+import { Link } from "react-router-dom";
 
 const CreateRecord = () => {
   useEffect(() => {
@@ -55,15 +55,14 @@ const CreateRecord = () => {
     const recordInfo = {
       contact_id: selected,
       location: location,
-      dateTime: currentTime,
-      getCoords: geoCoords,
+      dateTime: convert(currentTime),
+      geoCoords: geoCoords,
       notes: notes,
     };
 
     console.log(recordInfo);
 
     await fetchClient
-      // .post("http://localhost:5000/record/createRecord", recordInfo)
       .post("https://crm4399.herokuapp.com/record/createRecord", recordInfo)
       .then(() => alert("Successfully create a record つ - - つ"))
       .catch((err) => {
@@ -73,7 +72,7 @@ const CreateRecord = () => {
     setLocation("");
     setSelected("");
 
-    window.location.href = "/record";
+    // window.location.href = "/record";
   };
 
   const setFieldValue = (value) => {
@@ -84,27 +83,19 @@ const CreateRecord = () => {
     }
   };
 
-  console.log(selected);
-
-  const backToPreviousPage = () => {
-    window.location.href = "/record";
-  };
-
-  const selectStyles = {
-    menu: (base) => ({
-      ...base,
-      zIndex: 100,
-    }),
-  };
+  console.log("TIME ", convert(currentTime));
 
   return (
     <React.Fragment>
       <Heading />
       <Navbar />
       <div className="sub-container">
-        <a href="/record" onClick={backToPreviousPage} className="back-button">
-          Back
-        </a>
+        <Link to="/record">
+          <a href="/record" className="back-button">
+            Back
+          </a>
+        </Link>
+
         <form className="record-form">
           <Autocomplete
             label="Contacts"
@@ -123,10 +114,12 @@ const CreateRecord = () => {
                 label="Meeting time"
                 value={currentTime}
                 onChange={(newValue) => {
-                  setCurrentTime(convert(newValue));
+                  setCurrentTime(newValue);
                 }}
-                minDate={new Date("2020-02-14")}
-                maxTime={new Date()}
+                minDate={new Date("2021-02-14")}
+                maxTime={new Date("2025-02-14")}
+                ampm={true}
+                disableIgnoringDatePartForTimeValidation={true}
               />
             </LocalizationProvider>
           </div>
@@ -165,19 +158,20 @@ const CreateRecord = () => {
           <textarea
             name="notes"
             type="text"
-            placeholder="add notes"
+            placeholder="Add notes here!"
             onChange={(e) => {
               setNotes(e.target.value);
             }}
-            style={{ minWidth: "98.5%", minHeight: "50%" }}
+            style={{ minWidth: "98.5%", minHeight: "auto" }}
           />
 
-          <input
-            className="submit-button"
+          <button
+            className="btn btn-primary"
             type="button"
-            value="Create"
             onClick={handleSubmit}
-          />
+          >
+            Create A Record
+          </button>
         </form>
       </div>
     </React.Fragment>

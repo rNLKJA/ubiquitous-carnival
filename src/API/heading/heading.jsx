@@ -1,12 +1,13 @@
 import React from "react";
 import logo from "./logo.png";
+import { Link } from "react-router-dom";
 
 const Heading = () => {
   return (
     <div className="heading">
-      <a href="/">
+      <Link to="/">
         <img className="logo" src={logo} alt="4399CRM logo"></img>
-      </a>
+      </Link>
     </div>
   );
 };

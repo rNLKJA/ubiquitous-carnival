@@ -8,7 +8,7 @@ import user from "./user.png";
 // define navigation bar component
 const Navbar = () => {
   return (
-    <nav className="addContact-nav">
+    <div className="addContact-nav">
       <div className="nav-addContact">
         {/* link to contact route */}
         <Link to="/addUser/qr-code">
@@ -38,7 +38,7 @@ const Navbar = () => {
           </div>
         </Link>
       </div>
-    </nav>
+    </div>
   );
 };
 
