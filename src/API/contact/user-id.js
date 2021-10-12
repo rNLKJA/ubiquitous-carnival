@@ -33,7 +33,7 @@ const AddUser = () => {
       <Heading />
       <NavBar />
       <div className="sub-container">
-        <Link to="/record">
+        <Link to="/addUser">
           <a href="/addUser" className="back-button">
             Back
           </a>

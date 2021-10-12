@@ -30,19 +30,30 @@ const Person = () => {
   const inputE2 = useRef();
   const inputE3 = useRef();
 
-
   if (error) {
-    return <div className="sub-container"></div>;
+    return (
+      <React.Fragment>
+        <Heading />
+        <Navbar />
+        <div className="sub-container">
+          <div className="sub-container">Error</div>;
+        </div>
+      </React.Fragment>
+    );
   }
 
   if (loading) {
     return (
-      <div className="sub-container">
-        <div className="loading">
-          <h1>Loading Your Contact</h1>
-          <h1>(っ˘ω˘ς )</h1>
+      <React.Fragment>
+        <Heading />
+        <Navbar />
+        <div className="sub-container">
+          <div className="loading">
+            <h1>Loading Your Contact</h1>
+            <h1>(っ˘ω˘ς )</h1>
+          </div>
         </div>
-      </div>
+      </React.Fragment>
     );
   }
 
@@ -52,19 +63,18 @@ const Person = () => {
     const prof = {
       firstName,
       lastName,
-      occupation
+      occupation,
     };
 
-
     fetchClient
-        .post(BASE_URL + "/profile/editProfile", prof)
-        .then(() => {
-          console.log("upload new information");
-          setSaveBtn(false);
-        })
-        .catch((err) => {
-          console.error(err);
-        });
+      .post(BASE_URL + "/profile/editProfile", prof)
+      .then(() => {
+        console.log("upload new information");
+        setSaveBtn(false);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
 
     setFirstName("");
     setLastName("");
@@ -136,7 +146,6 @@ const Person = () => {
 
     setOccupation("");
   };
-
 
   const submitNewEmail = (e) => {
     e.preventDefault();
@@ -216,13 +225,13 @@ const Person = () => {
       element.innerHTML = this.value === oldhtml ? oldhtml : this.value;
       element.innerHTML = this.value === "" ? oldhtml : this.value;
       setFirstName(this.value);
-      if((this.value !== oldhtml) && (this.value !== "")){
+      if (this.value !== oldhtml && this.value !== "") {
         setSaveBtn(true);
       }
-      if(lastName == ""){
+      if (lastName == "") {
         setLastName(profile.lastName);
       }
-      if(occupation == ""){
+      if (occupation == "") {
         setOccupation(profile.occupation);
       }
     };
@@ -243,13 +252,13 @@ const Person = () => {
       element.innerHTML = this.value === oldhtml ? oldhtml : this.value;
       element.innerHTML = this.value === "" ? oldhtml : this.value;
       setLastName(this.value);
-      if((this.value !== oldhtml) && (this.value !== "")){
+      if (this.value !== oldhtml && this.value !== "") {
         setSaveBtn(true);
       }
-      if(firstName == ""){
+      if (firstName == "") {
         setFirstName(profile.firstName);
       }
-      if(occupation == ""){
+      if (occupation == "") {
         setOccupation(profile.occupation);
       }
     };
@@ -270,13 +279,13 @@ const Person = () => {
       element.innerHTML = this.value === oldhtml ? oldhtml : this.value;
       element.innerHTML = this.value === "" ? oldhtml : this.value;
       setOccupation(this.value);
-      if((this.value !== oldhtml) && (this.value !== "")){
+      if (this.value !== oldhtml && this.value !== "") {
         setSaveBtn(true);
       }
-      if(lastName == ""){
+      if (lastName == "") {
         setLastName(profile.lastName);
       }
-      if(firstName == ""){
+      if (firstName == "") {
         setFirstName(profile.firstName);
       }
     };
@@ -285,7 +294,6 @@ const Person = () => {
     newobj.setSelectionRange(0, oldhtml.length);
     newobj.focus();
   };
-
 
   const addNewEmail = () => {
     let word = prompt("Input A New Email", "");
@@ -315,11 +323,11 @@ const Person = () => {
 
   return (
     <React.Fragment>
+      <Heading />
+      <Navbar />
       <div className="sub-container">
         <div className="person-heading">
-          <h1>
-            Personal Information
-          </h1>
+          <h1>Personal Information</h1>
         </div>
         <div className="information-container">
           <div className="basicInformation">
@@ -333,11 +341,7 @@ const Person = () => {
             >
               <div className="info-container">
                 <div className="Label">First name: </div>
-                <div
-                  className="Value"
-                  ref={inputE1}
-                  onClick={editFirstName}
-                >
+                <div className="Value" ref={inputE1} onClick={editFirstName}>
                   {profile.firstName}
                 </div>
               </div>
@@ -349,18 +353,14 @@ const Person = () => {
               </div>
               <div className="info-container">
                 <div className="Label">Occupation: </div>
-                <div
-                  className="Value"
-                  ref={inputE3}
-                  onClick={editOccupation}
-                >
+                <div className="Value" ref={inputE3} onClick={editOccupation}>
                   {profile.occupation}
                 </div>
               </div>
-              {saveBtn ? (<input type="submit" value="save" />):null}
+              {saveBtn ? <input type="submit" value="save" /> : null}
             </form>
           </div>
-          <br/>
+          <br />
           <div className="contactInformation">
             <h2>Contact Information</h2>
             <label className="emailTitle">Email: </label>
@@ -368,19 +368,24 @@ const Person = () => {
               <button onClick={addNewEmail}>+</button>
             </form>
             <div className="delEmail">
-            {profile.email &&
-              profile.email.map(function (item) {
-                return (
-                  <form
-                    className="del"
-                    method="POST"
-                    onSubmit={submitDelEmail}
-                  >
-                    <div className="email"> {item} </div>
-                    <button className="del-btn" onClick={delEmail.bind(this, item)}>-</button>
-                  </form>
-                );
-              })}
+              {profile.email &&
+                profile.email.map(function (item) {
+                  return (
+                    <form
+                      className="del"
+                      method="POST"
+                      onSubmit={submitDelEmail}
+                    >
+                      <div className="email"> {item} </div>
+                      <button
+                        className="del-btn"
+                        onClick={delEmail.bind(this, item)}
+                      >
+                        -
+                      </button>
+                    </form>
+                  );
+                })}
             </div>
             <br />
             <div className="phoneTitle">Phone: </div>
@@ -396,23 +401,24 @@ const Person = () => {
                     method="POST"
                     onSubmit={submitDelPhone}
                   >
-
                     <div className="phone">{item}</div>
 
-                    <button className="del-btn" onClick={delPhone.bind(this, item)}>-</button>
+                    <button
+                      className="del-btn"
+                      onClick={delPhone.bind(this, item)}
+                    >
+                      -
+                    </button>
 
-                    <br/>
+                    <br />
                   </form>
-
                 );
               })}
           </div>
         </div>
-        <br/>
+        <br />
         <Link to="/setting/qr">
-          <button className="qr-code">
-            QR Code
-          </button>
+          <button className="qr-code">QR Code</button>
         </Link>
 
         <button className="logout-btn" onClick={LogoutUser}>
