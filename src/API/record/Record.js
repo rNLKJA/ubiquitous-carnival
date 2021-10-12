@@ -67,17 +67,14 @@ const Record = () => {
               </Fab>
             </div>
             <div className="record-container">
-              <div className="search-box1">
-                <button className="btn-search">
-                  <i className="fa fa-search"></i>
-                </button>
+              <div style={{ width: "97%" }}>
                 <input
-                  type="text"
-                  className="input-search"
-                  placeholder="Type to Search..."
-                  onChange={(e) => handleChange(e)}
+                  className="search-box"
                   value={searchTerm}
-                />
+                  onChange={(e) => handleChange(e)}
+                  placeholder="Search for a name"
+                  size={40}
+                ></input>
               </div>
 
               <RecordList
@@ -175,8 +172,8 @@ export const OneRecord = (prop) => {
           <h3 className="card-title">
             {prop.record.meetingPerson
               ? prop.record.meetingPerson.firstName +
-                " " +
-                prop.record.meetingPerson.lastName
+              " " +
+              prop.record.meetingPerson.lastName
               : "Contact_id is invalid, please check"}
           </h3>
           <p className="card-text">

@@ -1,10 +1,10 @@
 import React from "react";
 import Person from "./Person";
 
-import Divider from '@material-ui/core/Divider';
+import Divider from '@mui/material/Divider';
 
 import { makeStyles } from '@material-ui/core/styles';
-import { Grid } from "@material-ui/core";
+import Grid from '@mui/material/Grid';
 
 const People = ({ contacts, setOneContact }) => {
   const styles = useStyles();
