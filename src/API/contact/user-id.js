@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./contact.css";
 import fetchClient from "../axiosClient/axiosClient";
 // import qr_code from "./qr-code.png";
@@ -6,12 +6,14 @@ import fetchClient from "../axiosClient/axiosClient";
 import Heading from "../heading/heading.jsx";
 import NavBar from "../nav/Navbar";
 import { Link } from "react-router-dom";
+import "./user-id.css";
 
 const AddUser = () => {
   // const [contact, setContact] = useState({ userName: "" });
   const [userName, setUserName] = useState("");
   // const BASE_URL = "https://crm4399.herokuapp.com";
   const BASE_URL = "http://localhost:5000";
+
   const submitUserID = async (e) => {
     e.preventDefault();
 
@@ -21,7 +23,15 @@ const AddUser = () => {
 
     await fetchClient
       .post(BASE_URL + "/contact/createContactByUserName", contact)
-      .then((res) => console.log(res)) // TODO: duplicate account issue
+      .then((res) => {
+        if (res.data.status) {
+          alert(
+            `You add a new Contact! The Contact Name is ${res.data.newContact.userName} `,
+          );
+        } else {
+          alert(`Something wrong, here is the error message:\n${res.data.msg}`);
+        }
+      })
       .catch((err) => {
         console.error(err);
       });
@@ -35,23 +45,26 @@ const AddUser = () => {
       <NavBar />
       <div className="sub-container">
         <Link to="/addUser">
-          <a href="/addUser" className="back-button">
-            Back
-          </a>
+          <button className="back-button">Back</button>
         </Link>
-        <h1>Add by User ID</h1>
-        <form className="newID" method="POST" onSubmit={submitUserID}>
-          <input
-            name="firstName"
-            type="text"
-            placeholder="Please enter the User Name"
-            onChange={(e) => setUserName(e.target.value)}
-            value={userName}
-            required
-          />
-          <input type="submit" value="Create" />
-          <br />
-        </form>
+        <div className="add-by-userName">
+          <h1>Add by User ID</h1>
+          <form className="newID" method="POST" onSubmit={submitUserID}>
+            <input
+              name="firstName"
+              className="form-control"
+              type="text"
+              placeholder="Please enter the User Name"
+              onChange={(e) => setUserName(e.target.value)}
+              value={userName}
+              required
+            />
+            <button type="submit" className="btn btn-primary">
+              Add Contact
+            </button>
+            <br />
+          </form>
+        </div>
       </div>
     </React.Fragment>
   );
