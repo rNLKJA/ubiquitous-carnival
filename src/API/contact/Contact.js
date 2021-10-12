@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import "./contact.css";
 import { useContacts } from "../../BackEndAPI/contactAPI";
 // import { requirePropFactory } from "@material-ui/core";
-import Loading from "./pending";
+// import Loading from "./pending";
 import add_user from "./add-user.png";
 import fetchClient from "../axiosClient/axiosClient";
 import SelectedContact from "./SelectedContact.jsx";
@@ -13,12 +13,12 @@ import People from "./People.jsx";
 import Error from "../error/Error";
 import Heading from "../heading/heading.jsx";
 import Navbar from "../nav/Navbar";
+import { Link } from "react-router-dom";
 
 
 // const BASE_URL = "http://localhost:5000";
 
 const BASE_URL = "https://crm4399.herokuapp.com";
-
 
 const Contact = () => {
   useEffect(() => {
@@ -65,10 +65,10 @@ const Contact = () => {
     fetchClient
       .get(
         BASE_URL +
-        "/contact/deleteOneContact/" +
-        localStorage.getItem("userName") +
-        "/" +
-        oneContact._id,
+          "/contact/deleteOneContact/" +
+          localStorage.getItem("userName") +
+          "/" +
+          oneContact._id,
       )
       .then((response) => {
         if (response.data.status === "success") {
@@ -82,15 +82,21 @@ const Contact = () => {
 
   if (error) {
     return (
-      <div className="sub-container">
-        <Error msg={"There is something wrong with Contact X_X"} />
-      </div>
+      <React.Fragment>
+        <Heading />
+        <Navbar />
+        <div className="sub-container">
+          <Error msg={"There is something wrong with Contact X_X"} />
+        </div>
+      </React.Fragment>
     );
   }
 
   if (loading) {
     return (
       <React.Fragment>
+        <Heading />
+        <Navbar />
         <div className="sub-container">
           <div className="loading">
             <h1>Loading Your Contact</h1>
@@ -102,7 +108,6 @@ const Contact = () => {
   }
 
   return (
-
     <React.Fragment>
       <Navbar />
       <Heading />
@@ -134,8 +139,8 @@ const Contact = () => {
                     setOneContact={setOneContact}
                   />
                 </div>
-              </>)
-            }
+              </>
+            )}
             {screenWidth <= 1024 && oneContact.selected && (
               <div className="contactDetail">
                 <SelectedContact
@@ -146,7 +151,6 @@ const Contact = () => {
                 />
               </div>
             )}
-
           </div>
         </div>
       </div>

@@ -1,10 +1,12 @@
 import React from "react";
 import { useState, useRef, useEffect } from "react";
+import { Link } from "react-router-dom";
 // import axios from "axios";
 import LogoutUser from "../../hooks/useLogout";
 import "./person.css";
 import { useShowProfile } from "../../BackEndAPI/profileAPI";
 import fetchClient from "../axiosClient/axiosClient";
+import qr_code from "../nav/qr-code.png";
 import Heading from "../heading/heading";
 import Navbar from "../nav/Navbar";
 import UpdatePassword from "./UpdatePassword";
@@ -23,11 +25,61 @@ const Person = () => {
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [occupation, setOccupation] = useState("");
-  // const [status, setStatus] = useState("");
+  const [saveBtn, setSaveBtn] = useState(false);
   const inputE1 = useRef(null);
   const inputE2 = useRef();
   const inputE3 = useRef();
-  const inputE4 = useRef();
+
+  if (error) {
+    return (
+      <React.Fragment>
+        <Heading />
+        <Navbar />
+        <div className="sub-container">
+          <div className="sub-container">Error</div>;
+        </div>
+      </React.Fragment>
+    );
+  }
+
+  if (loading) {
+    return (
+      <React.Fragment>
+        <Heading />
+        <Navbar />
+        <div className="sub-container">
+          <div className="loading">
+            <h1>Loading Your Information</h1>
+            <h1>(っ˘ω˘ς )</h1>
+          </div>
+        </div>
+      </React.Fragment>
+    );
+  }
+
+  const submitProfile = (e) => {
+    e.preventDefault();
+
+    const prof = {
+      firstName,
+      lastName,
+      occupation,
+    };
+
+    fetchClient
+      .post(BASE_URL + "/profile/editProfile", prof)
+      .then(() => {
+        console.log("upload new information");
+        setSaveBtn(false);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+
+    setFirstName("");
+    setLastName("");
+    setOccupation("");
+  };
 
   if (error) {
     return <div className="sub-container"></div>;
@@ -94,23 +146,6 @@ const Person = () => {
 
     setOccupation("");
   };
-
-  // const submitStatus = (e) => {
-  //   e.preventDefault();
-
-  //   const profile = {
-  //     status,
-  //   };
-
-  //   fetchClient
-  //     .post(BASE_URL + "/profile/editStatus", profile)
-  //     .then(() => console.log("upload new information"))
-  //     .catch((err) => {
-  //       console.error(err);
-  //     });
-
-  //   setStatus("");
-  // };
 
   const submitNewEmail = (e) => {
     e.preventDefault();
@@ -190,6 +225,15 @@ const Person = () => {
       element.innerHTML = this.value === oldhtml ? oldhtml : this.value;
       element.innerHTML = this.value === "" ? oldhtml : this.value;
       setFirstName(this.value);
+      if (this.value !== oldhtml && this.value !== "") {
+        setSaveBtn(true);
+      }
+      if (lastName == "") {
+        setLastName(profile.lastName);
+      }
+      if (occupation == "") {
+        setOccupation(profile.occupation);
+      }
     };
     element.innerHTML = "";
     element.appendChild(newobj);
@@ -208,6 +252,15 @@ const Person = () => {
       element.innerHTML = this.value === oldhtml ? oldhtml : this.value;
       element.innerHTML = this.value === "" ? oldhtml : this.value;
       setLastName(this.value);
+      if (this.value !== oldhtml && this.value !== "") {
+        setSaveBtn(true);
+      }
+      if (firstName == "") {
+        setFirstName(profile.firstName);
+      }
+      if (occupation == "") {
+        setOccupation(profile.occupation);
+      }
     };
     element.innerHTML = "";
     element.appendChild(newobj);
@@ -226,30 +279,21 @@ const Person = () => {
       element.innerHTML = this.value === oldhtml ? oldhtml : this.value;
       element.innerHTML = this.value === "" ? oldhtml : this.value;
       setOccupation(this.value);
+      if (this.value !== oldhtml && this.value !== "") {
+        setSaveBtn(true);
+      }
+      if (lastName == "") {
+        setLastName(profile.lastName);
+      }
+      if (firstName == "") {
+        setFirstName(profile.firstName);
+      }
     };
     element.innerHTML = "";
     element.appendChild(newobj);
     newobj.setSelectionRange(0, oldhtml.length);
     newobj.focus();
   };
-
-  // const editStatus = () => {
-  //   var element = inputE4.current;
-  //   var oldhtml = element.innerHTML;
-  //   var newobj = document.createElement("input");
-  //   newobj.type = "text";
-
-  //   newobj.value = oldhtml;
-  //   newobj.onblur = function () {
-  //     element.innerHTML = this.value === oldhtml ? oldhtml : this.value;
-  //     element.innerHTML = this.value === "" ? oldhtml : this.value;
-  //     setStatus(this.value);
-  //   };
-  //   element.innerHTML = "";
-  //   element.appendChild(newobj);
-  //   newobj.setSelectionRange(0, oldhtml.length);
-  //   newobj.focus();
-  // };
 
   const addNewEmail = () => {
     let word = prompt("Input A New Email", "");
@@ -282,93 +326,67 @@ const Person = () => {
       <Heading />
       <Navbar />
       <div className="sub-container">
-        <div className="information-container">
+        {/* <div className="person-heading">
           <h1>Personal Information</h1>
+        </div> */}
+        <div className="information-container">
           <div className="basicInformation">
-            <h2>Basic Information</h2>
+            <div className="basic-heading">
+              <h2>Basic Information</h2>
+            </div>
             <form
-              className="firstname"
+              className="basic-Information"
               method="POST"
-              onSubmit={submitFirstName}
+              onSubmit={submitProfile}
             >
               <div className="info-container">
                 <div className="Label">First name: </div>
-                <div
-                  className="firstValue"
-                  ref={inputE1}
-                  onClick={editFirstName}
-                >
+                <div className="Value" ref={inputE1} onClick={editFirstName}>
                   {profile.firstName}
                 </div>
-                <div>
-                  <input type="submit" value="save" />
-                </div>
               </div>
-            </form>
-            <form className="lastname" method="POST" onSubmit={submitLastName}>
               <div className="info-container">
                 <div className="Label">Last name: </div>
-                <div className="lastValue" ref={inputE2} onClick={editLastName}>
+                <div className="Value" ref={inputE2} onClick={editLastName}>
                   {profile.lastName}
                 </div>
-                <div>
-                  <input type="submit" value="save" />
-                </div>
               </div>
-            </form>
-
-            <form
-              className="occupation"
-              method="POST"
-              onSubmit={submitOccupation}
-            >
               <div className="info-container">
                 <div className="Label">Occupation: </div>
-                <div
-                  className="occupationValue"
-                  ref={inputE3}
-                  onClick={editOccupation}
-                >
+                <div className="Value" ref={inputE3} onClick={editOccupation}>
                   {profile.occupation}
                 </div>
-                <div>
-                  <input type="submit" value="save" />
-                </div>
               </div>
+              {saveBtn ? <input type="submit" value="save" /> : null}
             </form>
-            {/* <form className="status" method="POST" onSubmit={submitStatus}>
-              <div className="info-container">
-                <div className="Label">Status: </div>
-                <div className="statusValue" ref={inputE4} onClick={editStatus}>
-                  {profile.status}
-                </div>
-                <div>
-                  <input type="submit" value="save" />
-                </div>
-              </div>
-            </form> */}
           </div>
-
+          <br />
           <div className="contactInformation">
             <h2>Contact Information</h2>
             <label className="emailTitle">Email: </label>
             <form className="newEmail" method="POST" onSubmit={submitNewEmail}>
               <button onClick={addNewEmail}>+</button>
-              <br />
             </form>
-            {profile.email &&
-              profile.email.map(function (item) {
-                return (
-                  <form
-                    className="delEmail"
-                    method="POST"
-                    onSubmit={submitDelEmail}
-                  >
-                    <div className="email"> {item} </div>
-                    <button onClick={delEmail.bind(this, item)}>-</button>
-                  </form>
-                );
-              })}
+            <div className="delEmail">
+              {profile.email &&
+                profile.email.map(function (item) {
+                  return (
+                    <form
+                      className="del"
+                      method="POST"
+                      onSubmit={submitDelEmail}
+                    >
+                      <div className="email"> {item} </div>
+                      <button
+                        className="del-btn"
+                        onClick={delEmail.bind(this, item)}
+                      >
+                        -
+                      </button>
+                    </form>
+                  );
+                })}
+            </div>
             <br />
             <div className="phoneTitle">Phone: </div>
             <form className="newPhone" method="POST" onSubmit={submitNewPhone}>
@@ -379,26 +397,33 @@ const Person = () => {
               profile.phone.map(function (item) {
                 return (
                   <form
-                    className="onePhone"
+                    className="delPhone"
                     method="POST"
                     onSubmit={submitDelPhone}
                   >
-                    <div className="delPhone">
-                      <div className="phone">{item}</div>
-                      <div className="delPhone-btn">
-                        <button onClick={delPhone.bind(this, item)}>-</button>
-                      </div>
-                    </div>
+                    <div className="phone">{item}</div>
+
+                    <button
+                      className="del-btn"
+                      onClick={delPhone.bind(this, item)}
+                    >
+                      -
+                    </button>
+
+                    <br />
                   </form>
                 );
               })}
           </div>
-          <UpdatePasswordComponent email={profile.email[0]} />
-
-          <button className="logout-btn" onClick={LogoutUser}>
-            Log out
-          </button>
         </div>
+        <br />
+        <Link to="/setting/qr">
+          <button className="qr-code">QR Code</button>
+        </Link>
+
+        <button className="logout-btn" onClick={LogoutUser}>
+          Log out
+        </button>
       </div>
     </React.Fragment>
   );

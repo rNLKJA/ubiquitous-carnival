@@ -11,7 +11,7 @@ export default function useAuth() {
   //login user
   const loginUser = async (data) => {
     const { username, password } = data;
-    console.log("loging user");
+    // console.log("loging user");
     return fetchClient
       .post(BASE_URL + "/user/login", {
         userName: username,
@@ -19,7 +19,7 @@ export default function useAuth() {
       })
       .then((res) => {
         if (res.data.auth) {
-          console.log(res.data.token);
+          // console.log(res.data.token);
           window.localStorage.setItem("jwt", res.data.token);
         } else {
           alert("login failed");
