@@ -115,7 +115,7 @@ const Contact = () => {
         <div className="contact">
           {/* display contact as a list */}
 
-          <div className="contactList">
+          <div className="contactList" style= {{width: "97%" }}>
             {!oneContact.selected && (
               <>
                 <a className="add-contact-a" href="./addUser">
