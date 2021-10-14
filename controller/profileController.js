@@ -258,7 +258,11 @@ const displayImage = async (req, res) => {
     // console.log(data);
     // const image1 = data.toString("base64");
     // console.log(image1);
-    return res.json({ image: decodeImage, status: true });
+    return res.json({
+      image: decodeImage,
+      type: user.portrait.contentType,
+      status: true,
+    });
   } catch (err) {
     res.json({ status: false });
     console.log(err);
