@@ -114,6 +114,8 @@ a {
     width: 250px;
     height: 250px;
   }
+
+	.css-1u3bzj6-MuiFormControl-root-MuiTextField-root {width: 100%}
 }
 
 @media only screen and (min-width: 1024px) {
@@ -192,3 +194,4 @@ a {
     height: 100px;
   }
 }
+

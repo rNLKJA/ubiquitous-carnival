@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useShowProfile } from "../../BackEndAPI/profileAPI";
 import { Link } from "react-router-dom";
 import QRCode from "qrcode";
@@ -54,7 +54,9 @@ const ShowQrCode = () => {
       <Heading />
       <Navbar />
       <div className="sub-container">
-        {imageUrl ? <img src={imageUrl} alt="img" /> : null}
+        <div style={{width: "350px", height: "350px", position: "fixed", top: "50%", left: '50%', transform: "translate(-50%, -50%)"}}>
+					{imageUrl ? <img src={imageUrl} alt="img" style={{width: "100%", height: "100%", position: "fixed", top: "50%", left: '50%', transform: "translate(-50%, -50%)"}}/> : null}
+				</div>
         <Link to="/setting">
           <button className="back-button">Back</button>
         </Link>

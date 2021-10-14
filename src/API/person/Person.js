@@ -6,7 +6,7 @@ import LogoutUser from "../../hooks/useLogout";
 import "./person.css";
 import { useShowProfile } from "../../BackEndAPI/profileAPI";
 import fetchClient from "../axiosClient/axiosClient";
-import qr_code from "../nav/qr-code.png";
+// import qr_code from "../nav/qr-code.png";
 import Heading from "../heading/heading";
 import Navbar from "../nav/Navbar";
 import UpdatePassword from "./UpdatePassword";
@@ -96,56 +96,56 @@ const Person = () => {
     );
   }
 
-  const submitFirstName = (e) => {
-    e.preventDefault();
+  // const submitFirstName = (e) => {
+  //   e.preventDefault();
 
-    const profile = {
-      firstName,
-    };
+  //   const profile = {
+  //     firstName,
+  //   };
 
-    fetchClient
-      .post(BASE_URL + "/profile/editFirstName", profile)
-      .then(() => console.log("upload new information"))
-      .catch((err) => {
-        console.error(err);
-      });
+  //   fetchClient
+  //     .post(BASE_URL + "/profile/editFirstName", profile)
+  //     .then(() => console.log("upload new information"))
+  //     .catch((err) => {
+  //       console.error(err);
+  //     });
 
-    setFirstName("");
-  };
+  //   setFirstName("");
+  // };
 
-  const submitLastName = (e) => {
-    e.preventDefault();
+  // const submitLastName = (e) => {
+  //   e.preventDefault();
 
-    const profile = {
-      lastName,
-    };
+  //   const profile = {
+  //     lastName,
+  //   };
 
-    fetchClient
-      .post(BASE_URL + "/profile/editLastName", profile)
-      .then(() => console.log("upload new information"))
-      .catch((err) => {
-        console.error(err);
-      });
+  //   fetchClient
+  //     .post(BASE_URL + "/profile/editLastName", profile)
+  //     .then(() => console.log("upload new information"))
+  //     .catch((err) => {
+  //       console.error(err);
+  //     });
 
-    setLastName("");
-  };
+  //   setLastName("");
+  // };
 
-  const submitOccupation = (e) => {
-    e.preventDefault();
+  // const submitOccupation = (e) => {
+  //   e.preventDefault();
 
-    const profile = {
-      occupation,
-    };
+  //   const profile = {
+  //     occupation,
+  //   };
 
-    fetchClient
-      .post(BASE_URL + "/profile/editOccupation", profile)
-      .then(() => console.log("upload new information"))
-      .catch((err) => {
-        console.error(err);
-      });
+  //   fetchClient
+  //     .post(BASE_URL + "/profile/editOccupation", profile)
+  //     .then(() => console.log("upload new information"))
+  //     .catch((err) => {
+  //       console.error(err);
+  //     });
 
-    setOccupation("");
-  };
+  //   setOccupation("");
+  // };
 
   const submitNewEmail = (e) => {
     e.preventDefault();
@@ -228,10 +228,10 @@ const Person = () => {
       if (this.value !== oldhtml && this.value !== "") {
         setSaveBtn(true);
       }
-      if (lastName == "") {
+      if (lastName === "") {
         setLastName(profile.lastName);
       }
-      if (occupation == "") {
+      if (occupation === "") {
         setOccupation(profile.occupation);
       }
     };
@@ -255,10 +255,10 @@ const Person = () => {
       if (this.value !== oldhtml && this.value !== "") {
         setSaveBtn(true);
       }
-      if (firstName == "") {
+      if (firstName === "") {
         setFirstName(profile.firstName);
       }
-      if (occupation == "") {
+      if (occupation === "") {
         setOccupation(profile.occupation);
       }
     };
@@ -282,10 +282,10 @@ const Person = () => {
       if (this.value !== oldhtml && this.value !== "") {
         setSaveBtn(true);
       }
-      if (lastName == "") {
+      if (lastName === "") {
         setLastName(profile.lastName);
       }
-      if (firstName == "") {
+      if (firstName === "") {
         setFirstName(profile.firstName);
       }
     };

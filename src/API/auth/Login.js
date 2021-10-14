@@ -52,18 +52,20 @@ const Login = () => {
         <img className="welcome-img" src={welcome} alt="welcome logo" />
         <h1>CRM Login</h1>
 
-        <div>
+        <div style={{width: "97%"}}>
           <label style={{ color: "rgb(47, 71, 137)" }}>Username :</label>
           <input
             type="text"
+						className='form-control'
             value={username}
             onChange={(e) => setUsername(e.target.value)}
           />
         </div>
-        <div>
+        <div style={{width: "97%"}}>
           <label style={{ color: "rgb(47, 71, 137)" }}>Password :</label>
           <input
             type="password"
+						className='form-control'
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
