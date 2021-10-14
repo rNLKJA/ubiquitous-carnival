@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useShowProfile } from "../../BackEndAPI/profileAPI";
 import { Link } from "react-router-dom";
 import QRCode from "qrcode";
