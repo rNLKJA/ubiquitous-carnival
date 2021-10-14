@@ -9,7 +9,7 @@ require("../config/passport")(passport);
 userRouter.get(
   "/jwtTest",
   passport.authenticate("jwt", { session: false }),
-  (req, res) => userController.isAuth(req, res),
+  (req, res) => userController.isAuth(req, res)
 );
 userRouter.post("/login", userController.handleLogin);
 userRouter.post("/signup", emailAuth.emailCodeVerify, userController.register);
@@ -19,19 +19,19 @@ userRouter.post("/emailVerify", emailAuth.emailCodeVerify);
 userRouter.post(
   "/fastRegisterPrepare",
   userController.emailFastRegister,
-  emailAuth.emailRegisterCodeSend,
+  emailAuth.emailRegisterCodeSend
 );
 userRouter.post(
   "/fastRegisterConfirm",
   emailAuth.emailRegisterVerify,
-  userController.emailFastRegisterConfirm,
+  userController.emailFastRegisterConfirm
 );
 
 userRouter.post(
   "/changePassword",
   passport.authenticate("jwt", { session: false }),
   emailAuth.emailCodeVerify,
-  userController.updatePassword,
+  userController.updatePassword
 );
 
 userRouter.post("/sendResetCode", emailAuth.sendResetCode);

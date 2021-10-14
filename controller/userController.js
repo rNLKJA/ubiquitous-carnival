@@ -69,7 +69,7 @@ const handleLogin = async (req, res, next) => {
             {
               body,
             },
-            process.env.PASSPORT_KEY,
+            process.env.PASSPORT_KEY
           );
 
           //Send back the token to the client
@@ -82,7 +82,7 @@ const handleLogin = async (req, res, next) => {
             token: "Bearer " + token,
             message: "Your token release successfully",
           });
-        },
+        }
       );
     } catch (error) {
       return next(error);
@@ -236,7 +236,7 @@ const emailFastRegisterConfirm = async (req, res) => {
         constnewUser = await userModel.findOneAndUpdate(
           { _id: mongoose.Types.ObjectId(req.body._id) },
           { userName: userName, password: userPassword, status: true },
-          { new: true },
+          { new: true }
         );
         res.send("your account is active now!");
       }
@@ -261,7 +261,7 @@ const updatePassword = async (req, res) => {
       {
         _id: req.user._id,
       },
-      { password: newPassword },
+      { password: newPassword }
     );
 
     return res.json({ status: true });
@@ -303,7 +303,7 @@ const resetPassword = async (req, res) => {
       {
         userName: req.body.userName,
       },
-      { password: password },
+      { password: password }
     );
 
     // console.log(verify);
