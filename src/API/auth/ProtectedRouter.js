@@ -9,6 +9,8 @@ export default function ProtectedRouters(props) {
 
   const { component: Component, ...rest } = props;
 
+	return <Loading />;
+
   if (isLoading) {
     return <Loading />;
   }
