@@ -116,6 +116,37 @@ a {
   }
 
 	.css-1u3bzj6-MuiFormControl-root-MuiTextField-root {width: 100%}
+
+	.css-7t9vxo-MuiGrid-root {
+		box-sizing: border-box;
+		display: -webkit-box;
+		display: -webkit-flex;
+		display: -ms-flexbox;
+		display: flex;
+		-webkit-box-flex-wrap: wrap;
+		-webkit-flex-wrap: wrap;
+		-ms-flex-wrap: wrap;
+		flex-wrap: wrap;
+		width: 100%;
+		-webkit-flex-direction: row;
+		-ms-flex-direction: row;
+		flex-direction: row;
+		gap: 4px;
+		margin-top: 24px;
+		height: 90%;
+		overflow: scroll;
+		padding: 5px;
+	}
+
+	.MuiGrid-container {
+		width: 100%;
+		display: flex;
+		flex-wrap: wrap;
+		box-sizing: border-box;
+		height: 90%;
+		overflow: scroll;
+	}
+
 }
 
 @media only screen and (min-width: 1024px) {
