@@ -33,7 +33,6 @@
     "google-maps-react": "^2.0.6",
     "qrcode": "^1.4.4",
     "material-ui-popup-state": "^1.9.3",
-    "qrcode": "^1.4.4",
     "react": "^16.13.1",
     "react-bootstrap": "^1.6.4",
     "react-calendar": "^3.4.0",
