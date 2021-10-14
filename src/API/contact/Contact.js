@@ -7,7 +7,7 @@ import { useContacts } from "../../BackEndAPI/contactAPI";
 import add_user from "./add-user.png";
 import fetchClient from "../axiosClient/axiosClient";
 import SelectedContact from "./SelectedContact.jsx";
-import SelectedContactLarge from "./SelectedContact-large.jsx";
+// import SelectedContactLarge from "./SelectedContact-large.jsx";
 import People from "./People.jsx";
 
 import Error from "../error/Error";
@@ -118,11 +118,13 @@ const Contact = () => {
           <div className="contactList" style= {{width: "97%" }}>
             {!oneContact.selected && (
               <>
-                <a className="add-contact-a" href="./addUser">
-                  <div className="add-contact">
-                    <img src={add_user} alt="add contact"></img>
-                  </div>
-                </a>
+                <Link to='./addUser'>
+									<a className="add-contact-a" href="./addUser">
+										<div className="add-contact">
+											<img src={add_user} alt="add contact"></img>
+										</div>
+                	</a>
+								</Link>
                 <div className="contactList-items">
                   <div style={{ width: "97%" }}>
                     <input

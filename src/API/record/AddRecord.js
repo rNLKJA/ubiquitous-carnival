@@ -86,7 +86,7 @@ const CreateRecord = () => {
     if (value) {
       const { id, label } = value;
       setSelected(id);
-      // console.log(id, " + ", label);
+      console.log(id, " + ", label);
     }
   };
 

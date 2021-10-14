@@ -6,17 +6,17 @@ import Error from "../error/Error";
 import "font-awesome/css/font-awesome.min.css";
 import { useShowAllRecords } from "../../BackEndAPI/recordAPI";
 import RecordDetail from "./recordDetail";
-import add_record from "./add-record.jpg";
+// import add_record from "./add-record.jpg";
 import Heading from "../heading/heading.jsx";
 import Navbar from "../nav/Navbar";
 import { Grid } from "@material-ui/core";
-import AddCommentIcon from "@mui/icons-material/AddComment";
-import Box from "@mui/material/Box";
+// import AddCommentIcon from "@mui/icons-material/AddComment";
+// import Box from "@mui/material/Box";
 import Fab from "@mui/material/Fab";
 import AddIcon from "@mui/icons-material/Add";
-import EditIcon from "@mui/icons-material/Edit";
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import NavigationIcon from "@mui/icons-material/Navigation";
+// import EditIcon from "@mui/icons-material/Edit";
+// import FavoriteIcon from "@mui/icons-material/Favorite";
+// import NavigationIcon from "@mui/icons-material/Navigation";
 import { Link } from "react-router-dom";
 
 const Record = () => {
@@ -125,12 +125,15 @@ export const RecordList = (prop) => {
 
   if (prop.loading) {
     return (
-      <div className="sub-container">
-        <div className="loading">
-          <h1>Loading Your Record</h1>
-          <h1>(っ˘ω˘ς )</h1>
-        </div>
-      </div>
+			<React.Fragment>
+
+				<div className="sub-container">
+					<div className="loading">
+						<h1>Loading Your Record</h1>
+						<h1>(っ˘ω˘ς )</h1>
+					</div>
+				</div>
+			</React.Fragment>
     );
   }
 
