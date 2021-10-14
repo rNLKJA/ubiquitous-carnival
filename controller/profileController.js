@@ -17,7 +17,7 @@ const editFirstName = async (req, res) => {
     const editFirstNameFunction = await userModel.findOneAndUpdate(
       { _id: req.user._id },
       { $set: { firstName: req.body.firstName } },
-      { upsert: true, new: true },
+      { upsert: true, new: true }
     );
     res.send("update success");
   } catch (err) {
@@ -39,7 +39,7 @@ const editLastName = async (req, res) => {
     const editLastNameFunction = await userModel.findOneAndUpdate(
       { _id: req.user._id },
       { $set: { lastName: req.body.lastName } },
-      { upsert: true, new: true },
+      { upsert: true, new: true }
     );
     res.send("update success");
   } catch (err) {
@@ -61,7 +61,7 @@ const editOccupation = async (req, res) => {
     const editOccupationFunction = await userModel.findOneAndUpdate(
       { _id: req.user._id },
       { $set: { occupation: req.body.occupation } },
-      { upsert: true, new: true },
+      { upsert: true, new: true }
     );
     res.send("update success");
   } catch (err) {
@@ -83,7 +83,7 @@ const editStatus = async (req, res) => {
     const editStatusFunction = await userModel.findOneAndUpdate(
       { _id: req.user._id },
       { $set: { status: req.body.status } },
-      { upsert: true, new: true },
+      { upsert: true, new: true }
     );
     res.send("update success");
   } catch (err) {
@@ -107,14 +107,15 @@ const editProfile = async (req, res) => {
   try {
     const editProfileFunction = await userModel.findOneAndUpdate(
       { _id: req.user._id },
-      { $set: {
+      {
+        $set: {
           firstName: req.body.firstName,
           lastName: req.body.lastName,
           occupation: req.body.occupation,
-          status: req.body.status
-        } 
+          status: req.body.status,
+        },
       },
-      { upsert: true, new: true },
+      { upsert: true, new: true }
     );
     res.send("update success");
   } catch (err) {
@@ -137,7 +138,7 @@ const addPhone = async (req, res) => {
     const updatePhone = await userModel.findOneAndUpdate(
       { _id: req.user._id },
       { $push: { phone: req.body.phone } },
-      { upsert: true, new: true },
+      { upsert: true, new: true }
     );
     res.send("update success");
   } catch (err) {
@@ -161,7 +162,7 @@ const delPhone = async (req, res) => {
     function (err) {
       if (err) res.send("delete fail");
       else res.send("delete success");
-    },
+    }
   );
 };
 
@@ -178,7 +179,7 @@ const addEmail = async (req, res) => {
     await userModel.findOneAndUpdate(
       { _id: req.user._id },
       { $push: { email: req.body.email } },
-      { upsert: true, new: true },
+      { upsert: true, new: true }
     );
     res.send("update success");
   } catch (err) {
@@ -202,7 +203,7 @@ const delEmail = async (req, res) => {
     function (err) {
       if (err) res.send("delete fail");
       else res.send("delete success");
-    },
+    }
   );
 };
 /**
@@ -247,6 +248,23 @@ const showProfile = async (req, res) => {
   }
 };
 
+const displayImage = async (req, res) => {
+  try {
+    const user = await userModel.findOne({ _id: req.user._id });
+    if (!user.portrait) {
+      return res.json({ status: false, message: "no image for this user" });
+    }
+    const decodeImage = user.portrait.data.toString("base64");
+    // console.log(data);
+    // const image1 = data.toString("base64");
+    // console.log(image1);
+    return res.json({ image: decodeImage, status: true });
+  } catch (err) {
+    res.json({ status: false });
+    console.log(err);
+  }
+};
+
 module.exports = {
   uploadPhoto,
   editFirstName,
@@ -258,5 +276,6 @@ module.exports = {
   addEmail,
   delEmail,
   showProfile,
-  editProfile
+  editProfile,
+  displayImage,
 };
