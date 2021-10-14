@@ -177,7 +177,12 @@
     top: -4rem;
   }
 
-	
+	.makeStyles-card-1 {
+    width: 100%;
+    overflow: scroll;
+    box-shadow: 0 8px 16px 0 #BDC9D7;
+    border-radius: 16px;
+}
 }
 
 @media only screen and (min-width: 1024px) {
