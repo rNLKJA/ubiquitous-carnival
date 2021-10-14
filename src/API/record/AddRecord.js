@@ -9,16 +9,22 @@ import { convert } from "./Record";
 import fetchClient from "../axiosClient/axiosClient";
 import Error from "../error/Error";
 import Navbar from "../nav/Navbar";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Map from "./map";
 import Heading from "../heading/heading.jsx";
 import Autocomplete from "@mui/material/Autocomplete";
 import { Link } from "react-router-dom";
 
+
 const CreateRecord = () => {
+	
   useEffect(() => {
     document.title = "Add Record";
   }, []);
+
+	const textAreaRef = useRef(null)
+
+	
 
   const [currentTime, setCurrentTime] = useState(new Date());
   const { loading, contacts, error } = useContacts();
@@ -26,6 +32,7 @@ const CreateRecord = () => {
   const [location, setLocation] = useState("");
   const [geoCoords, setGeoCoords] = useState({ lat: -37.7972, lng: 144.961 });
   const [notes, setNotes] = useState("");
+
   if (error) {
     return <Error msg={"Something Wrong with Record Component"}></Error>;
   }
@@ -60,7 +67,7 @@ const CreateRecord = () => {
       notes: notes,
     };
 
-    console.log(recordInfo);
+    // console.log(recordInfo);
 
     await fetchClient
       .post("https://crm4399.herokuapp.com/record/createRecord", recordInfo)
@@ -79,11 +86,11 @@ const CreateRecord = () => {
     if (value) {
       const { id, label } = value;
       setSelected(id);
-      console.log(id, " + ", label);
+      // console.log(id, " + ", label);
     }
   };
 
-  console.log("TIME ", convert(currentTime));
+  // console.log("TIME ", convert(currentTime));
 
   return (
     <React.Fragment>
@@ -101,15 +108,16 @@ const CreateRecord = () => {
             label="Contacts"
             name="Contacts"
             options={names}
-            sx={{ width: 300 }}
+            sx={{ width: "100%" }}
             isOptionEqualToValue={(option, value) => option.id === value.id}
             onChange={(e, v) => setFieldValue(v)}
             renderInput={(params) => <TextField {...params} label="Contacts" />}
           />
           <br />
-          <div className="timer-container">
+          <div className="timer-container" >
             <LocalizationProvider dateAdapter={AdapterDateFns}>
               <DateTimePicker
+								
                 renderInput={(params) => <TextField {...params} />}
                 label="Meeting time"
                 value={currentTime}
@@ -120,6 +128,7 @@ const CreateRecord = () => {
                 maxTime={new Date("2025-02-14")}
                 ampm={true}
                 disableIgnoringDatePartForTimeValidation={true}
+								
               />
             </LocalizationProvider>
           </div>
@@ -133,7 +142,8 @@ const CreateRecord = () => {
             onChange={(e) => setLocation(e.target.value)}
             value={location}
             required
-            className="location"
+						className="form-control"
+						style={{width: "100%"}}
           ></input>
 
           <input
@@ -154,16 +164,20 @@ const CreateRecord = () => {
           />
 
           <Map setLocation={setLocation} setGeoCoords={setGeoCoords} />
-
+					
+					<label htmlFor="notes">Notes: </label>
           <textarea
+						ref={textAreaRef}
+						value={notes}
             name="notes"
             type="text"
             placeholder="Add notes here!"
             onChange={(e) => {
               setNotes(e.target.value);
             }}
-            style={{ minWidth: "98.5%", minHeight: "auto" }}
+            style={{ minWidth: "100%", minHeight:"15%", display: "block" }}
           />
+
 
           <button
             className="btn btn-primary"
