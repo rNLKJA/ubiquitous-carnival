@@ -331,9 +331,6 @@ const Person = () => {
         </div> */}
         <div className="information-container">
           <div className="basicInformation">
-            <div className="basic-heading">
-              <h2>Basic Information</h2>
-            </div>
             <form
               className="basic-Information"
               method="POST"
@@ -345,28 +342,32 @@ const Person = () => {
                   {profile.firstName}
                 </div>
               </div>
+              <hr className="line"/>
+
               <div className="info-container">
                 <div className="Label">Last name: </div>
                 <div className="Value" ref={inputE2} onClick={editLastName}>
                   {profile.lastName}
                 </div>
               </div>
+              <hr className="line"/>
+
               <div className="info-container">
                 <div className="Label">Occupation: </div>
                 <div className="Value" ref={inputE3} onClick={editOccupation}>
                   {profile.occupation}
                 </div>
               </div>
+              <hr className="line"/>
               {saveBtn ? <input type="submit" value="save" /> : null}
             </form>
           </div>
-          <br />
           <div className="contactInformation">
-            <h2>Contact Information</h2>
             <label className="emailTitle">Email: </label>
             <form className="newEmail" method="POST" onSubmit={submitNewEmail}>
-              <button onClick={addNewEmail}>+</button>
+              <button className="add-btn" onClick={addNewEmail}>add</button>
             </form>
+            <hr className="line"/>
             <div className="delEmail">
               {profile.email &&
                 profile.email.map(function (item) {
@@ -381,18 +382,18 @@ const Person = () => {
                         className="del-btn"
                         onClick={delEmail.bind(this, item)}
                       >
-                        -
+                        delete
                       </button>
                     </form>
                   );
                 })}
             </div>
-            <br />
+            <hr className="line"/>
             <div className="phoneTitle">Phone: </div>
             <form className="newPhone" method="POST" onSubmit={submitNewPhone}>
-              <button onClick={addNewPhone}>+</button>
-              <br />
+              <button className="add-btn" onClick={addNewPhone}>add</button>
             </form>
+            <hr className="line"/>
             {profile.phone &&
               profile.phone.map(function (item) {
                 return (
@@ -407,7 +408,7 @@ const Person = () => {
                       className="del-btn"
                       onClick={delPhone.bind(this, item)}
                     >
-                      -
+                      delete
                     </button>
 
                     <br />

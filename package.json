@@ -17,6 +17,7 @@
     "@material-ui/icons": "^4.11.2",
     "@material-ui/unstyled": "^5.0.0-alpha.43",
     "@mui-treasury/component-flex": "0.1.0-alpha.1",
+    "@mui-treasury/styles": "^1.13.1",
     "@mui/icons-material": "^5.0.1",
     "@mui/lab": "^5.0.0-alpha.48",
     "@mui/material": "^5.0.2",
