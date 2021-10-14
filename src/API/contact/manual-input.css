@@ -3,8 +3,8 @@
 } */
 
 .back-button {
-  top: -9%;
-  right: 6%;
+  top: -3.5rem;
+  right: 1rem;
   position: fixed;
   border: 2px solid gray;
   padding: 10px;
