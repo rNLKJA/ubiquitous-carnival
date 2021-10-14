@@ -24,8 +24,6 @@ const CreateRecord = () => {
 
 	const textAreaRef = useRef(null)
 
-	
-
   const [currentTime, setCurrentTime] = useState(new Date());
   const { loading, contacts, error } = useContacts();
   const [selected, setSelected] = useState("");
