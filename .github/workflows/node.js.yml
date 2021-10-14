@@ -7,7 +7,7 @@ on:
   push:
     branches: [ Back-End, Back-End-dev ]
   pull_request:
-    branches: [ Back-End, Backe-End-dev ]
+    branches: [ Back-End, Back-End-dev ]
 
 jobs:
   build:
