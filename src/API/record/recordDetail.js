@@ -64,7 +64,7 @@ const RecordDetail = (prop) => {
       <CardHeader
         avatar={
           <Avatar sx={{ bgcolor: "pink" }} aria-label="recipe">
-            Hi
+						{prop.record.meetingPerson.lastName[0].toUpperCase()}
           </Avatar>
         }
         action={
