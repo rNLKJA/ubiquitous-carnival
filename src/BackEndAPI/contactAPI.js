@@ -14,10 +14,10 @@ function getContacts() {
   return fetchClient.get(endpoint).then((res) => res.data);
 }
 
-function createContactByUserName() {
-  const endpoint = BASE_URL + "/contact/createContactByUserName";
-  return fetchClient.get(endpoint).then((res) => res.data);
-}
+// function createContactByUserName() {
+//   const endpoint = BASE_URL + "/contact/createContactByUserName";
+//   return fetchClient.get(endpoint).then((res) => res.data);
+// }
 
 // json file of contact info
 /**
@@ -25,10 +25,10 @@ function createContactByUserName() {
  * @param {JSON} contactInfo a JSON object that contain information to create a contact
  * @returns {JSON} the JSON object that from the database after create
  */
-function createContact(contactInfo) {
-   const endpoint = BASE_URL + "/contact/createContact";
-   return fetchClient.post(endpoint, contactInfo).then((res) => res.data);
- }
+// function createContact(contactInfo) {
+//    const endpoint = BASE_URL + "/contact/createContact";
+//    return fetchClient.post(endpoint, contactInfo).then((res) => res.data);
+//  }
 
 //object ID as input
 /**

@@ -7,8 +7,8 @@ import cx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 
-import { FlexRow, FlexCol, Item, Flex } from "@mui-treasury/component-flex"
-
+import { FlexRow, Item } from "@mui-treasury/component-flex"
+// import { FlexCol, Flex } from "@mui-treasury/component-flex"
 
 const usePersonStyles = makeStyles(() => ({
   text: {

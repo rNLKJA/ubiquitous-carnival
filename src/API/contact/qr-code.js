@@ -1,4 +1,4 @@
-import React, { useState, Component, useRef} from "react";
+import React, { useState } from "react";
 import "./contact.css";
 import fetchClient from "../axiosClient/axiosClient";
 // import qr_code from "./qr-code.png";
@@ -8,7 +8,7 @@ import Heading from '../heading/heading.jsx'
 import Navbar from '../nav/Navbar'
 
 const AddUser = () => {
-    const qrRef = useRef(null);
+    // const qrRef = useRef(null);
     //const [state,setState]=useState(false);
     const [scanResultWebCam, setScanResultWebCam] = useState("");
     const [userName, setUserName] = useState("");

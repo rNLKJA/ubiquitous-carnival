@@ -2,11 +2,11 @@ import React, { Fragment, useState, useEffect } from 'react';
 
 // import axios from 'axios';
 import fetchClient from '../axiosClient/axiosClient'
+
 import Button from '@mui/material/Button'
 import Link from '@mui/material/Link'
 import Avatar from '@mui/material/Avatar'
 import Box from '@mui/material/Box';
-
 import Navbar from "../nav/Navbar";
 import Heading from "../heading/heading.jsx";
 import CircularProgress from '@mui/material/CircularProgress';
@@ -112,9 +112,7 @@ const FileUpload = () => {
         </div>
         <div className="upload-container " style={{ alignItems: 'center', justifyContent: "center", display: "flex" }}>
           <form onSubmit={onSubmit}>
-
-
-
+            
             <label htmlFor="contained-button-file">
               <Input accept="image/*" id="contained-button-file" multiple type="file" onChange={onChange} hidden={true} />
               <Button variant="contained" component="span">
@@ -147,8 +145,6 @@ const FileUpload = () => {
             </Box>
           </form>
         </div>
-
-
 
         <Button >
           <a href="/setting">

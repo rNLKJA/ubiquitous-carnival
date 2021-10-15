@@ -13,6 +13,7 @@ import UpdatePassword from "./UpdatePassword";
 import Avatar from '@mui/material/Avatar';
 import UploadIcon from '@mui/icons-material/Upload';
 import Button from '@mui/material/Button'
+
 import CircularProgress from '@mui/material/CircularProgress';
 import { green } from '@mui/material/colors';
 import Fab from '@mui/material/Fab';
@@ -45,6 +46,7 @@ const Person = () => {
 
   //hooks for avatar upload
   const [upload, setUpload] = useState(false);
+
   const [avatar, setAvatar] = useState("");
   const [file, setFile] = useState('');
   const [message, setMessage] = useState('');
@@ -440,8 +442,6 @@ const Person = () => {
           {upload ? [<div className="upload-container " style={{ alignItems: 'center', justifyContent: "center", display: "flex", position: 'fixed', right: '10px', top: '0px' }}>
             <form onSubmit={onSubmit}>
 
-
-
               <label htmlFor="contained-button-file">
                 <Input accept="image/*" id="contained-button-file" multiple type="file" hidden={true} onChange={onChange} />
                 <Button variant="contained" component="span">
@@ -483,6 +483,7 @@ const Person = () => {
 
             </Button>
           </div>)}
+
 
         </div>
 

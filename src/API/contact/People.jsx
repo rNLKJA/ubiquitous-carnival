@@ -15,7 +15,7 @@ const People = ({ contacts, setOneContact }) => {
      	 direction="row"
      	 justify="center"
      	 alignItems="center"
-      
+       margin = {2}
      	 spacing={2}>
 
         {contacts.map((contact) => {
