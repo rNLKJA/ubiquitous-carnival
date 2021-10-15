@@ -18,8 +18,9 @@ const AddUser = () => {
 		
 
 		useEffect(() => {
-			if (submit) {
+			if (submit && window.confirm(`Add ${userName}?`)) {
 				formRef.current.submit();
+				setSubmit(false);
 			}
 		}, [submit]);
 
