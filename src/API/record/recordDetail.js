@@ -155,12 +155,11 @@ const RecordDetail = (prop) => {
             {prop.record.meetingPerson.phone[0]}
           </Typography>
         </IconButton>
-        <CardContent maxWidth = "100%">
+        <CardContent>
           <Typography paragraph>Notes: </Typography>
           <Typography
             variant="body1"
-            maxWidth = "100%"
-            style={{ whiteSpace: 'pre-line' } } noWrap
+            style={{ whiteSpace: 'pre-line' } }
           >
             {prop.record.notes ? prop.record.notes : "add notes"}
           </Typography>

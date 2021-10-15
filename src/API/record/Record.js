@@ -20,6 +20,7 @@ import AddIcon from "@mui/icons-material/Add";
 import { Link } from "react-router-dom";
 import EditRecord from "./editRecord"
 import { useContacts } from "../../BackEndAPI/contactAPI";
+import TextField from '@mui/material/TextField';
 
 const Record = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -45,6 +46,33 @@ const Record = () => {
     document.title = "Record";
   }, []);
 
+  if (error) {
+    return (
+      <React.Fragment>
+      <Navbar />
+      <Heading />
+      <div className="sub-container">
+        <Error msg={"There is something wrong with Contact X_X"} />
+      </div>
+      </React.Fragment>
+    );
+  }
+
+  if (loading) {
+    return (
+			<React.Fragment>
+        <Navbar />
+        <Heading />
+				<div className="sub-container">
+					<div className="loading">
+						<h1>Loading Your Record</h1>
+						<h1>(っ˘ω˘ς )</h1>
+					</div>
+				</div>
+			</React.Fragment>
+    );
+  }
+
   return (
     <React.Fragment>
       <Navbar />
@@ -54,34 +82,28 @@ const Record = () => {
           <React.Fragment>
             <div className="heading-record">
               <h1>Record</h1>
-              <Link to="/createRecord" >
-                <Fab
-                  className="record-add-btn"
-                  color="primary"
-                  aria-label="add"
-                  sx={{
+              <Link  to="/createRecord" >
+                
+                  <AddIcon sx={{
                     width: "40px",
                     height: "40px",
                     position: "fixed",
                     right: "1.5rem",
                     top: "-3.5rem",
                     color: "black",
-                  }}
-                >
-                  <AddIcon />
-                </Fab>
+                  }}/>
+                
               </Link>
             </div>
-            <div className="record-container">
-              <div style={{ width: "97%" }}>
-                <input
-                  className="search-box"
-                  value={searchTerm}
-                  onChange={(e) => handleChange(e)}
-                  placeholder="Search by name/location"
-                  size={40}
-                ></input>
-              </div>
+            
+            <div className="record-container" style={{justifyContent: "center",alignItems: "center"}}>
+
+              <TextField id="standard-basic" 
+                          label="Search by name/location" 
+                          style={{width: "90%" }}
+                          value={searchTerm}
+                          onChange={(e) => handleChange(e)}
+              />
 
               <RecordList
                 records={records}
@@ -123,29 +145,10 @@ export const RecordList = (prop) => {
     }
   };
 
-  if (prop.error) {
-    return (
-      <div className="sub-container">
-        <Error msg={"There is something wrong with Contact X_X"} />
-      </div>
-    );
-  }
-
-  if (prop.loading) {
-    return (
-			<React.Fragment>
-
-				<div className="sub-container">
-					<div className="loading">
-						<h1>Loading Your Record</h1>
-						<h1>(っ˘ω˘ς )</h1>
-					</div>
-				</div>
-			</React.Fragment>
-    );
-  }
+  
 
   let fitterRecords = searchRecords();
+
 
   return (
     <Grid container>
