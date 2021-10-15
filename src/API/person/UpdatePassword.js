@@ -2,7 +2,7 @@ import React from "react";
 import "./UpdatePassword.css"; // import required css
 import fetchClient from "../axiosClient/axiosClient";
 import { useState } from "react";
-import { WindowOutlined } from "@mui/icons-material";
+// import { WindowOutlined } from "@mui/icons-material";
 
 const UpdatePassword = ({ email }) => {
   const [newPassword1, setNewPassword1] = useState("");

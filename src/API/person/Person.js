@@ -31,7 +31,7 @@ const Person = () => {
   const inputE1 = useRef(null);
   const inputE2 = useRef();
   const inputE3 = useRef();
-  const [avatar, setAvatar] = useState("");
+  // const [avatar, setAvatar] = useState("");
 
   // useEffect(() => {
   //   const fetchAvatar = async() =>{

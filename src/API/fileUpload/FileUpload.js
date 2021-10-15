@@ -1,7 +1,7 @@
 import React, { Fragment, useState, } from 'react';
 import Message from './Message';
 import Progress from './Progress';
-import axios from 'axios';
+// import axios from 'axios';
 import fetchClient from '../axiosClient/axiosClient'
 
 const FileUpload = () => {
