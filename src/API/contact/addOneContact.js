@@ -24,7 +24,7 @@ const AddUser = () => {
 				</Link>
         <div className="add-contact-container">
           {/* link to contact route */}
-          <Link to="/addUser/qr-code" style={{ width: "90%" }}>
+          <Link to="/addUser/qr-code" style={{ width: "90%"}}>
             <div className="block">
               <div className="inner">
                 <img src={qr_code} alt="qr-code"></img>
