@@ -126,12 +126,12 @@ const Contact = () => {
                 	</a>
 								</Link>
                 <div className="contactList-items">
-                  <div style={{ width: "97%" }}>
+                  <div style={{ width: "97%", zIndex: 10 }}>
                     <input
                       className="search-box"
                       value={searchTerm}
                       onChange={(e) => handleChange(e)}
-                      placeholder="Search for a name"
+                      placeholder="Search by name/occupation"
                       size={40}
                     ></input>
                   </div>

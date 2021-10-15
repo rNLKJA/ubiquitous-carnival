@@ -75,7 +75,7 @@ const Record = () => {
                   className="search-box"
                   value={searchTerm}
                   onChange={(e) => handleChange(e)}
-                  placeholder="Search for a name"
+                  placeholder="Search by name/location"
                   size={40}
                 ></input>
               </div>
@@ -98,7 +98,7 @@ const Record = () => {
 export default Record;
 
 export const RecordList = (prop) => {
-  console.log("keyword is " + prop.search_key);
+  // console.log("keyword is " + prop.search_key);
   const searchRecords = () => {
     if (prop.records !== undefined) {
       return prop.records.filter((record) =>
