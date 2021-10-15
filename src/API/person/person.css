@@ -1,3 +1,9 @@
+.information-container {
+  overflow: scroll;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 
 .delete-btn {
   width: 95%;
@@ -37,15 +43,31 @@ input {
 }
 
 .edit-btn {
+  top: -3.2rem;
+  right: 13rem;
   position: fixed;
-  right: 7rem;
-  top: -3.5rem;
-  width: 50px;
-  height: 25px;
-  font-size: 14px;
+  font-size: 16px;
   height: 30px;
-  color: rgb(47, 71, 137);
+  border-radius: 5px;
 }
+
+.edit-btn {
+  top: -3.2rem;
+  right: 13rem;
+  position: fixed;
+  font-size: 16px;
+  height: 30px;
+  border-radius: 5px;
+}
+.cancel-btn {
+  top: -3.2rem;
+  right: 13rem;
+  position: fixed;
+  font-size: 16px;
+  height: 30px;
+  border-radius: 5px;
+}
+
 
 .save-btn {
   width: 95%;
@@ -116,5 +138,22 @@ input {
   height: 95%;
   padding-top: 20px;
   padding-bottom: 20px;
+}
+
+.logout-btn {
+  top: -3.2rem;
+  right: 1rem;
+  position: fixed;
+  font-size: 16px;
+  height: 30px;
+  border-radius: 5px;
+}
+.qr-code{
+  top: -3.2rem;
+  right: 6.5rem;
+  position: fixed;
+  font-size: 16px;
+  height: 30px;
+  border-radius: 5px;
 }
 

@@ -99,7 +99,7 @@ export const DisplayPerson = ({
             .then((response) => {
                 if (response.data.status) {
                     alert(
-                        "Update contact information succeed!\nRedirect to Contact Page",
+                        "Update contact information succeed!\n",
                     );
                     // window.location.href = "/contact";
                 } else {
@@ -107,7 +107,7 @@ export const DisplayPerson = ({
                 }
             });
 
-        window.location.href = "/setting";
+        /*window.location.href = "/setting";*/
         // setContact({ ...contact, edit: false });
 
         // setOneContact({ ...contact, edit: false, selected: false });
@@ -163,7 +163,7 @@ export const DisplayPerson = ({
 
             {person.edit ? (
                 <button
-                    className="back"
+                    className="cancel-btn"
                     onClick={() => {
                         setPerson({ ...originProfile, selected: true, edit: false });
                         setPhones(ConvertListStringToListObject(person.phone, "phone"));
