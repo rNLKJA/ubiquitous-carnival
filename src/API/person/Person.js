@@ -363,7 +363,6 @@ const Person = () => {
     setOneProfile({ ...oneProfile, phone: profile.phone.splice(pos, 1) });
   };
 
-
   // following functions are used for uploadUserImage
 
   const buttonSx = {
@@ -426,6 +425,7 @@ const Person = () => {
   };
 
   const onChange = e => {
+    e.preventDefault();
     setFile(e.target.files[0]);
     setFileName(e.target.files[0].name);
 
@@ -459,11 +459,11 @@ const Person = () => {
                   </Typography>
                 </Button>
               </label>
-
-              <Typography >
-                {fileName}
-              </Typography>
-
+              <div style={{ overflow: "hidden", textOverflow: "ellipsis", width: '7rem' }}>
+                <Typography variant="body2" noWrap color="text.secondary">
+                  {fileName}
+                </Typography>
+              </div>
 
 
 
