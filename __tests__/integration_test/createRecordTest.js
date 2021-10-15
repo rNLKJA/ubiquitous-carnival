@@ -146,6 +146,24 @@ describe("Integration test: Test for create Record", () => {
         expect(res.body.notes).toBe("account");
       });
   });
+
+  test("Test 6: Add a record without a location", () => {
+    return agent
+      .post("/record/createRecord")
+      .set("Content-Type", "application/json")
+      .set("Authorization", jwtToken)
+      .send({
+        contact_id: "6131e5b0e0accb25d09663f6",
+        location: null,
+        dateTime: "2021-10-01T10:28:10.018Z",
+        geoCoords: null,
+        notes: "account"
+      })
+      .then((res) => {
+        expect(res.statusCode).toBe(200);
+        expect(res.text).toContain("Miss Important Information Input");
+      });
+  });
   
 
   /*
