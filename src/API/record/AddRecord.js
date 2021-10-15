@@ -16,13 +16,14 @@ import Autocomplete from "@mui/material/Autocomplete";
 import { Link } from "react-router-dom";
 
 
+
 const CreateRecord = () => {
-	
+
   useEffect(() => {
     document.title = "Add Record";
   }, []);
 
-	const textAreaRef = useRef(null)
+  const textAreaRef = useRef(null)
 
   const [currentTime, setCurrentTime] = useState(new Date());
   const { loading, contacts, error } = useContacts();
@@ -38,8 +39,8 @@ const CreateRecord = () => {
   if (loading) {
     return (
       <React.Fragment>
-				<Heading />
-    	  <Navbar />
+        <Heading />
+        <Navbar />
         <div className="sub-container">
           <div className="loading">
             <h1>Loading</h1>
@@ -87,6 +88,8 @@ const CreateRecord = () => {
       const { id, label } = value;
       setSelected(id);
       console.log(id, " + ", label);
+    } else {
+      setSelected("");
     }
   };
 
@@ -97,9 +100,9 @@ const CreateRecord = () => {
       <Heading />
       <Navbar />
       <div className="sub-container">
-      <div className="heading-record">
-              <h1> Create ・ω・</h1>
-            </div>
+        <div className="heading-record">
+          <h1> Create ・ω・</h1>
+        </div>
         <Link to="/record" className="back-button">
           <button className="back-button">
             Back
@@ -113,14 +116,18 @@ const CreateRecord = () => {
             options={names}
             sx={{ width: "100%" }}
             isOptionEqualToValue={(option, value) => option.id === value.id}
+            
             onChange={(e, v) => setFieldValue(v)}
-            renderInput={(params) => <TextField {...params} label="Contacts" />}
+            renderInput={(params) => <TextField {...params} 
+                                                label="Contacts"  
+                                                error = {selected === ""} 
+                                                helperText = {selected === "" ? "Select a contact つ；－；つ" : ''}/>}
           />
           <br />
           <div className="timer-container" >
             <LocalizationProvider dateAdapter={AdapterDateFns}>
               <DateTimePicker
-								
+
                 renderInput={(params) => <TextField {...params} />}
                 label="Meeting time"
                 value={currentTime}
@@ -131,7 +138,7 @@ const CreateRecord = () => {
                 maxTime={new Date("2025-02-14")}
                 ampm={true}
                 disableIgnoringDatePartForTimeValidation={true}
-								
+
               />
             </LocalizationProvider>
           </div>
@@ -145,8 +152,8 @@ const CreateRecord = () => {
             onChange={(e) => setLocation(e.target.value)}
             value={location}
             required
-						className="form-control"
-						style={{width: "100%"}}
+            className="form-control"
+            style={{ width: "100%" }}
           ></input>
 
           <input
@@ -154,7 +161,7 @@ const CreateRecord = () => {
             type="number"
             step="any"
             value={geoCoords.lat}
-            onChange={() => {}}
+            onChange={() => { }}
             hidden
           />
           <input
@@ -162,23 +169,25 @@ const CreateRecord = () => {
             type="number"
             step="any"
             value={geoCoords.lng}
-            onChange={() => {}}
+            onChange={() => { }}
             hidden
           />
 
           <Map setLocation={setLocation} setGeoCoords={setGeoCoords} />
-					
-					<label htmlFor="notes">Notes: </label>
-          <textarea
-						ref={textAreaRef}
-						value={notes}
-            name="notes"
-            type="text"
-            placeholder="Add notes here!"
+
+
+
+          
+
+          <TextField
+            id="outlined-multiline-flexible"
+            label="Add-Notes"
+            multiline
+            maxRows={4}
+            value={notes}
             onChange={(e) => {
               setNotes(e.target.value);
             }}
-            style={{ minWidth: "100%", minHeight:"10%", display: "block" }}
           />
 
 

@@ -101,7 +101,10 @@ const EditRecord = (prop) => {
             value={selected}
             isOptionEqualToValue={(option, value) => option.id === value.id}
             onChange={(e, v) => setFieldValue(v)}
-            renderInput={(params) => <TextField {...params} label="Contacts" />}
+            renderInput={(params) => <TextField {...params} 
+                                                label="Contacts"  
+                                                error = {selected === ""} 
+                                                helperText = {selected === "" ? "Select a contact つ；－；つ" : ''}/>}
           />
           <br />
           <div className="timer-container" >
