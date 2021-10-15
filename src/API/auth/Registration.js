@@ -6,6 +6,12 @@ import fetchClient from "../axiosClient/axiosClient";
 import "./registration.css";
 import { Link } from "react-router-dom";
 import welcomeImg from "./welcome.png";
+import Box from "@mui/material/Box";
+import CircularProgress from "@mui/material/CircularProgress";
+import { green } from "@mui/material/colors";
+import Button from "@mui/material/Button";
+import { isThisSecond } from "date-fns";
+import Alert from "@mui/material/Alert";
 
 class Registration extends React.Component {
   constructor() {
@@ -16,6 +22,11 @@ class Registration extends React.Component {
       password: "",
       re_password: "",
       authCode: "",
+      loading: false,
+      success: false,
+      uploadPercentage:'',
+      error:''
+
     };
     this.changeEmail = this.changeEmail.bind(this);
     this.changePassword = this.changePassword.bind(this);
@@ -24,6 +35,7 @@ class Registration extends React.Component {
     this.changeRePassword = this.changeRePassword.bind(this);
     this.changeAuthCode = this.changeAuthCode.bind(this);
     this.sendAuthCode = this.sendAuthCode.bind(this);
+    this.setUploadPercentage = this.setUploadPercentage.bind(this);
   }
 
   async onSubmit(event) {
@@ -103,27 +115,55 @@ class Registration extends React.Component {
     });
   }
 
+  setUploadPercentage(value){
+    this.setState({
+      uploadPercentage: value
+    })
+  }
+
   async sendAuthCode() {
+    if (this.state.email === ''){
+      this.setState({error: {msg :'fill the email',type: 'email'}})
+      return
+    }
     const data = {
       email: this.state.email,
     };
+    this.setState({success:false})
+    this.setState({loading:true})
     await fetchClient
       // .post("http://localhost:5000/user/sendEmailCode", data)
-      .post("https://crm4399.herokuapp.com/user/sendEmailCode", data)
+      .post("https://crm4399.herokuapp.com/user/sendEmailCode", data,{
+        
+        onUploadProgress: progressEvent => {
+          this.setState({uploadPercentage:parseInt(
+            Math.round((progressEvent.loaded * 100) / progressEvent.total)
+          )})
+          }
+      }
+      )
       .then((response) => {
         if (response.data.status) {
-          window.location.href = "/";
+
+          setTimeout(() => this.setUploadPercentage(0), 100);
+
+          this.setState({success:true})
+          this.setState({loading:false})
+
+
         } else {
           alert(response.data);
         }
       });
   }
 
+
   render() {
     return (
       <div className="sub-container">
         <div className="registration">
           <img src={welcomeImg} alt="welcomeImg" />
+          {this.state.error && this.state.error.type === 'uerName'? <Alert severity="error">{this.state.error.msg}</Alert> : null}
           <div className="form-div">
             <form onSubmit={this.onSubmit}>
               <label className="form-label">Username</label>
@@ -145,13 +185,39 @@ class Registration extends React.Component {
                 className="form-control form-group"
                 required
               />
-              <button
-                className="btn btn-info"
-                style={{ height: "30px" }}
-                onClick={this.sendAuthCode}
-              >
-                Send Authentication Code
-              </button>
+              {this.state.error && this.state.error.type === 'email'? <Alert severity="error">{this.state.error.msg}</Alert> : null}
+              
+
+              <Box sx={{ m: 1, position: "relative" , alignItems: 'center', justifyContent: "center", display: "flex", marginTop : 3}}>
+                <Button
+                  variant="contained"
+                  sx={(this.state.success && {
+                    bgcolor: green[500],
+                    "&:hover": {
+                      bgcolor: green[700]
+                    }
+                  })}
+                  disabled={this.state.loading}
+                  onClick={this.sendAuthCode}
+                >
+                  {this.state.success? "Successfully sent" : "Send Authentication Code"}
+                </Button>
+                {this.state.loading && (
+                  <CircularProgress
+                   value={this.state.uploadPercentage}
+                    size={24}
+                    sx={{
+                      color: green[500],
+                      position: "absolute",
+                      top: "50%",
+                      left: "50%",
+                      marginTop: "-12px",
+                      marginLeft: "-12px"
+                    }}
+                  />
+                )}
+              </Box>
+              
 
               <br />
               <label className="form-label">Authentication Code</label>
