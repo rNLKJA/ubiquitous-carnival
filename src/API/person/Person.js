@@ -388,6 +388,7 @@ const Person = () => {
             <form className="newEmail" method="POST" onSubmit={submitNewEmail}>
               <button onClick={addNewEmail}>+</button>
             </form>
+						<br />
             <div className="delEmail">
               {profile.email &&
                 profile.email.map(function (item) {
