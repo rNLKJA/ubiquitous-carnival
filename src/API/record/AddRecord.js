@@ -38,6 +38,8 @@ const CreateRecord = () => {
   if (loading) {
     return (
       <React.Fragment>
+				<Heading />
+    	  <Navbar />
         <div className="sub-container">
           <div className="loading">
             <h1>Loading</h1>
@@ -173,7 +175,7 @@ const CreateRecord = () => {
             onChange={(e) => {
               setNotes(e.target.value);
             }}
-            style={{ minWidth: "100%", minHeight:"15%", display: "block" }}
+            style={{ minWidth: "100%", minHeight:"10%", display: "block" }}
           />
 
 
