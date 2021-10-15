@@ -1,30 +1,55 @@
-import React, { Fragment, useState, } from 'react';
-import Message from './Message';
-import Progress from './Progress';
-import axios from 'axios';
+import React, { Fragment, useState, useEffect } from 'react';
+
+// import axios from 'axios';
 import fetchClient from '../axiosClient/axiosClient'
-import { Link } from "react-router-dom";
+import Button from '@mui/material/Button'
+import Link from '@mui/material/Link'
+import Avatar from '@mui/material/Avatar'
+import Box from '@mui/material/Box';
+
+import Navbar from "../nav/Navbar";
+import Heading from "../heading/heading.jsx";
+import CircularProgress from '@mui/material/CircularProgress';
+import { green } from '@mui/material/colors';
+import Fab from '@mui/material/Fab';
+import CheckIcon from '@mui/icons-material/Check';
+import SaveIcon from '@mui/icons-material/Save';
+import Alert from '@mui/material/Alert';
+import Input from '@mui/material/Input';
+
 
 const FileUpload = () => {
   const [file, setFile] = useState('');
-  const [filename, setFilename] = useState('Choose File');
-  const [uploadedFile, setUploadedFile] = useState({});
   const [message, setMessage] = useState('');
   const [uploadPercentage, setUploadPercentage] = useState(0);
-  const [img ,setImg] = useState('');
-  const onChange = e => {
-    setFile(e.target.files[0]);
-    setFilename(e.target.files[0].name);
+  const [loading, setLoading] = React.useState(false);
+  const [success, setSuccess] = React.useState(false);
+
+  const buttonSx = {
+    ...(success && {
+      bgcolor: green[500],
+      '&:hover': {
+        bgcolor: green[700],
+      },
+    }),
   };
 
-  const getImg = async e => {
-      e.preventDefault();
-      console.log("cnm")
-      await fetchClient.post("http://localhost:5000/profile/displayImage").then((res) => setImg(res.data.image))
-      console.log(img)
-  }
+  const onChange = e => {
+    setFile(e.target.files[0]);
 
- 
+  };
+
+
+  const [avatar, setAvatar] = useState("");
+
+  useEffect(() => {
+    const fetchAvatar = async () => {
+      const response = await fetchClient.post('/profile/displayImage')
+      setAvatar(response.data.image);
+    }
+    fetchAvatar();
+  }, [])
+
 
   const onSubmit = async e => {
     e.preventDefault();
@@ -32,8 +57,11 @@ const FileUpload = () => {
     formData.append('portrait', file);
     console.log(formData);
 
+
     try {
-      const res = await fetchClient.post('http://localhost:5000/profile/uploadUserImage', formData, {
+      setSuccess(false);
+      setLoading(true);
+      const res = await fetchClient.post('/profile/uploadUserImage', formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         },
@@ -45,19 +73,26 @@ const FileUpload = () => {
           );
         }
       });
-      
-      // Clear percentage
-      setTimeout(() => setUploadPercentage(0), 10000);
 
-      const { fileName, filePath } = res.data;
+      if (res.data.status === 'false') {
+        alert('upload failed')
+        return
+      }
 
-      setUploadedFile({ fileName, filePath });
+      setTimeout(() => setUploadPercentage(0), 100);
 
-      setMessage('File Uploaded');
+      setSuccess(true);
+      setLoading(false);
+
+      setAvatar(res.data.portrait);
+
+
+
     } catch (err) {
-      if (err.response.status === 500) {
-        setMessage('There was a problem with the server');
+      if (err) {
+        setMessage('upload failed err: ', err);
       } else {
+
         setMessage(err.response.data.msg);
       }
       setUploadPercentage(0)
@@ -65,47 +100,68 @@ const FileUpload = () => {
   };
 
   return (
-    <Fragment>
-      {message ? <Message msg={message} /> : null}
-      <form onSubmit={onSubmit}>
-        <div className='custom-file mb-4'>
-          <input
-            type='file'
-            className='custom-file-input'
-            id='customFile'
-            onChange={onChange}
-          />
-          <label className='custom-file-label' htmlFor='customFile'>
-            {filename}
-          </label>
+    <React.Fragment>
+      <Heading />
+      <Navbar />
+      <div className="sub-container">
+        {message ? <Alert severity="error">{message}</Alert> : null}
+        <div className="upload-header" style={{ alignItems: 'center', justifyContent: "center", display: "flex" }}>
+
+          {avatar ? <Avatar sx={{ width: 100, height: 100, border: '2px solid pink' }} src={"data:image/png;base64," + avatar} alt='' /> : <Avatar />}
+
+        </div>
+        <div className="upload-container " style={{ alignItems: 'center', justifyContent: "center", display: "flex" }}>
+          <form onSubmit={onSubmit}>
+
+
+
+            <label htmlFor="contained-button-file">
+              <Input accept="image/*" id="contained-button-file" multiple type="file" onChange={onChange} hidden={true} />
+              <Button variant="contained" component="span">
+                Upload
+              </Button>
+            </label>
+
+
+            <Box sx={{ m: 1, position: 'relative', alignItems: 'center', justifyContent: "center", display: "flex" }}>
+              <Fab
+                aria-label="save"
+                color="primary"
+                sx={buttonSx}
+                onClick={onSubmit}
+              >
+                {success ? <CheckIcon /> : <SaveIcon />}
+              </Fab>
+              {loading && (
+                <CircularProgress
+
+                  value={uploadPercentage}
+                  variant="determinate"
+                  size={68}
+                  sx={{
+                    color: green[500],
+                    position: 'absolute',
+                  }}
+                />
+              )}
+            </Box>
+          </form>
         </div>
 
-        <Progress percentage={uploadPercentage} />
-
-        <input
-          type='submit'
-          value='Upload'
-          
-        />
-      </form>
-      {uploadedFile ? (
-        <div className='row mt-5'>
-          <div className='col-md-6 m-auto'>
-            <h3 className='text-center'>{uploadedFile.fileName}</h3>
-            <img style={{ width: '100%' }} src={"data:image/png;base64,"+img} alt='' />
-          </div>
-        </div>
-      ) : null}
 
 
-      <button onClick = {getImg}>getImg</button>
-      
-        <button onClick = {getImg}>
-        <Link to = '/setting'>Back</Link>
-        </button>
-      
-    </Fragment>
+        <Button >
+          <a href="/setting">
+            BACK
+          </a>
+        </Button>
+
+
+      </div>
+
+    </React.Fragment>
+
   );
 };
 
-export default FileUpload;
+export default FileUpload
