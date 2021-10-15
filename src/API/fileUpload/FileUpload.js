@@ -3,6 +3,7 @@ import Message from './Message';
 import Progress from './Progress';
 import axios from 'axios';
 import fetchClient from '../axiosClient/axiosClient'
+import { Link } from "react-router-dom";
 
 const FileUpload = () => {
   const [file, setFile] = useState('');
@@ -98,7 +99,11 @@ const FileUpload = () => {
 
 
       <button onClick = {getImg}>getImg</button>
-
+      
+        <button onClick = {getImg}>
+        <Link to = '/setting'>Back</Link>
+        </button>
+      
     </Fragment>
   );
 };

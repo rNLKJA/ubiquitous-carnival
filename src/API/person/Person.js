@@ -11,8 +11,11 @@ import Heading from "../heading/heading";
 import Navbar from "../nav/Navbar";
 import UpdatePassword from "./UpdatePassword";
 import Avatar from '@mui/material/Avatar';
-
-
+import { styled } from '@mui/material/styles';
+import Button from '@mui/material/Button';
+import IconButton from '@mui/material/IconButton';
+import Stack from '@mui/material/Stack';
+import UploadIcon from '@mui/icons-material/Upload';
 const BASE_URL = "https://crm4399.herokuapp.com";
 
 const Person = () => {
@@ -34,12 +37,12 @@ const Person = () => {
   const [avatar, setAvatar] = useState("");
 
   useEffect(() => {
-    const fetchAvatar = async() =>{
+    const fetchAvatar = async () => {
       const response = await fetchClient.post('http://localhost:5000/profile/displayImage')
       setAvatar(response.data.image);
     }
     fetchAvatar();
-  },[])
+  }, [])
 
   if (error) {
     return (
@@ -332,6 +335,10 @@ const Person = () => {
     setOneProfile({ ...oneProfile, phone: profile.phone.splice(pos, 1) });
   };
 
+  const Input = styled('input')({
+    display: 'none',
+  });
+
 
 
   return (
@@ -343,14 +350,26 @@ const Person = () => {
           <h1>Personal Information</h1>
         </div> */}
 
-        <div className="Avatar-container" style = {{textAlign : 'center' , fontSize : '20px',height : '100px', marginBottom : '20px',marginTop : '20px',justifyContent: "center", display: "flex"}}>
+        {/* <div className="Avatar-container" style={{ textAlign: 'center', fontSize: '20px', height: '100px', marginBottom: '20px', marginTop: '20px', justifyContent: "center", display: "flex" }}>
 
-        <Avatar alt="Avatar" sx = { {width : 100, height : 100,border : '2px solid pink' }} margin = {3}  src={"data:image/png;base64,"+avatar} />
-      
-        </div>
+          <Avatar alt="Avatar" sx={{ width: 100, height: 100, border: '2px solid pink' }} margin={3} src={"data:image/png;base64," + avatar} />
+
+        </div> */}
+
+        <Stack direction="row" alignItems="center" spacing={2} sx = {{marginBottom: '20px',marginTop: '20px',justifyContent: "center"}}>
+          {/* <Avatar alt="Avatar" sx={{ width: 100, height: 100, border: '2px solid pink' }} margin={3} src={"data:image/png;base64," + avatar} /> */}
+          
+            <Avatar alt="Avatar" sx={{ width: 100, height: 100, border: '2px solid pink' }} margin={3} src={"data:image/png;base64," + avatar} /> 
+            <Button >
+              <Link to="/uploadTest">
+                <UploadIcon />
+              </Link>
+            </Button>
+         
+        </Stack>
 
 
-        <div className="information-container" style = {{justifyContent: "center",display: "flex"}}>
+        <div className="information-container" style={{ justifyContent: "center", display: "flex" }}>
           <div className="basicInformation">
             <div className="basic-heading">
               <h2>Basic Information</h2>
