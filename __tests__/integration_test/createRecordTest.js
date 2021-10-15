@@ -51,7 +51,28 @@ describe("Integration test: Test for create Record", () => {
       });
   });
 
-  test("Test 2: Add a record without the meeting dateTime", () => {
+  test("Test 2: Add a record without contact_id", () => {
+    return agent
+      .post("/record/createRecord")
+      .set("Content-Type", "application/json")
+      .set("Authorization", jwtToken)
+      .send({
+        contact_id: null,
+        location: "University of Melbourne",
+        dateTime: "2021-10-01T10:28:10.018Z",
+        geoCoords: {
+            "lat": "122334545",
+            "lng": "52123456"
+        },
+        notes: "account"
+    })
+      .then((res) => {
+        expect(res.statusCode).toBe(200);
+        expect(res.text).toContain("Miss Important Information Input");
+      });
+  });
+
+  test("Test 3: Add a record without the meeting dateTime", () => {
     return agent
       .post("/record/createRecord")
       .set("Content-Type", "application/json")
@@ -65,14 +86,19 @@ describe("Integration test: Test for create Record", () => {
             "lng": "52123456"
         },
         notes: "account"
-    })
+      })
       .then((res) => {
         expect(res.statusCode).toBe(200);
+        expect(res.body.meetingPerson).toBe("6131e5b0e0accb25d09663f6");
+        expect(res.body.location).toBe("University of Melbourne");
         expect(res.body.dateTime).not.toBe(null);
+        expect(res.body.lat).toBe(122334545);
+        expect(res.body.lng).toBe(52123456);
+        expect(res.body.notes).toBe("account");
       });
   });
 
-  test("Test 3: Add a record with the meeting dateTime", () => {
+  test("Test 4: Add a record with the meeting dateTime", () => {
     return agent
       .post("/record/createRecord")
       .set("Content-Type", "application/json")
@@ -86,13 +112,61 @@ describe("Integration test: Test for create Record", () => {
             "lng": "52123456"
         },
         notes: "account"
-    })
+      })
       .then((res) => {
         expect(res.statusCode).toBe(200);
+        expect(res.body.meetingPerson).toBe("6131e5b0e0accb25d09663f6");
+        expect(res.body.location).toBe("University of Melbourne");
         expect(res.body.dateTime).toBe("2021-10-01T10:28:10.018Z");
+        expect(res.body.lat).toBe(122334545);
+        expect(res.body.lng).toBe(52123456);
+        expect(res.body.notes).toBe("account");
       });
   });
-/*
+
+  test("Test 5: Add a record without a geoCoords", () => {
+    return agent
+      .post("/record/createRecord")
+      .set("Content-Type", "application/json")
+      .set("Authorization", jwtToken)
+      .send({
+        contact_id: "6131e5b0e0accb25d09663f6",
+        location: "University of Melbourne",
+        dateTime: "2021-10-01T10:28:10.018Z",
+        geoCoords: null,
+        notes: "account"
+      })
+      .then((res) => {
+        expect(res.statusCode).toBe(200);
+        expect(res.body.meetingPerson).toBe("6131e5b0e0accb25d09663f6");
+        expect(res.body.location).toBe("University of Melbourne");
+        expect(res.body.dateTime).toBe("2021-10-01T10:28:10.018Z");
+        expect(res.body.lat).toBe(null);
+        expect(res.body.lng).toBe(null);
+        expect(res.body.notes).toBe("account");
+      });
+  });
+
+  test("Test 6: Add a record without a location", () => {
+    return agent
+      .post("/record/createRecord")
+      .set("Content-Type", "application/json")
+      .set("Authorization", jwtToken)
+      .send({
+        contact_id: "6131e5b0e0accb25d09663f6",
+        location: null,
+        dateTime: "2021-10-01T10:28:10.018Z",
+        geoCoords: null,
+        notes: "account"
+      })
+      .then((res) => {
+        expect(res.statusCode).toBe(200);
+        expect(res.text).toContain("Miss Important Information Input");
+      });
+  });
+  
+
+  /*
   test("Test 4: Add a record without the linkedAccount", () => {
     return agent
       .post("/record/createRecord")

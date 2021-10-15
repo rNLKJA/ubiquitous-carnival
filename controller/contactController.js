@@ -345,7 +345,7 @@ const searchContact = async (req, res) => {
  */
 const updateContactInfo = async (req, res) => {
   var query = {};
-  // if name in submited form
+  // if name in submitted form
   if (req.body.lastName !== "") {
     query["lastName"] = req.body.lastName;
   }
