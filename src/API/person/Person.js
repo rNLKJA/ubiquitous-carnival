@@ -21,6 +21,7 @@ import SaveIcon from '@mui/icons-material/Save';
 import Alert from '@mui/material/Alert';
 import Input from '@mui/material/Input';
 import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
 
 
 const BASE_URL = "https://crm4399.herokuapp.com";
@@ -51,6 +52,7 @@ const Person = () => {
   const [uploadPercentage, setUploadPercentage] = useState(0);
   const [loading1, setLoading1] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [fileName, setFileName] = useState('')
 
 
 
@@ -377,7 +379,6 @@ const Person = () => {
     e.preventDefault();
     const formData = new FormData();
     formData.append('portrait', file);
-    console.log(formData);
 
 
     try {
@@ -397,7 +398,7 @@ const Person = () => {
       });
 
       if (res.data.status === 'false') {
-        alert('upload failed')
+        setMessage('upload failed ');
         return
       }
 
@@ -405,10 +406,15 @@ const Person = () => {
 
       setSuccess(true);
       setLoading1(false);
+      // TODO: backend should return the decoded string of image in res.data.portrait.
+      // update hook state to rerender the new avatar
+      // setAvatar(res.data.portrait) 
+
+      window.location.href = "/setting"
 
     } catch (err) {
       if (err) {
-        setMessage('upload failed err: ', err);
+        setMessage('upload failed err: ');
       } else {
 
         setMessage(err.response.data.msg);
@@ -419,6 +425,7 @@ const Person = () => {
 
   const onChange = e => {
     setFile(e.target.files[0]);
+    setFileName(e.target.files[0].name);
 
   };
 
@@ -433,7 +440,7 @@ const Person = () => {
         {message ? <Alert severity="error">{message}</Alert> : null}
         <div className="Avatar-container" style={{ textAlign: 'center', fontSize: '20px', height: '100px', marginBottom: '20px', marginTop: '20px', justifyContent: "center", display: "flex" }}>
 
-          <Avatar alt="Avatar" sx={{ width: 100, height: 100, border: '2px solid pink' }} margin={3} src={"data:image/png;base64," + avatar} />
+          <Avatar alt="Avatar" sx={{ width: 120, height: 120, border: '2px solid pink' }} margin={3} src={"data:image/png;base64," + avatar} />
 
 
 
@@ -442,12 +449,20 @@ const Person = () => {
 
 
 
-              <label htmlFor="contained-button-file">
+              <label htmlFor="contained-button-file" style={{ padding: '10px'}}>
                 <Input accept="image/*" id="contained-button-file" multiple type="file" hidden={true} onChange={onChange} />
-                <Button variant="contained" component="span">
-                  Upload
+                <Button variant="contained" component="span" >
+                  <Typography variant="body2">
+                    Choose
+                  </Typography>
                 </Button>
               </label>
+
+              <Typography >
+                {fileName}
+              </Typography>
+
+
 
 
               <Box sx={{ m: 1, position: 'relative', alignItems: 'center', justifyContent: "center", display: "flex" }}>
@@ -488,7 +503,7 @@ const Person = () => {
 
         {/* the code below is used for upload avatar */}
 
-        <div className="information-container" style={{ justifyContent: "center", display: "flex" }}>
+        <div className="information-container" style={{ justifyContent: "center", display: "flex", marginTop: "40px" }}>
           <div className="basicInformation">
             <div className="basic-heading">
               <h2>Basic Information</h2>
