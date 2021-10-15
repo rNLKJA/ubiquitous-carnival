@@ -1,3 +1,4 @@
+
 import React from "react";
 import { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
@@ -23,6 +24,8 @@ import Alert from '@mui/material/Alert';
 import Input from '@mui/material/Input';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
+
+import Person1 from "./Person1.js";
 
 
 const BASE_URL = "https://crm4399.herokuapp.com";
@@ -70,28 +73,28 @@ const Person = () => {
 
   if (error) {
     return (
-      <React.Fragment>
-        <Heading />
-        <Navbar />
-        <div className="sub-container">
-          <div className="sub-container">Error</div>;
-        </div>
-      </React.Fragment>
+        <React.Fragment>
+          <Heading />
+          <Navbar />
+          <div className="sub-container">
+            <div className="sub-container">Error</div>;
+          </div>
+        </React.Fragment>
     );
   }
 
   if (loading) {
     return (
-      <React.Fragment>
-        <Heading />
-        <Navbar />
-        <div className="sub-container">
-          <div className="loading">
-            <h1>Loading Your Information</h1>
-            <h1>(っ˘ω˘ς )</h1>
+        <React.Fragment>
+          <Heading />
+          <Navbar />
+          <div className="sub-container">
+            <div className="loading">
+              <h1>Loading Your Information</h1>
+              <h1>(っ˘ω˘ς )</h1>
+            </div>
           </div>
-        </div>
-      </React.Fragment>
+        </React.Fragment>
     );
   }
 
@@ -109,14 +112,14 @@ const Person = () => {
     };
 
     fetchClient
-      .post(BASE_URL + "/profile/editProfile", prof)
-      .then(() => {
-        console.log("upload new information");
-        setSaveBtn(false);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
+        .post(BASE_URL + "/profile/editProfile", prof)
+        .then(() => {
+          console.log("upload new information");
+          setSaveBtn(false);
+        })
+        .catch((err) => {
+          console.error(err);
+        });
 
     setFirstName("");
     setLastName("");
@@ -129,12 +132,12 @@ const Person = () => {
 
   if (loading) {
     return (
-      <div className="sub-container">
-        <div className="loading">
-          <h1>Loading Your Contact</h1>
-          <h1>(っ˘ω˘ς )</h1>
+        <div className="sub-container">
+          <div className="loading">
+            <h1>Loading Your Contact</h1>
+            <h1>(っ˘ω˘ς )</h1>
+          </div>
         </div>
-      </div>
     );
   }
 
@@ -197,11 +200,11 @@ const Person = () => {
     };
 
     fetchClient
-      .post(BASE_URL + "/profile/addEmail", profile)
-      .then(() => console.log("upload new information"))
-      .catch((err) => {
-        console.error(err);
-      });
+        .post(BASE_URL + "/profile/addEmail", profile)
+        .then(() => console.log("upload new information"))
+        .catch((err) => {
+          console.error(err);
+        });
 
     setEmail("");
   };
@@ -213,11 +216,11 @@ const Person = () => {
     };
 
     fetchClient
-      .post(BASE_URL + "/profile/delEmail", profile)
-      .then(() => console.log("upload del"))
-      .catch((err) => {
-        console.error(err);
-      });
+        .post(BASE_URL + "/profile/delEmail", profile)
+        .then(() => console.log("upload del"))
+        .catch((err) => {
+          console.error(err);
+        });
 
     setEmail("");
   };
@@ -230,11 +233,11 @@ const Person = () => {
     };
 
     fetchClient
-      .post(BASE_URL + "/profile/delPhone", profile)
-      .then(() => console.log("upload del"))
-      .catch((err) => {
-        console.error(err);
-      });
+        .post(BASE_URL + "/profile/delPhone", profile)
+        .then(() => console.log("upload del"))
+        .catch((err) => {
+          console.error(err);
+        });
 
     setPhone("");
   };
@@ -247,11 +250,11 @@ const Person = () => {
     };
 
     fetchClient
-      .post(BASE_URL + "/profile/addPhone", profile)
-      .then(() => console.log("upload new information"))
-      .catch((err) => {
-        console.error(err);
-      });
+        .post(BASE_URL + "/profile/addPhone", profile)
+        .then(() => console.log("upload new information"))
+        .catch((err) => {
+          console.error(err);
+        });
 
     setPhone("");
   };
@@ -391,9 +394,9 @@ const Person = () => {
         },
         onUploadProgress: progressEvent => {
           setUploadPercentage(
-            parseInt(
-              Math.round((progressEvent.loaded * 100) / progressEvent.total)
-            )
+              parseInt(
+                  Math.round((progressEvent.loaded * 100) / progressEvent.total)
+              )
           );
         }
       });
@@ -409,7 +412,7 @@ const Person = () => {
       setLoading1(false);
       // TODO: backend should return the decoded string of image in res.data.portrait.
       // update hook state to rerender the new avatar
-      // setAvatar(res.data.portrait) 
+      // setAvatar(res.data.portrait)
 
       window.location.href = "/setting"
 
@@ -432,81 +435,93 @@ const Person = () => {
   };
 
   return (
-    <React.Fragment>
-      <Heading />
-      <Navbar />
-      <div className="sub-container">
-        {/* <div className="person-heading">
+      <React.Fragment>
+        <Heading />
+        <Navbar />
+        <div className="sub-container">
+          {/* <div className="person-heading">
           <h1>Personal Information</h1>
         </div> */}
-        {message ? <Alert severity="error">{message}</Alert> : null}
-        <div className="Avatar-container" style={{ textAlign: 'center', fontSize: '20px', height: '100px', marginBottom: '20px', marginTop: '20px', justifyContent: "center", display: "flex" }}>
+          {message ? <Alert severity="error">{message}</Alert> : null}
+          <div className="Avatar-container" style={{ textAlign: 'center', fontSize: '20px', height: '100px', marginBottom: '20px', marginTop: '20px', justifyContent: "center", display: "flex" }}>
 
-          <Avatar alt="Avatar" sx={{ width: 120, height: 120, border: '2px solid pink' }} margin={3} src={"data:image/png;base64," + avatar} />
-
-
-
-          {upload ? [<div className="upload-container " style={{ alignItems: 'center', justifyContent: "center", display: "flex", position: 'fixed', right: '10px', top: '0px' }}>
-            <form onSubmit={onSubmit}>
+            <Avatar alt="Avatar" sx={{ width: 120, height: 120, border: '2px solid pink' }} margin={3} src={"data:image/png;base64," + avatar} />
 
 
 
-              <label htmlFor="contained-button-file" style={{ padding: '10px'}}>
-                <Input accept="image/*" id="contained-button-file" multiple type="file" hidden={true} onChange={onChange} />
-                <Button variant="contained" component="span" >
-                  <Typography variant="body2">
-                    Choose
+            {upload ? [<div className="upload-container " style={{ alignItems: 'center', justifyContent: "center", display: "flex", position: 'fixed', right: '10px', top: '0px' }}>
+              <form onSubmit={onSubmit}>
+
+
+
+                <label htmlFor="contained-button-file" style={{ padding: '10px'}}>
+                  <Input accept="image/*" id="contained-button-file" multiple type="file" hidden={true} onChange={onChange} />
+                  <Button variant="contained" component="span" >
+                    <Typography variant="body2">
+                      Choose
+                    </Typography>
+                  </Button>
+                </label>
+                <div style={{ overflow: "hidden", textOverflow: "ellipsis", width: '7rem' }}>
+                  <Typography variant="body2" noWrap color="text.secondary">
+                    {fileName}
                   </Typography>
-                </Button>
-              </label>
-              <div style={{ overflow: "hidden", textOverflow: "ellipsis", width: '7rem' }}>
-                <Typography variant="body2" noWrap color="text.secondary">
-                  {fileName}
-                </Typography>
+                </div>
+
+
+
+                <Box sx={{ m: 1, position: 'relative', alignItems: 'center', justifyContent: "center", display: "flex" }}>
+                  <Fab
+                      aria-label="save"
+                      color="primary"
+                      sx={buttonSx}
+                      onClick={onSubmit}
+                  >
+                    {success ? <CheckIcon /> : <SaveIcon />}
+
+                  </Fab>
+                  {loading1 && (
+                      <CircularProgress
+
+                          value={uploadPercentage}
+                          variant="determinate"
+                          size={68}
+                          sx={{
+                            color: green[500],
+                            position: 'absolute',
+                          }}
+                      />
+                  )}
+                </Box>
+                <Button onClick={onClickUpload}>Cancel</Button>
+              </form>
+            </div>] : (<div style={{ right: '10px', top: '5rem', position: 'fixed' }}>
+              <Button onClick={onClickUpload}>
+
+                <UploadIcon />
+                Upload
+
+              </Button>
+            </div>)}
+
+
+          </div>
+
+          {/* the code below is used for upload avatar */}
+
+          {profile &&(
+              <div className="information-container">
+                <Person1
+                    key={profile._id}
+                    profile={profile}
+                />
+
               </div>
 
+          )}
 
 
-              <Box sx={{ m: 1, position: 'relative', alignItems: 'center', justifyContent: "center", display: "flex" }}>
-                <Fab
-                  aria-label="save"
-                  color="primary"
-                  sx={buttonSx}
-                  onClick={onSubmit}
-                >
-                  {success ? <CheckIcon /> : <SaveIcon />}
-
-                </Fab>
-                {loading1 && (
-                  <CircularProgress
-
-                    value={uploadPercentage}
-                    variant="determinate"
-                    size={68}
-                    sx={{
-                      color: green[500],
-                      position: 'absolute',
-                    }}
-                  />
-                )}
-              </Box>
-              <Button onClick={onClickUpload}>Cancel</Button>
-            </form>
-          </div>] : (<div style={{ right: '10px', top: '5rem', position: 'fixed' }}>
-            <Button onClick={onClickUpload}>
-
-              <UploadIcon />
-              Upload
-
-            </Button>
-          </div>)}
-
-
-        </div>
-
-        {/* the code below is used for upload avatar */}
-
-        <div className="information-container" style={{ justifyContent: "center", display: "flex", marginTop: "40px" }}>
+          {/*<div className="information-container" style={{ justifyContent: "center", display: "flex", marginTop: "40px" }}>
           <div className="basicInformation">
             <div className="basic-heading">
               <h2>Basic Information</h2>
@@ -593,17 +608,17 @@ const Person = () => {
                 );
               })}
           </div>
-        </div>
-        <br />
-        <Link to="/setting/qr">
-          <button className="qr-code">QR Code</button>
-        </Link>
+        </div>*/}
+          <br />
+          <Link to="/setting/qr">
+            <button className="qr-code">QR Code</button>
+          </Link>
 
-        <button className="logout-btn" onClick={LogoutUser}>
-          Log out
-        </button>
-      </div>
-    </React.Fragment>
+          <button className="logout-btn" onClick={LogoutUser}>
+            Log out
+          </button>
+        </div>
+      </React.Fragment>
   );
 };
 
@@ -614,34 +629,34 @@ export const UpdatePasswordComponent = ({ email }) => {
   const [updatePasswordBtn, setUpdatePasswordBtn] = useState(true);
 
   return (
-    <React.Fragment>
-      {updatePasswordBtn && (
-        <button
-          className="password-btn"
-          onClick={() => {
-            setUpdatePassword(!updatePassword);
-            setUpdatePasswordBtn(!updatePasswordBtn);
-          }}
-        >
-          Change Your Password
-        </button>
-      )}
+      <React.Fragment>
+        {updatePasswordBtn && (
+            <button
+                className="password-btn"
+                onClick={() => {
+                  setUpdatePassword(!updatePassword);
+                  setUpdatePasswordBtn(!updatePasswordBtn);
+                }}
+            >
+              Change Your Password
+            </button>
+        )}
 
-      {updatePassword && (
-        <React.Fragment>
-          <UpdatePassword email={email} />
-          <button
-            className="password-btn"
-            onClick={() => {
-              setUpdatePassword(!updatePassword);
-              setUpdatePasswordBtn(!updatePasswordBtn);
-            }}
-            style={{ border: "none", color: "red", marginBottom: "20px" }}
-          >
-            Abort Change
-          </button>
-        </React.Fragment>
-      )}
-    </React.Fragment>
+        {updatePassword && (
+            <React.Fragment>
+              <UpdatePassword email={email} />
+              <button
+                  className="password-btn"
+                  onClick={() => {
+                    setUpdatePassword(!updatePassword);
+                    setUpdatePasswordBtn(!updatePasswordBtn);
+                  }}
+                  style={{ border: "none", color: "red", marginBottom: "20px" }}
+              >
+                Abort Change
+              </button>
+            </React.Fragment>
+        )}
+      </React.Fragment>
   );
 };
