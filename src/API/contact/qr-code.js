@@ -4,6 +4,8 @@ import fetchClient from "../axiosClient/axiosClient";
 // import qr_code from "./qr-code.png";
 // import hand_write from "./notes.png";
 import QrReader from "react-qr-reader";
+import Heading from '../heading/heading.jsx'
+import Navbar from '../nav/Navbar'
 
 const AddUser = () => {
     const qrRef = useRef(null);
@@ -56,6 +58,8 @@ const AddUser = () => {
 
     return (
         <React.Fragment>
+						<Heading />
+						<Navbar />
             <div className="sub-container">
                 <h1 className="add-contact-container">QR Code</h1>
                 <div>
