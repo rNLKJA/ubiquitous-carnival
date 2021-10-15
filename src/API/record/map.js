@@ -45,16 +45,20 @@ const options = {
 };
 
 // return map component
-const Map = ({ setLocation, setGeoCoords }) => {
+const Map = ({ setLocation, setGeoCoords, geoLocation , text}) => {
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
     libraries,
   });
 
+  const initLocation = geoLocation ? geoLocation : center
+
+  console.log(geoLocation ,"geo" ,  "init " , initLocation)
+
   // set the address location
   const [address, setAddress] = useState({
-    ...center,
-    text: "The University of Melbourne",
+    ...initLocation,
+    text: text ? text : "The University of Melbourne",
   });
   const [selected, setSelected] = useState(null);
 
@@ -122,7 +126,7 @@ const Map = ({ setLocation, setGeoCoords }) => {
         <GoogleMap
           mapContainerStyle={mapContainerStyle}
           zoom={14}
-          center={center}
+          center={geoLocation ? geoLocation : center}
           options={options}
           onClick={onMapClick}
           onLoad={onMapLoad}

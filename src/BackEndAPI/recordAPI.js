@@ -25,10 +25,10 @@ function showAllRecords() {
 }
 
 
-function deleteOneRecord(recordId) {
-  const endpoint = "/record/deleteOneRecord";
-  return fetchClient.post(endpoint, recordId).then((res) => res.data);
-}
+// function deleteOneRecord(recordId) {
+//   const endpoint = "/record/deleteOneRecord";
+//   return fetchClient.post(endpoint, recordId).then((res) => res.data);
+// }
 /**
  * React_Use_Function: Show all the Record for the client
  * @return {json} json file contains the record information
