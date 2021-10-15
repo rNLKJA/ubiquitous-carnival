@@ -11,6 +11,8 @@ import Heading from "../heading/heading";
 import Navbar from "../nav/Navbar";
 import UpdatePassword from "./UpdatePassword";
 import Avatar from '@mui/material/Avatar';
+import UploadIcon from '@mui/icons-material/Upload';
+import Button from '@mui/material/Button'
 
 
 const BASE_URL = "https://crm4399.herokuapp.com";
@@ -31,15 +33,16 @@ const Person = () => {
   const inputE1 = useRef(null);
   const inputE2 = useRef();
   const inputE3 = useRef();
-  // const [avatar, setAvatar] = useState("");
 
-  // useEffect(() => {
-  //   const fetchAvatar = async() =>{
-  //     const response = await fetchClient.post('http://localhost:5000/profile/displayImage')
-  //     setAvatar(response.data.image);
-  //   }
-  //   fetchAvatar();
-  // },[])
+  const [avatar, setAvatar] = useState("");
+
+  useEffect(() => {
+    const fetchAvatar = async () => {
+      const response = await fetchClient.post('/profile/displayImage')
+      setAvatar(response.data.image);
+    }
+    fetchAvatar();
+  }, [])
 
   if (error) {
     return (
@@ -343,14 +346,24 @@ const Person = () => {
           <h1>Personal Information</h1>
         </div> */}
 
-        <div className="Avatar-container" style = {{textAlign : 'center' , fontSize : '20px',height : '100px', marginBottom : '20px',marginTop : '20px',justifyContent: "center", display: "flex"}}>
+        <div className="Avatar-container" style={{ textAlign: 'center', fontSize: '20px', height: '100px', marginBottom: '20px', marginTop: '20px', justifyContent: "center", display: "flex" }}>
 
-        <Avatar alt="Avatar" sx = { {width : 100, height : 100,border : '2px solid pink' }} margin = {3}   />
-				{/* src={"data:image/png;base64,"+avatar} */}
+          <Avatar alt="Avatar" sx={{ width: 100, height: 100, border: '2px solid pink' }} margin={3} src={"data:image/png;base64," + avatar} />
+
+          <div style={{ right: '10px', top: '5rem', position: 'fixed' }}>
+            <Button >
+              <Link to="/uploadTest">
+                <UploadIcon />
+                Upload
+              </Link>
+            </Button>
+          </div>
+
+
         </div>
 
 
-        <div className="information-container" style = {{justifyContent: "center",display: "flex"}}>
+        <div className="information-container" style={{ justifyContent: "center", display: "flex" }}>
           <div className="basicInformation">
             <div className="basic-heading">
               <h2>Basic Information</h2>
@@ -388,7 +401,7 @@ const Person = () => {
             <form className="newEmail" method="POST" onSubmit={submitNewEmail}>
               <button onClick={addNewEmail}>+</button>
             </form>
-						<br />
+            <br />
             <div className="delEmail">
               {profile.email &&
                 profile.email.map(function (item) {
