@@ -56,6 +56,7 @@ const Record = () => {
               <h1>Record</h1>
               <Link to="/createRecord" >
                 <Fab
+                  className="record-add-btn"
                   color="primary"
                   aria-label="add"
                   sx={{

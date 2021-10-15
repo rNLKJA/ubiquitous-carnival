@@ -18,7 +18,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import fetchClient from "../axiosClient/axiosClient"
 import Popover from '@mui/material/Popover';
 
-const ExpandMore = styled((props) => {
+const ExpandMore1 = styled((props) => {
   const { expand, ...other } = props;
   return <IconButton {...other} />;
 })(({ theme, expand }) => ({
@@ -31,10 +31,18 @@ const ExpandMore = styled((props) => {
 
 
 const RecordDetail = (prop) => {
+
+  const [expand, setExpand] = useState(false);
+  const onExpandClick = () => {
+    setExpand(!expand);
+  };
   const [expanded, setExpanded] = useState(false);
   const handleExpandClick = () => {
     setExpanded(!expanded);
+    setExpand(!expand);
   };
+
+
 
   const [anchorEl, setAnchorEl] = useState(null);
 
@@ -65,12 +73,12 @@ const RecordDetail = (prop) => {
       <CardHeader
         avatar={
           <Avatar sx={{ bgcolor: "pink" }} aria-label="recipe">
-						{prop.record.meetingPerson.lastName[0].toUpperCase()}
+            {prop.record.meetingPerson.lastName[0].toUpperCase()}
           </Avatar>
         }
         action={
           <div>
-            <EditIcon onClick={() => { prop.setOneRecord({ ...prop.record, selected: true }) }}/>
+            <EditIcon onClick={() => { prop.setOneRecord({ ...prop.record, selected: true }) }} />
             <DeleteIcon onClick={handleDelete} />
           </div>
         }
@@ -78,10 +86,21 @@ const RecordDetail = (prop) => {
         title={prop.record.meetingPerson.firstName + " " + prop.record.meetingPerson.lastName}
         subheader={convert(prop.record.dateTime)}
       />
+      <CardContent>
+
+        {(expand) ? '' : <div style={{ overflow: "hidden", textOverflow: "ellipsis", width: '100%', nowrap: 'true' }}>
+          <Typography noWrap >
+
+            {"Notes : \n" + "  " + prop.record.notes.replace('\n\r', "")}
+
+          </Typography>
+        </div>}
+
+      </CardContent>
 
 
       <CardActions >
-        <span style={{ width: "80%", display: "inline-block", whiteSpace: "nowrap" }}>
+        <div style={{ width: "80%", display: "flex", whiteSpace: "nowrap" }}>
           <IconButton aria-label="location">
             <LocationOnIcon />
             <CardContent>
@@ -118,16 +137,16 @@ const RecordDetail = (prop) => {
 
             </CardContent>
           </IconButton>
-        </span>
+        </div>
 
-        <ExpandMore
+        <ExpandMore1
           expand={expanded}
           onClick={handleExpandClick}
           aria-expanded={expanded}
           aria-label="show more"
         >
           <ExpandMoreIcon />
-        </ExpandMore>
+        </ExpandMore1>
       </CardActions>
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <IconButton aria-label="phone">
@@ -136,9 +155,13 @@ const RecordDetail = (prop) => {
             {prop.record.meetingPerson.phone[0]}
           </Typography>
         </IconButton>
-        <CardContent>
+        <CardContent maxWidth = "100%">
           <Typography paragraph>Notes: </Typography>
-          <Typography paragraph>
+          <Typography
+            variant="body1"
+            maxWidth = "100%"
+            style={{ whiteSpace: 'pre-line' } } noWrap
+          >
             {prop.record.notes ? prop.record.notes : "add notes"}
           </Typography>
 
