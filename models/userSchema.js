@@ -3,8 +3,8 @@ const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 
 const contactListSchema = new mongoose.Schema({
-	contact: { type: mongoose.Schema.Types.ObjectId, ref: "Contact" },
-	addSince: { type: Date, required: true, default: Date.now },
+  contact: { type: mongoose.Schema.Types.ObjectId, ref: "Contact" },
+  addSince: { type: Date, required: true, default: Date.now },
 });
 /*
 const recordListSchema = new mongoose.Schema({
@@ -14,29 +14,29 @@ const recordListSchema = new mongoose.Schema({
 */
 // create mongoose schema
 const userSchema = new mongoose.Schema({
-	userName: { type: String, required: true, unique:true},
-	email: { type: Array, required: true },
-	password: { type: String, required: true },
-	lastName: { type: String },
-	firstName: { type: String },
-	portrait: {
+  userName: { type: String, required: true, unique: true },
+  email: { type: Array, required: true },
+  password: { type: String, required: true },
+  lastName: { type: String },
+  firstName: { type: String },
+  portrait: {
     // store profile picture
     data: Buffer,
     contentType: String,
-	},
-	occupation: { type: String },
-	phone: { type: Array },
-  	status: { type: String }, // active, pending ? if only two status, consider use boolean
- 	contactList: [contactListSchema], // store a list of contact objects
-	recordList: [{ type: mongoose.Schema.Types.ObjectId, ref: "Record" }]
+  },
+  occupation: { type: String },
+  phone: { type: Array },
+  status: { type: String }, // active, pending ? if only two status, consider use boolean
+  contactList: [contactListSchema], // store a list of contact objects
+  recordList: [{ type: mongoose.Schema.Types.ObjectId, ref: "Record" }],
 });
 
 userSchema.methods.generateHash = function (password) {
-	return bcrypt.hash(password, 10);
+  return bcrypt.hash(password, 10);
 };
 
 userSchema.methods.validPassword = function (password) {
-	return bcrypt.compareSync(password, this.password);
+  return bcrypt.compareSync(password, this.password);
 };
 
 const User = mongoose.model("User", userSchema);
