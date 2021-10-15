@@ -44,6 +44,16 @@ const createRecord = async (req, res) => {
     //if (linkedAccount != null) {
     //    if (await User.findOne({_id: mongoose.Types.ObjectId(linkedAccount)}).lean() == null) throw err
     //}
+    var lat;
+    var lng;
+    if (geoCoords == null) {
+      lat = null;
+      lng = null;
+    } else {
+      lat = geoCoords.lat;
+      lng = geoCoords.lng;
+    }
+    
 
     const newRecord = await Record.create({
       meetingPerson: contact_id,
@@ -52,8 +62,8 @@ const createRecord = async (req, res) => {
       notes: notes,
       //"linkedAccount" : linkedAccount,
       ownerAccount: req.user._id,
-      lat: geoCoords.lat,
-      lng: geoCoords.lng,
+      lat: lat,
+      lng: lng,
     });
 
     await newRecord.save();
