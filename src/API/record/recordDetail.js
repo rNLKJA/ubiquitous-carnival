@@ -17,6 +17,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import fetchClient from "../axiosClient/axiosClient"
 import Popover from '@mui/material/Popover';
+
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
   return <IconButton {...other} />;
@@ -69,7 +70,7 @@ const RecordDetail = (prop) => {
         }
         action={
           <div>
-            <EditIcon onClick={() => { alert("editing") }} />
+            <EditIcon onClick={() => { prop.setOneRecord({ ...prop.record, selected: true }) }}/>
             <DeleteIcon onClick={handleDelete} />
           </div>
         }

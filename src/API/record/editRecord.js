@@ -13,42 +13,31 @@ import React, { useState, useEffect, useRef } from "react";
 import Map from "./map";
 import Heading from "../heading/heading.jsx";
 import Autocomplete from "@mui/material/Autocomplete";
-import { Link } from "react-router-dom";
+import Button from "@mui/material/Button";
 
 
-const CreateRecord = () => {
+const EditRecord = (prop) => {
 	
   useEffect(() => {
     document.title = "Add Record";
+    
   }, []);
+  const textAreaRef = useRef(null)
 
-	const textAreaRef = useRef(null)
 
-  const [currentTime, setCurrentTime] = useState(new Date());
-  const { loading, contacts, error } = useContacts();
-  const [selected, setSelected] = useState("");
-  const [location, setLocation] = useState("");
-  const [geoCoords, setGeoCoords] = useState({ lat: -37.7972, lng: 144.961 });
-  const [notes, setNotes] = useState("");
+  const [currentTime, setCurrentTime] = useState(prop.record.dateTime);
 
-  if (error) {
-    return <Error msg={"Something Wrong with Record Component"}></Error>;
-  }
+  const [selected, setSelected] = useState({label : prop.record.meetingPerson.firstName + ' '  + prop.record.meetingPerson.lastName ,
+                                            id : prop.record.meetingPerson._id
+                                            });
+  const [location, setLocation] = useState(prop.record.location);
+  const [geoCoords, setGeoCoords] = useState({lat : prop.record.lat, lng : prop.record.lng});
+  const [notes, setNotes] = useState(prop.record.notes);
 
-  if (loading) {
-    return (
-      <React.Fragment>
-				<Heading />
-    	  <Navbar />
-        <div className="sub-container">
-          <div className="loading">
-            <h1>Loading</h1>
-            <h1> ヽ(*・ω・)ﾉ</h1>
-          </div>
-        </div>
-      </React.Fragment>
-    );
-  }
+  console.log(geoCoords)
+  console.log(currentTime)
+
+  const contacts = prop.contacts
 
   let names = contacts.map(function (contact, index) {
     return {
@@ -60,18 +49,19 @@ const CreateRecord = () => {
   const handleSubmit = async () => {
     // return console.log(location);
     const recordInfo = {
-      contact_id: selected,
+      _id : prop.record._id,
+      contact_id: selected.id,
       location: location,
-      dateTime: convert(currentTime),
+      dateTime: currentTime,
       geoCoords: geoCoords,
       notes: notes,
     };
 
-    // console.log(recordInfo);
+    console.log(recordInfo);
 
     await fetchClient
-      .post("https://crm4399.herokuapp.com/record/createRecord", recordInfo)
-      .then(() => alert("Successfully create a record つ - - つ"))
+      .post("/record/editRecord", recordInfo)
+      .then(() => alert("Successfully edit a record つ - - つ"))
       .catch((err) => {
         alert(err);
         console.error(err);
@@ -85,7 +75,7 @@ const CreateRecord = () => {
   const setFieldValue = (value) => {
     if (value) {
       const { id, label } = value;
-      setSelected(id);
+      setSelected(value);
       console.log(id, " + ", label);
     }
   };
@@ -94,17 +84,13 @@ const CreateRecord = () => {
 
   return (
     <React.Fragment>
-      <Heading />
-      <Navbar />
-      <div className="sub-container">
-      <div className="heading-record">
-              <h1> Create ・ω・</h1>
-            </div>
-        <Link to="/record" className="back-button">
-          <button className="back-button">
-            Back
-          </button>
-        </Link>
+      
+     
+        <Button onClick={() => { 
+            prop.setOneRecord({...prop.record, selected : false})
+        }}>
+            Back     
+        </Button>
 
         <form className="record-form">
           <Autocomplete
@@ -112,6 +98,7 @@ const CreateRecord = () => {
             name="Contacts"
             options={names}
             sx={{ width: "100%" }}
+            value={selected}
             isOptionEqualToValue={(option, value) => option.id === value.id}
             onChange={(e, v) => setFieldValue(v)}
             renderInput={(params) => <TextField {...params} label="Contacts" />}
@@ -166,7 +153,7 @@ const CreateRecord = () => {
             hidden
           />
 
-          <Map setLocation={setLocation} setGeoCoords={setGeoCoords} />
+          <Map setLocation={setLocation} setGeoCoords={setGeoCoords} geoLocation = {geoCoords} text = {prop.record.location} />
 					
 					<label htmlFor="notes">Notes: </label>
           <textarea
@@ -187,12 +174,11 @@ const CreateRecord = () => {
             type="button"
             onClick={handleSubmit}
           >
-            Create A Record
+           Save
           </button>
         </form>
-      </div>
     </React.Fragment>
   );
 };
 
-export default CreateRecord;
+export default EditRecord;
