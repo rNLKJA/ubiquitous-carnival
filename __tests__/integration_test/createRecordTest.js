@@ -68,7 +68,7 @@ describe("Integration test: Test for create Record", () => {
     })
       .then((res) => {
         expect(res.statusCode).toBe(200);
-        expect(res.text).toContain("Database query failed");
+        expect(res.text).toContain("Miss Important Information Input");
       });
   });
 

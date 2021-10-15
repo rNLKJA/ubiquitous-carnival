@@ -28,7 +28,12 @@ const createRecord = async (req, res) => {
     }*/
 
   try {
+    let err = new Error("Database query failed");
     const { contact_id, location, dateTime, geoCoords, notes } = req.body;
+    if (contact_id == null || location == null) {
+      err = Error("Miss Important Information Input");
+      throw(err)
+    }
     const date = new Date();
     const offset = date.getTimezoneOffset();
     if (dateTime == null) {
@@ -78,7 +83,12 @@ const createRecord = async (req, res) => {
 
     res.json(newRecord);
   } catch (err) {
-    res.send("Database query failed");
+    if (err.message == "Miss Important Information Input") {
+      res.send(err.message)
+    } else {
+      res.send("Database query failed");
+    }
+    //res.send("Database query failed");
   }
 };
 
