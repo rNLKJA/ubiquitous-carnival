@@ -17,6 +17,11 @@ const AddUser = () => {
     <React.Fragment>
       <Heading />
       <div className="sub-container">
+				<Link to="/contact">
+					<button className='back-button'>
+						Back
+					</button>
+				</Link>
         <div className="add-contact-container">
           {/* link to contact route */}
           <Link to="/addUser/qr-code" style={{ width: "90%" }}>
