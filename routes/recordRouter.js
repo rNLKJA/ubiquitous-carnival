@@ -14,4 +14,5 @@ recordRouter.post('/createRecord', passport.authenticate('jwt', { session: false
 recordRouter.get('/showRecord', passport.authenticate('jwt', { session: false }), (req,res) => recordController.showAllRecords(req,res))
 recordRouter.get('/searchRecord', passport.authenticate('jwt', { session: false }), (req,res) => recordController.searchRecord(req,res))
 recordRouter.post('/deleteOneRecord', passport.authenticate('jwt', { session: false }), (req,res) => recordController.deleteOneRecord(req, res))
+recordRouter.post('/editRecord', passport.authenticate('jwt', { session: false }), (req,res) => recordController.editRecord(req, res))
 module.exports = recordRouter

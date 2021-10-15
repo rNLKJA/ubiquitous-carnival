@@ -25,10 +25,16 @@ const createRecord = async (req, res) => {
             "lng":"52123456"
         },
         "notes": "account"
-    }*/
+    }
+  */
 
   try {
+    let err = new Error("Database query failed");
     const { contact_id, location, dateTime, geoCoords, notes } = req.body;
+    if (contact_id == null || location == null) {
+      err = Error("Miss Important Information Input");
+      throw(err)
+    }
     const date = new Date();
     const offset = date.getTimezoneOffset();
     if (dateTime == null) {
@@ -40,10 +46,15 @@ const createRecord = async (req, res) => {
       _id: mongoose.Types.ObjectId(contact_id),
     }).lean();
     if (meetingPerson == null) throw err;
-    //const linkedAccount = meetingPerson.linkedAccount
-    //if (linkedAccount != null) {
-    //    if (await User.findOne({_id: mongoose.Types.ObjectId(linkedAccount)}).lean() == null) throw err
-    //}
+    var lat;
+    var lng;
+    if (geoCoords == null) {
+      lat = null;
+      lng = null;
+    } else {
+      lat = geoCoords.lat;
+      lng = geoCoords.lng;
+    }
 
     const newRecord = await Record.create({
       meetingPerson: contact_id,
@@ -52,8 +63,8 @@ const createRecord = async (req, res) => {
       notes: notes,
       //"linkedAccount" : linkedAccount,
       ownerAccount: req.user._id,
-      lat: geoCoords.lat,
-      lng: geoCoords.lng,
+      lat: lat,
+      lng: lng,
     });
 
     await newRecord.save();
@@ -68,7 +79,11 @@ const createRecord = async (req, res) => {
 
     res.json(newRecord);
   } catch (err) {
-    res.send("Database query failed");
+    if (err.message == "Miss Important Information Input") {
+      res.send(err.message)
+    } else {
+      res.send("Database query failed");
+    }
   }
 };
 
@@ -168,9 +183,82 @@ const deleteOneRecord = async (req, res) => {
   }
 };
 
+const editRecord = async (req, res) => {
+  /*
+    request header: user
+    request body:
+    {   
+        "_id": "6131e5b0e0accb25d09663f6", 
+        "contact_id": "6131e5b0e0accb25d09663f6",
+        "location": "University of Melbourne",
+        "dateTime": "2021-10-01T10:28:10.018Z",
+        "geoCoords": {
+            "lat": "122334545", 
+            "lng":"52123456"
+        },
+        "notes": "account"
+    }
+  */
+  try {
+    let err = new Error("Database query failed");
+    const {_id, contact_id, location, dateTime, geoCoords, notes } = req.body;
+    if (contact_id == null || location == null) {
+      err = Error("Miss Important Information Input");
+      throw(err)
+    }
+    const date = new Date();
+    const offset = date.getTimezoneOffset();
+    if (dateTime == null) {
+      dateTimeOut = date.getTime() - offset * 1000 * 60;
+    } else {
+      dateTimeOut = dateTime;
+    }
+    var meetingPerson = await Contact.findOne({
+      _id: mongoose.Types.ObjectId(contact_id),
+    }).lean();
+    if (meetingPerson == null) throw err;
+    var lat;
+    var lng;
+    if (geoCoords == null) {
+      lat = null;
+      lng = null;
+    } else {
+      lat = geoCoords.lat;
+      lng = geoCoords.lng;
+    }
+
+    var record1 = await Record.findOne({
+      _id: mongoose.Types.ObjectId(_id),
+    }).lean();
+  
+    const record = await Record.findOneAndUpdate(
+      { _id: mongoose.Types.ObjectId(_id) },
+      {$set:{
+        meetingPerson: contact_id,
+        dateTime: dateTimeOut,
+        location: location,
+        notes: notes,
+        //"linkedAccount" : linkedAccount,
+        ownerAccount: req.user._id,
+        lat: lat,
+        lng: lng,
+      }}
+    ).lean();
+    
+    res.json(record);
+  } catch (err) {
+    if (err.message == "Miss Important Information Input") {
+      res.send(err.message)
+    } else {
+      res.send("Database query failed");
+    }
+  }
+};
+
 module.exports = {
   createRecord,
   showAllRecords,
   searchRecord,
   deleteOneRecord,
+  editRecord
 };
