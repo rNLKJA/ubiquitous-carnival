@@ -18,10 +18,12 @@ import AddIcon from "@mui/icons-material/Add";
 // import FavoriteIcon from "@mui/icons-material/Favorite";
 // import NavigationIcon from "@mui/icons-material/Navigation";
 import { Link } from "react-router-dom";
+import EditRecord from "./editRecord"
+import { useContacts } from "../../BackEndAPI/contactAPI";
 
 const Record = () => {
   const [searchTerm, setSearchTerm] = useState("");
-
+  const {contacts} = useContacts();
   const { loading, records, error } = useShowAllRecords();
   const [oneRecord, setOneRecord] = useState({
     meetingPerson: "",
@@ -52,7 +54,7 @@ const Record = () => {
           <React.Fragment>
             <div className="heading-record">
               <h1>Record</h1>
-              <Link to="/createRecord">
+              <Link to="/createRecord" >
                 <Fab
                   color="primary"
                   aria-label="add"
@@ -89,6 +91,11 @@ const Record = () => {
               />
             </div>
           </React.Fragment>
+        )}
+        {oneRecord.selected && (
+          <>
+          <EditRecord record={oneRecord} setOneRecord = {setOneRecord} contacts = {contacts}/>
+          </>
         )}
       </div>
     </React.Fragment>
