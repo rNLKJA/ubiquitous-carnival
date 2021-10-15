@@ -336,7 +336,7 @@ const searchContact = async (req, res) => {
  */
 const updateContactInfo = async (req, res) => {
   var query = {};
-  // if name in submited form
+  // if name in submitted form
   if (req.body.lastName !== "") {
     query["lastName"] = req.body.lastName;
   }
@@ -356,7 +356,7 @@ const updateContactInfo = async (req, res) => {
     const contact = await Contact.findOneAndUpdate(
       { _id: mongoose.Types.ObjectId(req.body._id) },
       query,
-      { new: true },
+      { new: true }
     ).lean();
     // const contact = await Contact.findOne({ _id: req.body._id }).lean();
     // console.log(contact);
