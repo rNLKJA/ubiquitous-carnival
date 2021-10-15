@@ -10,6 +10,8 @@ import fetchClient from "../axiosClient/axiosClient";
 import Heading from "../heading/heading";
 import Navbar from "../nav/Navbar";
 import UpdatePassword from "./UpdatePassword";
+import Avatar from '@mui/material/Avatar';
+
 
 const BASE_URL = "https://crm4399.herokuapp.com";
 
@@ -29,6 +31,15 @@ const Person = () => {
   const inputE1 = useRef(null);
   const inputE2 = useRef();
   const inputE3 = useRef();
+  const [avatar, setAvatar] = useState("");
+
+  useEffect(() => {
+    const fetchAvatar = async() =>{
+      const response = await fetchClient.post('http://localhost:5000/profile/displayImage')
+      setAvatar(response.data.image);
+    }
+    fetchAvatar();
+  },[])
 
   if (error) {
     return (
@@ -321,6 +332,8 @@ const Person = () => {
     setOneProfile({ ...oneProfile, phone: profile.phone.splice(pos, 1) });
   };
 
+
+
   return (
     <React.Fragment>
       <Heading />
@@ -329,7 +342,15 @@ const Person = () => {
         {/* <div className="person-heading">
           <h1>Personal Information</h1>
         </div> */}
-        <div className="information-container">
+
+        <div className="Avatar-container" style = {{textAlign : 'center' , fontSize : '20px',height : '100px', marginBottom : '20px',marginTop : '20px',justifyContent: "center", display: "flex"}}>
+
+        <Avatar alt="Avatar" sx = { {width : 100, height : 100,border : '2px solid pink' }} margin = {3}  src={"data:image/png;base64,"+avatar} />
+      
+        </div>
+
+
+        <div className="information-container" style = {{justifyContent: "center",display: "flex"}}>
           <div className="basicInformation">
             <div className="basic-heading">
               <h2>Basic Information</h2>

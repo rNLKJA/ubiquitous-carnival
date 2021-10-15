@@ -11,8 +11,13 @@ const People = ({ contacts, setOneContact }) => {
   const styles = useStyles();
   return (
     
-      <Grid container gap={0.5} className={styles.card}  marginTop= {3}>
-				{console.log(styles.card)}
+      <Grid container
+     	 direction="row"
+     	 justify="center"
+     	 alignItems="center"
+      
+     	 spacing={2}>
+
         {contacts.map((contact) => {
           return (
             <Grid key={contact.contact._id} item xs={12} sm={12} md={4} >
