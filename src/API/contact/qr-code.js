@@ -1,17 +1,31 @@
 
-import React, { useState, Component, useRef} from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "./contact.css";
 import fetchClient from "../axiosClient/axiosClient";
 // import qr_code from "./qr-code.png";
 // import hand_write from "./notes.png";
 import QrReader from "react-qr-reader";
+import Heading from '../heading/heading.jsx'
+import Navbar from '../nav/Navbar'
 
 const AddUser = () => {
-    const qrRef = useRef(null);
+    // const qrRef = useRef(null);
     //const [state,setState]=useState(false);
     const [scanResultWebCam, setScanResultWebCam] = useState("");
+		const [submit, setSubmit] = useState(false)
     const [userName, setUserName] = useState("");
+		const formRef = useRef(null)
+		
+
+		useEffect(() => {
+			if (submit) {
+				formRef.current.submit();
+			}
+		}, [submit]);
+
+
     const BASE_URL = "https://crm4399.herokuapp.com";
+
     const submitUserID = async (e) => {
         e.preventDefault();
 
@@ -45,20 +59,19 @@ const AddUser = () => {
     }*/
 
     const handleErrorWebCam = (error) => {
-        console.log(error)
-
-    }
+			alert("Camera not working, please try later...")
+		}
 
     const handleScanWebCam = (result) => {
         if (result){
             setScanResultWebCam(result);
         }
-
     }
-
 
     return (
         <React.Fragment>
+						<Heading />
+						<Navbar />
             <div className="sub-container">
                 <h1 className="add-contact-container">QR Code</h1>
                 <div>
@@ -80,9 +93,11 @@ const AddUser = () => {
                         onScan = {handleScanWebCam}
                     />
                     <h3>UserID: {scanResultWebCam}</h3>
-                    <form className="newID" method="POST" onSubmit={submitUserID}>
-                        {setUserName.bind(this,scanResultWebCam)}
-                        <input type="submit" value="Confirm"/>
+                    <form ref={formRef} className="newID" method="POST" onSubmit={submitUserID}>
+                        {/* {setUserName.bind(this,scanResultWebCam)} */}
+
+												{userName !== "" && setSubmit(true)}
+                        <button type="submit" className='btn btn-primary'>Add {userName}</button>
                     </form>
 
                 </div>
