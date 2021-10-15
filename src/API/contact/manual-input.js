@@ -212,7 +212,7 @@ const AddUser = () => {
 							<div className="multi-field" >
 								<div className="multi-field-input" style={{display: "flex", flexDirection:"row", gap: "10px", width: "100%" }}>
 									<input
-                    type="text"
+                    text='text' pattern="\d*"
                     value={phone.phone}
                     className="form-control"
                     name="phone"

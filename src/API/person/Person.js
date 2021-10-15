@@ -13,6 +13,7 @@ import UpdatePassword from "./UpdatePassword";
 import Avatar from '@mui/material/Avatar';
 import UploadIcon from '@mui/icons-material/Upload';
 import Button from '@mui/material/Button'
+
 import CircularProgress from '@mui/material/CircularProgress';
 import { green } from '@mui/material/colors';
 import Fab from '@mui/material/Fab';
@@ -46,6 +47,7 @@ const Person = () => {
 
   //hooks for avatar upload
   const [upload, setUpload] = useState(false);
+
   const [avatar, setAvatar] = useState("");
   const [file, setFile] = useState('');
   const [message, setMessage] = useState('');
@@ -498,6 +500,7 @@ const Person = () => {
 
             </Button>
           </div>)}
+
 
         </div>
 

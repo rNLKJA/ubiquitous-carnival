@@ -6,10 +6,10 @@ const BASE_URL = "https://crm4399.herokuapp.com";
 
 axios.defaults.withCredentials = true;
 
-function editProfile(profile) {
-  const endpoint = BASE_URL + "/profile/editProfile";
-  return fetchClient.post(endpoint, profile).then((res) => res.data);
-}
+// function editProfile(profile) {
+//   const endpoint = BASE_URL + "/profile/editProfile";
+//   return fetchClient.post(endpoint, profile).then((res) => res.data);
+// }
 
 /**
  * Back-End API: edit the lastName of client

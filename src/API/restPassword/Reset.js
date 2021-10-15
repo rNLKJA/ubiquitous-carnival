@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./Reset.css";
 import axios from "axios";
-import { WindowSharp } from "@mui/icons-material";
+// import { WindowSharp } from "@mui/icons-material";
 import { Link } from "react-router-dom";
 
 // const BASE_URL = "http://localhost:5000/user";

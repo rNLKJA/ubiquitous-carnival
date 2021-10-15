@@ -32,6 +32,7 @@ const SelectedContact = ({ setOneContact, oneContact, deleteHandler }) => {
         setSelectedContact={setSelectedContact}
         deleteHandler={deleteHandler}
         setOneContact={setOneContact}
+				originContact={oneContact}
       />
     </React.Fragment>
   );
@@ -44,6 +45,7 @@ export const DisplayContact = ({
   setSelectedContact,
   deleteHandler,
   setOneContact,
+	originContact
 }) => {
   // defined variables
   const [contact, setContact] = useState(selectedContact);
@@ -159,6 +161,20 @@ export const DisplayContact = ({
           Edit
         </button>
       )}
+
+			{contact.edit ? (
+				<button
+					className="back"
+					onClick={() => {
+						setContact({ ...originContact, selected: true, edit: false });
+						setPhones(ConvertListStringToListObject(contact.phone, "phone"));
+						setEmails(ConvertListStringToListObject(contact.email, "email"));
+					}}
+				>
+					Cancel
+				</button>
+				) : null }
+
       <div className="makeStyles-card-1" style={{width: "95%"}}>
         <form className="edit-contact-form">
           <label>First Name: </label>
@@ -202,7 +218,7 @@ export const DisplayContact = ({
               <div key={`${phone}-${i}`} className="multi-field">
                 <div className="multi-field-input">
                   <input
-                    type="text"
+                    text='text' pattern="\d*"
                     value={phone.phone}
                     className="form-control"
                     name="phone"
@@ -281,9 +297,9 @@ export const DisplayContact = ({
 
           <label>Notes:</label>
           <textarea
-            style={{ height: "auto" }}
             value={contact.note}
             readOnly={!contact.edit}
+						style={contact.edit ? null : {border: "0", height: 'auto'}}
             onChange={(e) => setContact({ ...contact, note: e.target.value })}
           ></textarea>
 

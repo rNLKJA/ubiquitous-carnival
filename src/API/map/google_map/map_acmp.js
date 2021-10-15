@@ -60,6 +60,8 @@ const Map = () => {
     text: "The University of Melbourne",
   });
   const [selected, setSelected] = useState(null);
+
+	console.log(address)
   // set the callback function
   // const onMapClick = useCallback((event) => {
   //   fetchAddress(
@@ -169,9 +171,9 @@ const Map = () => {
               onCloseClick={() => setSelected(null)}
             >
               <div>
-                <form>
+                <form style={{width: "300px"}}>
                   <label>You Met</label>
-                  <input
+                  <input className="form-control"
                     value={
                       selected.meetingPerson.firstName +
                       " " +
@@ -180,11 +182,15 @@ const Map = () => {
                     readonly
                   />
                   <label>On</label>
-                  <input type="text" value={selected.dateTime} readonly />
+									
+                  <input className="form-control" type="text" value={selected.dateTime.replace('T', ' ').replace('.000Z', '')} readonly />
+
                   <label>At</label>
-                  <input type="text" value={selected.location} readonly />
-                  <label>Comments</label>
-                  <input type="text" readonly value={selected.notes}></input>
+                  <input className="form-control" type="text" value={selected.location.replace(/VIC [a-zA-Z0-9.]*/i, '').replace(/[\u4e00-\u9fa5]/g, '')} readonly />
+                  {selected.notes && <div>
+										<label>Notes:</label>
+                  	<textarea className="form-control" type="text" readonly value={selected.notes} style={{border: '0', height:"auto"}}></textarea>	
+									</div>}
                 </form>
               </div>
             </InfoWindow>
@@ -302,3 +308,9 @@ const fetchAddress = (position, setAddress) => {
       setAddress({ ...position, text: data.results[0].formatted_address }),
     );
 };
+
+// const formatDatetime = (datetime) => {
+// 	let d = new Date(datetime)
+// 	let result = d.getFullYear() + '-' + d.getMonth() + '-' + d.getDay() + ' ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds()
+// 	return result
+// }
