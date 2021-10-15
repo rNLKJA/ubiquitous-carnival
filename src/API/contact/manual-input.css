@@ -3,13 +3,13 @@
 } */
 
 .back-button {
-  top: -9%;
-  right: 6%;
-  position: fixed;
-  border: 2px solid gray;
-  padding: 10px;
-  border-radius: 5px;
-  text-decoration: none;
+	top: -3.2rem;
+	right: 1rem;
+	position: fixed;
+	font-size: 16px;
+	height: 30px;
+	border-radius: 5px;
+	cursor: pointer;
 }
 
 .sub-container {
@@ -17,9 +17,9 @@
   flex-direction: column;
 }
 
-input {
+/* input {
   width: 95%;
-}
+} */
 
 .contact-form {
   display: flex;
@@ -62,17 +62,17 @@ label {
   color: royalblue;
 }
 
-input[type="text"] {
+/* input[type="text"] {
   font-size: 16px;
   font-weight: bold;
   color: darkblue;
-}
-
+} */
+/* 
 input[type="email"] {
   font-size: 16px;
   font-weight: bold;
   color: darkblue;
-}
+} */
 
 a:hover {
   color: white;
@@ -80,3 +80,4 @@ a:hover {
   opacity: 0.7;
   border: 2px solid;
 }
+

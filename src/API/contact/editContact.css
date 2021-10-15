@@ -15,8 +15,10 @@ input {
 
 .edit-contact-form {
   text-align: left;
-  padding: 20px;
-  width: 96%;
+	padding: 10px;
+	width: 96%;
+	overflow-y: scroll;
+	height: 100%;
 }
 
 .field-add-btn {
@@ -103,3 +105,15 @@ input {
   margin-bottom: 5px;
   padding: none;
 }
+
+.makeStyles-card-1 {
+		margin-top: 1rem;
+		width: 95%;
+		overflow: scroll;
+		box-shadow: 0 8px 16px 0 #BDC9D7;
+		border-radius: 16px;
+		height: 95%;
+		padding-top: 20px;
+		padding-bottom: 20px;
+	}
+

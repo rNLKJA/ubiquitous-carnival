@@ -47,7 +47,7 @@ const RecordDetail = (prop) => {
 
   const handleDelete = async (e) => {
     e.preventDefault();
-    window.confirm("delete this record ? ")
+    window.confirm("(ｏ・_・)ノ Delete this record ? ")
     const recordId = {
       recordId: prop.record._id
     }

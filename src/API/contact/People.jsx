@@ -5,17 +5,18 @@ import Divider from '@mui/material/Divider';
 
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@mui/material/Grid';
+import './contact.css'
 
 const People = ({ contacts, setOneContact }) => {
   const styles = useStyles();
   return (
     
       <Grid container
-      direction="row"
-      justify="center"
-      alignItems="center"
+     	 direction="row"
+     	 justify="center"
+     	 alignItems="center"
       
-      spacing={2}>
+     	 spacing={2}>
 
         {contacts.map((contact) => {
           return (
@@ -38,7 +39,7 @@ const useStyles = makeStyles(() => ({
     width: '100%',
     borderRadius: 16,
     boxShadow: '0 8px 16px 0 #BDC9D7',
-    overflow: 'visible'
+    overflow: 'scroll'
   },
   header: {
     fontFamily: 'Barlow, san-serif',
