@@ -33,13 +33,13 @@ const Person = () => {
   const inputE3 = useRef();
   const [avatar, setAvatar] = useState("");
 
-  useEffect(() => {
-    const fetchAvatar = async() =>{
-      const response = await fetchClient.post('http://localhost:5000/profile/displayImage')
-      setAvatar(response.data.image);
-    }
-    fetchAvatar();
-  },[])
+  // useEffect(() => {
+  //   const fetchAvatar = async() =>{
+  //     const response = await fetchClient.post('http://localhost:5000/profile/displayImage')
+  //     setAvatar(response.data.image);
+  //   }
+  //   fetchAvatar();
+  // },[])
 
   if (error) {
     return (
@@ -345,8 +345,8 @@ const Person = () => {
 
         <div className="Avatar-container" style = {{textAlign : 'center' , fontSize : '20px',height : '100px', marginBottom : '20px',marginTop : '20px',justifyContent: "center", display: "flex"}}>
 
-        <Avatar alt="Avatar" sx = { {width : 100, height : 100,border : '2px solid pink' }} margin = {3}  src={"data:image/png;base64,"+avatar} />
-      
+        <Avatar alt="Avatar" sx = { {width : 100, height : 100,border : '2px solid pink' }} margin = {3}   />
+				{/* src={"data:image/png;base64,"+avatar} */}
         </div>
 
 
