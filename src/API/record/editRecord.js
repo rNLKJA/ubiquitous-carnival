@@ -153,7 +153,7 @@ const EditRecord = (prop) => {
             hidden
           />
 
-          <Map setLocation={setLocation} setGeoCoords={setGeoCoords} />
+          <Map setLocation={setLocation} setGeoCoords={setGeoCoords} geoLocation = {geoCoords} text = {prop.record.location} />
 					
 					<label htmlFor="notes">Notes: </label>
           <textarea
