@@ -159,7 +159,7 @@ export const DisplayContact = ({
           Edit
         </button>
       )}
-      <div className="makeStyles-card-1">
+      <div className="makeStyles-card-1" style={{width: "95%"}}>
         <form className="edit-contact-form">
           <label>First Name: </label>
           <input

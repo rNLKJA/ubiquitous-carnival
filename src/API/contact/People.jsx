@@ -5,13 +5,14 @@ import Divider from '@mui/material/Divider';
 
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@mui/material/Grid';
+import './contact.css'
 
 const People = ({ contacts, setOneContact }) => {
   const styles = useStyles();
   return (
     
       <Grid container gap={0.5} className={styles.card}  marginTop= {3}>
-
+				{console.log(styles.card)}
         {contacts.map((contact) => {
           return (
             <Grid key={contact.contact._id} item xs={12} sm={12} md={4} >
@@ -33,7 +34,7 @@ const useStyles = makeStyles(() => ({
     width: '100%',
     borderRadius: 16,
     boxShadow: '0 8px 16px 0 #BDC9D7',
-    overflow: 'visible'
+    overflow: 'scroll'
   },
   header: {
     fontFamily: 'Barlow, san-serif',
