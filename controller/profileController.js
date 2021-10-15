@@ -252,14 +252,18 @@ const showProfile = async (req, res) => {
 const displayImage = async (req, res) => {
   try {
     const user = await userModel.findOne({ _id: req.user._id });
-    if (!user.portrait) {
+    if (user.portrait == undefined) {
       return res.json({ status: false, message: "no image for this user" });
     }
     const decodeImage = user.portrait.data.toString("base64");
     // console.log(data);
     // const image1 = data.toString("base64");
     // console.log(image1);
-    return res.json({ image: decodeImage, status: true });
+    return res.json({
+      image: decodeImage,
+      type: user.portrait.contentType,
+      status: true,
+    });
   } catch (err) {
     res.json({ status: false });
     console.log(err);
