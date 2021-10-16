@@ -82,7 +82,7 @@ export const DisplayContact = ({
   const [fileName, setFileName] = useState('')
 	
 	useEffect(() => {
-		if (contact.portrait !== undefined) {
+		if (contact.portrait !== undefined || contact.portarit !== null) {
 			setAvatar(contact.portrait.data.toString("base64"))
 			// console.log(contact.portrait.data.toString("base64"))
 		}
