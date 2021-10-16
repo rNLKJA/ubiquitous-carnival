@@ -113,8 +113,8 @@ const editProfile = async (req, res) => {
           lastName: req.body.lastName,
           occupation: req.body.occupation,
           status: req.body.status,
-					phone: req.body.phone,
-					email: req.body.email,
+          phone: req.body.phone,
+          email: req.body.email,
         },
       },
       { upsert: true, new: true }
@@ -221,7 +221,8 @@ const uploadPhoto = async (req, res) => {
   try {
     //TODO: replace body._id to user._id
     await userModel.updateOne({ _id: req.user._id }, { portrait: img });
-    const user = await userModel.findOne({ _id: req.user._id });
+    const user = await userModel.findOne({ _id: req.user._id }).lean();
+    user.portrait.data = user.portrait.data.toString("base64");
     console.log("update success");
     res.send(user);
   } catch (err) {
