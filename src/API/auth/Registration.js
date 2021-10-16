@@ -67,7 +67,7 @@ class Registration extends React.Component {
       authCode: this.state.authCode,
     };
 
-    // console.log(register);
+    console.log(register);
     // return;
 
     await fetchClient
@@ -149,7 +149,7 @@ class Registration extends React.Component {
 
           this.setState({success:true})
           this.setState({loading:false})
-
+          this.setState({error:''})
 
         } else {
           alert(response.data);

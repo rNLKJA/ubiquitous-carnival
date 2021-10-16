@@ -55,7 +55,7 @@ const ShowQrCode = () => {
       <Heading />
       <Navbar />
       <div className="sub-container">
-      <Alert severity="info">Make sure your fill all your personal information field. Otherwise, QR code scan will failed :)</Alert>
+      <Alert severity="info">Make sure you fill out all your personal information field. Otherwise, QR code scan will failed :)</Alert>
         <div style={{width: "350px", height: "350px", position: "fixed", top: "50%", left: '50%', transform: "translate(-50%, -50%)"}}>
 					{imageUrl ? <img src={imageUrl} alt="img" style={{width: "100%", height: "100%", position: "fixed", top: "50%", left: '50%', transform: "translate(-50%, -50%)"}}/> : null}
 				</div>

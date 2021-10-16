@@ -6,6 +6,7 @@ import useAuth from "../../hooks/useAuth";
 import welcome from "./welcome.png";
 import Error from "../error/Error";
 import { Link } from "react-router-dom";
+import Typography from '@mui/material/Typography';
 
 Axios.defaults.withCredentials = true;
 
@@ -79,17 +80,18 @@ const Login = () => {
 
         <div style={{ width: "100%" }}>
           <Link to="/signup">
-            <a href="/signup" className="signup-btn">
+            
               Create a new account!
-            </a>
+            
           </Link>
         </div>
 
-        <div style={{ width: "100%" }}>
+        <div style={{ width: "100%", display: "inline" }}>
+          Forget password?
           <Link to="/resetPassword">
-            <a href="/resetPassword" className="signup-btn">
-              Forget password? Click here!
-            </a>
+          <Typography variant="body2">
+             Click here!
+          </Typography>      
           </Link>
         </div>
       </div>

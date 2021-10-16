@@ -21,6 +21,7 @@ import { Link } from "react-router-dom";
 import EditRecord from "./editRecord"
 import { useContacts } from "../../BackEndAPI/contactAPI";
 import TextField from '@mui/material/TextField';
+import { Container } from "react-bootstrap";
 
 const Record = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -97,7 +98,7 @@ const Record = () => {
             </div>
             
             <div className="record-container" style={{justifyContent: "center",alignItems: "center"}}>
-
+               
               <TextField id="standard-basic" 
                           label="Search by name/location" 
                           style={{width: "90%" }}
@@ -112,6 +113,7 @@ const Record = () => {
                 error={error}
                 setOneRecord={setOneRecord}
               />
+            
             </div>
           </React.Fragment>
         )}
