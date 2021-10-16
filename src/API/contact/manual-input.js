@@ -24,6 +24,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import cx from 'clsx';
 import TextField from '@mui/material/TextField';
 import { width } from "@mui/system";
+import Alert from '@mui/material/Alert';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 const useFabStyle = makeStyles((success) => ({
   name: {
@@ -71,6 +73,7 @@ const AddUser = () => {
   console.log(firstName, lastName, emails, phones, occupation, note)
 
   const handleSubmit = async (e) => {
+
     e.preventDefault();
 
     var email = ConvertListObjectToListValues(emails, "email");
@@ -95,7 +98,7 @@ const AddUser = () => {
 
     try {
 
-      console.log("trying to upload img")
+      
       setSuccess(false);
       setLoading1(true);
       const response = await fetchClient.post('http://localhost:5000/contact/createContactOneStep', formData, {
@@ -255,11 +258,11 @@ const AddUser = () => {
       <Heading />
       <NavBar />
       <div className="sub-container">
-
-        <a href="/addUser" className="back-button">
+        <Button variant="outlined" sx = {{width:"25%", padding : "5px" }}> 
+        <a href="/addUser">
           Back
         </a>
-
+        </Button>
         {/* <div className="upload-img">
           <input type="file" onChange={(e) => setImage(e.target.files[0])} />
           <button onClick={uploadImage}>Upload</button>
@@ -326,10 +329,10 @@ const AddUser = () => {
             id="outlined"
             label="First Name:"
             value={firstName}
-            error={firstName === ''}
             onChange={(e) => {
               setFirstName(e.target.value)
             }}
+            required
           />
 
           <label htmlFor="lastName">Last Name: </label>
@@ -339,10 +342,10 @@ const AddUser = () => {
             id="outlined"
             label="Last Name:"
             value={lastName}
-            error = {lastName === ''}
             onChange={(e) => {
               setLastName(e.target.value)
             }}
+            required
           />
 
           <label htmlFor="email">E-mail: </label>
@@ -358,25 +361,20 @@ const AddUser = () => {
                     required
                     onChange={(e) => emailOnChange(i, e)}
                   ></input>
-                  <button
-                    className="btn btn-info"
-                    style={{
-                      width: "40px",
-                      height: "40px",
-                      margin: "0px"
-                    }}
-                    onClick={(e) => removeHandler(e, i, "email")}
-                  >
-                    x
-                  </button>
+
+                  <Button variant="outlined" onClick={(e) => removeHandler(e, i, "email")}>
+                    <DeleteIcon />
+                  </Button>
                 </div>
               </div>
             )
           })}
 
-          <button className="btn btn-primary mt-2" onClick={handleAddEmail}>
+          <div style={{alignItems: 'center', justifyContent: "center", display: "flex"}}>
+          <Button variant="contained" sx={{width :'40%'}} onClick={handleAddEmail}>
             Add Email
-          </button>
+          </Button>
+          </div>
 
           <label htmlFor="phone">Phone: </label>
           {phones.map((phone, i) => {
@@ -384,7 +382,7 @@ const AddUser = () => {
               <div className="multi-field" >
                 <div className="multi-field-input" style={{ display: "flex", flexDirection: "row", gap: "10px", width: "100%" }}>
                   <input
-                    text='text' pattern="\d*"
+                    type="number" pattern="\d*"
                     value={phone.phone}
                     className="form-control"
                     name="phone"
@@ -393,36 +391,31 @@ const AddUser = () => {
                     maxLength={10}
                     onChange={(e) => phoneOnChange(i, e)}
                   />
-                  <button
-                    className="btn btn-info"
-                    style={{
-                      width: "40px",
-                      height: "40px",
-                      margin: "0px"
-                    }}
-                    onClick={(e) => removeHandler(e, i, "phone")}
-                  >
-                    x
-                  </button>
+
+                  <Button variant="outlined" onClick={(e) => removeHandler(e, i, "phone")}>
+                  
+                    <DeleteIcon />
+                  </Button>
                 </div>
               </div>
             )
           })}
 
-          <button className="btn btn-primary mt-2" onClick={handleAddPhone}>
+          <div style={{alignItems: 'center', justifyContent: "center", display: "flex"}}>
+          <Button variant="contained" sx={{width :'40%'}} onClick={handleAddPhone}>
             Add Phone
-          </button>
-
+          </Button>
+          </div>
           <label htmlFor="occupation">Occupation: </label>
-          <input
-            name="occupation"
-            className='form-control'
-            type="text"
-            placeholder="Please enter the occupation"
-            onChange={(e) => setOccupation(e.target.value)}
+          <TextField
+            id="outlined"
+            label="Occupation:"
             value={occupation}
+            onChange={(e) => {
+              setOccupation(e.target.value)
+            }}
             required
-          ></input>
+          />
 
 
 
@@ -446,13 +439,15 @@ const AddUser = () => {
             onChange={(e) => {
               setNote(e.target.value);
             }}
+            required
           />
 
 
-
-
-          <div style={{ position: 'relative', alignItems: 'center', justifyContent: "center", display: "flex" }}>
-            <Box onClick={handleSubmit} sx={{ m: 1, position: 'relative', alignItems: 'center', justifyContent: "center", display: "flex" }} maxWidth='30%'>
+          <Button
+            type="submit"
+            
+          >   
+            <Box  sx={{ m: 1, position: 'relative', alignItems: 'center', justifyContent: "center", display: "flex" }} maxWidth='30%'>
               <Fab
                 className={cx(styles.name, styles.fab)}
                 aria-label="save"
@@ -474,8 +469,8 @@ const AddUser = () => {
                   }}
                 />
               )}
-            </Box>
-          </div>
+            </Box>         
+          </Button>
         </form>
       </div>
     </React.Fragment>
