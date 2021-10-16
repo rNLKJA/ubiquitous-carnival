@@ -68,10 +68,47 @@ const AddUser = () => {
 
     await fetchClient
       .post(BASE_URL + "/contact/createContact", contact)
-      .then(() => console.log("Create a new contact"))
+      .then((res) => setContact(res.data._id))
       .catch((err) => {
         console.error(err);
       });
+		
+		setSuccess(false);
+		setLoading1(true);
+
+		const formData = new FormData();
+    formData.append('portrait', file);
+		formData.append('_id', contact._id)
+		
+		const res = await fetchClient.post('/contact/uploadContactImage', formData, {
+			headers: {
+				'Content-Type': 'multipart/form-data'
+			},
+			onUploadProgress: progressEvent => {
+				setUploadPercentage(
+					parseInt(
+						Math.round((progressEvent.loaded * 100) / progressEvent.total)
+					)
+				);
+			}
+		}).then(response => {
+			setAvatar(response.data.portrait.data.toString("base64"))
+			setContact(response.data)
+		});
+
+		if (res.data.status === 'false') {
+			setMessage('Upload failed ');
+			return
+		}
+
+		// setTimeout(() => setUploadPercentage(0), 100);
+
+		setSuccess(true);
+		setLoading1(false);
+		setUpload(false)
+		// TODO: backend should return the decoded string of image in res.data.portrait.
+		// update hook state to rerender the new avatar
+		// setAvatar(res.data.portrait) 
 
     alert("You've create a new contact!");
     setFirstName("");
@@ -82,7 +119,7 @@ const AddUser = () => {
     // setMeetRecord("");
     setNote("");
 
-    // window.location.href = "/contact";
+    window.location.href = "/contact";
   };
 
   // const [image, setImage] = useState("");
@@ -206,7 +243,7 @@ const AddUser = () => {
 				});
 
 				if (res.data.status === 'false') {
-					setMessage('upload failed ');
+					setMessage('Upload failed ');
 					return
 				}
 
@@ -272,7 +309,7 @@ const AddUser = () => {
 
 
 
-              <Box sx={{ m: 1, position: 'relative', alignItems: 'center', justifyContent: "center", display: "flex" }}>
+              {/* <Box sx={{ m: 1, position: 'relative', alignItems: 'center', justifyContent: "center", display: "flex" }}>
                 <Fab
                   aria-label="save"
                   color="primary"
@@ -294,7 +331,7 @@ const AddUser = () => {
                     }}
                   />
                 )}
-              </Box>
+              </Box> */}
               <Button onClick={onClickUpload}>Cancel</Button>
             </form>
 						</div>] : (<div style={{ right: '1rem', top: '3.5rem', position: 'fixed' }}>
