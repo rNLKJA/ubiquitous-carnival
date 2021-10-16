@@ -36,17 +36,22 @@ const usePersonStyles = makeStyles(() => ({
 }));
 
 const Person = ({ contact, setOneContact }) => {
+	var avatar = ""
+	if (contact.contact.portrait !== null && contact.contact.portrait !== undefined) {
+		avatar = contact.contact.portrait.data.toString("base64")
+	}
 
+	console.log(avatar)
   const styles = usePersonStyles();
   return (
     <FlexRow gap={2} p={2.5}>
       <Item>
-        <Avatar  src={''} />
+        <Avatar  src={"data:image/png;base64," + avatar} />
       </Item>
       <FlexRow wrap = "true" grow gap={0.5} minWidth={0}>
         <Item grow minWidth={0} gap={0.5} textAlign =  "center" position={'middle'}>
           <div className={cx(styles.name, styles.text)}>  { contact.contact.firstName + ' ' + contact.contact.lastName}</div>
-          <div className={cx(styles.caption, styles.text)}>  {"@"+contact.contact.occupation}</div>
+          <div className={cx(styles.caption, styles.text)}>  {"Job: "+contact.contact.occupation}</div>
 
         </Item>
         <Item position={'right'}>
