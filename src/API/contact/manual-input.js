@@ -26,8 +26,8 @@ const AddUser = () => {
   useEffect(() => {
     document.title = "Add a new Contact";
   }, []);
-  // const BASE_URL = "https://crm4399.herokuapp.com";
-  const BASE_URL = "http://localhost:5000";
+  const BASE_URL = "https://crm4399.herokuapp.com";
+  // const BASE_URL = "http://localhost:5000";
 
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
