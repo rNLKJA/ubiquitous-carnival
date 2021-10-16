@@ -113,6 +113,8 @@ const editProfile = async (req, res) => {
           lastName: req.body.lastName,
           occupation: req.body.occupation,
           status: req.body.status,
+					phone: req.body.phone,
+					email: req.body.email,
         },
       },
       { upsert: true, new: true }
