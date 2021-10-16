@@ -41,7 +41,6 @@ const Person = ({ contact, setOneContact }) => {
 		avatar = contact.contact.portrait.data.toString("base64")
 	}
 
-	console.log(avatar)
   const styles = usePersonStyles();
   return (
     <FlexRow gap={2} p={2.5}>

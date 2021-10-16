@@ -20,7 +20,23 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button'
 import UploadIcon from '@mui/icons-material/Upload';
+import { makeStyles } from '@material-ui/core/styles';
+import cx from 'clsx';
 
+const useFabStyle = makeStyles((success) => ({
+  name: {
+    color: 'blue',
+  },
+  fab : {
+    ...(success && {
+      bgcolor: green[500],
+      '&:hover': {
+        bgcolor: green[700],
+      },
+    }),
+    borderRadius: 100,
+  }
+}))
 
 const AddUser = () => {
   useEffect(() => {
@@ -48,6 +64,7 @@ const AddUser = () => {
   const [fileName, setFileName] = useState('')
 
 	const [contact, setContact] = useState('')
+  const styles = useFabStyle(success)
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -80,14 +97,16 @@ const AddUser = () => {
         console.error(err);
       });
 		
-		setSuccess(false);
-		setLoading1(true);
+		setSuccess(true);
+		setLoading1(false);
 
 		const formData = new FormData();
     formData.append('portrait', file);
 		formData.append('_id', id)
 
 		try {
+
+      console.log("trying to upload img" )
       setSuccess(false);
       setLoading1(true);
       const res = await fetchClient.post('/contact/uploadContactImage', formData, {
@@ -117,10 +136,7 @@ const AddUser = () => {
       setLoading1(false);
 			setUpload(false)
       // TODO: backend should return the decoded string of image in res.data.portrait.
-      // update hook state to rerender the new avatar
-      // setAvatar(res.data.portrait) 
-
-			alert("Success")
+      // update hook state to rerender the new avatar 
 
     } catch (err) {
       if (err) {
@@ -140,8 +156,6 @@ const AddUser = () => {
     setOccupation("");
     // setMeetRecord("");
     setNote("");
-
-    window.location.href = "/contact";
   };
 
   // const [image, setImage] = useState("");
@@ -217,14 +231,6 @@ const AddUser = () => {
     });
   };
 
-	const buttonSx = {
-    ...(success && {
-      bgcolor: green[500],
-      '&:hover': {
-        bgcolor: green[700],
-      },
-    }),
-  };
 
 	const onClickUpload = () => {
     setUpload(!upload)
@@ -293,6 +299,16 @@ const AddUser = () => {
 		}
 
     
+  };
+
+  const buttonSx = {
+    borderRadius: 100,
+    ...(success && {
+      bgcolor: green[500],
+      '&:hover': {
+        bgcolor: green[700],
+      },
+    }),
   };
 
   return (
@@ -493,6 +509,30 @@ const AddUser = () => {
           >
             Create Contact
           </button>
+
+          <Box type="submit" sx={{ m: 1, position: 'relative', alignItems: 'center', justifyContent: "center", display: "flex" }}>
+                  <Fab
+                      className={cx(styles.name,styles.fab)}
+                      aria-label="save"
+                      color="primary"
+                      sx={buttonSx}
+                  >
+                    {success ? <CheckIcon /> : <SaveIcon />}
+
+                  </Fab>
+                  {loading1 && (
+                      <CircularProgress
+
+                          value={uploadPercentage}
+                          variant="determinate"
+                          size={68}
+                          sx={{
+                            color: green[500],
+                            position: 'absolute',
+                          }}
+                      />
+                  )}
+            </Box>
         </form>
       </div>
     </React.Fragment>

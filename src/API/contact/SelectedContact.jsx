@@ -13,6 +13,22 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button'
 import UploadIcon from '@mui/icons-material/Upload';
+import cx from 'clsx';
+import { makeStyles } from '@material-ui/core/styles';
+
+const useFabStyle = makeStyles((success) => ({
+
+  fab : {
+    ...(success && {
+      bgcolor: green[500],
+      '&:hover': {
+        bgcolor: green[700],
+      },
+    }),
+    borderRadius: 100,
+  }
+}))
+
 
 // import { Contacts } from "@mui/icons-material";
 // import portrait from "./portrarit.png";
@@ -30,10 +46,11 @@ const SelectedContact = ({ setOneContact, oneContact, deleteHandler }) => {
 
   return (
     <React.Fragment>
-      <button
+      <button 
         className="back"
         onClick={() => {
           setOneContact({ ...oneContact, selected: false });
+          console.log('back')
         }}
       >
         Back
@@ -44,7 +61,7 @@ const SelectedContact = ({ setOneContact, oneContact, deleteHandler }) => {
         setSelectedContact={setSelectedContact}
         deleteHandler={deleteHandler}
         setOneContact={setOneContact}
-				originContact={oneContact}
+        originContact={oneContact}
       />
     </React.Fragment>
   );
@@ -57,7 +74,7 @@ export const DisplayContact = ({
   setSelectedContact,
   deleteHandler,
   setOneContact,
-	originContact
+  originContact
 }) => {
   // defined variables
   const [contact, setContact] = useState(selectedContact);
@@ -70,7 +87,7 @@ export const DisplayContact = ({
   );
 
 
-	  //hooks for avatar upload
+  //hooks for avatar upload
   const [upload, setUpload] = useState(false);
 
   const [avatar, setAvatar] = useState("");
@@ -80,15 +97,19 @@ export const DisplayContact = ({
   const [loading1, setLoading1] = useState(false);
   const [success, setSuccess] = useState(false);
   const [fileName, setFileName] = useState('')
-	
-	useEffect(() => {
-		if (contact.portrait === null) {
-			setAvatar("")
-		} else if (contact.portrait !== undefined ) {
-			setAvatar(contact.portrait.data.toString("base64"))
-			// console.log(contact.portrait.data.toString("base64"))
-		}
-	}, [])
+
+  useEffect(() => {
+    if (contact.portrait === null) {
+      setAvatar("")
+    } else if (contact.portrait !== undefined) {
+      setAvatar(contact.portrait.data.toString("base64"))
+      // console.log(contact.portrait.data.toString("base64"))
+    }
+  }, [])
+
+  const styles = useFabStyle(success)
+
+
 
   // add input field
   const handleAddPhone = (e) => {
@@ -184,7 +205,7 @@ export const DisplayContact = ({
     });
   };
 
-	const buttonSx = {
+  const buttonSx = {
     ...(success && {
       bgcolor: green[500],
       '&:hover': {
@@ -193,22 +214,22 @@ export const DisplayContact = ({
     }),
   };
 
-	const onClickUpload = () => {
+  const onClickUpload = () => {
     setUpload(!upload)
   }
 
-	const onChange = e => {
+  const onChange = e => {
     e.preventDefault();
     setFile(e.target.files[0]);
     setFileName(e.target.files[0].name);
 
   };
 
-	const onSubmit = async e => {
+  const onSubmit = async e => {
     e.preventDefault();
     const formData = new FormData();
     formData.append('portrait', file);
-		formData.append('_id', contact._id)
+    formData.append('_id', contact._id)
 
 
     try {
@@ -226,9 +247,8 @@ export const DisplayContact = ({
           );
         }
       }).then(response => {
-				setAvatar(response.data.portrait.data.toString("base64"))
-				setContact()
-			});
+        setAvatar(response.data.portrait.data.toString("base64"))
+      });
 
       if (res.data.status === 'false') {
         setMessage('upload failed ');
@@ -239,12 +259,10 @@ export const DisplayContact = ({
 
       setSuccess(true);
       setLoading1(false);
-			setUpload(false)
+      setUpload(false)
       // TODO: backend should return the decoded string of image in res.data.portrait.
       // update hook state to rerender the new avatar
       // setAvatar(res.data.portrait) 
-
-			alert("Success")
 
     } catch (err) {
       if (err) {
@@ -268,26 +286,26 @@ export const DisplayContact = ({
         </button>
       )}
 
-			{contact.edit ? (
-				<button
-					className="back"
-					onClick={() => {
-						setContact({ ...originContact, selected: true, edit: false });
-						setPhones(ConvertListStringToListObject(contact.phone, "phone"));
-						setEmails(ConvertListStringToListObject(contact.email, "email"));
-					}}
-				>
-					Cancel
-				</button>
-				) : null }
+      {contact.edit ? (
+        <button
+          className="back"
+          onClick={() => {
+            setContact({ ...originContact, selected: true, edit: false });
+            setPhones(ConvertListStringToListObject(contact.phone, "phone"));
+            setEmails(ConvertListStringToListObject(contact.email, "email"));
+          }}
+        >
+          Cancel
+        </button>
+      ) : null}
 
-      <div className="makeStyles-card-1" style={{width: "95%"}}>
-				<div className="avatar">
-					<Avatar alt="Avatar" sx={{ width: 125, height: 125, border: '2px solid pink' }} margin={3} src={"data:image/png;base64," + avatar} />
+      <div className="makeStyles-card-1" style={{ width: "95%" }}>
+        <div className="avatar">
+          <Avatar alt="Avatar" sx={{ width: 125, height: 125, border: '2px solid pink' }} margin={3} src={"data:image/png;base64," + avatar} />
 
-					{contact.edit ? upload ? [<div className="upload-container " style={{ alignItems: 'center', justifyContent: "center", display: "flex", position: 'fixed', right: '1rem', top: '1.5rem' }}>
+          {contact.edit ? upload ? <div className="upload-container " style={{ alignItems: 'center', justifyContent: "center", display: "flex", position: 'fixed', right: '1rem', top: '1.5rem' }}>
             <form onSubmit={onSubmit}>
-              <label htmlFor="contained-button-file" style={{ padding: '10px'}}>
+              <label htmlFor="contained-button-file" style={{ padding: '10px' }}>
                 <Input accept="image/*" id="contained-button-file" multiple type="file" hidden={true} onChange={onChange} />
                 <Button variant="contained" component="span" >
                   <Typography variant="body2">
@@ -305,6 +323,7 @@ export const DisplayContact = ({
 
               <Box sx={{ m: 1, position: 'relative', alignItems: 'center', justifyContent: "center", display: "flex" }}>
                 <Fab
+                  className={cx(styles.fab)}
                   aria-label="save"
                   color="primary"
                   sx={buttonSx}
@@ -328,24 +347,24 @@ export const DisplayContact = ({
               </Box>
               <Button onClick={onClickUpload}>Cancel</Button>
             </form>
-						</div>] : (<div style={{ right: '1rem', top: '5rem', position: 'fixed' }}>
-							<Button onClick={onClickUpload}>
+          </div> : [(<div style={{ right: '1rem', top: '5rem', position: 'fixed' }}>
+            <Button onClick={onClickUpload}>
 
-								<UploadIcon />
-								Upload
+              <UploadIcon />
+              Upload
 
-							</Button>
-						</div>) : null}
-				</div>	
-				
-				<form className="edit-contact-form">
+            </Button>
+          </div>)] : null}
+        </div>
+
+        <form className="edit-contact-form">
           <label>First Name: </label>
           <input
             type="text"
             value={contact.firstName}
             className="form-control"
             readOnly={!contact.edit}
-						required
+            required
 
             onChange={(e) =>
               setContact({ ...contact, firstName: e.target.value })
@@ -358,7 +377,7 @@ export const DisplayContact = ({
             value={contact.lastName}
             className="form-control"
             readOnly={!contact.edit}
-						required
+            required
             onChange={(e) =>
               setContact({ ...contact, lastName: e.target.value })
             }
@@ -370,7 +389,7 @@ export const DisplayContact = ({
             value={contact.occupation}
             className="form-control"
             readOnly={!contact.edit}
-						required
+            required
             onChange={(e) =>
               setContact({ ...contact, occupation: e.target.value })
             }
@@ -463,7 +482,7 @@ export const DisplayContact = ({
           <textarea
             value={contact.note}
             readOnly={!contact.edit}
-						style={contact.edit ? null : {border: "0", height: 'auto'}}
+            style={contact.edit ? null : { border: "0", height: 'auto' }}
             onChange={(e) => setContact({ ...contact, note: e.target.value })}
           ></textarea>
 
@@ -498,15 +517,17 @@ export const DisplayContact = ({
 
 const ConvertListStringToListObject = (items, type) => {
   var result = [];
-  if (type === "phone") {
-    for (let i = 0; i < items.length; i++) {
-      result.push({ phone: items[i] });
+  if (items != undefined && items.length > 0) {
+    if (type === "phone") {
+      for (let i = 0; i < items.length; i++) {
+        result.push({ phone: items[i] });
+      }
     }
-  }
 
-  if (type === "email") {
-    for (let i = 0; i < items.length; i++) {
-      result.push({ email: items[i] });
+    if (type === "email") {
+      for (let i = 0; i < items.length; i++) {
+        result.push({ email: items[i] });
+      }
     }
   }
   return result;
@@ -514,15 +535,19 @@ const ConvertListStringToListObject = (items, type) => {
 
 const ConvertListObjectToListValues = (items, type) => {
   var result = [];
-  if (type === "phone") {
-    for (let i = 0; i < items.length; i++) {
-      result.push(items[i].phone);
-    }
-  }
+  if (items != undefined && items.length > 0) {
+    if (type === "phone") {
 
-  if (type === "email") {
-    for (let i = 0; i < items.length; i++) {
-      result.push(items[i].email);
+      for (let i = 0; i < items.length; i++) {
+        result.push(items[i].phone);
+      }
+    }
+
+
+    if (type === "email") {
+      for (let i = 0; i < items.length; i++) {
+        result.push(items[i].email);
+      }
     }
   }
 
