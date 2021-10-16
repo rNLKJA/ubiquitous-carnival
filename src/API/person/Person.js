@@ -258,7 +258,7 @@ const Person = () => {
                     key={profile._id}
                     profile={profile}
                 />
-
+							{/* <UpdatePasswordComponent /> */}
               </div>
 
           )}
@@ -274,6 +274,8 @@ const Person = () => {
             Log out
           </button>
         </div>
+
+				
       </React.Fragment>
   );
 };
