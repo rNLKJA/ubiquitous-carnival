@@ -85,13 +85,13 @@ const EditRecord = (prop) => {
   return (
     <React.Fragment>
       
-     
-        <Button onClick={() => { 
+        <div   style = {{justifyContent: "center",display: "flex", padding: "10px"}}>
+        <Button sx = {{width: "30%"}}onClick={() => { 
             prop.setOneRecord({...prop.record, selected : false})
         }}>
             Back     
         </Button>
-
+        </div>
         <form className="record-form">
           <Autocomplete
             label="Contacts"
