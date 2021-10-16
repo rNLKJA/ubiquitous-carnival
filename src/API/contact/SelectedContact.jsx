@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./editContact.css";
 import fetchClient from "../axiosClient/axiosClient";
 import Avatar from '@mui/material/Avatar';
@@ -81,6 +81,12 @@ export const DisplayContact = ({
   const [success, setSuccess] = useState(false);
   const [fileName, setFileName] = useState('')
 	
+	useEffect(() => {
+		if (contact.portrait !== undefined) {
+			setAvatar(contact.portrait.data.toString("base64"))
+			// console.log(contact.portrait.data.toString("base64"))
+		}
+	}, [])
 
   // add input field
   const handleAddPhone = (e) => {
@@ -206,7 +212,7 @@ export const DisplayContact = ({
     try {
       setSuccess(false);
       setLoading1(true);
-      const res = await fetchClient.post('http://localhost:5000/contact/uploadContactImage', formData, {
+      const res = await fetchClient.post('/contact/uploadContactImage', formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         },
@@ -217,7 +223,10 @@ export const DisplayContact = ({
             )
           );
         }
-      });
+      }).then(response => {
+				setAvatar(response.data.portrait.data.toString("base64"))
+				setContact()
+			});
 
       if (res.data.status === 'false') {
         setMessage('upload failed ');
@@ -334,10 +343,11 @@ export const DisplayContact = ({
             value={contact.firstName}
             className="form-control"
             readOnly={!contact.edit}
+						required
+
             onChange={(e) =>
               setContact({ ...contact, firstName: e.target.value })
             }
-            required
           ></input>
 
           <label>Last Name: </label>
@@ -346,6 +356,7 @@ export const DisplayContact = ({
             value={contact.lastName}
             className="form-control"
             readOnly={!contact.edit}
+						required
             onChange={(e) =>
               setContact({ ...contact, lastName: e.target.value })
             }
@@ -357,13 +368,13 @@ export const DisplayContact = ({
             value={contact.occupation}
             className="form-control"
             readOnly={!contact.edit}
+						required
             onChange={(e) =>
               setContact({ ...contact, occupation: e.target.value })
             }
-            required
           ></input>
 
-          <label>Phone:</label>
+          {phones.length !== 0 ? <label>Phone:</label> : null}
           {phones.map((phone, i) => {
             return (
               <div key={`${phone}-${i}`} className="multi-field">
@@ -409,7 +420,7 @@ export const DisplayContact = ({
             </button>
           )}
 
-          <label>Email Address</label>
+          {emails.length !== 0 ? <label>Email Address</label> : null}
           {emails.map((mail, i) => {
             return (
               <div key={`${mail}-${i}`} className="multi-field">
