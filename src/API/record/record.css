@@ -1,3 +1,5 @@
+
+
 @media only screen and (max-width: 1024px) {
   .timer-container {
     width: 100%;
@@ -27,7 +29,8 @@
     flex-direction: column;
     position: absolute;
     /* justify-content: space-between; */
-    top: 50%;
+    margin-block-start: 10%;
+    top: 13%;
     left: 50%;
     transform: translate(-50%, -50%);
     width: 95%;
@@ -310,5 +313,11 @@
 
   .fa-location-arrow {
     font-size: 15px;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .record-container{
+    top: 25%
   }
 }
