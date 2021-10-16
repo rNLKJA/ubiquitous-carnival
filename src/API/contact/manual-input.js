@@ -26,8 +26,8 @@ const AddUser = () => {
   useEffect(() => {
     document.title = "Add a new Contact";
   }, []);
-  const BASE_URL = "https://crm4399.herokuapp.com";
-  // const BASE_URL = "http://localhost:5000";
+  // const BASE_URL = "https://crm4399.herokuapp.com";
+  const BASE_URL = "http://localhost:5000";
 
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -66,9 +66,16 @@ const AddUser = () => {
       note,
     };
 
+		var id = ''
     await fetchClient
       .post(BASE_URL + "/contact/createContact", contact)
-      .then((res) => setContact(res.data._id))
+      .then((res) => {
+				if (res.data.dupContact._id ) {
+					 id = res.data.dupContact._id
+				} else if (res.data.newContact._id) {
+					id = res.data.newContact._id
+				}
+			})
       .catch((err) => {
         console.error(err);
       });
@@ -78,37 +85,52 @@ const AddUser = () => {
 
 		const formData = new FormData();
     formData.append('portrait', file);
-		formData.append('_id', contact._id)
-		
-		const res = await fetchClient.post('/contact/uploadContactImage', formData, {
-			headers: {
-				'Content-Type': 'multipart/form-data'
-			},
-			onUploadProgress: progressEvent => {
-				setUploadPercentage(
-					parseInt(
-						Math.round((progressEvent.loaded * 100) / progressEvent.total)
-					)
-				);
-			}
-		}).then(response => {
-			setAvatar(response.data.portrait.data.toString("base64"))
-			setContact(response.data)
-		});
+		formData.append('_id', id)
 
-		if (res.data.status === 'false') {
-			setMessage('Upload failed ');
-			return
-		}
+		try {
+      setSuccess(false);
+      setLoading1(true);
+      const res = await fetchClient.post('/contact/uploadContactImage', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        },
+        onUploadProgress: progressEvent => {
+          setUploadPercentage(
+            parseInt(
+              Math.round((progressEvent.loaded * 100) / progressEvent.total)
+            )
+          );
+        }
+      }).then(response => {
+				setAvatar(response.data.portrait.data.toString("base64"))
+				setContact()
+			});
 
-		// setTimeout(() => setUploadPercentage(0), 100);
+      if (res.data.status === 'false') {
+        setMessage('upload failed ');
+        return
+      }
 
-		setSuccess(true);
-		setLoading1(false);
-		setUpload(false)
-		// TODO: backend should return the decoded string of image in res.data.portrait.
-		// update hook state to rerender the new avatar
-		// setAvatar(res.data.portrait) 
+      // setTimeout(() => setUploadPercentage(0), 100);
+
+      setSuccess(true);
+      setLoading1(false);
+			setUpload(false)
+      // TODO: backend should return the decoded string of image in res.data.portrait.
+      // update hook state to rerender the new avatar
+      // setAvatar(res.data.portrait) 
+
+			alert("Success")
+
+    } catch (err) {
+      if (err) {
+        setMessage('upload failed err: ');
+      } else {
+
+        setMessage(err.response.data.msg);
+      }
+      setUploadPercentage(0)
+    }
 
     alert("You've create a new contact!");
     setFirstName("");
