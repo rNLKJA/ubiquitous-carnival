@@ -35,7 +35,7 @@ const Record = () => {
     selected: false,
   });
 
-  console.log(records);
+  // console.log(records);
 
   const handleChange = (e) => {
     e.preventDefault();

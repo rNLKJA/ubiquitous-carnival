@@ -42,8 +42,6 @@ const RecordDetail = (prop) => {
     setExpand(!expand);
   };
 
-
-
   const [anchorEl, setAnchorEl] = useState(null);
 
   const handlePopoverOpen = (event) => {
@@ -67,14 +65,18 @@ const RecordDetail = (prop) => {
   }
 
   const open = Boolean(anchorEl);
+	
+	var avatar = ""
+	if (prop.record.meetingPerson.portrait !== null && prop.record.meetingPerson.portrait !== undefined) {
+		avatar = prop.record.meetingPerson.portrait.data.toString("base64")
+	}
 
   return (
     <Card sx={{ maxWidth: 500, margin: 2 }}>
       <CardHeader
         avatar={
-          <Avatar sx={{ bgcolor: "pink" }} aria-label="recipe">
-            {prop.record.meetingPerson.lastName[0].toUpperCase()}
-          </Avatar>
+          <Avatar  aria-label="recipe" src={"data:image/png;base64,"+avatar}></Avatar> 
+					// sx={{ bgcolor: "pink" }}
         }
         action={
           <div>

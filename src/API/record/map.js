@@ -53,7 +53,7 @@ const Map = ({ setLocation, setGeoCoords, geoLocation , text}) => {
 
   const initLocation = geoLocation ? geoLocation : center
 
-  console.log(geoLocation ,"geo" ,  "init " , initLocation)
+  // console.log(geoLocation ,"geo" ,  "init " , initLocation)
 
   // set the address location
   const [address, setAddress] = useState({
