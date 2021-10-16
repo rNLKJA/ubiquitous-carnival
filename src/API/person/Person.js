@@ -55,7 +55,7 @@ const Person = () => {
   // fetch avatar when render
   useEffect(() => {
     const fetchAvatar = async () => {
-      const response = await fetchClient.post('/profile/displayImage')
+      const response = await fetchClient.get('/profile/displayImage')
       setAvatar(response.data.image);
     }
     fetchAvatar();
@@ -258,7 +258,7 @@ const Person = () => {
                     key={profile._id}
                     profile={profile}
                 />
-							{/* <UpdatePasswordComponent /> */}
+
               </div>
 
           )}
@@ -274,8 +274,6 @@ const Person = () => {
             Log out
           </button>
         </div>
-
-				
       </React.Fragment>
   );
 };
