@@ -1,6 +1,18 @@
 import React, { useState } from "react";
 import "./editContact.css";
 import fetchClient from "../axiosClient/axiosClient";
+import Avatar from '@mui/material/Avatar';
+import CircularProgress from '@mui/material/CircularProgress';
+import { green } from '@mui/material/colors';
+import Fab from '@mui/material/Fab';
+import CheckIcon from '@mui/icons-material/Check';
+import SaveIcon from '@mui/icons-material/Save';
+import Alert from '@mui/material/Alert';
+import Input from '@mui/material/Input';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button'
+import UploadIcon from '@mui/icons-material/Upload';
 
 // import { Contacts } from "@mui/icons-material";
 // import portrait from "./portrarit.png";
@@ -56,6 +68,19 @@ export const DisplayContact = ({
   const [emails, setEmails] = useState(
     ConvertListStringToListObject(contact.email, "email"),
   );
+
+
+	  //hooks for avatar upload
+  const [upload, setUpload] = useState(false);
+
+  const [avatar, setAvatar] = useState("");
+  const [file, setFile] = useState('');
+  const [message, setMessage] = useState('');
+  const [uploadPercentage, setUploadPercentage] = useState(0);
+  const [loading1, setLoading1] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [fileName, setFileName] = useState('')
+	
 
   // add input field
   const handleAddPhone = (e) => {
@@ -151,6 +176,74 @@ export const DisplayContact = ({
     });
   };
 
+	const buttonSx = {
+    ...(success && {
+      bgcolor: green[500],
+      '&:hover': {
+        bgcolor: green[700],
+      },
+    }),
+  };
+
+	const onClickUpload = () => {
+    setUpload(!upload)
+  }
+
+	const onChange = e => {
+    e.preventDefault();
+    setFile(e.target.files[0]);
+    setFileName(e.target.files[0].name);
+
+  };
+
+	const onSubmit = async e => {
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append('portrait', file);
+
+
+    try {
+      setSuccess(false);
+      setLoading1(true);
+      const res = await fetchClient.post('/profile/uploadUserImage', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        },
+        onUploadProgress: progressEvent => {
+          setUploadPercentage(
+            parseInt(
+              Math.round((progressEvent.loaded * 100) / progressEvent.total)
+            )
+          );
+        }
+      });
+
+      if (res.data.status === 'false') {
+        setMessage('upload failed ');
+        return
+      }
+
+      setTimeout(() => setUploadPercentage(0), 100);
+
+      setSuccess(true);
+      setLoading1(false);
+      // TODO: backend should return the decoded string of image in res.data.portrait.
+      // update hook state to rerender the new avatar
+      // setAvatar(res.data.portrait) 
+
+      window.location.href = "/setting"
+
+    } catch (err) {
+      if (err) {
+        setMessage('upload failed err: ');
+      } else {
+
+        setMessage(err.response.data.msg);
+      }
+      setUploadPercentage(0)
+    }
+  };
+
   return (
     <React.Fragment>
       {contact.edit ? null : (
@@ -176,7 +269,63 @@ export const DisplayContact = ({
 				) : null }
 
       <div className="makeStyles-card-1" style={{width: "95%"}}>
-        <form className="edit-contact-form">
+				<div className="avatar">
+					<Avatar alt="Avatar" sx={{ width: 120, height: 120, border: '2px solid pink' }} margin={3} src={"data:image/png;base64," + avatar} />
+
+					{contact.edit && (upload ? [<div className="upload-container " style={{ alignItems: 'center', justifyContent: "center", display: "flex", position: 'fixed', right: '5rem', top: '1.5rem' }}>
+            <form onSubmit={onSubmit}>
+              <label htmlFor="contained-button-file" style={{ padding: '10px'}}>
+                <Input accept="image/*" id="contained-button-file" multiple type="file" hidden={true} onChange={onChange} />
+                <Button variant="contained" component="span" >
+                  <Typography variant="body2">
+                    Choose
+                  </Typography>
+                </Button>
+              </label>
+              <div style={{ overflow: "hidden", textOverflow: "ellipsis", width: '7rem' }}>
+                <Typography variant="body2" noWrap color="text.secondary">
+                  {fileName}
+                </Typography>
+              </div>
+
+
+
+              <Box sx={{ m: 1, position: 'relative', alignItems: 'center', justifyContent: "center", display: "flex" }}>
+                <Fab
+                  aria-label="save"
+                  color="primary"
+                  sx={buttonSx}
+                  onClick={onSubmit}
+                >
+                  {success ? <CheckIcon /> : <SaveIcon />}
+
+                </Fab>
+                {loading1 && (
+                  <CircularProgress
+
+                    value={uploadPercentage}
+                    variant="determinate"
+                    size={68}
+                    sx={{
+                      color: green[500],
+                      position: 'absolute',
+                    }}
+                  />
+                )}
+              </Box>
+              <Button onClick={onClickUpload}>Cancel</Button>
+            </form>
+						</div>] : (<div style={{ right: '5rem', top: '5rem', position: 'fixed' }}>
+							<Button onClick={onClickUpload}>
+
+								<UploadIcon />
+								Upload
+
+							</Button>
+						</div>))}
+				</div>			
+				
+				<form className="edit-contact-form">
           <label>First Name: </label>
           <input
             type="text"
@@ -364,3 +513,4 @@ const ConvertListObjectToListValues = (items, type) => {
 
   return result;
 };
+
