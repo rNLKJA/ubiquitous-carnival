@@ -222,10 +222,14 @@ const uploadPhoto = async (req, res) => {
     //TODO: replace body._id to user._id
     await userModel.updateOne({ _id: req.user._id }, { portrait: img });
     const user = await userModel.findOne({ _id: req.user._id }).lean();
-    user.portrait.data = user.portrait.data.toString("base64");
     console.log("update success");
-    res.send(user);
+    res.json({
+      status: true,
+      image: user.portrait.data.toString("base64"),
+      type: user.portrait.contentType,
+    });
   } catch (err) {
+    res.json({ status: false, message: "upload file failed" });
     console.log(err);
   }
 };
