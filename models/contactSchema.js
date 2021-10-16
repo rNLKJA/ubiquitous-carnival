@@ -5,7 +5,7 @@ const mongoose = require("mongoose");
 const contactSchema = new mongoose.Schema({
   lastName: { type: String, required: true },
   firstName: { type: String, required: true },
-  portraits: {
+  portrait: {
     data: Buffer,
     contentType: String,
   },

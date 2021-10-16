@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const { populate } = require("../models/contactSchema");
-
+const fs = require("fs");
 const passport = require("passport");
 const ExpressHandlebars = require("express-handlebars/lib/express-handlebars");
 require("../config/passport")(passport);
@@ -58,7 +58,7 @@ const linkToAccount = async (req, res) => {
         phone: accountCreateContact.phone,
         occupation: accountCreateContact.occupation,
       },
-      { $set: { linkedAccount: req.body.accountOfContact } },
+      { $set: { linkedAccount: req.body.accountOfContact } }
     );
     res.send(accountCreateContact);
   } catch (err) {
@@ -212,7 +212,7 @@ const createNewContact = async (req, res) => {
  */
 const showAllContact = async (req, res) => {
   try {
-    const ownerAccount = await User.findOne({
+    var ownerAccount = await User.findOne({
       $or: [
         { userName: req.body.userName },
         { _id: mongoose.Types.ObjectId(req.user._id) },
@@ -221,6 +221,15 @@ const showAllContact = async (req, res) => {
       .populate("contactList.contact")
       .lean();
     // .lean();
+    ownerAccount.contactList = ownerAccount.contactList.map((contact) => {
+      if (contact.contact.hasOwnProperty("portrait")) {
+        contact.contact.portrait.data =
+          contact.contact.portrait.data.toString("base64");
+      } else {
+        contact.contact.portrait = null;
+      }
+      return contact;
+    });
     res.json(ownerAccount.contactList);
   } catch (err) {
     return res.send("database query fail");
@@ -422,7 +431,7 @@ const synchronizationContactInfo = async (req, res) => {
     const updatedContact = await Contact.findOneAndUpdate(
       { _id: mongoose.Types.ObjectId(req.body._idOfContact) },
       query,
-      { new: true },
+      { new: true }
     ).lean();
     res.json(updatedContact);
   } catch (err) {
@@ -457,15 +466,17 @@ const listCompare = (currentList, targetList) => {
 const contactPhotoUpload = async (req, res) => {
   var img = {
     data: fs.readFileSync(req.file.path),
-    contentType: req.file.mimeType,
+    contentType: req.file.mimetype,
   };
   try {
     // req.body._id is the id of contact that need to be upload
-    const contact = await Contact.findOneAndUpdate(
+    var contact = await Contact.findOneAndUpdate(
       { _id: mongoose.Types.ObjectId(req.body._id) },
       { portrait: img },
-      { new: true },
-    );
+      { new: true }
+    ).lean();
+    contact.portrait.data = contact.portrait.data.toString("base64");
+    // console.log(contact.portrait.data.toString("base64"));
     console.log("update success");
     res.send(contact);
   } catch (err) {
@@ -486,14 +497,14 @@ const deleteOneContact = async (req, res) => {
     }).lean();
 
     const contactList = contacts.contactList.filter(
-      (contact) => contact.contact.toString() !== req.params.contact_id,
+      (contact) => contact.contact.toString() !== req.params.contact_id
     );
     // console.log(contactList);
 
     // update contact list
     await User.findOneAndUpdate(
       { userName: req.user.userName },
-      { contactList: contactList },
+      { contactList: contactList }
     );
     await Contact.deleteOne({ _id: req.params.contact_id });
 
