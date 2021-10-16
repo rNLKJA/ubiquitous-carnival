@@ -1,5 +1,5 @@
 import React from "react";
-import { useState, useRef, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 // import axios from "axios";
 import LogoutUser from "../../hooks/useLogout";
@@ -13,10 +13,10 @@ import UpdatePassword from "./UpdatePassword";
 import Avatar from '@mui/material/Avatar';
 import UploadIcon from '@mui/icons-material/Upload';
 import Button from '@mui/material/Button'
-
+import { makeStyles } from '@material-ui/core/styles';
 import CircularProgress from '@mui/material/CircularProgress';
 import { green } from '@mui/material/colors';
-import Fab from '@mui/material/Fab';
+import Fab  from '@mui/material/Fab';
 import CheckIcon from '@mui/icons-material/Check';
 import SaveIcon from '@mui/icons-material/Save';
 import Alert from '@mui/material/Alert';
@@ -26,8 +26,22 @@ import Typography from '@mui/material/Typography';
 
 import Person1 from "./Person1.js";
 
+import cx from 'clsx';
 
-const BASE_URL = "https://crm4399.herokuapp.com";
+const useFabStyle = makeStyles((success) => ({
+  name: {
+    color: 'blue',
+  },
+  fab : {
+    ...(success && {
+      bgcolor: green[500],
+      '&:hover': {
+        bgcolor: green[700],
+      },
+    }),
+    borderRadius: 100,
+  }
+}))
 
 const Person = () => {
   useEffect(() => {
@@ -49,7 +63,9 @@ const Person = () => {
   const [success, setSuccess] = useState(false);
   const [fileName, setFileName] = useState('')
 
+  console.log(success , loading1)
 
+  const styles = useFabStyle(success)
 
 
   // fetch avatar when render
@@ -108,9 +124,12 @@ const Person = () => {
     );
   }
 
+
+
   // following functions are used for uploadUserImage
 
   const buttonSx = {
+    borderRadius: 100,
     ...(success && {
       bgcolor: green[500],
       '&:hover': {
@@ -118,6 +137,7 @@ const Person = () => {
       },
     }),
   };
+
 
 
 
@@ -154,9 +174,7 @@ const Person = () => {
       setLoading1(false);
       // TODO: backend should return the decoded string of image in res.data.portrait.
       // update hook state to rerender the new avatar
-      // setAvatar(res.data.portrait)
-
-      window.location.href = "/setting"
+      setAvatar(res.data.image)
 
     } catch (err) {
       if (err) {
@@ -214,6 +232,7 @@ const Person = () => {
 
                 <Box sx={{ m: 1, position: 'relative', alignItems: 'center', justifyContent: "center", display: "flex" }}>
                   <Fab
+                      className={cx(styles.name,styles.fab)}
                       aria-label="save"
                       color="primary"
                       sx={buttonSx}

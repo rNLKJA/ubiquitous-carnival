@@ -85,13 +85,13 @@ const EditRecord = (prop) => {
   return (
     <React.Fragment>
       
-     
-        <Button onClick={() => { 
+        <div   style = {{justifyContent: "center",display: "flex", padding: "10px"}}>
+        <Button sx = {{width: "30%"}}onClick={() => { 
             prop.setOneRecord({...prop.record, selected : false})
         }}>
             Back     
         </Button>
-
+        </div>
         <form className="record-form">
           <Autocomplete
             label="Contacts"
@@ -159,16 +159,15 @@ const EditRecord = (prop) => {
           <Map setLocation={setLocation} setGeoCoords={setGeoCoords} geoLocation = {geoCoords} text = {prop.record.location} />
 					
 					<label htmlFor="notes">Notes: </label>
-          <textarea
-						ref={textAreaRef}
-						value={notes}
-            name="notes"
-            type="text"
-            placeholder="Add notes here!"
+          <TextField
+            id="outlined-multiline-flexible"
+            label="Add-Notes"
+            multiline
+            maxRows={4}
+            value={notes}
             onChange={(e) => {
               setNotes(e.target.value);
             }}
-            style={{ minWidth: "100%", minHeight:"10%", display: "block" }}
           />
 
 
