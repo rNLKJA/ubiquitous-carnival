@@ -200,12 +200,13 @@ export const DisplayContact = ({
     e.preventDefault();
     const formData = new FormData();
     formData.append('portrait', file);
+		formData.append('_id', contact._id)
 
 
     try {
       setSuccess(false);
       setLoading1(true);
-      const res = await fetchClient.post('/profile/uploadUserImage', formData, {
+      const res = await fetchClient.post('http://localhost:5000/contact/uploadContactImage', formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         },
@@ -223,15 +224,16 @@ export const DisplayContact = ({
         return
       }
 
-      setTimeout(() => setUploadPercentage(0), 100);
+      // setTimeout(() => setUploadPercentage(0), 100);
 
       setSuccess(true);
       setLoading1(false);
+			setUpload(false)
       // TODO: backend should return the decoded string of image in res.data.portrait.
       // update hook state to rerender the new avatar
       // setAvatar(res.data.portrait) 
 
-      window.location.href = "/setting"
+			alert("Success")
 
     } catch (err) {
       if (err) {
@@ -270,9 +272,9 @@ export const DisplayContact = ({
 
       <div className="makeStyles-card-1" style={{width: "95%"}}>
 				<div className="avatar">
-					<Avatar alt="Avatar" sx={{ width: 120, height: 120, border: '2px solid pink' }} margin={3} src={"data:image/png;base64," + avatar} />
+					<Avatar alt="Avatar" sx={{ width: 125, height: 125, border: '2px solid pink' }} margin={3} src={"data:image/png;base64," + avatar} />
 
-					{contact.edit && (upload ? [<div className="upload-container " style={{ alignItems: 'center', justifyContent: "center", display: "flex", position: 'fixed', right: '5rem', top: '1.5rem' }}>
+					{contact.edit && (upload ? [<div className="upload-container " style={{ alignItems: 'center', justifyContent: "center", display: "flex", position: 'fixed', right: '1rem', top: '1.5rem' }}>
             <form onSubmit={onSubmit}>
               <label htmlFor="contained-button-file" style={{ padding: '10px'}}>
                 <Input accept="image/*" id="contained-button-file" multiple type="file" hidden={true} onChange={onChange} />
@@ -315,7 +317,7 @@ export const DisplayContact = ({
               </Box>
               <Button onClick={onClickUpload}>Cancel</Button>
             </form>
-						</div>] : (<div style={{ right: '5rem', top: '5rem', position: 'fixed' }}>
+						</div>] : (<div style={{ right: '1rem', top: '5rem', position: 'fixed' }}>
 							<Button onClick={onClickUpload}>
 
 								<UploadIcon />

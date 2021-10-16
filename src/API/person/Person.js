@@ -442,11 +442,11 @@ const Person = () => {
         {message ? <Alert severity="error">{message}</Alert> : null}
         <div className="Avatar-container" style={{ textAlign: 'center', fontSize: '20px', height: '100px', marginBottom: '20px', marginTop: '20px', justifyContent: "center", display: "flex" }}>
 
-          <Avatar alt="Avatar" sx={{ width: 120, height: 120, border: '2px solid pink' }} margin={3} src={"data:image/png;base64," + avatar} />
+          <Avatar alt="Avatar" sx={{ width: 150, height: 150, border: '2px solid pink' }} margin={3} src={"data:image/png;base64," + avatar} />
 
 
 
-          {upload ? [<div className="upload-container " style={{ alignItems: 'center', justifyContent: "center", display: "flex", position: 'fixed', right: '10px', top: '0px' }}>
+          {upload ? [<div className="upload-container " style={{ alignItems: 'center', justifyContent: "center", display: "flex", position: 'fixed', right: '1rem', top: '0px' }}>
             <form onSubmit={onSubmit}>
 
 
@@ -492,7 +492,7 @@ const Person = () => {
               </Box>
               <Button onClick={onClickUpload}>Cancel</Button>
             </form>
-          </div>] : (<div style={{ right: '10px', top: '5rem', position: 'fixed' }}>
+          </div>] : (<div style={{ right: '1rem', top: '5rem', position: 'fixed' }}>
             <Button onClick={onClickUpload}>
 
               <UploadIcon />
