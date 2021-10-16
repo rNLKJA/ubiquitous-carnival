@@ -515,6 +515,119 @@ const deleteOneContact = async (req, res) => {
   }
 };
 
+const createContactOneStep = async (req, res) => {
+  try {
+    const createResult = await createNewContactOneStep(req, res);
+    if (createResult.status) {
+      const contactId = createResult.newContact._id;
+      const uploadResult = await createContactPhotoUpload(req, res, contactId);
+      if (uploadResult.status) {
+        return res.json({ status: true, newContact: uploadResult.contact });
+      } else {
+        return res.json({ status: false, msg: "upload failed" });
+      }
+    } else {
+      return res.json({ status: false, msg: "dupcontact/createProblem" });
+    }
+  } catch (err) {
+    console.log(err);
+    res.json({ status: false });
+  }
+};
+
+const createNewContactOneStep = async (req, res) => {
+  try {
+    //!! can not use object id as input
+    const ownerAccount = await User.findOne({
+      _id: mongoose.Types.ObjectId(req.user._id),
+    });
+    // if req is a user id
+    // Check if contact has account in app
+    const existAccountContact = await User.findOne({
+      lastName: req.body.lastName,
+      firstName: req.body.firstName,
+      phone: req.body.phone,
+      email: req.body.email,
+    });
+    const dupContact = await Contact.findOne({
+      lastName: req.body.lastName,
+      firstName: req.body.firstName,
+      phone: req.body.phone,
+      email: req.body.email,
+      ownerAccount: mongoose.Types.ObjectId(req.user._id),
+    }).lean();
+    //!!generate one meeting record automatically!
+    let newContact = null;
+    if (existAccountContact == null && dupContact == null) {
+      newContact = await Contact.create({
+        lastName: req.body.lastName,
+        firstName: req.body.firstName,
+        portraits: req.body.portraits,
+        email: req.body.email,
+        phone: req.body.phone,
+        meetRecord: req.body.meetRecord,
+        occupation: req.body.occupation,
+        addDate: Date.now(),
+        note: req.body.note,
+        status: true,
+        ownerAccount: mongoose.Types.ObjectId(req.user._id),
+        linkedAccount: null,
+      });
+    } else if (existAccountContact != null && dupContact == null) {
+      newContact = await Contact.create({
+        lastName: existAccountContact.lastName,
+        firstName: existAccountContact.firstName,
+        portraits: existAccountContact.portraits,
+        email: existAccountContact.email,
+        phone: existAccountContact.phone,
+        meetRecord: existAccountContact.meetRecord,
+        occupation: existAccountContact.occupation,
+        addDate: Date.now(),
+        note: existAccountContact.note,
+        status: false,
+        ownerAccount: mongoose.Types.ObjectId(req.user._id),
+        linkedAccount: existAccountContact._id,
+      });
+    } else if (dupContact != null) {
+      return { status: false, dupContact: dupContact };
+    }
+    // const formedContact = new Contact(newContact)
+    // formedContact.save()
+    const ContactIdLink = new ContactList({
+      contact: newContact._id,
+      addSince: Date.now(),
+    });
+    ownerAccount.contactList.push(ContactIdLink);
+    await ownerAccount.save();
+    return { status: true, newContact: newContact };
+  } catch (err) {
+    console.log(err);
+    return { status: false };
+  }
+};
+
+const createContactPhotoUpload = async (req, res, id) => {
+  var img = {
+    data: fs.readFileSync(req.file.path),
+    contentType: req.file.mimetype,
+  };
+  try {
+    // req.body._id is the id of contact that need to be upload
+    var contact = await Contact.findOneAndUpdate(
+      { _id: mongoose.Types.ObjectId(id) },
+      { portrait: img },
+      { new: true }
+    ).lean();
+    contact.portrait.data = contact.portrait.data.toString("base64");
+    // console.log(contact.portrait.data.toString("base64"));
+    console.log("update success");
+    return { status: true, contact: contact };
+  } catch (err) {
+    console.log(err);
+    return { status: false };
+  }
+};
+
 module.exports = {
   createNewContact,
   showAllContact,
@@ -528,4 +641,5 @@ module.exports = {
   deleteOneContact,
   synchronizationContactInfo,
   createContactbyUserName,
+  createContactOneStep,
 };
