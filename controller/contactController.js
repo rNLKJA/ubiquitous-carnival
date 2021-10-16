@@ -88,7 +88,7 @@ const createContactbyUserName = async (req, res) => {
         phone: existAccountContact.phone,
         email: existAccountContact.email,
         ownerAccount: mongoose.Types.ObjectId(req.user._id),
-      });
+      }).lean();
     } else {
       return res.json({ status: false, msg: "Cannot find user!" });
     }
@@ -154,7 +154,7 @@ const createNewContact = async (req, res) => {
       phone: req.body.phone,
       email: req.body.email,
       ownerAccount: mongoose.Types.ObjectId(req.user._id),
-    });
+    }).lean();
     //!!generate one meeting record automatically!
     let newContact = null;
     if (existAccountContact == null && dupContact == null) {
