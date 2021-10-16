@@ -179,56 +179,61 @@ const AddUser = () => {
   };
 
 	const onSubmit = async e => {
-    e.preventDefault();
-    const formData = new FormData();
-    formData.append('portrait', file);
-		formData.append('_id', contact._id)
+    if (contact !== '') {
+			e.preventDefault();
+			const formData = new FormData();
+			formData.append('portrait', file);
+			formData.append('_id', contact._id)
 
 
-    try {
-      setSuccess(false);
-      setLoading1(true);
-      const res = await fetchClient.post('/contact/uploadContactImage', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        },
-        onUploadProgress: progressEvent => {
-          setUploadPercentage(
-            parseInt(
-              Math.round((progressEvent.loaded * 100) / progressEvent.total)
-            )
-          );
-        }
-      }).then(response => {
-				setAvatar(response.data.portrait.data.toString("base64"))
-				setContact(response.data)
-			});
+			try {
+				setSuccess(false);
+				setLoading1(true);
+				const res = await fetchClient.post('/contact/uploadContactImage', formData, {
+					headers: {
+						'Content-Type': 'multipart/form-data'
+					},
+					onUploadProgress: progressEvent => {
+						setUploadPercentage(
+							parseInt(
+								Math.round((progressEvent.loaded * 100) / progressEvent.total)
+							)
+						);
+					}
+				}).then(response => {
+					setAvatar(response.data.portrait.data.toString("base64"))
+					setContact(response.data)
+				});
 
-      if (res.data.status === 'false') {
-        setMessage('upload failed ');
-        return
-      }
+				if (res.data.status === 'false') {
+					setMessage('upload failed ');
+					return
+				}
 
-      // setTimeout(() => setUploadPercentage(0), 100);
+				// setTimeout(() => setUploadPercentage(0), 100);
 
-      setSuccess(true);
-      setLoading1(false);
-			setUpload(false)
-      // TODO: backend should return the decoded string of image in res.data.portrait.
-      // update hook state to rerender the new avatar
-      // setAvatar(res.data.portrait) 
+				setSuccess(true);
+				setLoading1(false);
+				setUpload(false)
+				// TODO: backend should return the decoded string of image in res.data.portrait.
+				// update hook state to rerender the new avatar
+				// setAvatar(res.data.portrait) 
 
-			alert("Success")
+				alert("Success")
+			} catch (err) {
+			if (err) {
+				setMessage('upload failed err: ');
+			} else {
 
-    } catch (err) {
-      if (err) {
-        setMessage('upload failed err: ');
-      } else {
+				setMessage(err.response.data.msg);
+			}
+				setUploadPercentage(0)
+			}
+		} else {
+			alert('You need to submit contact information before upload image')
+		}
 
-        setMessage(err.response.data.msg);
-      }
-      setUploadPercentage(0)
-    }
+    
   };
 
   return (

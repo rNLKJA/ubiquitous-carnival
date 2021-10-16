@@ -283,7 +283,7 @@ export const DisplayContact = ({
 				<div className="avatar">
 					<Avatar alt="Avatar" sx={{ width: 125, height: 125, border: '2px solid pink' }} margin={3} src={"data:image/png;base64," + avatar} />
 
-					upload ? [<div className="upload-container " style={{ alignItems: 'center', justifyContent: "center", display: "flex", position: 'fixed', right: '1rem', top: '1.5rem' }}>
+					{contact.edit ? upload ? [<div className="upload-container " style={{ alignItems: 'center', justifyContent: "center", display: "flex", position: 'fixed', right: '1rem', top: '1.5rem' }}>
             <form onSubmit={onSubmit}>
               <label htmlFor="contained-button-file" style={{ padding: '10px'}}>
                 <Input accept="image/*" id="contained-button-file" multiple type="file" hidden={true} onChange={onChange} />
@@ -333,7 +333,7 @@ export const DisplayContact = ({
 								Upload
 
 							</Button>
-						</div>)
+						</div>) : null}
 				</div>	
 				
 				<form className="edit-contact-form">
