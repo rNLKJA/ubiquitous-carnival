@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const { populate } = require("../models/contactSchema");
-
+const fs = require("fs");
 const passport = require("passport");
 const ExpressHandlebars = require("express-handlebars/lib/express-handlebars");
 require("../config/passport")(passport);
@@ -468,6 +468,8 @@ const contactPhotoUpload = async (req, res) => {
     data: fs.readFileSync(req.file.path),
     contentType: req.file.mimeType,
   };
+
+	console.log(img)
   try {
     // req.body._id is the id of contact that need to be upload
     const contact = await Contact.findOneAndUpdate(
@@ -475,6 +477,7 @@ const contactPhotoUpload = async (req, res) => {
       { portrait: img },
       { new: true }
     );
+		console.log(contact)
     console.log("update success");
     res.send(contact);
   } catch (err) {

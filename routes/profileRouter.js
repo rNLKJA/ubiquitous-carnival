@@ -75,7 +75,7 @@ profileRouter.post(
   (req, res) => profileController.uploadPhoto(req, res)
 );
 
-profileRouter.get(
+profileRouter.post(
   "/displayImage",
   passport.authenticate("jwt", { session: false }),
   profileController.displayImage

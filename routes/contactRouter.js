@@ -43,7 +43,7 @@ contactRouter.post(
   "/uploadContactImage",
   passport.authenticate("jwt", { session: false }),
   upload.single("portrait"),
-  (req, res) => contactRouter.contactPhotoUpload(req, res)
+  (req, res) => contactController.contactPhotoUpload(req, res)
 );
 
 contactRouter.post(
