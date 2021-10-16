@@ -15,15 +15,12 @@ import Heading from "../heading/heading.jsx";
 import Autocomplete from "@mui/material/Autocomplete";
 import { Link } from "react-router-dom";
 
-
-
 const CreateRecord = () => {
-
   useEffect(() => {
     document.title = "Add Record";
   }, []);
 
-  const textAreaRef = useRef(null)
+  const textAreaRef = useRef(null);
 
   const [currentTime, setCurrentTime] = useState(new Date());
   const { loading, contacts, error } = useContacts();
@@ -31,6 +28,8 @@ const CreateRecord = () => {
   const [location, setLocation] = useState("");
   const [geoCoords, setGeoCoords] = useState({ lat: -37.7972, lng: 144.961 });
   const [notes, setNotes] = useState("");
+
+  const [customField, setCustomField] = useState([]);
 
   if (error) {
     return <Error msg={"Something Wrong with Record Component"}></Error>;
@@ -66,6 +65,7 @@ const CreateRecord = () => {
       dateTime: convert(currentTime),
       geoCoords: geoCoords,
       notes: notes,
+      field: customField,
     };
 
     // console.log(recordInfo);
@@ -93,6 +93,36 @@ const CreateRecord = () => {
     }
   };
 
+  const handleAddField = (e) => {
+    e.preventDefault();
+    setCustomField([...customField, { field: "", value: "" }]);
+  };
+
+  const removeHandler = (e, index, type) => {
+    e.preventDefault();
+    if (type === "field") {
+      setCustomField((prev) => prev.filter((item) => item !== prev[index]));
+    }
+  };
+
+  const fieldOnChange = (index, event) => {
+    event.preventDefault();
+    event.persist();
+
+    setCustomField((prev) => {
+      return prev.map((item, i) => {
+        if (i !== index) {
+          return item;
+        }
+
+        return {
+          ...item,
+          [event.target.name]: event.target.value,
+        };
+      });
+    });
+  };
+
   // console.log("TIME ", convert(currentTime));
 
   return (
@@ -104,9 +134,7 @@ const CreateRecord = () => {
           <h1> Create ・ω・</h1>
         </div>
         <Link to="/record" className="back-button">
-          <button className="back-button">
-            Back
-          </button>
+          <button className="back-button">Back</button>
         </Link>
 
         <form className="record-form">
@@ -116,18 +144,22 @@ const CreateRecord = () => {
             options={names}
             sx={{ width: "100%" }}
             isOptionEqualToValue={(option, value) => option.id === value.id}
-            
             onChange={(e, v) => setFieldValue(v)}
-            renderInput={(params) => <TextField {...params} 
-                                                label="Contacts"  
-                                                error = {selected === ""} 
-                                                helperText = {selected === "" ? "Select a contact つ；－；つ" : ''}/>}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                label="Contacts"
+                error={selected === ""}
+                helperText={
+                  selected === "" ? "Select a contact つ；－；つ" : ""
+                }
+              />
+            )}
           />
           <br />
-          <div className="timer-container" >
+          <div className="timer-container">
             <LocalizationProvider dateAdapter={AdapterDateFns}>
               <DateTimePicker
-
                 renderInput={(params) => <TextField {...params} />}
                 label="Meeting time"
                 value={currentTime}
@@ -138,7 +170,6 @@ const CreateRecord = () => {
                 maxTime={new Date("2025-02-14")}
                 ampm={true}
                 disableIgnoringDatePartForTimeValidation={true}
-
               />
             </LocalizationProvider>
           </div>
@@ -161,7 +192,7 @@ const CreateRecord = () => {
             type="number"
             step="any"
             value={geoCoords.lat}
-            onChange={() => { }}
+            onChange={() => {}}
             hidden
           />
           <input
@@ -169,15 +200,11 @@ const CreateRecord = () => {
             type="number"
             step="any"
             value={geoCoords.lng}
-            onChange={() => { }}
+            onChange={() => {}}
             hidden
           />
 
           <Map setLocation={setLocation} setGeoCoords={setGeoCoords} />
-
-
-
-          
 
           <TextField
             id="outlined-multiline-flexible"
@@ -190,6 +217,52 @@ const CreateRecord = () => {
             }}
           />
 
+          <label>Custom Field</label>
+          {customField.map((field, i) => {
+            return (
+              <div>
+                <div key={`${field}-${i}`} className="multi-field">
+                  <div className="multi-field-input">
+                    <input
+                      value={field.field}
+                      name="field"
+                      type="text"
+                      className="form-control"
+                      required
+                      onChange={(e) => fieldOnChange(i, e)}
+                      placeholder="Field Name"
+                    />
+
+                    <input
+                      value={field.value}
+                      type="text"
+                      name="value"
+                      className="form-control"
+                      required
+                      onChange={(e) => fieldOnChange(i, e)}
+                      placeholder="Field Value"
+                    />
+                  </div>
+                  <button
+                    className="btn btn-info"
+                    style={{
+                      width: "40px",
+                      height: "80px",
+                    }}
+                    onClick={(e) => removeHandler(e, i, "field")}
+                  >
+                    x
+                  </button>
+                </div>
+                <hr />
+              </div>
+            );
+          })}
+
+          <button className="btn btn-primary mt-2" onClick={handleAddField}>
+            Add Field
+            {console.log(customField)}
+          </button>
 
           <button
             className="btn btn-primary"

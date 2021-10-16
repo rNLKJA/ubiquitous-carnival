@@ -6,13 +6,14 @@ import fetchClient from "../axiosClient/axiosClient";
 import QrReader from "react-qr-reader";
 import Heading from '../heading/heading.jsx'
 import Navbar from '../nav/Navbar'
+import Alert from '@mui/material/Alert'
 
 const AddUser = () => {
     // const qrRef = useRef(null);
     //const [state,setState]=useState(false);
-    const [scanResultWebCam, setScanResultWebCam] = useState("");
     const [userName, setUserName] = useState("");
-    const BASE_URL = "https://crm4399.herokuapp.com";
+    const [message, setMessage] = useState("");
+
     const submitUserID = async (e) => {
         e.preventDefault();
 				console.log(123)
@@ -20,9 +21,19 @@ const AddUser = () => {
             userName,
         };
 
+        console.log(contact)
+
         await fetchClient
-            .post(BASE_URL + "/contact/createContactByUserName", contact)
-            .then(res => console.log(res)) // TODO: duplicate account issue
+            .post("/contact/createContactByUserName", contact)
+            .then(res => {
+                if (res.data.status) {
+                    console.log('Successfully Added')
+                    setMessage({msg:'Successfully Added '+ userName+ ' !',status:true})
+                } else{
+                    setMessage({msg:res.data.msg,status:false})
+                }
+                console.log(res)
+            }) // TODO: duplicate account issue
             .catch((err) => {
                 console.error(err);
             });
@@ -50,7 +61,7 @@ const AddUser = () => {
 
     const handleScanWebCam = (result) => {
         if (result){
-            setScanResultWebCam(result);
+            setUserName(result);
         }
 
     }
@@ -80,9 +91,9 @@ const AddUser = () => {
                         onError = {handleErrorWebCam}
                         onScan = {handleScanWebCam}
                     />
-                    <h3>UserID: {scanResultWebCam}</h3>
+                    <h3>UserID: {userName}</h3>
+                    {message ? message.status? <Alert severity="success">{message.msg}</Alert> :<Alert severity="error">{message.msg}</Alert>:null}
                     <form className="newID" method="POST" onSubmit={submitUserID}>
-                        {setUserName.bind(this, scanResultWebCam)}
                         <button type="submit" className='btn btn-primary'>Add Contact</button>
                     </form>
 

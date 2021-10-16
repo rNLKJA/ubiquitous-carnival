@@ -14,8 +14,7 @@ import Error from "../error/Error";
 import Heading from "../heading/heading.jsx";
 import Navbar from "../nav/Navbar";
 import { Link } from "react-router-dom";
-import TextField from '@mui/material/TextField';
-
+import TextField from "@mui/material/TextField";
 
 // const BASE_URL = "http://localhost:5000";
 
@@ -116,23 +115,25 @@ const Contact = () => {
         <div className="contact">
           {/* display contact as a list */}
 
-          <div className="contactList" style= {{width: "97%" }}>
+          <div className="contactList" style={{ width: "97%" }}>
             {!oneContact.selected && (
               <>
+                <Link className="add-contact-a" to="./addUser">
+                  <div className="add-contact">
+                    <img src={add_user} alt="add contact"></img>
+                  </div>
+                </Link>
 
-									<Link className="add-contact-a" to="./addUser">
-										<div className="add-contact">
-											<img src={add_user} alt="add contact"></img>
-										</div>
-                	</Link>
-
-                <div className="contactList-items" style= {{alignItems: 'center'}}>
-
-                  <TextField id="standard-basic" 
-                          label="Search by name/occupation" 
-                          style={{width: "90%" }}
-                          value={searchTerm}
-                          onChange={(e) => handleChange(e)}
+                <div
+                  className="contactList-items"
+                  style={{ alignItems: "center" }}
+                >
+                  <TextField
+                    id="standard-basic"
+                    label="Search by name/occupation"
+                    style={{ width: "90%" }}
+                    value={searchTerm}
+                    onChange={(e) => handleChange(e)}
                   />
 
                   <People
