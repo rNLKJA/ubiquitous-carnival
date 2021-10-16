@@ -223,8 +223,8 @@ const showAllContact = async (req, res) => {
     // .lean();
     ownerAccount.contactList = ownerAccount.contactList.map((contact) => {
       if (contact.contact.hasOwnProperty("portrait")) {
-        contact.contact.portrait.buffer =
-          contact.contact.portrait.buffer.toString("base64");
+        contact.contact.portrait.data =
+          contact.contact.portrait.data.toString("base64");
       } else {
         contact.contact.portrait = null;
       }
@@ -466,18 +466,17 @@ const listCompare = (currentList, targetList) => {
 const contactPhotoUpload = async (req, res) => {
   var img = {
     data: fs.readFileSync(req.file.path),
-    contentType: req.file.mimeType,
+    contentType: req.file.mimetype,
   };
-
-	console.log(img)
   try {
     // req.body._id is the id of contact that need to be upload
-    const contact = await Contact.findOneAndUpdate(
+    var contact = await Contact.findOneAndUpdate(
       { _id: mongoose.Types.ObjectId(req.body._id) },
       { portrait: img },
       { new: true }
-    );
-		console.log(contact)
+    ).lean();
+    contact.portrait.data = contact.portrait.data.toString("base64");
+    // console.log(contact.portrait.data.toString("base64"));
     console.log("update success");
     res.send(contact);
   } catch (err) {

@@ -242,7 +242,7 @@ const showProfile = async (req, res) => {
       occupation: req.user.occupation,
       status: req.user.status,
       email: req.user.email,
-      phone: req.user.phone
+      phone: req.user.phone,
     });
   } catch (err) {
     res.send("show fail");
@@ -256,6 +256,7 @@ const displayImage = async (req, res) => {
       return res.json({ status: false, message: "no image for this user" });
     }
     const decodeImage = user.portrait.data.toString("base64");
+    console.log(decodeImage);
     // console.log(data);
     // const image1 = data.toString("base64");
     // console.log(image1);
