@@ -8,37 +8,37 @@ import fetchClient from "../axiosClient/axiosClient";
 import { Link } from "react-router-dom";
 import Heading from "../heading/heading.jsx";
 import NavBar from "../nav/Navbar";
-import Avatar from '@mui/material/Avatar';
-import CircularProgress from '@mui/material/CircularProgress';
-import { green } from '@mui/material/colors';
-import Fab from '@mui/material/Fab';
-import CheckIcon from '@mui/icons-material/Check';
-import SaveIcon from '@mui/icons-material/Save';
+import Avatar from "@mui/material/Avatar";
+import CircularProgress from "@mui/material/CircularProgress";
+import { green } from "@mui/material/colors";
+import Fab from "@mui/material/Fab";
+import CheckIcon from "@mui/icons-material/Check";
+import SaveIcon from "@mui/icons-material/Save";
 
-import Input from '@mui/material/Input';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button'
-import UploadIcon from '@mui/icons-material/Upload';
-import { makeStyles } from '@material-ui/core/styles';
-import cx from 'clsx';
-import TextField from '@mui/material/TextField';
+import Input from "@mui/material/Input";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import Button from "@mui/material/Button";
+import UploadIcon from "@mui/icons-material/Upload";
+import { makeStyles } from "@material-ui/core/styles";
+import cx from "clsx";
+import TextField from "@mui/material/TextField";
 import { width } from "@mui/system";
 
 const useFabStyle = makeStyles((success) => ({
   name: {
-    color: 'blue',
+    color: "blue",
   },
   fab: {
     ...(success && {
       bgcolor: green[500],
-      '&:hover': {
+      "&:hover": {
         bgcolor: green[700],
       },
     }),
     borderRadius: 100,
-  }
-}))
+  },
+}));
 
 const AddUser = () => {
   useEffect(() => {
@@ -58,17 +58,49 @@ const AddUser = () => {
   const [upload, setUpload] = useState(false);
 
   const [avatar, setAvatar] = useState("");
-  const [file, setFile] = useState('');
-  const [message, setMessage] = useState('');
+  const [file, setFile] = useState("");
+  const [message, setMessage] = useState("");
   const [uploadPercentage, setUploadPercentage] = useState(0);
   const [loading1, setLoading1] = useState(false);
   const [success, setSuccess] = useState(false);
-  const [fileName, setFileName] = useState('')
+  const [fileName, setFileName] = useState("");
 
-  const [contact, setContact] = useState('')
-  const styles = useFabStyle(success)
+  const [contact, setContact] = useState("");
+  const styles = useFabStyle(success);
 
-  console.log(firstName, lastName, emails, phones, occupation, note)
+  // console.log(firstName, lastName, emails, phones, occupation, note)
+
+  const [customField, setCustomField] = useState([]);
+
+  const handleAddField = (e) => {
+    e.preventDefault();
+    setCustomField([...customField, { field: "", value: "" }]);
+  };
+
+  const removeHandler = (e, index, type) => {
+    e.preventDefault();
+    if (type === "field") {
+      setCustomField((prev) => prev.filter((item) => item !== prev[index]));
+    }
+  };
+
+  const fieldOnChange = (index, event) => {
+    event.preventDefault();
+    event.persist();
+
+    setCustomField((prev) => {
+      return prev.map((item, i) => {
+        if (i !== index) {
+          return item;
+        }
+
+        return {
+          ...item,
+          [event.target.name]: event.target.value,
+        };
+      });
+    });
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -76,73 +108,78 @@ const AddUser = () => {
     var email = ConvertListObjectToListValues(emails, "email");
     var phone = ConvertListObjectToListValues(phones, "phone");
 
-
-    console.log("in submit ,", firstName, lastName, email, phone, occupation, note)
+    console.log(
+      "in submit ,",
+      firstName,
+      lastName,
+      email,
+      phone,
+      occupation,
+      note,
+    );
     const formData = new FormData();
-    formData.append('firstName', firstName)
-    formData.append('lastName', lastName)
-    formData.append('email', email)
-    formData.append('phone', phone)
-    formData.append('occupation', occupation)
-    formData.append('portrait', file);
-    formData.append('note', note);
-
-
+    formData.append("firstName", firstName);
+    formData.append("lastName", lastName);
+    formData.append("email", email);
+    formData.append("phone", phone);
+    formData.append("occupation", occupation);
+    formData.append("portrait", file);
+    formData.append("note", note);
+    formData.append("field", customField);
 
     for (var pair of formData.entries()) {
-      console.log(pair[0] + ', ' + pair[1]);
+      console.log(pair[0] + ", " + pair[1]);
     }
 
     try {
-
-      console.log("trying to upload img")
+      console.log("trying to upload img");
       setSuccess(false);
       setLoading1(true);
-      const response = await fetchClient.post('http://localhost:5000/contact/createContactOneStep', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        },
-        onUploadProgress: progressEvent => {
-          setUploadPercentage(
-            parseInt(
-              Math.round((progressEvent.loaded * 100) / progressEvent.total)
-            )
-          );
-        }
-      }).then((res) => {
-        if (res.data.dupContact) {
-          alert('duplicate contact')
-        }
-        if (res.data.status === 'false') {
-          alert('upload failed')
+      const response = await fetchClient
+        .post("http://localhost:5000/contact/createContactOneStep", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+          onUploadProgress: (progressEvent) => {
+            setUploadPercentage(
+              parseInt(
+                Math.round((progressEvent.loaded * 100) / progressEvent.total),
+              ),
+            );
+          },
+        })
+        .then((res) => {
+          if (res.data.dupContact) {
+            alert("duplicate contact");
+          }
+          if (res.data.status === "false") {
+            alert("upload failed");
+          }
 
-        }
+          alert("You've create a new contact!");
+          return res;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
 
-        alert("You've create a new contact!");
-        return res
-      }).catch((err) => {
-        console.log(err)
-      });
-
-      if (response.data.status === 'false') {
-        alert('upload failed')
-        return
+      if (response.data.status === "false") {
+        alert("upload failed");
+        return;
       }
 
       // setTimeout(() => setUploadPercentage(0), 100);
 
       setSuccess(true);
       setLoading1(false);
-      setUpload(false)
-      window.location.href = '/contact'
-
+      setUpload(false);
+      window.location.href = "/contact";
     } catch (err) {
       if (err) {
         alert(err);
-        return
+        return;
       }
-      setUploadPercentage(0)
-
+      setUploadPercentage(0);
     }
 
     setFirstName("");
@@ -177,17 +214,6 @@ const AddUser = () => {
   const handleAddEmail = (e) => {
     e.preventDefault();
     setEmails([...emails, { email: "" }]);
-  };
-
-  const removeHandler = (e, index, type) => {
-    e.preventDefault();
-    if (type === "phone") {
-      setPhones((prev) => prev.filter((item) => item !== prev[index]));
-    }
-
-    if (type === "email") {
-      setEmails((prev) => prev.filter((item) => item !== prev[index]));
-    }
   };
 
   const emailOnChange = (index, event) => {
@@ -226,25 +252,21 @@ const AddUser = () => {
     });
   };
 
-
   const onClickUpload = () => {
-    setUpload(!upload)
-  }
+    setUpload(!upload);
+  };
 
-  const onChange = e => {
+  const onChange = (e) => {
     e.preventDefault();
     setFile(e.target.files[0]);
     setFileName(e.target.files[0].name);
-
   };
-
-
 
   const buttonSx = {
     borderRadius: 100,
     ...(success && {
       bgcolor: green[500],
-      '&:hover': {
+      "&:hover": {
         bgcolor: green[700],
       },
     }),
@@ -255,7 +277,6 @@ const AddUser = () => {
       <Heading />
       <NavBar />
       <div className="sub-container">
-
         <a href="/addUser" className="back-button">
           Back
         </a>
@@ -265,27 +286,56 @@ const AddUser = () => {
           <button onClick={uploadImage}>Upload</button>
         </div> */}
         <div className="avatar">
-          <Avatar alt="Avatar" sx={{ width: 125, height: 125, border: '2px solid pink' }} margin={3} src={"data:image/png;base64," + avatar} />
+          <Avatar
+            alt="Avatar"
+            sx={{ width: 125, height: 125, border: "2px solid pink" }}
+            margin={3}
+            src={"data:image/png;base64," + avatar}
+          />
 
-          {upload ? [<div className="upload-container " style={{ alignItems: 'center', justifyContent: "center", display: "flex", position: 'fixed', right: '1rem', top: '0rem' }}>
-            <div>
-              <label htmlFor="contained-button-file" style={{ padding: '10px' }}>
-                <Input accept="image/*" id="contained-button-file" multiple type="file" hidden={true} onChange={onChange} />
-                <Button variant="contained" component="span" >
-                  <Typography variant="body2">
-                    Choose
-                  </Typography>
-                </Button>
-              </label>
-              <div style={{ overflow: "hidden", textOverflow: "ellipsis", width: '7rem' }}>
-                <Typography variant="body2" noWrap color="text.secondary">
-                  {fileName}
-                </Typography>
-              </div>
+          {upload ? (
+            [
+              <div
+                className="upload-container "
+                style={{
+                  alignItems: "center",
+                  justifyContent: "center",
+                  display: "flex",
+                  position: "fixed",
+                  right: "1rem",
+                  top: "0rem",
+                }}
+              >
+                <div>
+                  <label
+                    htmlFor="contained-button-file"
+                    style={{ padding: "10px" }}
+                  >
+                    <Input
+                      accept="image/*"
+                      id="contained-button-file"
+                      multiple
+                      type="file"
+                      hidden={true}
+                      onChange={onChange}
+                    />
+                    <Button variant="contained" component="span">
+                      <Typography variant="body2">Choose</Typography>
+                    </Button>
+                  </label>
+                  <div
+                    style={{
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                      width: "7rem",
+                    }}
+                  >
+                    <Typography variant="body2" noWrap color="text.secondary">
+                      {fileName}
+                    </Typography>
+                  </div>
 
-
-
-              {/* <Box sx={{ m: 1, position: 'relative', alignItems: 'center', justifyContent: "center", display: "flex" }}>
+                  {/* <Box sx={{ m: 1, position: 'relative', alignItems: 'center', justifyContent: "center", display: "flex" }}>
                 <Fab
                   aria-label="save"
                   color="primary"
@@ -308,48 +358,62 @@ const AddUser = () => {
                   />
                 )}
               </Box> */}
-              <Button onClick={onClickUpload}>Cancel</Button>
+                  <Button onClick={onClickUpload}>Cancel</Button>
+                </div>
+              </div>,
+            ]
+          ) : (
+            <div style={{ right: "1rem", top: "3.5rem", position: "fixed" }}>
+              <Button onClick={onClickUpload}>
+                <UploadIcon />
+                Upload
+              </Button>
             </div>
-          </div>] : (<div style={{ right: '1rem', top: '3.5rem', position: 'fixed' }}>
-            <Button onClick={onClickUpload}>
-
-              <UploadIcon />
-              Upload
-
-            </Button>
-          </div>)}
+          )}
         </div>
-        <form className="contact-form" method="POST" onSubmit={handleSubmit} style={{ height: "98%", overflow: "scroll" }}>
+        <form
+          className="contact-form"
+          method="POST"
+          onSubmit={handleSubmit}
+          style={{ height: "98%", overflow: "scroll" }}
+        >
           <label htmlFor="firstName">First Name: </label>
 
           <TextField
             id="outlined"
             label="First Name:"
             value={firstName}
-            error={firstName === ''}
+            error={firstName === ""}
             onChange={(e) => {
-              setFirstName(e.target.value)
+              setFirstName(e.target.value);
             }}
           />
 
           <label htmlFor="lastName">Last Name: </label>
-          
 
           <TextField
             id="outlined"
             label="Last Name:"
             value={lastName}
-            error = {lastName === ''}
+            error={lastName === ""}
             onChange={(e) => {
-              setLastName(e.target.value)
+              setLastName(e.target.value);
             }}
           />
 
           <label htmlFor="email">E-mail: </label>
           {emails.map((mail, i) => {
             return (
-              <div className="multi-field" >
-                <div className="multi-field-input" style={{ display: "flex", flexDirection: "row", gap: "10px", width: "100%" }}>
+              <div className="multi-field">
+                <div
+                  className="multi-field-input"
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    gap: "10px",
+                    width: "100%",
+                  }}
+                >
                   <input
                     value={mail.email}
                     type="email"
@@ -363,7 +427,7 @@ const AddUser = () => {
                     style={{
                       width: "40px",
                       height: "40px",
-                      margin: "0px"
+                      margin: "0px",
                     }}
                     onClick={(e) => removeHandler(e, i, "email")}
                   >
@@ -371,7 +435,7 @@ const AddUser = () => {
                   </button>
                 </div>
               </div>
-            )
+            );
           })}
 
           <button className="btn btn-primary mt-2" onClick={handleAddEmail}>
@@ -381,10 +445,19 @@ const AddUser = () => {
           <label htmlFor="phone">Phone: </label>
           {phones.map((phone, i) => {
             return (
-              <div className="multi-field" >
-                <div className="multi-field-input" style={{ display: "flex", flexDirection: "row", gap: "10px", width: "100%" }}>
+              <div className="multi-field">
+                <div
+                  className="multi-field-input"
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    gap: "10px",
+                    width: "100%",
+                  }}
+                >
                   <input
-                    text='text' pattern="\d*"
+                    text="text"
+                    pattern="\d*"
                     value={phone.phone}
                     className="form-control"
                     name="phone"
@@ -398,7 +471,7 @@ const AddUser = () => {
                     style={{
                       width: "40px",
                       height: "40px",
-                      margin: "0px"
+                      margin: "0px",
                     }}
                     onClick={(e) => removeHandler(e, i, "phone")}
                   >
@@ -406,7 +479,7 @@ const AddUser = () => {
                   </button>
                 </div>
               </div>
-            )
+            );
           })}
 
           <button className="btn btn-primary mt-2" onClick={handleAddPhone}>
@@ -416,15 +489,13 @@ const AddUser = () => {
           <label htmlFor="occupation">Occupation: </label>
           <input
             name="occupation"
-            className='form-control'
+            className="form-control"
             type="text"
             placeholder="Please enter the occupation"
             onChange={(e) => setOccupation(e.target.value)}
             value={occupation}
             required
           ></input>
-
-
 
           {/* <label htmlFor="meetRecord">Meeting Record: </label>
           <input
@@ -434,7 +505,6 @@ const AddUser = () => {
             onChange={(e) => setMeetRecord(e.target.value)}
             value={meetRecord}
           ></input> */}
-
 
           <label htmlFor="notes">Notes: </label>
           <TextField
@@ -448,11 +518,72 @@ const AddUser = () => {
             }}
           />
 
+          <label>Custom Field</label>
+          {customField.map((field, i) => {
+            return (
+              <div>
+                <div key={`${field}-${i}`} className="multi-field">
+                  <div className="multi-field-input">
+                    <input
+                      value={field.field}
+                      name="field"
+                      type="text"
+                      className="form-control"
+                      required
+                      onChange={(e) => fieldOnChange(i, e)}
+                      placeholder="Field Name"
+                    />
 
+                    <input
+                      value={field.value}
+                      type="text"
+                      name="value"
+                      className="form-control"
+                      required
+                      onChange={(e) => fieldOnChange(i, e)}
+                      placeholder="Field Value"
+                    />
+                  </div>
+                  <button
+                    className="btn btn-info"
+                    style={{
+                      width: "40px",
+                      height: "80px",
+                    }}
+                    onClick={(e) => removeHandler(e, i, "field")}
+                  >
+                    x
+                  </button>
+                </div>
+                <hr />
+              </div>
+            );
+          })}
 
+          <button className="btn btn-primary mt-2" onClick={handleAddField}>
+            Add Field
+            {console.log(customField)}
+          </button>
 
-          <div style={{ position: 'relative', alignItems: 'center', justifyContent: "center", display: "flex" }}>
-            <Box onClick={handleSubmit} sx={{ m: 1, position: 'relative', alignItems: 'center', justifyContent: "center", display: "flex" }} maxWidth='30%'>
+          <div
+            style={{
+              position: "relative",
+              alignItems: "center",
+              justifyContent: "center",
+              display: "flex",
+            }}
+          >
+            <Box
+              onClick={handleSubmit}
+              sx={{
+                m: 1,
+                position: "relative",
+                alignItems: "center",
+                justifyContent: "center",
+                display: "flex",
+              }}
+              maxWidth="30%"
+            >
               <Fab
                 className={cx(styles.name, styles.fab)}
                 aria-label="save"
@@ -460,17 +591,15 @@ const AddUser = () => {
                 sx={buttonSx}
               >
                 {success ? <CheckIcon /> : <SaveIcon />}
-
               </Fab>
               {loading1 && (
                 <CircularProgress
-
                   value={uploadPercentage}
                   variant="determinate"
                   size={68}
                   sx={{
                     color: green[500],
-                    position: 'absolute',
+                    position: "absolute",
                   }}
                 />
               )}
