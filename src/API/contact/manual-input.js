@@ -80,9 +80,17 @@ const AddUser = () => {
   };
 
   const removeHandler = (e, index, type) => {
+
     e.preventDefault();
     if (type === "field") {
       setCustomField((prev) => prev.filter((item) => item !== prev[index]));
+    }
+    if (type === "phone") {
+      setPhones((prev) => prev.filter((item) => item !== prev[index]));
+    }
+
+    if (type === "email") {
+        setEmails((prev) => prev.filter((item) => item !== prev[index]));
     }
   };
 
@@ -404,7 +412,7 @@ const AddUser = () => {
           <label htmlFor="email">E-mail: </label>
           {emails.map((mail, i) => {
             return (
-              <div className="multi-field">
+              <div className="multi-field" key  = {'email' + i}>
                 <div
                   className="multi-field-input"
                   style={{
@@ -453,7 +461,7 @@ const AddUser = () => {
           <label htmlFor="phone">Phone: </label>
           {phones.map((phone, i) => {
             return (
-              <div className="multi-field">
+              <div className="multi-field"  key  = {'phone' + i}>
                 <div
                   className="multi-field-input"
                   style={{
@@ -509,7 +517,6 @@ const AddUser = () => {
             onChange={(e) => {
               setOccupation(e.target.value);
             }}
-            required
           />
 
           {/* <label htmlFor="meetRecord">Meeting Record: </label>
@@ -531,7 +538,6 @@ const AddUser = () => {
             onChange={(e) => {
               setNote(e.target.value);
             }}
-            required
           />
 
           <label>Custom Field</label>
@@ -576,7 +582,9 @@ const AddUser = () => {
             );
           })}
 
-          <Button type="submit">
+          <div style ={{alignItems: "center",
+                justifyContent: "center",
+                display: "flex",}}>
             <Box
               sx={{
                 m: 1,
@@ -588,6 +596,7 @@ const AddUser = () => {
               maxWidth="30%"
             >
               <Fab
+                type="submit"
                 className={cx(styles.name, styles.fab)}
                 aria-label="save"
                 color="primary"
@@ -607,7 +616,7 @@ const AddUser = () => {
                 />
               )}
             </Box>
-          </Button>
+          </div>
         </form>
       </div>
     </React.Fragment>
