@@ -61,8 +61,8 @@ const AddUser = () => {
 						<Heading />
 						<Navbar />
             <div className="sub-container">
-                <h1 className="add-contact-container">QR Code</h1>
-                <div>
+                
+                <div className="add-contact-container">
 {/*                    <button onClick={onScanFile}>Scan Qr Code</button>
                     <QrReader
                         ref={qrRef}
@@ -83,7 +83,7 @@ const AddUser = () => {
                     <h3>UserID: {scanResultWebCam}</h3>
                     <form className="newID" method="POST" onSubmit={submitUserID}>
                         {setUserName.bind(this, scanResultWebCam)}
-                        <input type="submit" value="Confirm"/>
+                        <button type="submit" className='btn btn-primary'>Add Contact</button>
                     </form>
 
                 </div>

@@ -150,8 +150,8 @@
     margin: auto;
   }
   .avatar img {
-    width: 50px;
-    width: 50px;
+    /* width: 50px; */
+    /* width: 50px; */
     border: solid 6px transparent;
     border-radius: 50%;
   }

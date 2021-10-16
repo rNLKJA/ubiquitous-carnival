@@ -1,6 +1,18 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./editContact.css";
 import fetchClient from "../axiosClient/axiosClient";
+import Avatar from '@mui/material/Avatar';
+import CircularProgress from '@mui/material/CircularProgress';
+import { green } from '@mui/material/colors';
+import Fab from '@mui/material/Fab';
+import CheckIcon from '@mui/icons-material/Check';
+import SaveIcon from '@mui/icons-material/Save';
+import Alert from '@mui/material/Alert';
+import Input from '@mui/material/Input';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button'
+import UploadIcon from '@mui/icons-material/Upload';
 
 // import { Contacts } from "@mui/icons-material";
 // import portrait from "./portrarit.png";
@@ -56,6 +68,25 @@ export const DisplayContact = ({
   const [emails, setEmails] = useState(
     ConvertListStringToListObject(contact.email, "email"),
   );
+
+
+	  //hooks for avatar upload
+  const [upload, setUpload] = useState(false);
+
+  const [avatar, setAvatar] = useState("");
+  const [file, setFile] = useState('');
+  const [message, setMessage] = useState('');
+  const [uploadPercentage, setUploadPercentage] = useState(0);
+  const [loading1, setLoading1] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [fileName, setFileName] = useState('')
+	
+	useEffect(() => {
+		if (contact.portrait !== undefined) {
+			setAvatar(contact.portrait.data.toString("base64"))
+			// console.log(contact.portrait.data.toString("base64"))
+		}
+	}, [])
 
   // add input field
   const handleAddPhone = (e) => {
@@ -151,6 +182,79 @@ export const DisplayContact = ({
     });
   };
 
+	const buttonSx = {
+    ...(success && {
+      bgcolor: green[500],
+      '&:hover': {
+        bgcolor: green[700],
+      },
+    }),
+  };
+
+	const onClickUpload = () => {
+    setUpload(!upload)
+  }
+
+	const onChange = e => {
+    e.preventDefault();
+    setFile(e.target.files[0]);
+    setFileName(e.target.files[0].name);
+
+  };
+
+	const onSubmit = async e => {
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append('portrait', file);
+		formData.append('_id', contact._id)
+
+
+    try {
+      setSuccess(false);
+      setLoading1(true);
+      const res = await fetchClient.post('/contact/uploadContactImage', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        },
+        onUploadProgress: progressEvent => {
+          setUploadPercentage(
+            parseInt(
+              Math.round((progressEvent.loaded * 100) / progressEvent.total)
+            )
+          );
+        }
+      }).then(response => {
+				setAvatar(response.data.portrait.data.toString("base64"))
+				setContact()
+			});
+
+      if (res.data.status === 'false') {
+        setMessage('upload failed ');
+        return
+      }
+
+      // setTimeout(() => setUploadPercentage(0), 100);
+
+      setSuccess(true);
+      setLoading1(false);
+			setUpload(false)
+      // TODO: backend should return the decoded string of image in res.data.portrait.
+      // update hook state to rerender the new avatar
+      // setAvatar(res.data.portrait) 
+
+			alert("Success")
+
+    } catch (err) {
+      if (err) {
+        setMessage('upload failed err: ');
+      } else {
+
+        setMessage(err.response.data.msg);
+      }
+      setUploadPercentage(0)
+    }
+  };
+
   return (
     <React.Fragment>
       {contact.edit ? null : (
@@ -176,17 +280,74 @@ export const DisplayContact = ({
 				) : null }
 
       <div className="makeStyles-card-1" style={{width: "95%"}}>
-        <form className="edit-contact-form">
+				<div className="avatar">
+					<Avatar alt="Avatar" sx={{ width: 125, height: 125, border: '2px solid pink' }} margin={3} src={"data:image/png;base64," + avatar} />
+
+					{contact.edit && (upload ? [<div className="upload-container " style={{ alignItems: 'center', justifyContent: "center", display: "flex", position: 'fixed', right: '1rem', top: '1.5rem' }}>
+            <form onSubmit={onSubmit}>
+              <label htmlFor="contained-button-file" style={{ padding: '10px'}}>
+                <Input accept="image/*" id="contained-button-file" multiple type="file" hidden={true} onChange={onChange} />
+                <Button variant="contained" component="span" >
+                  <Typography variant="body2">
+                    Choose
+                  </Typography>
+                </Button>
+              </label>
+              <div style={{ overflow: "hidden", textOverflow: "ellipsis", width: '7rem' }}>
+                <Typography variant="body2" noWrap color="text.secondary">
+                  {fileName}
+                </Typography>
+              </div>
+
+
+
+              <Box sx={{ m: 1, position: 'relative', alignItems: 'center', justifyContent: "center", display: "flex" }}>
+                <Fab
+                  aria-label="save"
+                  color="primary"
+                  sx={buttonSx}
+                  onClick={onSubmit}
+                >
+                  {success ? <CheckIcon /> : <SaveIcon />}
+
+                </Fab>
+                {loading1 && (
+                  <CircularProgress
+
+                    value={uploadPercentage}
+                    variant="determinate"
+                    size={68}
+                    sx={{
+                      color: green[500],
+                      position: 'absolute',
+                    }}
+                  />
+                )}
+              </Box>
+              <Button onClick={onClickUpload}>Cancel</Button>
+            </form>
+						</div>] : (<div style={{ right: '1rem', top: '5rem', position: 'fixed' }}>
+							<Button onClick={onClickUpload}>
+
+								<UploadIcon />
+								Upload
+
+							</Button>
+						</div>))}
+				</div>			
+				
+				<form className="edit-contact-form">
           <label>First Name: </label>
           <input
             type="text"
             value={contact.firstName}
             className="form-control"
             readOnly={!contact.edit}
+						required
+
             onChange={(e) =>
               setContact({ ...contact, firstName: e.target.value })
             }
-            required
           ></input>
 
           <label>Last Name: </label>
@@ -195,6 +356,7 @@ export const DisplayContact = ({
             value={contact.lastName}
             className="form-control"
             readOnly={!contact.edit}
+						required
             onChange={(e) =>
               setContact({ ...contact, lastName: e.target.value })
             }
@@ -206,13 +368,13 @@ export const DisplayContact = ({
             value={contact.occupation}
             className="form-control"
             readOnly={!contact.edit}
+						required
             onChange={(e) =>
               setContact({ ...contact, occupation: e.target.value })
             }
-            required
           ></input>
 
-          <label>Phone:</label>
+          {phones.length !== 0 ? <label>Phone:</label> : null}
           {phones.map((phone, i) => {
             return (
               <div key={`${phone}-${i}`} className="multi-field">
@@ -258,7 +420,7 @@ export const DisplayContact = ({
             </button>
           )}
 
-          <label>Email Address</label>
+          {emails.length !== 0 ? <label>Email Address</label> : null}
           {emails.map((mail, i) => {
             return (
               <div key={`${mail}-${i}`} className="multi-field">
@@ -364,3 +526,4 @@ const ConvertListObjectToListValues = (items, type) => {
 
   return result;
 };
+
