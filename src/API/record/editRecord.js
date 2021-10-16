@@ -159,16 +159,15 @@ const EditRecord = (prop) => {
           <Map setLocation={setLocation} setGeoCoords={setGeoCoords} geoLocation = {geoCoords} text = {prop.record.location} />
 					
 					<label htmlFor="notes">Notes: </label>
-          <textarea
-						ref={textAreaRef}
-						value={notes}
-            name="notes"
-            type="text"
-            placeholder="Add notes here!"
+          <TextField
+            id="outlined-multiline-flexible"
+            label="Add-Notes"
+            multiline
+            maxRows={4}
+            value={notes}
             onChange={(e) => {
               setNotes(e.target.value);
             }}
-            style={{ minWidth: "100%", minHeight:"10%", display: "block" }}
           />
 
 
