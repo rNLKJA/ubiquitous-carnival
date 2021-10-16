@@ -1,10 +1,10 @@
 import React, { useState} from "react";
 import "./person.css";
 import fetchClient from "../axiosClient/axiosClient";
-import { useShowProfile } from "../../BackEndAPI/profileAPI";
-import Heading from "../heading/heading";
-import Navbar from "../nav/Navbar";
-import LogoutUser from "../../hooks/useLogout";
+// import { useShowProfile } from "../../BackEndAPI/profileAPI";
+// import Heading from "../heading/heading";
+// import Navbar from "../nav/Navbar";
+// import LogoutUser from "../../hooks/useLogout";
 
 // import { Contacts } from "@mui/icons-material";
 // import portrait from "./portrarit.png";
