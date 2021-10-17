@@ -31,8 +31,8 @@ const useFabStyle = makeStyles((success) => ({
 // import { Contacts } from "@mui/icons-material";
 // import portrait from "./portrarit.png";
 
-// const BASE_URL = "http://localhost:5000";
-const BASE_URL = "https://crm4399.herokuapp.com";
+const BASE_URL = "http://localhost:5000";
+// const BASE_URL = "https://crm4399.herokuapp.com";
 
 const SelectedContact = ({ setOneContact, oneContact, deleteHandler }) => {
   // set selectedContact state with an additional property named edit
@@ -41,6 +41,7 @@ const SelectedContact = ({ setOneContact, oneContact, deleteHandler }) => {
     ...oneContact,
     edit: false,
   });
+  console.log(selectedContact);
 
   return (
     <React.Fragment>
@@ -48,7 +49,7 @@ const SelectedContact = ({ setOneContact, oneContact, deleteHandler }) => {
         className="back"
         onClick={() => {
           setOneContact({ ...oneContact, selected: false });
-          console.log("back");
+          // console.log("back");
         }}
       >
         Back
@@ -94,7 +95,7 @@ export const DisplayContact = ({
   const [loading1, setLoading1] = useState(false);
   const [success, setSuccess] = useState(false);
   const [fileName, setFileName] = useState("");
-
+  const [customField, setCustomField] = useState([]);
   useEffect(() => {
     if (contact.portrait === null) {
       setAvatar("");
@@ -102,11 +103,16 @@ export const DisplayContact = ({
       setAvatar(contact.portrait.data.toString("base64"));
       // console.log(contact.portrait.data.toString("base64"))
     }
+
+    if (
+      contact.customField !== undefined ||
+      contact.customField.length !== null
+    ) {
+      setCustomField(contact.customField);
+    }
   }, []);
 
   const styles = useFabStyle(success);
-
-  const [customField, setCustomField] = useState([]);
 
   const handleAddField = (e) => {
     e.preventDefault();
@@ -151,7 +157,7 @@ export const DisplayContact = ({
       ...contact,
       phone,
       email,
-      field: customField,
+      customField,
     };
 
     setSelectedContact(data);
@@ -599,7 +605,7 @@ export const DisplayContact = ({
           {contact.edit && (
             <button className="btn btn-primary mt-2" onClick={handleAddField}>
               Add Field
-              {console.log(customField)}
+              {/* {console.log(customField)} */}
             </button>
           )}
 
@@ -617,11 +623,11 @@ export const DisplayContact = ({
           {contact.edit && (
             <button
               className="btn btn-danger"
-              onClick={() => {
+              onClick={(e) => {
                 if (
                   window.confirm("Are you sure you wanna delete this contact?")
                 ) {
-                  deleteHandler();
+                  deleteHandler(e);
                 }
               }}
             >
