@@ -104,10 +104,7 @@ export const DisplayContact = ({
       // console.log(contact.portrait.data.toString("base64"))
     }
 
-    if (
-      contact.customField !== undefined ||
-      contact.customField.length !== null
-    ) {
+    if (contact.customField !== undefined) {
       setCustomField(contact.customField);
     }
   }, []);
