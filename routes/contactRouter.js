@@ -69,4 +69,11 @@ contactRouter.post(
   passport.authenticate("jwt", { session: false }),
   (req, res) => contactController.linkToAccount(req, res)
 );
+
+contactRouter.post(
+  "/createContactOneStep",
+  passport.authenticate("jwt", { session: false }),
+  upload.single("portrait"),
+  (req, res) => contactController.createContactOneStep(req, res)
+);
 module.exports = contactRouter;

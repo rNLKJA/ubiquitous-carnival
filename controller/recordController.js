@@ -30,10 +30,11 @@ const createRecord = async (req, res) => {
 
   try {
     let err = new Error("Database query failed");
-    const { contact_id, location, dateTime, geoCoords, notes } = req.body;
+    const { contact_id, location, dateTime, geoCoords, notes, customField } =
+      req.body;
     if (contact_id == null || location == null) {
       err = Error("Miss Important Information Input");
-      throw(err)
+      throw err;
     }
     const date = new Date();
     const offset = date.getTimezoneOffset();
@@ -65,6 +66,7 @@ const createRecord = async (req, res) => {
       ownerAccount: req.user._id,
       lat: lat,
       lng: lng,
+      customField: customField,
     });
 
     await newRecord.save();
@@ -80,7 +82,7 @@ const createRecord = async (req, res) => {
     res.json(newRecord);
   } catch (err) {
     if (err.message == "Miss Important Information Input") {
-      res.send(err.message)
+      res.send(err.message);
     } else {
       res.send("Database query failed");
     }
@@ -184,6 +186,7 @@ const deleteOneRecord = async (req, res) => {
 };
 
 const editRecord = async (req, res) => {
+  console.log(req.body.customField);
   /*
     request header: user
     request body:
@@ -201,10 +204,19 @@ const editRecord = async (req, res) => {
   */
   try {
     let err = new Error("Database query failed");
-    const {_id, contact_id, location, dateTime, geoCoords, notes } = req.body;
+    const {
+      _id,
+      contact_id,
+      location,
+      dateTime,
+      geoCoords,
+      notes,
+      customField,
+    } = req.body;
+
     if (contact_id == null || location == null) {
       err = Error("Miss Important Information Input");
-      throw(err)
+      throw err;
     }
     const date = new Date();
     const offset = date.getTimezoneOffset();
@@ -230,25 +242,28 @@ const editRecord = async (req, res) => {
     var record1 = await Record.findOne({
       _id: mongoose.Types.ObjectId(_id),
     }).lean();
-  
+
     const record = await Record.findOneAndUpdate(
       { _id: mongoose.Types.ObjectId(_id) },
-      {$set:{
-        meetingPerson: contact_id,
-        dateTime: dateTimeOut,
-        location: location,
-        notes: notes,
-        //"linkedAccount" : linkedAccount,
-        ownerAccount: req.user._id,
-        lat: lat,
-        lng: lng,
-      }}
+      {
+        $set: {
+          meetingPerson: contact_id,
+          dateTime: dateTimeOut,
+          location: location,
+          notes: notes,
+          //"linkedAccount" : linkedAccount,
+          ownerAccount: req.user._id,
+          lat: lat,
+          lng: lng,
+          customField: customField,
+        },
+      },
     ).lean();
-    
+
     res.json(record);
   } catch (err) {
     if (err.message == "Miss Important Information Input") {
-      res.send(err.message)
+      res.send(err.message);
     } else {
       res.send("Database query failed");
     }
@@ -260,5 +275,5 @@ module.exports = {
   showAllRecords,
   searchRecord,
   deleteOneRecord,
-  editRecord
+  editRecord,
 };

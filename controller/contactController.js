@@ -58,7 +58,7 @@ const linkToAccount = async (req, res) => {
         phone: accountCreateContact.phone,
         occupation: accountCreateContact.occupation,
       },
-      { $set: { linkedAccount: req.body.accountOfContact } }
+      { $set: { linkedAccount: req.body.accountOfContact } },
     );
     res.send(accountCreateContact);
   } catch (err) {
@@ -104,7 +104,7 @@ const createContactbyUserName = async (req, res) => {
       newContact = await Contact.create({
         lastName: existAccountContact.lastName,
         firstName: existAccountContact.firstName,
-        portraits: existAccountContact.portraits,
+        portrait: existAccountContact.portrait,
         email: existAccountContact.email,
         phone: existAccountContact.phone,
         meetRecord: existAccountContact.meetRecord,
@@ -161,7 +161,7 @@ const createNewContact = async (req, res) => {
       newContact = await Contact.create({
         lastName: req.body.lastName,
         firstName: req.body.firstName,
-        portraits: req.body.portraits,
+        portrait: req.body.portrait,
         email: req.body.email,
         phone: req.body.phone,
         meetRecord: req.body.meetRecord,
@@ -171,12 +171,13 @@ const createNewContact = async (req, res) => {
         status: true,
         ownerAccount: mongoose.Types.ObjectId(req.user._id),
         linkedAccount: null,
+        customField: req.body.customField,
       });
     } else if (existAccountContact != null && dupContact == null) {
       newContact = await Contact.create({
         lastName: existAccountContact.lastName,
         firstName: existAccountContact.firstName,
-        portraits: existAccountContact.portraits,
+        portrait: existAccountContact.portrait,
         email: existAccountContact.email,
         phone: existAccountContact.phone,
         meetRecord: existAccountContact.meetRecord,
@@ -186,6 +187,7 @@ const createNewContact = async (req, res) => {
         status: false,
         ownerAccount: mongoose.Types.ObjectId(req.user._id),
         linkedAccount: existAccountContact._id,
+        customField: req.body.customField,
       });
     } else if (dupContact != null) {
       return res.json({ status: false, dupContact: dupContact });
@@ -344,6 +346,7 @@ const searchContact = async (req, res) => {
  * @param  {express.Response} res response contain contact information after update.
  */
 const updateContactInfo = async (req, res) => {
+  console.log(req.body.customField);
   var query = {};
   // if name in submitted form
   if (req.body.lastName !== "") {
@@ -358,14 +361,14 @@ const updateContactInfo = async (req, res) => {
   }
   query["occupation"] = req.body.occupation;
   query["note"] = req.body.note;
-
+  query["customField"] = req.body.customField;
   // console.log(query, req.body);
 
   try {
     const contact = await Contact.findOneAndUpdate(
       { _id: mongoose.Types.ObjectId(req.body._id) },
       query,
-      { new: true }
+      { new: true },
     ).lean();
     // const contact = await Contact.findOne({ _id: req.body._id }).lean();
     // console.log(contact);
@@ -431,7 +434,7 @@ const synchronizationContactInfo = async (req, res) => {
     const updatedContact = await Contact.findOneAndUpdate(
       { _id: mongoose.Types.ObjectId(req.body._idOfContact) },
       query,
-      { new: true }
+      { new: true },
     ).lean();
     res.json(updatedContact);
   } catch (err) {
@@ -473,7 +476,7 @@ const contactPhotoUpload = async (req, res) => {
     var contact = await Contact.findOneAndUpdate(
       { _id: mongoose.Types.ObjectId(req.body._id) },
       { portrait: img },
-      { new: true }
+      { new: true },
     ).lean();
     contact.portrait.data = contact.portrait.data.toString("base64");
     // console.log(contact.portrait.data.toString("base64"));
@@ -497,14 +500,14 @@ const deleteOneContact = async (req, res) => {
     }).lean();
 
     const contactList = contacts.contactList.filter(
-      (contact) => contact.contact.toString() !== req.params.contact_id
+      (contact) => contact.contact.toString() !== req.params.contact_id,
     );
     // console.log(contactList);
 
     // update contact list
     await User.findOneAndUpdate(
       { userName: req.user.userName },
-      { contactList: contactList }
+      { contactList: contactList },
     );
     await Contact.deleteOne({ _id: req.params.contact_id });
 
@@ -512,6 +515,121 @@ const deleteOneContact = async (req, res) => {
   } catch (err) {
     console.log(err);
     res.json({ status: "failed" });
+  }
+};
+
+const createContactOneStep = async (req, res) => {
+  try {
+    const createResult = await createNewContactOneStep(req, res);
+    if (createResult.status) {
+      const contactId = createResult.newContact._id;
+      const uploadResult = await createContactPhotoUpload(req, res, contactId);
+      if (uploadResult.status) {
+        return res.json({ status: true, newContact: uploadResult.contact });
+      } else {
+        return res.json({ status: false, msg: "upload failed" });
+      }
+    } else {
+      return res.json({ status: false, msg: "dupcontact/createProblem" });
+    }
+  } catch (err) {
+    console.log(err);
+    res.json({ status: false });
+  }
+};
+
+const createNewContactOneStep = async (req, res) => {
+  try {
+    //!! can not use object id as input
+    const ownerAccount = await User.findOne({
+      _id: mongoose.Types.ObjectId(req.user._id),
+    });
+    // if req is a user id
+    // Check if contact has account in app
+    const existAccountContact = await User.findOne({
+      lastName: req.body.lastName,
+      firstName: req.body.firstName,
+      phone: req.body.phone,
+      email: req.body.email,
+    });
+    const dupContact = await Contact.findOne({
+      lastName: req.body.lastName,
+      firstName: req.body.firstName,
+      phone: req.body.phone,
+      email: req.body.email,
+      ownerAccount: mongoose.Types.ObjectId(req.user._id),
+    }).lean();
+    //!!generate one meeting record automatically!
+    let newContact = null;
+    if (existAccountContact == null && dupContact == null) {
+      newContact = await Contact.create({
+        lastName: req.body.lastName,
+        firstName: req.body.firstName,
+        portrait: req.body.portrait,
+        email: req.body.email,
+        phone: req.body.phone,
+        meetRecord: req.body.meetRecord,
+        occupation: req.body.occupation,
+        addDate: Date.now(),
+        note: req.body.note,
+        status: true,
+        ownerAccount: mongoose.Types.ObjectId(req.user._id),
+        linkedAccount: null,
+        customField: req.body.customField,
+      });
+    } else if (existAccountContact != null && dupContact == null) {
+      newContact = await Contact.create({
+        lastName: existAccountContact.lastName,
+        firstName: existAccountContact.firstName,
+        portrait: existAccountContact.portrait,
+        email: existAccountContact.email,
+        phone: existAccountContact.phone,
+        meetRecord: existAccountContact.meetRecord,
+        occupation: existAccountContact.occupation,
+        addDate: Date.now(),
+        note: existAccountContact.note,
+        status: false,
+        ownerAccount: mongoose.Types.ObjectId(req.user._id),
+        linkedAccount: existAccountContact._id,
+        customField: req.body.customField,
+      });
+    } else if (dupContact != null) {
+      return { status: false, dupContact: dupContact };
+    }
+    // const formedContact = new Contact(newContact)
+    // formedContact.save()
+    const ContactIdLink = new ContactList({
+      contact: newContact._id,
+      addSince: Date.now(),
+    });
+    ownerAccount.contactList.push(ContactIdLink);
+    await ownerAccount.save();
+    return { status: true, newContact: newContact };
+  } catch (err) {
+    console.log(err);
+    return { status: false };
+  }
+};
+
+const createContactPhotoUpload = async (req, res, id) => {
+  var img = {
+    data: fs.readFileSync(req.file.path),
+    contentType: req.file.mimetype,
+  };
+  try {
+    // req.body._id is the id of contact that need to be upload
+    var contact = await Contact.findOneAndUpdate(
+      { _id: mongoose.Types.ObjectId(id) },
+      { portrait: img },
+      { new: true },
+    ).lean();
+    contact.portrait.data = contact.portrait.data.toString("base64");
+    // console.log(contact.portrait.data.toString("base64"));
+    console.log("update success");
+    return { status: true, contact: contact };
+  } catch (err) {
+    console.log(err);
+    return { status: false };
   }
 };
 
@@ -528,4 +646,5 @@ module.exports = {
   deleteOneContact,
   synchronizationContactInfo,
   createContactbyUserName,
+  createContactOneStep,
 };

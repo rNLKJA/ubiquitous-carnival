@@ -16,6 +16,7 @@ const contactSchema = new mongoose.Schema({
   addDate: { type: Date, required: true, default: Date.now },
   note: { type: String }, // unsure type, we also need to handle the image or attachments
   status: { type: Boolean, required: true },
+  customField: { type: Array },
   ownerAccount: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
   linkedAccount: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
 });

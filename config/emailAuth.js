@@ -16,7 +16,7 @@ const transport = nodemailer.createTransport(
       user: "team4399Auth@gmail.com",
       pass: "Team4399.com",
     },
-  }),
+  })
 );
 
 transport.verify(function (error, success) {
@@ -44,7 +44,7 @@ const autoCodeGenerator = (length) => {
  */
 const emailAuthSend = async (req, res) => {
   const email = req.body.email; // read email from the request formdata field
-  // console.log(email);
+  console.log(email);
   const authCode = autoCodeGenerator(6);
   transport.sendMail(
     {
@@ -56,7 +56,7 @@ const emailAuthSend = async (req, res) => {
     function (error, data) {
       // assert(error, 500, "fail to send vertify code")
       transport.close();
-    },
+    }
   );
   try {
     await EmailAuth.deleteMany({ email: email });
@@ -119,7 +119,7 @@ const emailRegisterCodeSend = async (req, res) => {
       console.log(error);
       // assert(error, 500, "fail to send vertify code")
       transport.close();
-    },
+    }
   );
   try {
     await EmailRegister.deleteMany({
@@ -189,7 +189,7 @@ const sendResetCode = async (req, res) => {
     function (error, data) {
       // assert(error, 500, "fail to send vertify code")
       transport.close();
-    },
+    }
   );
 
   try {
