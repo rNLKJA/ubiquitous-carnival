@@ -104,7 +104,7 @@ const createContactbyUserName = async (req, res) => {
       newContact = await Contact.create({
         lastName: existAccountContact.lastName,
         firstName: existAccountContact.firstName,
-        portraits: existAccountContact.portraits,
+        portrait: existAccountContact.portrait,
         email: existAccountContact.email,
         phone: existAccountContact.phone,
         meetRecord: existAccountContact.meetRecord,
@@ -161,7 +161,7 @@ const createNewContact = async (req, res) => {
       newContact = await Contact.create({
         lastName: req.body.lastName,
         firstName: req.body.firstName,
-        portraits: req.body.portraits,
+        portrait: req.body.portrait,
         email: req.body.email,
         phone: req.body.phone,
         meetRecord: req.body.meetRecord,
@@ -171,12 +171,13 @@ const createNewContact = async (req, res) => {
         status: true,
         ownerAccount: mongoose.Types.ObjectId(req.user._id),
         linkedAccount: null,
+        customField: req.body.customField,
       });
     } else if (existAccountContact != null && dupContact == null) {
       newContact = await Contact.create({
         lastName: existAccountContact.lastName,
         firstName: existAccountContact.firstName,
-        portraits: existAccountContact.portraits,
+        portrait: existAccountContact.portrait,
         email: existAccountContact.email,
         phone: existAccountContact.phone,
         meetRecord: existAccountContact.meetRecord,
@@ -358,7 +359,7 @@ const updateContactInfo = async (req, res) => {
   }
   query["occupation"] = req.body.occupation;
   query["note"] = req.body.note;
-
+  query["customField"] = req.body.customField;
   // console.log(query, req.body);
 
   try {
@@ -562,7 +563,7 @@ const createNewContactOneStep = async (req, res) => {
       newContact = await Contact.create({
         lastName: req.body.lastName,
         firstName: req.body.firstName,
-        portraits: req.body.portraits,
+        portrait: req.body.portrait,
         email: req.body.email,
         phone: req.body.phone,
         meetRecord: req.body.meetRecord,
@@ -572,12 +573,13 @@ const createNewContactOneStep = async (req, res) => {
         status: true,
         ownerAccount: mongoose.Types.ObjectId(req.user._id),
         linkedAccount: null,
+        customField: req.body.customField,
       });
     } else if (existAccountContact != null && dupContact == null) {
       newContact = await Contact.create({
         lastName: existAccountContact.lastName,
         firstName: existAccountContact.firstName,
-        portraits: existAccountContact.portraits,
+        portrait: existAccountContact.portrait,
         email: existAccountContact.email,
         phone: existAccountContact.phone,
         meetRecord: existAccountContact.meetRecord,
@@ -587,6 +589,7 @@ const createNewContactOneStep = async (req, res) => {
         status: false,
         ownerAccount: mongoose.Types.ObjectId(req.user._id),
         linkedAccount: existAccountContact._id,
+        customField: req.body.customField,
       });
     } else if (dupContact != null) {
       return { status: false, dupContact: dupContact };
