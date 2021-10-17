@@ -187,6 +187,7 @@ const createNewContact = async (req, res) => {
         status: false,
         ownerAccount: mongoose.Types.ObjectId(req.user._id),
         linkedAccount: existAccountContact._id,
+        customField: req.body.customField,
       });
     } else if (dupContact != null) {
       return res.json({ status: false, dupContact: dupContact });
