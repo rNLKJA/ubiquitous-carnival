@@ -18,7 +18,7 @@ import TextField from "@mui/material/TextField";
 
 // const BASE_URL = "http://localhost:5000";
 
-const BASE_URL = "https://crm4399.herokuapp.com";
+// const BASE_URL = "https://crm4399.herokuapp.com";
 
 const Contact = () => {
   useEffect(() => {
@@ -52,6 +52,8 @@ const Contact = () => {
     );
   };
 
+  console.log(contacts);
+
   const screenWidth = window.innerWidth;
 
   const handleChange = (e) => {
@@ -59,13 +61,12 @@ const Contact = () => {
     setSearchTerm(e.target.value);
   };
 
-  const deleteHandler = () => {
+  const deleteHandler = async (e) => {
+    e.preventDefault();
     console.log(oneContact);
-
-    fetchClient
+    await fetchClient
       .get(
-        BASE_URL +
-          "/contact/deleteOneContact/" +
+        "/contact/deleteOneContact/" +
           localStorage.getItem("userName") +
           "/" +
           oneContact._id,

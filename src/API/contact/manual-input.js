@@ -80,7 +80,6 @@ const AddUser = () => {
   };
 
   const removeHandler = (e, index, type) => {
-
     e.preventDefault();
     if (type === "field") {
       setCustomField((prev) => prev.filter((item) => item !== prev[index]));
@@ -90,7 +89,7 @@ const AddUser = () => {
     }
 
     if (type === "email") {
-        setEmails((prev) => prev.filter((item) => item !== prev[index]));
+      setEmails((prev) => prev.filter((item) => item !== prev[index]));
     }
   };
 
@@ -145,7 +144,7 @@ const AddUser = () => {
       setSuccess(false);
       setLoading1(true);
       const response = await fetchClient
-        .post("http://localhost:5000/contact/createContactOneStep", formData, {
+        .post("/contact/createContactOneStep", formData, {
           headers: {
             "Content-Type": "multipart/form-data",
           },
@@ -412,7 +411,7 @@ const AddUser = () => {
           <label htmlFor="email">E-mail: </label>
           {emails.map((mail, i) => {
             return (
-              <div className="multi-field" key  = {'email' + i}>
+              <div className="multi-field" key={"email" + i}>
                 <div
                   className="multi-field-input"
                   style={{
@@ -461,7 +460,7 @@ const AddUser = () => {
           <label htmlFor="phone">Phone: </label>
           {phones.map((phone, i) => {
             return (
-              <div className="multi-field"  key  = {'phone' + i}>
+              <div className="multi-field" key={"phone" + i}>
                 <div
                   className="multi-field-input"
                   style={{
@@ -509,7 +508,7 @@ const AddUser = () => {
               Add Phone
             </Button>
           </div>
-          <label htmlFor="occupation">Occupation: </label>
+
           <TextField
             id="outlined"
             label="Occupation:"
@@ -582,9 +581,21 @@ const AddUser = () => {
             );
           })}
 
-          <div style ={{alignItems: "center",
-                justifyContent: "center",
-                display: "flex",}}>
+          <Button
+            variant="contained"
+            sx={{ width: "40%", left: "50%", translateX: "50%" }}
+            onClick={handleAddField}
+          >
+            Add Field
+          </Button>
+
+          <div
+            style={{
+              alignItems: "center",
+              justifyContent: "center",
+              display: "flex",
+            }}
+          >
             <Box
               sx={{
                 m: 1,
