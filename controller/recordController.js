@@ -76,7 +76,7 @@ const createRecord = async (req, res) => {
         $push: {
           recordList: newRecord._id,
         },
-      }
+      },
     );
 
     res.json(newRecord);
@@ -169,7 +169,7 @@ const deleteOneRecord = async (req, res) => {
     const user = await User.findOne({ _id: req.user._id }).lean();
 
     var recordList = user.recordList.filter(
-      (record) => record.toString() !== req.body.recordId
+      (record) => record.toString() !== req.body.recordId,
     );
 
     console.log(recordId);
@@ -177,7 +177,7 @@ const deleteOneRecord = async (req, res) => {
     await Record.deleteOne({ _id: mongoose.Types.ObjectId(recordId) });
     await User.findOneAndUpdate(
       { _id: mongoose.Types.ObjectId(req.user._id) },
-      { recordList: recordList }
+      { recordList: recordList },
     );
     res.json({ status: "success" });
   } catch (err) {
@@ -186,6 +186,7 @@ const deleteOneRecord = async (req, res) => {
 };
 
 const editRecord = async (req, res) => {
+  console.log(req.body.customField);
   /*
     request header: user
     request body:
@@ -212,6 +213,7 @@ const editRecord = async (req, res) => {
       notes,
       customField,
     } = req.body;
+
     if (contact_id == null || location == null) {
       err = Error("Miss Important Information Input");
       throw err;
@@ -253,9 +255,9 @@ const editRecord = async (req, res) => {
           ownerAccount: req.user._id,
           lat: lat,
           lng: lng,
-          customFiled: customField,
+          customField: customField,
         },
-      }
+      },
     ).lean();
 
     res.json(record);
