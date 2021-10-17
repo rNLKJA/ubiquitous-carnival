@@ -18,14 +18,14 @@ import AddIcon from "@mui/icons-material/Add";
 // import FavoriteIcon from "@mui/icons-material/Favorite";
 // import NavigationIcon from "@mui/icons-material/Navigation";
 import { Link } from "react-router-dom";
-import EditRecord from "./editRecord"
+import EditRecord from "./editRecord";
 import { useContacts } from "../../BackEndAPI/contactAPI";
-import TextField from '@mui/material/TextField';
+import TextField from "@mui/material/TextField";
 import { Container } from "react-bootstrap";
 
 const Record = () => {
   const [searchTerm, setSearchTerm] = useState("");
-  const {contacts} = useContacts();
+  const { contacts } = useContacts();
   const { loading, records, error } = useShowAllRecords();
   const [oneRecord, setOneRecord] = useState({
     meetingPerson: "",
@@ -50,27 +50,27 @@ const Record = () => {
   if (error) {
     return (
       <React.Fragment>
-      <Navbar />
-      <Heading />
-      <div className="sub-container">
-        <Error msg={"There is something wrong with Contact X_X"} />
-      </div>
+        <Navbar />
+        <Heading />
+        <div className="sub-container">
+          <Error msg={"There is something wrong with Contact X_X"} />
+        </div>
       </React.Fragment>
     );
   }
 
   if (loading) {
     return (
-			<React.Fragment>
+      <React.Fragment>
         <Navbar />
         <Heading />
-				<div className="sub-container">
-					<div className="loading">
-						<h1>Loading Your Record</h1>
-						<h1>(っ˘ω˘ς )</h1>
-					</div>
-				</div>
-			</React.Fragment>
+        <div className="sub-container">
+          <div className="loading">
+            <h1>Loading Your Record</h1>
+            <h1>(っ˘ω˘ς )</h1>
+          </div>
+        </div>
+      </React.Fragment>
     );
   }
 
@@ -83,27 +83,34 @@ const Record = () => {
           <React.Fragment>
             <div className="heading-record">
               <h1>Record</h1>
-              <Link  to="/createRecord" >
-                
-                  <AddIcon sx={{
+              <Link to="/createRecord">
+                <AddIcon
+                  sx={{
                     width: "40px",
                     height: "40px",
                     position: "fixed",
                     right: "1.5rem",
                     top: "-3.5rem",
                     color: "black",
-                  }}/>
-                
+                  }}
+                />
               </Link>
             </div>
-            
-            <div className="record-container" style={{justifyContent: "center",alignItems: "center"}}>
-               
-              <TextField id="standard-basic" 
-                          label="Search by name/location" 
-                          style={{width: "90%" }}
-                          value={searchTerm}
-                          onChange={(e) => handleChange(e)}
+
+            <div
+              className="record-container"
+              style={{
+                justifyContent: "flex-start",
+                alignItems: "center",
+                marginTop: "20%",
+              }}
+            >
+              <TextField
+                id="standard-basic"
+                label="Search by name/location"
+                style={{ width: "90%" }}
+                value={searchTerm}
+                onChange={(e) => handleChange(e)}
               />
 
               <RecordList
@@ -113,13 +120,16 @@ const Record = () => {
                 error={error}
                 setOneRecord={setOneRecord}
               />
-            
             </div>
           </React.Fragment>
         )}
         {oneRecord.selected && (
           <>
-          <EditRecord record={oneRecord} setOneRecord = {setOneRecord} contacts = {contacts}/>
+            <EditRecord
+              record={oneRecord}
+              setOneRecord={setOneRecord}
+              contacts={contacts}
+            />
           </>
         )}
       </div>
@@ -147,10 +157,7 @@ export const RecordList = (prop) => {
     }
   };
 
-  
-
   let fitterRecords = searchRecords();
-
 
   return (
     <Grid container>
@@ -186,7 +193,6 @@ export const OneRecord = (prop) => {
       className="col-md-4 animated fadeIn"
       onClick={() => {
         prop.setOneRecord({ ...prop.record, selected: true });
-        console.log(prop.record);
       }}
     >
       <div className="card">
@@ -197,8 +203,8 @@ export const OneRecord = (prop) => {
           <h3 className="card-title">
             {prop.record.meetingPerson
               ? prop.record.meetingPerson.firstName +
-              " " +
-              prop.record.meetingPerson.lastName
+                " " +
+                prop.record.meetingPerson.lastName
               : "Contact_id is invalid, please check"}
           </h3>
           <p className="card-text">

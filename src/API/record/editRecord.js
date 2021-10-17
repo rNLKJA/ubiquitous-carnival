@@ -4,14 +4,14 @@ import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import DateTimePicker from "@mui/lab/DateTimePicker";
 // import { useShowAllRecords, useCreateRecord } from "../../BackEndAPI/recordAPI";
-import { useContacts } from "../../BackEndAPI/contactAPI";
-import { convert } from "./Record";
+// import { useContacts } from "../../BackEndAPI/contactAPI";
+// import { convert } from "./Record";
 import fetchClient from "../axiosClient/axiosClient";
-import Error from "../error/Error";
-import Navbar from "../nav/Navbar";
+// import Error from "../error/Error";
+// import Navbar from "../nav/Navbar";
 import React, { useState, useEffect, useRef } from "react";
 import Map from "./map";
-import Heading from "../heading/heading.jsx";
+// import Heading from "../heading/heading.jsx";
 import Autocomplete from "@mui/material/Autocomplete";
 import Button from "@mui/material/Button";
 
@@ -38,8 +38,14 @@ const EditRecord = (prop) => {
   const [notes, setNotes] = useState(prop.record.notes);
   const [customField, setCustomField] = useState([]);
 
-  console.log(geoCoords);
-  console.log(currentTime);
+  useEffect(() => {
+    if (prop.record.customField !== undefined) {
+      setCustomField(prop.record.customField);
+    }
+  }, []);
+
+  // console.log(geoCoords);
+  // console.log(currentTime);
 
   const contacts = prop.contacts;
 
@@ -59,6 +65,7 @@ const EditRecord = (prop) => {
       dateTime: currentTime,
       geoCoords: geoCoords,
       notes: notes,
+      customField,
     };
 
     console.log(recordInfo);
@@ -261,11 +268,11 @@ const EditRecord = (prop) => {
 
         <button className="btn btn-primary mt-2" onClick={handleAddField}>
           Add Field
-          {console.log(customField)}
+          {/* {console.log(customField)} */}
         </button>
 
         <button
-          className="btn btn-primary"
+          className="btn btn-warning"
           type="button"
           onClick={handleSubmit}
         >

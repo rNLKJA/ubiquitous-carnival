@@ -65,13 +65,13 @@ const CreateRecord = () => {
       dateTime: convert(currentTime),
       geoCoords: geoCoords,
       notes: notes,
-      field: customField,
+      customField,
     };
 
     // console.log(recordInfo);
 
     await fetchClient
-      .post("https://crm4399.herokuapp.com/record/createRecord", recordInfo)
+      .post("/record/createRecord", recordInfo)
       .then(() => alert("Successfully create a record つ - - つ"))
       .catch((err) => {
         alert(err);
@@ -87,7 +87,7 @@ const CreateRecord = () => {
     if (value) {
       const { id, label } = value;
       setSelected(id);
-      console.log(id, " + ", label);
+      // console.log(id, " + ", label);
     } else {
       setSelected("");
     }
@@ -261,11 +261,11 @@ const CreateRecord = () => {
 
           <button className="btn btn-primary mt-2" onClick={handleAddField}>
             Add Field
-            {console.log(customField)}
+            {/* {console.log(customField)} */}
           </button>
 
           <button
-            className="btn btn-primary"
+            className="btn btn-warning"
             type="button"
             onClick={handleSubmit}
           >

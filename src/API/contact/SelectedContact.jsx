@@ -31,7 +31,7 @@ const useFabStyle = makeStyles((success) => ({
 // import { Contacts } from "@mui/icons-material";
 // import portrait from "./portrarit.png";
 
-const BASE_URL = "http://localhost:5000";
+// const BASE_URL = "http://localhost:5000";
 // const BASE_URL = "https://crm4399.herokuapp.com";
 
 const SelectedContact = ({ setOneContact, oneContact, deleteHandler }) => {
@@ -163,7 +163,7 @@ export const DisplayContact = ({
     setSelectedContact(data);
 
     await fetchClient
-      .post(BASE_URL + "/contact/updateContactInfo", data)
+      .post("/contact/updateContactInfo", data)
       .then((response) => {
         if (response.data.status) {
           alert(
