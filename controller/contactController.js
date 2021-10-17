@@ -8,6 +8,7 @@ require("../config/passport")(passport);
 const User = mongoose.model("User");
 const Contact = mongoose.model("Contact");
 const ContactList = mongoose.model("ContactList");
+const Record = mongoose.model("Record");
 
 /**
  * check if duplication contact exist for this account Function
@@ -58,7 +59,7 @@ const linkToAccount = async (req, res) => {
         phone: accountCreateContact.phone,
         occupation: accountCreateContact.occupation,
       },
-      { $set: { linkedAccount: req.body.accountOfContact } },
+      { $set: { linkedAccount: req.body.accountOfContact } }
     );
     res.send(accountCreateContact);
   } catch (err) {
@@ -368,7 +369,7 @@ const updateContactInfo = async (req, res) => {
     const contact = await Contact.findOneAndUpdate(
       { _id: mongoose.Types.ObjectId(req.body._id) },
       query,
-      { new: true },
+      { new: true }
     ).lean();
     // const contact = await Contact.findOne({ _id: req.body._id }).lean();
     // console.log(contact);
@@ -434,7 +435,7 @@ const synchronizationContactInfo = async (req, res) => {
     const updatedContact = await Contact.findOneAndUpdate(
       { _id: mongoose.Types.ObjectId(req.body._idOfContact) },
       query,
-      { new: true },
+      { new: true }
     ).lean();
     res.json(updatedContact);
   } catch (err) {
@@ -476,7 +477,7 @@ const contactPhotoUpload = async (req, res) => {
     var contact = await Contact.findOneAndUpdate(
       { _id: mongoose.Types.ObjectId(req.body._id) },
       { portrait: img },
-      { new: true },
+      { new: true }
     ).lean();
     contact.portrait.data = contact.portrait.data.toString("base64");
     // console.log(contact.portrait.data.toString("base64"));
@@ -495,23 +496,36 @@ const contactPhotoUpload = async (req, res) => {
 const deleteOneContact = async (req, res) => {
   try {
     // req.body._id is the id of contact that need to be upload
-    const contacts = await User.findOne({
+    const user = await User.findOne({
       userName: req.user.userName,
     }).lean();
 
-    const contactList = contacts.contactList.filter(
-      (contact) => contact.contact.toString() !== req.params.contact_id,
+    const contactList = user.contactList.filter(
+      (contact) => contact.contact.toString() !== req.params.contact_id
     );
     // console.log(contactList);
-
+    const deletedRecords = Record.find({
+      meetingPerson: req.params.contact_id,
+      ownerAccount: req.user._id,
+    }).lean();
     // update contact list
+    var recordList;
+    for (var i = 0; i < deletedRecords.length; i++) {
+      recordList = user.recordList.filter(
+        (recordId) => recordId.toString() !== deletedRecords[i]._id.toString()
+      );
+    }
+
     await User.findOneAndUpdate(
       { userName: req.user.userName },
-      { contactList: contactList },
+      { contactList: contactList, recordList: recordList }
     );
     await Contact.deleteOne({ _id: req.params.contact_id });
-
-    res.json({ status: "success" });
+    await Record.deleteMany({
+      meetingPerson: req.params.contact_id,
+      ownerAccount: req.user._id,
+    });
+    await res.json({ status: "success" });
   } catch (err) {
     console.log(err);
     res.json({ status: "failed" });
@@ -621,7 +635,7 @@ const createContactPhotoUpload = async (req, res, id) => {
     var contact = await Contact.findOneAndUpdate(
       { _id: mongoose.Types.ObjectId(id) },
       { portrait: img },
-      { new: true },
+      { new: true }
     ).lean();
     contact.portrait.data = contact.portrait.data.toString("base64");
     // console.log(contact.portrait.data.toString("base64"));
