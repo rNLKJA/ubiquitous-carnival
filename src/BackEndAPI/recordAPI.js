@@ -19,11 +19,10 @@ axios.defaults.withCredentials = true;
  * Back-End API: Show all the Record for the client
  * @return {express.Response} res - response from the back-end server.
  */
-function showAllRecords() {
+async function showAllRecords() {
   const endpoint = "/record/showRecord";
-  return fetchClient.get(endpoint).then((res) => res.data);
+  return await fetchClient.get(endpoint).then((res) => res.data);
 }
-
 
 // function deleteOneRecord(recordId) {
 //   const endpoint = "/record/deleteOneRecord";
@@ -56,4 +55,3 @@ export function useShowAllRecords() {
     error,
   };
 }
-
