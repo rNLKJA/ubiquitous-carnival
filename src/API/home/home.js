@@ -4,12 +4,14 @@ import img from "./home-gif.gif";
 import "./home.css";
 import Navbar from "../nav/Navbar";
 import Heading from "../heading/heading.jsx";
+import Container from '@mui/material/Container'
 
 const Home = () => {
   useEffect(() => {
     document.title = "Home Page";
   }, []);
   return (
+    
     <React.Fragment>
       <Heading />
       <Navbar />

@@ -75,11 +75,11 @@ const RecordDetail = (prop) => {
   }
 
   return (
-    <Card sx={{ maxWidth: 500, margin: 2 }}>
+    <Card sx={{ maxWidth: 500, margin: 2 }} mx= {{ maxWidth: 600, margin: 2 }} >
       <CardHeader
         avatar={
           <Avatar
-            aria-label="recipe"
+            aria-label="recipe" 
             src={"data:image/png;base64," + avatar}
           ></Avatar>
           // sx={{ bgcolor: "pink" }}
