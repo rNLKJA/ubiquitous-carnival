@@ -13,10 +13,11 @@ const AddUser = () => {
     //const [state,setState]=useState(false);
     const [userName, setUserName] = useState("");
     const [message, setMessage] = useState("");
+    const [oldName, setOldName] = useState("");
 
-    const submitUserID = async (e) => {
-        e.preventDefault();
-				console.log(123)
+    const submitUserID = async () => {
+/*        e.preventDefault();
+				console.log(123)*/
         const contact = {
             userName,
         };
@@ -62,6 +63,13 @@ const AddUser = () => {
     const handleScanWebCam = (result) => {
         if (result){
             setUserName(result);
+            console.log(userName)
+            if(userName && (result !== oldName)){
+                console.log(result)
+                console.log(oldName)
+                submitUserID();
+                setOldName(result);
+            }
         }
 
     }
@@ -93,9 +101,9 @@ const AddUser = () => {
                     />
                     <h3>UserID: {userName}</h3>
                     {message ? message.status? <Alert severity="success">{message.msg}</Alert> :<Alert severity="error">{message.msg}</Alert>:null}
-                    <form className="newID" method="POST" onSubmit={submitUserID}>
+{/*                    <form className="newID" method="POST" onSubmit={submitUserID}>
                         <button type="submit" className='btn btn-primary'>Add Contact</button>
-                    </form>
+                    </form>*/}
 
                 </div>
 
