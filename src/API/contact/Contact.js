@@ -192,7 +192,7 @@ const Contact = () => {
               </div>
             )}
           </div>
-          {windowDimensions.width >= 1024 && (
+          {windowDimensions.width >= 1024 && oneContact.selected && (
             <>
               <SelectedContact
                 key={oneContact._id}
@@ -203,6 +203,18 @@ const Contact = () => {
               />
             </>
           )}
+
+          {windowDimensions.width >= 1024 && !oneContact.selected && (
+            <div className="makeStyles-card-1" style={{ width: "95%" }}>
+
+              <div>
+                <h1>Select your contact to check detail</h1> 
+                <h1>(っ˘ω˘ς )</h1>
+              </div>
+            </div>
+          )}
+
+
         </div>
       </div>
     </React.Fragment>

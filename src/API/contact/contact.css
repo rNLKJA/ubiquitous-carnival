@@ -61,6 +61,7 @@
     display: flex;
     flex-direction: column;
     position: absolute;
+    justify-content: flex-start;
     /* justify-content: space-between; */
     top: 50%;
     left: 50%;
@@ -208,6 +209,11 @@
 }
 
 @media only screen and (min-width: 1024px) {
+  .multi-field{
+    
+    justify-content: center;
+    align-items: center;
+  }
   .contact {
     /* background-color: gray; */
     width: 100%;
@@ -269,6 +275,7 @@
     display: flex;
     flex-direction: column;
     position: absolute;
+    justify-content: flex-start;
     /* justify-content: space-between; */
     top: 50%;
     left: 50%;
@@ -414,6 +421,29 @@
 
   .edit-btn{
     position: absolute;
+    width: 3rem;
+    height: 3rem;
+    position: absolute;
+    right: -5%;
+    top: 10rem;
+  }
+
+  .back-btn{
+    position: absolute;
+    width: 4rem;
+    height: 3rem;
+    position: absolute;
+    right: -7%;
+    top: 15rem;
+    
+  }
+
+  .add-contact > img {
+    width: 3rem;
+    height: 3rem;
+    position: absolute;
+    right: -135%;
+    top: 0rem;
   }
   
 }
