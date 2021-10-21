@@ -45,15 +45,7 @@ const SelectedContact = ({ setOneContact, oneContact, deleteHandler }) => {
 
   return (
     <React.Fragment>
-      <button
-        className="back"
-        onClick={() => {
-          setOneContact({ ...oneContact, selected: false });
-          // console.log("back");
-        }}
-      >
-        Back
-      </button>
+      
       {/* <img src={portrait} alt="protrait.png" style={{ paddingTop: "15px" }} /> */}
       <DisplayContact
         selectedContact={selectedContact}

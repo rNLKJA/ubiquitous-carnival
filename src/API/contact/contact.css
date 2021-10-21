@@ -206,6 +206,14 @@
     padding: 0;
   }
 
+  .add-contact > img {
+    width: 2.5rem;
+    height: 2.4rem;
+    position: fixed;
+    right: 1.5rem;
+    top: -3.6rem;
+  }
+
   .contactList {
     position: relative;
     width: 94%;
@@ -337,3 +345,5 @@
     color: white;
   }
 }
+
+
