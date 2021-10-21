@@ -15,18 +15,11 @@ import Heading from "../heading/heading.jsx";
 import Navbar from "../nav/Navbar";
 import { Link } from "react-router-dom";
 import TextField from "@mui/material/TextField";
-
+import getWindowDimensions from "../../hooks/getWindowDimensions"
 // const BASE_URL = "http://localhost:5000";
 
 // const BASE_URL = "https://crm4399.herokuapp.com";
 
-function getWindowDimensions() {
-  const { innerWidth: width, innerHeight: height } = window;
-  return {
-    width,
-    height
-  };
-}
 
 const Contact = () => {
   useEffect(() => {
@@ -68,7 +61,7 @@ const Contact = () => {
     );
   };
 
-  console.log(contacts);
+
 
   const screenWidth = window.innerWidth;
 
@@ -201,7 +194,6 @@ const Contact = () => {
           </div>
           {windowDimensions.width >= 1024 && (
             <>
-              <h1>Select one contact {oneContact.selected ? oneContact.firstName : null}</h1>
               <SelectedContact
                 key={oneContact._id}
                 oneContact={oneContact}

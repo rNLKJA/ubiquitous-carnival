@@ -15,6 +15,21 @@ import Button from "@mui/material/Button";
 import UploadIcon from "@mui/icons-material/Upload";
 import cx from "clsx";
 import { makeStyles } from "@material-ui/core/styles";
+import SpeedDial from '@mui/material/SpeedDial';
+import SpeedDialIcon from '@mui/material/SpeedDialIcon';
+import SpeedDialAction from '@mui/material/SpeedDialAction';
+import FileCopyIcon from '@mui/icons-material/FileCopyOutlined';
+import PrintIcon from '@mui/icons-material/Print';
+import ShareIcon from '@mui/icons-material/Share';
+
+
+const actions = [
+  { icon: <FileCopyIcon />, name: 'Copy' },
+  { icon: <SaveIcon />, name: 'Save' },
+  { icon: <PrintIcon />, name: 'Print' },
+  { icon: <ShareIcon />, name: 'Share' },
+];
+
 
 const useFabStyle = makeStyles((success) => ({
   fab: {
@@ -41,11 +56,24 @@ const SelectedContact = ({ setOneContact, oneContact, deleteHandler }) => {
     ...oneContact,
     edit: false,
   });
-  console.log(selectedContact);
+  const [screenWidth , setScreenWidth] = useState(window.innerWidth)
+  console.log(screenWidth);
+
+ 
 
   return (
     <React.Fragment>
+      {screenWidth <= 1024 ? <button
+        className="back"
+        onClick={() => {
+          setOneContact({ ...oneContact, selected: false });
+          // console.log("back");
+        }}
+      >
+        Back
+      </button>: null }
       
+
       {/* <img src={portrait} alt="protrait.png" style={{ paddingTop: "15px" }} /> */}
       <DisplayContact
         selectedContact={selectedContact}
@@ -60,6 +88,14 @@ const SelectedContact = ({ setOneContact, oneContact, deleteHandler }) => {
 
 export default SelectedContact;
 
+export function getWindowDimensions() {
+  const { innerWidth: width, innerHeight: height } = window;
+  return {
+    width,
+    height
+  };
+}
+
 export const DisplayContact = ({
   selectedContact,
   setSelectedContact,
@@ -67,7 +103,11 @@ export const DisplayContact = ({
   setOneContact,
   originContact,
 }) => {
+
+
   // defined variables
+  // window size
+  const [windowDimensions, setWindowDimensions] = useState(getWindowDimensions());
   const [contact, setContact] = useState(selectedContact);
 
   const [phones, setPhones] = useState(
@@ -77,6 +117,7 @@ export const DisplayContact = ({
     ConvertListStringToListObject(contact.email, "email"),
   );
 
+  
   //hooks for avatar upload
   const [upload, setUpload] = useState(false);
 
@@ -99,6 +140,12 @@ export const DisplayContact = ({
     if (contact.customField !== undefined) {
       setCustomField(contact.customField);
     }
+    function handleResize() {
+      setWindowDimensions(getWindowDimensions());
+    }
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
   }, []);
 
   const styles = useFabStyle(success);
@@ -295,6 +342,22 @@ export const DisplayContact = ({
 
   return (
     <React.Fragment>
+      {windowDimensions.width >=1024 ? <Box sx={{ height: 100, transform: 'translateZ(0px)', flexGrow: 1 }}>
+      <SpeedDial
+        ariaLabel="SpeedDial basic example"
+        sx={{ position: 'absolute', bottom: 0, right: 100 }}
+        icon={<SpeedDialIcon />}
+      >
+        {actions.map((action) => (
+          <SpeedDialAction
+            key={action.name}
+            icon={action.icon}
+            tooltipTitle={action.name}
+          />
+        ))}
+      </SpeedDial>
+    </Box>: null}
+      
       {contact.edit ? null : (
         <button
           className="edit-btn"
@@ -317,6 +380,8 @@ export const DisplayContact = ({
         </button>
       ) : null}
 
+
+
       <div className="makeStyles-card-1" style={{ width: "95%" }}>
         <div className="avatar">
           <Avatar
@@ -333,10 +398,6 @@ export const DisplayContact = ({
                 style={{
                   alignItems: "center",
                   justifyContent: "center",
-                  display: "flex",
-                  position: "fixed",
-                  right: "1rem",
-                  top: "1.5rem",
                 }}
               >
                 <form onSubmit={onSubmit}>
@@ -403,7 +464,7 @@ export const DisplayContact = ({
               </div>
             ) : (
               [
-                <div style={{ right: "1rem", top: "5rem", position: "fixed" }}>
+                <div className = "upload-btn">
                   <Button onClick={onClickUpload}>
                     <UploadIcon />
                     Upload
@@ -490,13 +551,14 @@ export const DisplayContact = ({
               className="btn btn-primary"
               style={{
                 justifyContent: "center",
-                paddingBottom: "20px",
               }}
               onClick={handleAddPhone}
             >
               Add Phone
             </button>
           )}
+
+          <br/>
 
           {emails.length !== 0 ? <label>Email Address</label> : null}
           {emails.map((mail, i) => {
@@ -535,9 +597,11 @@ export const DisplayContact = ({
             </button>
           )}
 
+          <br/>
+
           <label>Notes:</label>
           <textarea
-            value={contact.note}
+            value={contact.note ? contact.note : 'No notes for now, wanna add some ?'}
             readOnly={!contact.edit}
             style={contact.edit ? null : { border: "0", height: "auto" }}
             onChange={(e) => setContact({ ...contact, note: e.target.value })}
@@ -591,6 +655,8 @@ export const DisplayContact = ({
             );
           })}
 
+          <br />
+
           {contact.edit && (
             <button className="btn btn-primary mt-2" onClick={handleAddField}>
               Add Field
@@ -625,6 +691,7 @@ export const DisplayContact = ({
           )}
         </form>
       </div>
+
     </React.Fragment>
   );
 };

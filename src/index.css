@@ -220,8 +220,10 @@ a {
     padding: 20px;
     top: 10%;
     left: 10%;
-    width: 70%;
+    width: 80%;
     height: 80%;
+    margin-inline-start: 5%;
+    margin-block-start: 20px;
     /* background-color: white; */
     /* display: flex; */
     /* align-items: center; */
