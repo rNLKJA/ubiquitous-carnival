@@ -648,12 +648,11 @@ export const DisplayContact = ({
             id="outlined-read-only-input"
             multiline
             maxRows={4}
-            label="Note"
             
             InputProps={{
               readOnly: !contact.edit
             }}
-            value={contact.note ? contact.note : 'add some notes'}
+            value={contact.note ? contact.note : ''}
             onChange={(e) => {
               setContact({ ...contact, note: e.target.value })
             }}

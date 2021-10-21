@@ -1,5 +1,14 @@
-
+.div-center{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 @media only screen and (max-width: 1024px) {
+  .edit-record-container{
+    display: flex;
+    flex-direction: column;
+    overflow-y: scroll;
+  }
   .timer-container {
     width: 100%;
     /* margin-top: 10%;
@@ -256,6 +265,12 @@
 @media only screen and (min-width: 1024px) {
   * {
     box-sizing: border-box;
+  }
+  .edit-record-container{
+    display: block;
+    width : 100%;
+    margin-left: 10%;
+    overflow-y: scroll;
   }
   body {
     margin: 0px;
