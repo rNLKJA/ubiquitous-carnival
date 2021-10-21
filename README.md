@@ -1,4 +1,4 @@
-<img src="https://images.unsplash.com/photo-1501776192086-602832fae6e6?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80">
+<!-- <img src="https://images.unsplash.com/photo-1501776192086-602832fae6e6?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"> -->
 
 # <img src="https://cdn.freebiesupply.com/logos/large/2x/the-university-of-melbourne-logo-svg-vector.svg" width=15% align=left> COMP30022 Group Project Team 4399
 This repository is created for [University of Melbourne](https://www.unimelb.edu.au) [COMP30022 Semester 2 2021](https://handbook.unimelb.edu.au/search) 
@@ -31,8 +31,9 @@ This repository is created for [University of Melbourne](https://www.unimelb.edu
 <!-- [<img src="https://cdn.freebiesupply.com/logos/large/2x/the-university-of-melbourne-logo-svg-vector.svg" width=20% align=left> -->
   - [COMP30022 Group Project Team 4399](#-comp30022-group-project-team-4399)
   - [Team members](#team-members)
-  - [Javascript Documentation](#javascript-documentation)
+  - [Javascript Documentation](#javascript-api-documentation)
   - [Software Dependencies](#software-dependencies)
+  - [Built with](#built-with)
   - [Directories](#directories)
   - [Quick Start Guide](#quick-start-guide)
   - [License](#license)
@@ -65,6 +66,15 @@ npm install # install all dependencies or
 npm install --dependencies # install required dependencies only
 ```
 
+## Built With
+Our project was built with the following technologies:
+- Node.js
+- React.js
+- Express.js
+- CSS
+- HTML
+- MongoDB
+
 ## Directories
 - `__test__`: store jest API backend testing functions
 - `config`: store application session authentication functions
@@ -82,6 +92,8 @@ For convenience purpose, please use `nodemon` instead of `node`.
 ```bash
 nodemon app.js
 ```
+
+**TESTING**
 
 For backend function testing, using POSTMAN to test the backend routes and relevant API functions.
 
