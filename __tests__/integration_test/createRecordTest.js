@@ -166,7 +166,7 @@ describe("Integration test: Test for create Record", () => {
   });
   
 
-  /*
+  /* test
   test("Test 4: Add a record without the linkedAccount", () => {
     return agent
       .post("/record/createRecord")
