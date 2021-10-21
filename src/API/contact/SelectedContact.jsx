@@ -96,6 +96,7 @@ export const DisplayContact = ({
   const [success, setSuccess] = useState(false);
   const [fileName, setFileName] = useState("");
   const [customField, setCustomField] = useState([]);
+  const [valid, setValid] = useState(true);
   useEffect(() => {
     if (contact.portrait === null) {
       setAvatar("");
@@ -159,20 +160,34 @@ export const DisplayContact = ({
 
     setSelectedContact(data);
 
-    await fetchClient
-      .post("/contact/updateContactInfo", data)
-      .then((response) => {
-        if (response.data.status) {
-          alert(
-            "Update contact information succeed!\nRedirect to Contact Page",
-          );
-          // window.location.href = "/contact";
-        } else {
-          alert("Opps, something wrong, please try later.");
-        }
-      });
+    setValid(true)
 
-    window.location.href = "/contact";
+    dataValidator(phone, 'phone')
+    dataValidator(email, 'email')
+    dataValidator(data.firstName, 'firstName')
+    dataValidator(data.lastName, 'lastName')
+    dataValidator(data.occupation, 'occupation')
+    console.log(valid)
+
+    if(valid){
+      await fetchClient
+          .post("/contact/updateContactInfo", data)
+          .then((response) => {
+            if (response.data.status) {
+              alert(
+                  "Update contact information succeed!\nRedirect to Contact Page",
+              );
+              window.location.href = "/contact";
+              // window.location.href = "/contact";
+            } else {
+              alert("Opps, something wrong, please try later.");
+            }
+          });
+
+    }
+
+
+
     // setContact({ ...contact, edit: false });
 
     // setOneContact({ ...contact, edit: false, selected: false });
@@ -300,6 +315,78 @@ export const DisplayContact = ({
       setUploadPercentage(0);
     }
   };
+  const dataValidator = (items, type) => {
+
+    switch(type) {
+      case "firstName":
+        if (items.length === 0) {
+          console.log(1)
+          setValid(false)
+          console.log(valid)
+          alert(`Invalid ${type} input, input cannot be empty`)
+        } else {
+        }
+        break;
+      case "lastName":
+        if (items.length === 0) {
+          console.log(2)
+          setValid(false)
+          alert(`Invalid ${type} input, input cannot be empty`)
+        } else {
+
+        }
+        break;
+      case "occupation":
+
+        if (items.length === 0) {
+          console.log(3)
+          setValid(false)
+          alert(`Invalid ${type} input, input cannot be empty`)
+        } else {
+        }
+        break;
+      case "phone":
+        var pattern = /\d{10}/;
+        var notEmpty = /\S/;
+        if (items.length < 1) {
+          console.log(4)
+          setValid(false)
+          alert("You must provide at least one phone number!")
+        }
+
+        for (let i = 0; i < items.length ; i ++) {
+          if (!pattern.test(items[i]) && !notEmpty.test(items[i])) {
+            console.log(5)
+            setValid(false)
+            alert("Invalid phone format")
+          }
+        }
+        break;
+      case "email":
+        var pattern = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+        var notEmpty = /\S/;
+        if (items.length < 1) {
+          console.log(6)
+          setValid(false)
+          alert("You must have at least one email!")
+        }
+
+        for (let i = 0; i < items.length ; i ++) {
+
+          if (!pattern.test(items[i]) && !notEmpty.test(items[i]) ) {
+            console.log(7)
+            setValid(false)
+            alert("Invalid email format")
+          }
+        }
+
+        break;
+      default:
+        setValid(false)
+        console.log("Invalid Input")
+    }
+  }
+
 
   return (
     <React.Fragment>

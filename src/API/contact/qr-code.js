@@ -29,7 +29,8 @@ const AddUser = () => {
             .then(res => {
                 if (res.data.status) {
                     console.log('Successfully Added')
-                    setMessage({msg:'Successfully Added '+ userName+ ' !',status:true})
+                    alert('Successfully Added '+ userName+ ' !')
+                    window.location.href = "/contact";
                 } else{
                     setMessage({msg:res.data.msg,status:false})
                 }

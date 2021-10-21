@@ -48,7 +48,7 @@ export const DisplayPerson = ({
                               }) => {
     // defined variables
     const [person, setPerson] = useState(oneProfile);
-		const [valid, setValid] = useState(false)
+	const [valid, setValid] = useState(true);
 
     const [phones, setPhones] = useState(
         ConvertListStringToListObject(person.phone, "phone"),
@@ -87,27 +87,25 @@ export const DisplayPerson = ({
         var email = ConvertListObjectToListValues(emails, "email");
         var phone = ConvertListObjectToListValues(phones, "phone");
 
-				email = email.filter(e => e !== "")
-				phone = phone.filter(e => e !== "")
+		email = email.filter(e => e !== "")
+		phone = phone.filter(e => e !== "")
 
-				setValid(true)
 
-				dataValidator(phone, 'phone', setValid)
-				dataValidator(email, 'email', setValid)
 
         const data = {
             ...person,
             phone,
             email,
         };
+        setValid(true)
 
-				dataValidator(data.firstName, 'firstName', setValid)
+        dataValidator(phone, 'phone')
+        dataValidator(email, 'email')
+		dataValidator(data.firstName, 'firstName')
+		dataValidator(data.lastName, 'lastName')
+		dataValidator(data.occupation, 'occupation')
 
-				dataValidator(data.lastName, 'lastName', setValid)
-				
-				dataValidator(data.occupation, 'occupation', setValid)
-
-				console.log(valid)
+		console.log(valid)
 
         if (valid) {
 					setPerson(data);
@@ -128,7 +126,7 @@ export const DisplayPerson = ({
                 }
             });
 					
-					setValid(false)
+					/*setValid(false)*/
 				}
 
 				
@@ -175,6 +173,77 @@ export const DisplayPerson = ({
             });
         });
     };
+    const dataValidator = (items, type) => {
+
+        switch(type) {
+            case "firstName":
+                if (items.length === 0) {
+                    console.log(1)
+                    setValid(false)
+                    console.log(valid)
+                    alert(`Invalid ${type} input, input cannot be empty`)
+                } else {
+                }
+                break;
+            case "lastName":
+                if (items.length === 0) {
+                    console.log(2)
+                    setValid(false)
+                    alert(`Invalid ${type} input, input cannot be empty`)
+                } else {
+
+                }
+                break;
+            case "occupation":
+
+                if (items.length === 0) {
+                    console.log(3)
+                    setValid(false)
+                    alert(`Invalid ${type} input, input cannot be empty`)
+                } else {
+                }
+                break;
+            case "phone":
+                var pattern = /\d{10}/;
+                var notEmpty = /\S/;
+                if (items.length < 1) {
+                    console.log(4)
+                    setValid(false)
+                    alert("You must provide at least one phone number!")
+                }
+
+                for (let i = 0; i < items.length ; i ++) {
+                    if (!pattern.test(items[i]) && !notEmpty.test(items[i])) {
+                        console.log(5)
+                        setValid(false)
+                        alert("Invalid phone format")
+                    }
+                }
+                break;
+            case "email":
+                var pattern = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+                var notEmpty = /\S/;
+                if (items.length < 1) {
+                    console.log(6)
+                    setValid(false)
+                    alert("You must have at least one email!")
+                }
+
+                for (let i = 0; i < items.length ; i ++) {
+
+                    if (!pattern.test(items[i]) && !notEmpty.test(items[i]) ) {
+                        console.log(7)
+                        setValid(false)
+                        alert("Invalid email format")
+                    }
+                }
+
+                break;
+            default:
+                setValid(false)
+                console.log("Invalid Input")
+        }
+    }
 
     return (
         <React.Fragment>
@@ -373,66 +442,3 @@ const ConvertListObjectToListValues = (items, type) => {
     return result;
 };
 
-const dataValidator = (items, type, setValid) => {
-	
-	switch(type) {
-		case "firstName":
-			if (items.length === 0) {
-				
-				setValid(false)
-				alert(`Invalid ${type} input, input cannot be empty`)
-			} else {
-			}
-			break;
-		case "lastName":
-			if (items.length === 0) {
-				
-				setValid(false)
-				alert(`Invalid ${type} input, input cannot be empty`)
-			} else {
-				
-			}
-			break;
-		case "occupation":
-			
-			if (items.length === 0) {
-				
-				setValid(false)
-				alert(`Invalid ${type} input, input cannot be empty`)
-			} else {
-			}
-			break;
-		case "phone":
-			var pattern = /\d{10}/;
-			if (items.length < 1) {
-				setValid(false)
-				alert("You must provide at least one phone number!")
-			}  
-
-			for (let i = 0; i < items.length ; i ++) {
-				if (!pattern.test(items[i]) ) {
-					setValid(false)
-					alert("Invalid phone format")
-				} 
-			}
-			break;
-		case "email":
-			var pattern = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
-			if (items.length < 1) {
-				setValid(false)
-				alert("You must have at least one email!")
-			}  
-
-			for (let i = 0; i < items.length ; i ++) {
-				
-				if (!pattern.test(items[i]) ) {
-					setValid(false)
-					alert("Invalid email format")
-				} 
-			}
-
-			break;
-		default:
-			console.log("Invalid Input")
-	}
-}
