@@ -27,6 +27,7 @@ const Record = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const { contacts } = useContacts();
   const { loading, records, error } = useShowAllRecords();
+  const [recordList, setRecordList] = useState();
   const [oneRecord, setOneRecord] = useState({
     meetingPerson: "",
     location: "",
@@ -36,7 +37,22 @@ const Record = () => {
     selected: false,
   });
 
-  // console.log(records);
+  const sortRecord = (records,setRecordList) => {
+
+    if (records) {
+
+      console.log(records[0].dateTime)
+
+      let sortedList = records.sort((a, b) =>
+
+          a.dateTime.split('-').join().localeCompare(b.dateTime.split('-').join()));
+      for (let i = 0; i < sortedList.length; i++) {
+        console.log(sortedList[i].dateTime)
+      }
+/*      setRecordList(sortedList);*/
+    }
+  }
+
 
   const handleChange = (e) => {
     e.preventDefault();
@@ -79,6 +95,9 @@ const Record = () => {
       <Navbar />
       <Heading />
       <div className="sub-container">
+        <button onClick={sortRecord(records,setRecordList)}>
+          sort
+        </button>
         {!oneRecord.selected && (
           <React.Fragment>
             <div className="heading-record">

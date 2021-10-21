@@ -26,6 +26,7 @@ const Contact = () => {
   }, []);
 
   const { loading, contacts, error } = useContacts();
+  const [contactList, setContactList] = useState([]);
   const [oneContact, setOneContact] = useState({
     firstName: "",
     lastName: "",
@@ -53,6 +54,21 @@ const Contact = () => {
   };
 
   console.log(contacts);
+    const sortContact = (contacts,setContactList) => {
+
+        if (contacts) {
+
+
+            let sortedList = contacts.sort((a, b) =>
+
+                a.contact.lastName.toLowerCase().localeCompare(b.contact.lastName.toLowerCase()));
+            /*setContactList(sortedList);*/
+            for (let i = 0; i < sortedList.length; i++) {
+                console.log(sortedList[i].contact.lastName)
+            }
+
+        }
+    }
 
   const screenWidth = window.innerWidth;
 
@@ -61,7 +77,9 @@ const Contact = () => {
     setSearchTerm(e.target.value);
   };
 
-  const deleteHandler = async (e) => {
+
+
+        const deleteHandler = async (e) => {
     e.preventDefault();
     console.log(oneContact);
     await fetchClient
@@ -115,6 +133,9 @@ const Contact = () => {
       <div className="sub-container">
         <div className="contact">
           {/* display contact as a list */}
+            <button onClick={sortContact(contacts,setContactList)}>
+                sort
+            </button>
 
           <div className="contactList" style={{ width: "97%" }}>
             {!oneContact.selected && (
@@ -235,3 +256,6 @@ export default Contact;
 export const PersonInfo = ({ prop }) => {
   return <div className="personInfo"></div>;
 };
+
+
+
