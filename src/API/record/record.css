@@ -1,8 +1,29 @@
+.div-center{
+  display: flex;
+  justify-content: center;
+  
+}
 @media only screen and (max-width: 1024px) {
+  .edit-record-container{
+    display: flex;
+    flex-direction: column;
+    overflow-y: scroll;
+  }
   .timer-container {
     width: 100%;
     /* margin-top: 10%;
     margin-left: 20%; */
+  }
+
+  .record-add-btn{
+    width: 50px;
+    height: 50px;
+    position: fixed;
+    right: 2rem;
+    top: -4rem;
+    color: white;
+    background-color:#2781bd;
+    border-radius:100%
   }
 
   .record-form {
@@ -37,6 +58,8 @@
     overflow-y: scroll;
     border-radius: 15px;
     justify-content: flex-start;
+    align-items: center;
+    margin-top: 5rem;
     /* padding: 10px; */
     /* padding-left: 8px;
     padding-right: 8px;
@@ -149,7 +172,7 @@
   }
   .avatar {
     width: 140px;
-    margin: auto;
+    margin :  auto;
   }
   .avatar img {
     /* width: 50px; */
@@ -240,8 +263,19 @@
 }
 
 @media only screen and (min-width: 1024px) {
+
+  .avatar{
+    display: flex;
+    align-items: center;
+    justify-content:center;
+  }
   * {
     box-sizing: border-box;
+  }
+  .edit-record-container{
+    display: block;
+    width : 100%;
+    overflow-y: scroll;
   }
   body {
     margin: 0px;
@@ -317,5 +351,41 @@
 @media only screen and (max-width: 768px) {
   .record-container {
     top: 40%;
+  }
+}
+
+@media only screen and (min-width: 1024px) {
+  .record-add-btn{
+    
+    position: absolute;
+    right: -3rem;
+    top: 2rem;
+    color: white;
+    background-color:#2781bd;
+    border-radius:100%;
+    
+  }
+  .record-container {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    /* justify-content: space-between; */
+    /* margin-block-start: 10%; */
+    top: 50%;
+    /* left: 50%; */
+    transform: translateY(-50%);
+    width: 95%;
+    height: 95%;
+    /* background-color: gray; */
+    overflow-y: scroll;
+    border-radius: 15px;
+    justify-content: flex-start;
+    align-items: center;
+    margin-top: 3rem;
+    /* padding: 10px; */
+    /* padding-left: 8px;
+    padding-right: 8px;
+    padding-top: 8px;
+    padding-bottom: 8px; */
   }
 }

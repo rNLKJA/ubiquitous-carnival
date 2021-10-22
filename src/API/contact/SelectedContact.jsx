@@ -15,6 +15,28 @@ import Button from "@mui/material/Button";
 import UploadIcon from "@mui/icons-material/Upload";
 import cx from "clsx";
 import { makeStyles } from "@material-ui/core/styles";
+import SpeedDial from "@mui/material/SpeedDial";
+import SpeedDialIcon from "@mui/material/SpeedDialIcon";
+import SpeedDialAction from "@mui/material/SpeedDialAction";
+import FileCopyIcon from "@mui/icons-material/FileCopyOutlined";
+import PrintIcon from "@mui/icons-material/Print";
+import ShareIcon from "@mui/icons-material/Share";
+import DeleteIcon from "@mui/icons-material/Delete";
+import TextField from "@mui/material/TextField";
+import Stack from "@mui/material/Stack";
+import { StyledEngineProvider } from "@mui/material/styles";
+import { red } from "@mui/material/colors";
+
+const actions = [
+  { icon: <FileCopyIcon />, name: "Copy" },
+  { icon: <SaveIcon />, name: "Save" },
+  { icon: <PrintIcon />, name: "Print" },
+  { icon: <ShareIcon />, name: "Share" },
+];
+
+const colorSave = green[500];
+
+const colorDelete = red[500];
 
 const useFabStyle = makeStyles((success) => ({
   fab: {
@@ -28,9 +50,6 @@ const useFabStyle = makeStyles((success) => ({
   },
 }));
 
-// import { Contacts } from "@mui/icons-material";
-// import portrait from "./portrarit.png";
-
 // const BASE_URL = "http://localhost:5000";
 // const BASE_URL = "https://crm4399.herokuapp.com";
 
@@ -41,20 +60,21 @@ const SelectedContact = ({ setOneContact, oneContact, deleteHandler }) => {
     ...oneContact,
     edit: false,
   });
-  console.log(selectedContact);
+  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
 
   return (
     <React.Fragment>
-      <button
-        className="back"
-        onClick={() => {
-          setOneContact({ ...oneContact, selected: false });
-          // console.log("back");
-        }}
-      >
-        Back
-      </button>
-      {/* <img src={portrait} alt="protrait.png" style={{ paddingTop: "15px" }} /> */}
+      {screenWidth <= 1024 ? (
+        <button
+          className="back"
+          onClick={() => {
+            setOneContact({ ...oneContact, selected: false });
+          }}
+        >
+          Back
+        </button>
+      ) : null}
+
       <DisplayContact
         selectedContact={selectedContact}
         setSelectedContact={setSelectedContact}
@@ -68,6 +88,14 @@ const SelectedContact = ({ setOneContact, oneContact, deleteHandler }) => {
 
 export default SelectedContact;
 
+export function getWindowDimensions() {
+  const { innerWidth: width, innerHeight: height } = window;
+  return {
+    width,
+    height,
+  };
+}
+
 export const DisplayContact = ({
   selectedContact,
   setSelectedContact,
@@ -76,6 +104,10 @@ export const DisplayContact = ({
   originContact,
 }) => {
   // defined variables
+  // window size
+  const [windowDimensions, setWindowDimensions] = useState(
+    getWindowDimensions(),
+  );
   const [contact, setContact] = useState(selectedContact);
 
   const [phones, setPhones] = useState(
@@ -96,6 +128,7 @@ export const DisplayContact = ({
   const [success, setSuccess] = useState(false);
   const [fileName, setFileName] = useState("");
   const [customField, setCustomField] = useState([]);
+  const [valid, setValid] = useState(true);
   useEffect(() => {
     if (contact.portrait === null) {
       setAvatar("");
@@ -107,9 +140,24 @@ export const DisplayContact = ({
     if (contact.customField !== undefined) {
       setCustomField(contact.customField);
     }
+    function handleResize() {
+      setWindowDimensions(getWindowDimensions());
+    }
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   const styles = useFabStyle(success);
+
+  const styles_btn = {
+    "&.MuiButton-contained": {
+      color: "success",
+    },
+    "&.MuiButton-outlined": {
+      color: "error",
+    },
+  };
 
   const handleAddField = (e) => {
     e.preventDefault();
@@ -159,23 +207,30 @@ export const DisplayContact = ({
 
     setSelectedContact(data);
 
-    await fetchClient
-      .post("/contact/updateContactInfo", data)
-      .then((response) => {
-        if (response.data.status) {
-          alert(
-            "Update contact information succeed!\nRedirect to Contact Page",
-          );
-          // window.location.href = "/contact";
-        } else {
-          alert("Opps, something wrong, please try later.");
-        }
-      });
+    setValid(true);
 
-    window.location.href = "/contact";
-    // setContact({ ...contact, edit: false });
+    dataValidator(phone, "phone", setValid);
+    dataValidator(email, "email", setValid);
+    dataValidator(data.firstName, "firstName", setValid);
+    dataValidator(data.lastName, "lastName", setValid);
+    dataValidator(data.occupation, "occupation", setValid);
+    console.log(valid);
 
-    // setOneContact({ ...contact, edit: false, selected: false });
+    if (valid) {
+      await fetchClient
+        .post("/contact/updateContactInfo", data)
+        .then((response) => {
+          if (response.data.status) {
+            alert(
+              "Update contact information succeed!\nRedirect to Contact Page",
+            );
+            window.location.href = "/contact";
+            // window.location.href = "/contact";
+          } else {
+            alert("Opps, something wrong, please try later.");
+          }
+        });
+    }
   };
 
   const fieldOnChange = (index, event) => {
@@ -303,6 +358,24 @@ export const DisplayContact = ({
 
   return (
     <React.Fragment>
+      {windowDimensions.width >= 1024 ? (
+        <Box sx={{ height: 100, transform: "translateZ(0px)", flexGrow: 1 }}>
+          <SpeedDial
+            ariaLabel="SpeedDial basic example"
+            sx={{ position: "absolute", bottom: 0, right: 100 }}
+            icon={<SpeedDialIcon />}
+          >
+            {actions.map((action) => (
+              <SpeedDialAction
+                key={action.name}
+                icon={action.icon}
+                tooltipTitle={action.name}
+              />
+            ))}
+          </SpeedDial>
+        </Box>
+      ) : null}
+
       {contact.edit ? null : (
         <button
           className="edit-btn"
@@ -314,7 +387,7 @@ export const DisplayContact = ({
 
       {contact.edit ? (
         <button
-          className="back"
+          className="back-btn"
           onClick={() => {
             setContact({ ...originContact, selected: true, edit: false });
             setPhones(ConvertListStringToListObject(contact.phone, "phone"));
@@ -341,10 +414,6 @@ export const DisplayContact = ({
                 style={{
                   alignItems: "center",
                   justifyContent: "center",
-                  display: "flex",
-                  position: "fixed",
-                  right: "1rem",
-                  top: "1.5rem",
                 }}
               >
                 <form onSubmit={onSubmit}>
@@ -411,7 +480,7 @@ export const DisplayContact = ({
               </div>
             ) : (
               [
-                <div style={{ right: "1rem", top: "5rem", position: "fixed" }}>
+                <div className="upload-btn">
                   <Button onClick={onClickUpload}>
                     <UploadIcon />
                     Upload
@@ -460,96 +529,112 @@ export const DisplayContact = ({
           ></input>
 
           {phones.length !== 0 ? <label>Phone:</label> : null}
+
           {phones.map((phone, i) => {
             return (
-              <div key={`${phone}-${i}`} className="multi-field">
-                <div className="multi-field-input">
-                  <input
-                    text="text"
-                    pattern="\d*"
-                    value={phone.phone}
-                    className="form-control"
-                    name="phone"
-                    readOnly={!contact.edit}
-                    required
-                    minLength={10}
-                    maxLength={10}
-                    onChange={(e) => phoneOnChange(i, e)}
-                  />
+              <>
+                <br />
+                <div key={`${phone}-${i}`} className="multi-field">
+                  <div className="multi-field-input">
+                    <input
+                      text="text"
+                      pattern="\d*"
+                      value={phone.phone}
+                      className="form-control"
+                      name="phone"
+                      readOnly={!contact.edit}
+                      required
+                      minLength={10}
+                      maxLength={10}
+                      onChange={(e) => phoneOnChange(i, e)}
+                    />
+                  </div>
+                  {contact.edit ? (
+                    <Button
+                      variant="outlined"
+                      onClick={(e) => removeHandler(e, i, "phone")}
+                    >
+                      <DeleteIcon />
+                    </Button>
+                  ) : null}
                 </div>
-                {contact.edit ? (
-                  <button
-                    className="btn btn-info"
-                    style={{
-                      width: "40px",
-                      height: "40px",
-                    }}
-                    onClick={(e) => removeHandler(e, i, "phone")}
-                  >
-                    x
-                  </button>
-                ) : null}
-              </div>
+                <hr />
+              </>
             );
           })}
 
           {contact.edit && (
-            <button
-              className="btn btn-primary"
-              style={{
-                justifyContent: "center",
-                paddingBottom: "20px",
-              }}
-              onClick={handleAddPhone}
-            >
-              Add Phone
-            </button>
+            <>
+              <Button
+                variant="contained"
+                sx={{ width: "50%" }}
+                onClick={handleAddPhone}
+              >
+                add phone
+              </Button>
+              <br />
+            </>
           )}
 
           {emails.length !== 0 ? <label>Email Address</label> : null}
           {emails.map((mail, i) => {
             return (
-              <div key={`${mail}-${i}`} className="multi-field">
-                <div className="multi-field-input">
-                  <input
-                    value={mail.email}
-                    type="email"
-                    name="email"
-                    className="form-control"
-                    readOnly={!contact.edit}
-                    required
-                    onChange={(e) => emailOnChange(i, e)}
-                  />
+              <>
+                <br />
+                <div key={`${mail}-${i}`} className="multi-field">
+                  <div className="multi-field-input">
+                    <input
+                      value={mail.email}
+                      type="email"
+                      name="email"
+                      className="form-control"
+                      readOnly={!contact.edit}
+                      required
+                      onChange={(e) => emailOnChange(i, e)}
+                    />
+                  </div>
+                  {contact.edit && (
+                    <Button
+                      variant="outlined"
+                      onClick={(e) => removeHandler(e, i, "email")}
+                    >
+                      <DeleteIcon />
+                    </Button>
+                  )}
                 </div>
-                {contact.edit && (
-                  <button
-                    className="btn btn-info"
-                    style={{
-                      width: "40px",
-                      height: "40px",
-                    }}
-                    onClick={(e) => removeHandler(e, i, "email")}
-                  >
-                    x
-                  </button>
-                )}
-              </div>
+
+                <hr />
+              </>
             );
           })}
 
           {contact.edit && (
-            <button className="btn btn-primary mt-2" onClick={handleAddEmail}>
+            <Button
+              variant="contained"
+              sx={{ width: "50%" }}
+              onClick={handleAddEmail}
+            >
               Add Email
-            </button>
+            </Button>
           )}
 
+          <br />
+
           <label>Notes:</label>
-          <textarea
-            value={contact.note}
-            readOnly={!contact.edit}
-            style={contact.edit ? null : { border: "0", height: "auto" }}
-            onChange={(e) => setContact({ ...contact, note: e.target.value })}
-          ></textarea>
+          <br />
+
+          <TextField
+            id="outlined-read-only-input"
+            multiline
+            maxRows={4}
+            InputProps={{
+              readOnly: !contact.edit,
+            }}
+            value={contact.note ? contact.note : ""}
+            onChange={(e) => {
+              setContact({ ...contact, note: e.target.value });
+            }}
+          />
 
           <hr />
 
@@ -582,16 +667,12 @@ export const DisplayContact = ({
                     />
                   </div>
                   {contact.edit && (
-                    <button
-                      className="btn btn-info"
-                      style={{
-                        width: "40px",
-                        height: "80px",
-                      }}
+                    <Button
+                      variant="outlined"
                       onClick={(e) => removeHandler(e, i, "field")}
                     >
-                      x
-                    </button>
+                      <DeleteIcon />
+                    </Button>
                   )}
                 </div>
                 <hr />
@@ -599,37 +680,46 @@ export const DisplayContact = ({
             );
           })}
 
+          <br />
+
           {contact.edit && (
-            <button className="btn btn-primary mt-2" onClick={handleAddField}>
+            <Button
+              variant="contained"
+              sx={{ width: "50%" }}
+              onClick={handleAddField}
+            >
               Add Field
-              {/* {console.log(customField)} */}
-            </button>
+            </Button>
           )}
 
           <hr />
 
           {contact.edit && (
-            <button
-              className="btn btn-warning"
-              onClick={(e) => handleSubmit(e)}
-            >
-              Save Change
-            </button>
-          )}
+            <Stack direction="row" spacing={2}>
+              <Button
+                variant="contained"
+                sx={styles_btn}
+                onClick={(e) => handleSubmit(e)}
+              >
+                Save Change
+              </Button>
 
-          {contact.edit && (
-            <button
-              className="btn btn-danger"
-              onClick={(e) => {
-                if (
-                  window.confirm("Are you sure you wanna delete this contact?")
-                ) {
-                  deleteHandler(e);
-                }
-              }}
-            >
-              Delete The Contact
-            </button>
+              <Button
+                variant="outlined"
+                sx={styles_btn}
+                onClick={(e) => {
+                  if (
+                    window.confirm(
+                      "Are you sure you wanna delete this contact?",
+                    )
+                  ) {
+                    deleteHandler(e);
+                  }
+                }}
+              >
+                Delete The Contact
+              </Button>
+            </Stack>
           )}
         </form>
       </div>
@@ -684,4 +774,71 @@ const ConvertListObjectToListValues = (items, type) => {
   }
 
   return result;
+};
+const dataValidator = (items, type, setValid) => {
+  switch (type) {
+    case "firstName":
+      if (items.length === 0) {
+        console.log(1);
+        setValid(false);
+        alert(`Invalid ${type} input, input cannot be empty`);
+      } else {
+      }
+      break;
+    case "lastName":
+      if (items.length === 0) {
+        console.log(2);
+        setValid(false);
+        alert(`Invalid ${type} input, input cannot be empty`);
+      } else {
+      }
+      break;
+    case "occupation":
+      if (items.length === 0) {
+        console.log(3);
+        setValid(false);
+        alert(`Invalid ${type} input, input cannot be empty`);
+      } else {
+      }
+      break;
+    case "phone":
+      var pattern = /\d{10}/;
+      var notEmpty = /\S/;
+      if (items.length < 1) {
+        console.log(4);
+        setValid(false);
+        alert("You must provide at least one phone number!");
+      }
+
+      for (let i = 0; i < items.length; i++) {
+        if (!pattern.test(items[i]) && !notEmpty.test(items[i])) {
+          console.log(5);
+          setValid(false);
+          alert("Invalid phone format");
+        }
+      }
+      break;
+    case "email":
+      var pattern =
+        /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+      var notEmpty = /\S/;
+      if (items.length < 1) {
+        console.log(6);
+        setValid(false);
+        alert("You must have at least one email!");
+      }
+
+      for (let i = 0; i < items.length; i++) {
+        if (!pattern.test(items[i]) && !notEmpty.test(items[i])) {
+          console.log(7);
+          setValid(false);
+          alert("Invalid email format");
+        }
+      }
+
+      break;
+    default:
+      setValid(false);
+      console.log("Invalid Input");
+  }
 };

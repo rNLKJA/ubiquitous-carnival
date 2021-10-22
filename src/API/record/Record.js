@@ -21,12 +21,40 @@ import { Link } from "react-router-dom";
 import EditRecord from "./editRecord";
 import { useContacts } from "../../BackEndAPI/contactAPI";
 import TextField from "@mui/material/TextField";
-import { Container } from "react-bootstrap";
+import { makeStyles } from "@material-ui/styles";
+import { Button } from "react-bootstrap";
+
+const useRecordStyles = makeStyles(() => ({
+  text: {
+    fontFamily: 'Barlow, san-serif',
+    whiteSpace: 'nowrap',
+    textOverflow: 'ellipsis',
+    overflow: 'hidden',
+  },
+  name: {
+    fontWeight: 600,
+    fontSize: '1rem',
+    color: '#122740',
+  },
+  caption: {
+    fontSize: '0.8rem',
+    color: '#758392',
+    marginTop: -4,
+  },
+  btn: {
+    borderRadius: 20,
+    padding: '0.125rem 0.75rem',
+    borderColor: '#becddc',
+    fontSize: '0.75rem',
+  },
+}));
 
 const Record = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const { contacts } = useContacts();
+  const [screenWidth , setScreenWidth] = useState(window.innerWidth)
   const { loading, records, error } = useShowAllRecords();
+  const [recordList, setRecordList] = useState();
   const [oneRecord, setOneRecord] = useState({
     meetingPerson: "",
     location: "",
@@ -36,7 +64,22 @@ const Record = () => {
     selected: false,
   });
 
-  // console.log(records);
+  const sortRecord = (records,setRecordList) => {
+
+    if (records) {
+
+      console.log(records[0].dateTime)
+
+      let sortedList = records.sort((a, b) =>
+
+          a.dateTime.split('-').join().localeCompare(b.dateTime.split('-').join()));
+      for (let i = 0; i < sortedList.length; i++) {
+        console.log(sortedList[i].dateTime)
+      }
+/*      setRecordList(sortedList);*/
+    }
+  }
+
 
   const handleChange = (e) => {
     e.preventDefault();
@@ -79,36 +122,34 @@ const Record = () => {
       <Navbar />
       <Heading />
       <div className="sub-container">
+        <button onClick={sortRecord(records,setRecordList)}>
+          sort
+        </button>
         {!oneRecord.selected && (
           <React.Fragment>
+            
+
+            
             <div className="heading-record">
               <h1>Record</h1>
               <Link to="/createRecord">
+              
+              <div className="record-add-btn">
                 <AddIcon
-                  sx={{
-                    width: "40px",
-                    height: "40px",
-                    position: "fixed",
-                    right: "1.5rem",
-                    top: "-3.5rem",
-                    color: "black",
-                  }}
+                  sx = {{width : '50px', height : '50px'}}
                 />
+               </div>
               </Link>
             </div>
 
             <div
               className="record-container"
-              style={{
-                justifyContent: "flex-start",
-                alignItems: "center",
-                marginTop: "20%",
-              }}
+              
             >
               <TextField
                 id="standard-basic"
                 label="Search by name/location"
-                style={{ width: "90%" }}
+                style={{ width: "90%" , marginTop: 10}}
                 value={searchTerm}
                 onChange={(e) => handleChange(e)}
               />
