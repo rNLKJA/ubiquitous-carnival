@@ -24,14 +24,14 @@ const createRecord = async (req, res) => {
             "lat": "122334545", 
             "lng":"52123456"
         },
-        "notes": "account"
+        "notes": "account",
+        "customField": "testCustomField"
     }
   */
 
   try {
     let err = new Error("Database query failed");
-    const { contact_id, location, dateTime, geoCoords, notes, customField } =
-      req.body;
+    const { contact_id, location, dateTime, geoCoords, notes, customField } = req.body;
     if (contact_id == null || location == null) {
       err = Error("Miss Important Information Input");
       throw err;
@@ -190,40 +190,34 @@ const deleteOneRecord = async (req, res) => {
   }
 };
 
+
 /**
- * function that update information of a record
- * @param {express.Request} req - contacin recordId and new information that need to be update
- * @param {express.Response} res - response from the system that contain updated record information.
+ * edit the records
+ * @param {express.Request} req - the edit information
+ * @param {express.Response} res - response from the system.
  */
 const editRecord = async (req, res) => {
   /*
     request header: user
     request body:
     {   
-        "_id": "6131e5b0e0accb25d09663f6", 
+        "_id": "61695204687a7c05e401666e", 
         "contact_id": "6131e5b0e0accb25d09663f6",
         "location": "University of Melbourne",
         "dateTime": "2021-10-01T10:28:10.018Z",
         "geoCoords": {
             "lat": "122334545", 
-            "lng":"52123456"
+            "lng": "52123456"
         },
-        "notes": "account"
+        "notes": "account",
+        "customField": "testCustomField"
     }
   */
   try {
     let err = new Error("Database query failed");
-    const {
-      _id,
-      contact_id,
-      location,
-      dateTime,
-      geoCoords,
-      notes,
-      customField,
-    } = req.body;
-
-    if (contact_id == null || location == null) {
+    
+    const { _id, contact_id, location, dateTime, geoCoords, notes, customField } = req.body;
+    if (_id == null || contact_id == null || location == null) {
       err = Error("Miss Important Information Input");
       throw err;
     }
@@ -234,9 +228,11 @@ const editRecord = async (req, res) => {
     } else {
       dateTimeOut = dateTime;
     }
+
     var meetingPerson = await Contact.findOne({
       _id: mongoose.Types.ObjectId(contact_id),
     }).lean();
+
     if (meetingPerson == null) throw err;
     var lat;
     var lng;
@@ -247,10 +243,6 @@ const editRecord = async (req, res) => {
       lat = geoCoords.lat;
       lng = geoCoords.lng;
     }
-
-    var record1 = await Record.findOne({
-      _id: mongoose.Types.ObjectId(_id),
-    }).lean();
 
     const record = await Record.findOneAndUpdate(
       { _id: mongoose.Types.ObjectId(_id) },
@@ -265,10 +257,11 @@ const editRecord = async (req, res) => {
           lat: lat,
           lng: lng,
           customField: customField,
-        },
-      }
+        }
+      },
+      { new: true }
     ).lean();
-
+    
     res.json(record);
   } catch (err) {
     if (err.message == "Miss Important Information Input") {
@@ -284,5 +277,5 @@ module.exports = {
   showAllRecords,
   searchRecord,
   deleteOneRecord,
-  editRecord,
+  editRecord
 };
