@@ -452,7 +452,7 @@
                 <td class="name"><code>res</code></td>
 
                 <td class="type">
-                  <span class="param-type">express.Respones</span>
+                  <span class="param-type">express.Response</span>
                 </td>
 
                 <td class="description last">
@@ -478,7 +478,7 @@
               <ul class="dummy">
                 <li>
                   <a href="userController.js.html">userController.js</a>,
-                  <a href="userController.js.html#line182">line 182</a>
+                  <a href="userController.js.html#line180">line 180</a>
                 </li>
               </ul>
             </dd>
@@ -516,7 +516,7 @@
                 </td>
 
                 <td class="description last">
-                  this contain resiger information of temporary user
+                  this contain register information of temporary user
                 </td>
               </tr>
 
@@ -524,7 +524,7 @@
                 <td class="name"><code>res</code></td>
 
                 <td class="type">
-                  <span class="param-type">express.Respones</span>
+                  <span class="param-type">express.Response</span>
                 </td>
 
                 <td class="description last">
@@ -540,7 +540,7 @@
               <ul class="dummy">
                 <li>
                   <a href="userController.js.html">userController.js</a>,
-                  <a href="userController.js.html#line216">line 216</a>
+                  <a href="userController.js.html#line217">line 217</a>
                 </li>
               </ul>
             </dd>
@@ -724,7 +724,132 @@
               <ul class="dummy">
                 <li>
                   <a href="userController.js.html">userController.js</a>,
-                  <a href="userController.js.html#line93">line 93</a>
+                  <a href="userController.js.html#line98">line 98</a>
+                </li>
+              </ul>
+            </dd>
+          </dl>
+
+          <h4 class="name" id="resetPassword">
+            <span class="type-signature">(async) </span>resetPassword<span
+              class="signature"
+              >(req, res)</span
+            ><span class="type-signature"></span>
+          </h4>
+
+          <div class="description">this function will reset userName</div>
+
+          <h5>Parameters:</h5>
+
+          <table class="params">
+            <thead>
+              <tr>
+                <th>Name</th>
+
+                <th>Type</th>
+
+                <th class="last">Description</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr>
+                <td class="name"><code>req</code></td>
+
+                <td class="type">
+                  <span class="param-type">express.Request</span>
+                </td>
+
+                <td class="description last">
+                  this contains the userName and password
+                </td>
+              </tr>
+
+              <tr>
+                <td class="name"><code>res</code></td>
+
+                <td class="type">
+                  <span class="param-type">express.Response</span>
+                </td>
+
+                <td class="description last">
+                  this contains the response of system if fail to verify
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+          <dl class="details">
+            <dt class="tag-source">Source:</dt>
+            <dd class="tag-source">
+              <ul class="dummy">
+                <li>
+                  <a href="userController.js.html">userController.js</a>,
+                  <a href="userController.js.html#line278">line 278</a>
+                </li>
+              </ul>
+            </dd>
+          </dl>
+
+          <h4 class="name" id="updatePassword">
+            <span class="type-signature">(async) </span>updatePassword<span
+              class="signature"
+              >(req, res)</span
+            ><span class="type-signature"></span>
+          </h4>
+
+          <div class="description">
+            confirm user register through email link, activity user's account
+          </div>
+
+          <h5>Parameters:</h5>
+
+          <table class="params">
+            <thead>
+              <tr>
+                <th>Name</th>
+
+                <th>Type</th>
+
+                <th class="last">Description</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr>
+                <td class="name"><code>req</code></td>
+
+                <td class="type">
+                  <span class="param-type">express.Request</span>
+                </td>
+
+                <td class="description last">
+                  this contain old and new password information of temporary
+                  user
+                </td>
+              </tr>
+
+              <tr>
+                <td class="name"><code>res</code></td>
+
+                <td class="type">
+                  <span class="param-type">express.Response</span>
+                </td>
+
+                <td class="description last">
+                  this contain auth result of temporary user register
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+          <dl class="details">
+            <dt class="tag-source">Source:</dt>
+            <dd class="tag-source">
+              <ul class="dummy">
+                <li>
+                  <a href="userController.js.html">userController.js</a>,
+                  <a href="userController.js.html#line254">line 254</a>
                 </li>
               </ul>
             </dd>
@@ -755,7 +880,10 @@
         <li><a href="#handleLogin">handleLogin</a></li>
         <li><a href="#isAuth">isAuth</a></li>
         <li><a href="#register">register</a></li>
+        <li><a href="#resetPassword">resetPassword</a></li>
+        <li><a href="#updatePassword">updatePassword</a></li>
       </ul>
+
       <br />
       <hr style="border-color: grey; width: 70%; opacity: 0.3" />
       <br />
@@ -773,8 +901,8 @@
 
     <footer>
       Documentation generated by
-      <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.7</a> on Fri Oct 01
-      2021 19:09:47 GMT+1000 (Australian Eastern Standard Time)
+      <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.7</a> on Fri Oct 22
+      2021 15:08:55 GMT+1100 (Australian Eastern Daylight Time)
     </footer>
 
     <script>

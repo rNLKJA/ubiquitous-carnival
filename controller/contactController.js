@@ -504,14 +504,14 @@ const deleteOneContact = async (req, res) => {
       (contact) => contact.contact.toString() !== req.params.contact_id
     );
     // console.log(contactList);
-    const deletedRecords = Record.find({
+    const deletedRecords = await Record.find({
       meetingPerson: req.params.contact_id,
       ownerAccount: req.user._id,
     }).lean();
     // update contact list
-    var recordList;
+    var recordList = user.recordList;
     for (var i = 0; i < deletedRecords.length; i++) {
-      recordList = user.recordList.filter(
+      recordList = recordList.filter(
         (recordId) => recordId.toString() !== deletedRecords[i]._id.toString()
       );
     }
@@ -525,7 +525,7 @@ const deleteOneContact = async (req, res) => {
       meetingPerson: req.params.contact_id,
       ownerAccount: req.user._id,
     });
-    await res.json({ status: "success" });
+    res.json({ status: "success" });
   } catch (err) {
     console.log(err);
     res.json({ status: "failed" });

@@ -593,7 +593,7 @@
               <ul class="dummy">
                 <li>
                   <a href="emailAuth.js.html">emailAuth.js</a>,
-                  <a href="emailAuth.js.html#line86">line 86</a>
+                  <a href="emailAuth.js.html#line80">line 80</a>
                 </li>
               </ul>
             </dd>
@@ -656,7 +656,7 @@
               <ul class="dummy">
                 <li>
                   <a href="emailAuth.js.html">emailAuth.js</a>,
-                  <a href="emailAuth.js.html#line106">line 106</a>
+                  <a href="emailAuth.js.html#line101">line 101</a>
                 </li>
               </ul>
             </dd>
@@ -730,7 +730,135 @@
               <ul class="dummy">
                 <li>
                   <a href="emailAuth.js.html">emailAuth.js</a>,
-                  <a href="emailAuth.js.html#line151">line 151</a>
+                  <a href="emailAuth.js.html#line150">line 150</a>
+                </li>
+              </ul>
+            </dd>
+          </dl>
+
+          <h4 class="name" id="sendResetCode">
+            <span class="type-signature">(async) </span>sendResetCode<span
+              class="signature"
+              >(req, res)</span
+            ><span class="type-signature"></span>
+          </h4>
+
+          <div class="description">
+            this function will send a email that user input to implement email
+            verify
+          </div>
+
+          <h5>Parameters:</h5>
+
+          <table class="params">
+            <thead>
+              <tr>
+                <th>Name</th>
+
+                <th>Type</th>
+
+                <th class="last">Description</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr>
+                <td class="name"><code>req</code></td>
+
+                <td class="type">
+                  <span class="param-type">express.Request</span>
+                </td>
+
+                <td class="description last">
+                  this contains the userName to obtain user information
+                </td>
+              </tr>
+
+              <tr>
+                <td class="name"><code>res</code></td>
+
+                <td class="type">
+                  <span class="param-type">express.Response</span>
+                </td>
+
+                <td class="description last">
+                  this contain the response from system of email sending result
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+          <dl class="details">
+            <dt class="tag-source">Source:</dt>
+            <dd class="tag-source">
+              <ul class="dummy">
+                <li>
+                  <a href="emailAuth.js.html">emailAuth.js</a>,
+                  <a href="emailAuth.js.html#line171">line 171</a>
+                </li>
+              </ul>
+            </dd>
+          </dl>
+
+          <h4 class="name" id="userCodeVerify">
+            <span class="type-signature">(async) </span>userCodeVerify<span
+              class="signature"
+              >(req, res)</span
+            ><span class="type-signature"></span>
+          </h4>
+
+          <div class="description">
+            this function will compare the input verify code with database to
+            finish email verify
+          </div>
+
+          <h5>Parameters:</h5>
+
+          <table class="params">
+            <thead>
+              <tr>
+                <th>Name</th>
+
+                <th>Type</th>
+
+                <th class="last">Description</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr>
+                <td class="name"><code>req</code></td>
+
+                <td class="type">
+                  <span class="param-type">express.Request</span>
+                </td>
+
+                <td class="description last">
+                  this contains the email and verify code that user input
+                </td>
+              </tr>
+
+              <tr>
+                <td class="name"><code>res</code></td>
+
+                <td class="type">
+                  <span class="param-type">express.Response</span>
+                </td>
+
+                <td class="description last">
+                  this contains the response of system if fail to verify
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+          <dl class="details">
+            <dt class="tag-source">Source:</dt>
+            <dd class="tag-source">
+              <ul class="dummy">
+                <li>
+                  <a href="emailAuth.js.html">emailAuth.js</a>,
+                  <a href="emailAuth.js.html#line215">line 215</a>
                 </li>
               </ul>
             </dd>
@@ -763,6 +891,8 @@
         <li>
           <a href="#emailRegisterVerify">emailRegisterVerify</a>
         </li>
+        <li><a href="#sendResetCode">sendResetCode</a></li>
+        <li><a href="#userCodeVerify">userCodeVerify</a></li>
       </ul>
       <br />
       <hr style="border-color: grey; width: 70%; opacity: 0.3" />
@@ -781,8 +911,8 @@
 
     <footer>
       Documentation generated by
-      <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.7</a> on Fri Oct 01
-      2021 19:07:39 GMT+1000 (Australian Eastern Standard Time)
+      <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.7</a> on Fri Oct 22
+      2021 15:12:46 GMT+1100 (Australian Eastern Daylight Time)
     </footer>
 
     <script>
