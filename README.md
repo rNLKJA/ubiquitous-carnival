@@ -81,4 +81,4 @@ npm start
 
 ## License
 
-See more information, click [here](https://github.com/Harrison-Huang666/COMP30022-49/blob/main/LICENSE).
+See more information, click [here](https://github.com/Harrison-Huang666/COMP30022-49/blob/Front-End/LICENSE).
