@@ -24,14 +24,14 @@ const createRecord = async (req, res) => {
             "lat": "122334545", 
             "lng":"52123456"
         },
-        "notes": "account"
+        "notes": "account",
+        "customField": "testCustomField"
     }
   */
 
   try {
     let err = new Error("Database query failed");
-    const { contact_id, location, dateTime, geoCoords, notes, customField } =
-      req.body;
+    const { contact_id, location, dateTime, geoCoords, notes, customField } = req.body;
     if (contact_id == null || location == null) {
       err = Error("Miss Important Information Input");
       throw err;
@@ -76,7 +76,7 @@ const createRecord = async (req, res) => {
         $push: {
           recordList: newRecord._id,
         },
-      },
+      }
     );
 
     res.json(newRecord);
@@ -90,8 +90,8 @@ const createRecord = async (req, res) => {
 };
 
 /**
- * show All Records for the user
- * @param {express.Request} req
+ * show all records for the user 
+ * @param {express.Request} req - the _id of the user that you want to show records.
  * @param {express.Response} res - response from the system.
  */
 const showAllRecords = async (req, res) => {
@@ -163,13 +163,18 @@ const searchRecord = async (req, res) => {
   }
 };
 
+/**
+ * function that will delete one record from database
+ * @param {express.Request} req - contain recordId that need to be deleted
+ * @param {express.Response} res - response from the system.
+ */
 const deleteOneRecord = async (req, res) => {
   try {
     const recordId = req.body.recordId;
     const user = await User.findOne({ _id: req.user._id }).lean();
 
     var recordList = user.recordList.filter(
-      (record) => record.toString() !== req.body.recordId,
+      (record) => record.toString() !== req.body.recordId
     );
 
     console.log(recordId);
@@ -177,7 +182,7 @@ const deleteOneRecord = async (req, res) => {
     await Record.deleteOne({ _id: mongoose.Types.ObjectId(recordId) });
     await User.findOneAndUpdate(
       { _id: mongoose.Types.ObjectId(req.user._id) },
-      { recordList: recordList },
+      { recordList: recordList }
     );
     res.json({ status: "success" });
   } catch (err) {
@@ -185,36 +190,34 @@ const deleteOneRecord = async (req, res) => {
   }
 };
 
+
+/**
+ * edit the records
+ * @param {express.Request} req - the edit information of the records 
+ * @param {express.Response} res - response from the system.
+ */
 const editRecord = async (req, res) => {
-  console.log(req.body.customField);
   /*
     request header: user
     request body:
     {   
-        "_id": "6131e5b0e0accb25d09663f6", 
+        "_id": "61695204687a7c05e401666e", 
         "contact_id": "6131e5b0e0accb25d09663f6",
         "location": "University of Melbourne",
         "dateTime": "2021-10-01T10:28:10.018Z",
         "geoCoords": {
             "lat": "122334545", 
-            "lng":"52123456"
+            "lng": "52123456"
         },
-        "notes": "account"
+        "notes": "account",
+        "customField": "testCustomField"
     }
   */
   try {
     let err = new Error("Database query failed");
-    const {
-      _id,
-      contact_id,
-      location,
-      dateTime,
-      geoCoords,
-      notes,
-      customField,
-    } = req.body;
-
-    if (contact_id == null || location == null) {
+    
+    const { _id, contact_id, location, dateTime, geoCoords, notes, customField } = req.body;
+    if (_id == null || contact_id == null || location == null) {
       err = Error("Miss Important Information Input");
       throw err;
     }
@@ -225,9 +228,11 @@ const editRecord = async (req, res) => {
     } else {
       dateTimeOut = dateTime;
     }
+
     var meetingPerson = await Contact.findOne({
       _id: mongoose.Types.ObjectId(contact_id),
     }).lean();
+
     if (meetingPerson == null) throw err;
     var lat;
     var lng;
@@ -238,10 +243,6 @@ const editRecord = async (req, res) => {
       lat = geoCoords.lat;
       lng = geoCoords.lng;
     }
-
-    var record1 = await Record.findOne({
-      _id: mongoose.Types.ObjectId(_id),
-    }).lean();
 
     const record = await Record.findOneAndUpdate(
       { _id: mongoose.Types.ObjectId(_id) },
@@ -256,10 +257,11 @@ const editRecord = async (req, res) => {
           lat: lat,
           lng: lng,
           customField: customField,
-        },
+        }
       },
+      { new: true }
     ).lean();
-
+    
     res.json(record);
   } catch (err) {
     if (err.message == "Miss Important Information Input") {
@@ -275,5 +277,5 @@ module.exports = {
   showAllRecords,
   searchRecord,
   deleteOneRecord,
-  editRecord,
+  editRecord
 };

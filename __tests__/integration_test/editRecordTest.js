@@ -5,7 +5,7 @@ const request = require("supertest");
 const app = require("../../app");
 const mongoose = require("mongoose");
 
-describe("Integration test: Test for create Record", () => {
+describe("Integration test: Test for edit Record", () => {
   let agent = request.agent(app);
 
   // store the token
@@ -30,40 +30,19 @@ describe("Integration test: Test for create Record", () => {
     done();
   });
 
-  test("Test 1: Add a record with invalid contact_id", () => {
+  test("Test 1: Edit a record without a user's _id", () => {
     return agent
-      .post("/record/createRecord")
+      .post("/record/editRecord")
       .set("Content-Type", "application/json")
       .set("Authorization", jwtToken)
       .send({
-        contact_id: "123456885",
-        location: "University of Melbourne",
+        _id: null, 
+        contact_id: "6131e5b0e0accb25d09663f6",
+        location: "University of Peking",
         dateTime: "2021-10-01T10:28:10.018Z",
         geoCoords: {
-            "lat": "122334545",
-            "lng": "52123456"
-        },
-        notes: "account",
-        customField: "testCustomField"
-    })
-      .then((res) => {
-        expect(res.statusCode).toBe(200);
-        expect(res.text).toContain("Database query failed");
-      });
-  });
-
-  test("Test 2: Add a record without contact_id", () => {
-    return agent
-      .post("/record/createRecord")
-      .set("Content-Type", "application/json")
-      .set("Authorization", jwtToken)
-      .send({
-        contact_id: null,
-        location: "University of Melbourne",
-        dateTime: "2021-10-01T10:28:10.018Z",
-        geoCoords: {
-            "lat": "122334545",
-            "lng": "52123456"
+            "lat": "122334545", 
+            "lng":"52123456"
         },
         notes: "account",
         customField: "testCustomField"
@@ -74,18 +53,88 @@ describe("Integration test: Test for create Record", () => {
       });
   });
 
-  test("Test 3: Add a record without the meeting dateTime", () => {
+  test("Test 2: Edit a record with invalid user's _id", () => {
     return agent
-      .post("/record/createRecord")
+      .post("/record/editRecord")
       .set("Content-Type", "application/json")
       .set("Authorization", jwtToken)
       .send({
+        _id: "123456", 
+        contact_id: "6131e5b0e0accb25d09663f6",
+        location: "University of Peking",
+        dateTime: "2021-10-01T10:28:10.018Z",
+        geoCoords: {
+            "lat": "122334545", 
+            "lng":"52123456"
+        },
+        notes: "account",
+        customField: "testCustomField"
+    })
+      .then((res) => {
+        expect(res.statusCode).toBe(200);
+        expect(res.text).toContain("Database query failed");
+      });
+  });
+
+  test("Test 3: Edit a record with invalid contact_id", () => {
+    return agent
+      .post("/record/editRecord")
+      .set("Content-Type", "application/json")
+      .set("Authorization", jwtToken)
+      .send({
+        _id: "61695204687a7c05e401666e", 
+        contact_id: "1234567",
+        location: "University of Peking",
+        dateTime: "2021-10-01T10:28:10.018Z",
+        geoCoords: {
+            "lat": "122334545", 
+            "lng":"52123456"
+        },
+        notes: "account",
+        customField: "testCustomField"
+    })
+      .then((res) => {
+        expect(res.statusCode).toBe(200);
+        expect(res.text).toContain("Database query failed");
+      });
+  });
+
+  test("Test 4: Edit a record without contact_id", () => {
+    return agent
+      .post("/record/editRecord")
+      .set("Content-Type", "application/json")
+      .set("Authorization", jwtToken)
+      .send({
+        _id: "61695204687a7c05e401666e", 
+        contact_id: null,
+        location: "University of Melbourne",
+        dateTime: "2021-10-01T10:28:10.018Z",
+        geoCoords: {
+            "lat": "122334545", 
+            "lng":"52123456"
+        },
+        notes: "account",
+        customField: "testCustomField"
+    })
+      .then((res) => {
+        expect(res.statusCode).toBe(200);
+        expect(res.text).toContain("Miss Important Information Input");
+      });
+  });
+
+  test("Test 5: Edit a record without the meeting dateTime", () => {
+    return agent
+      .post("/record/editRecord")
+      .set("Content-Type", "application/json")
+      .set("Authorization", jwtToken)
+      .send({
+        _id: "61695204687a7c05e401666e", 
         contact_id: "6131e5b0e0accb25d09663f6",
         location: "University of Melbourne",
         dateTime: null,
         geoCoords: {
-            "lat": "122334545",
-            "lng": "52123456"
+            "lat": "122334545", 
+            "lng":"52123456"
         },
         notes: "account",
         customField: "testCustomField"
@@ -102,18 +151,19 @@ describe("Integration test: Test for create Record", () => {
       });
   });
 
-  test("Test 4: Add a record with the meeting dateTime", () => {
+  test("Test 6: Edit a record with the meeting dateTime", () => {
     return agent
-      .post("/record/createRecord")
+      .post("/record/editRecord")
       .set("Content-Type", "application/json")
       .set("Authorization", jwtToken)
       .send({
+        _id: "61695204687a7c05e401666e", 
         contact_id: "6131e5b0e0accb25d09663f6",
         location: "University of Melbourne",
         dateTime: "2021-10-01T10:28:10.018Z",
         geoCoords: {
-            "lat": "122334545",
-            "lng": "52123456"
+            "lat": "122334545", 
+            "lng":"52123456"
         },
         notes: "account",
         customField: "testCustomField"
@@ -130,12 +180,13 @@ describe("Integration test: Test for create Record", () => {
       });
   });
 
-  test("Test 5: Add a record without a geoCoords", () => {
+  test("Test 7: Edit a record without a geoCoords", () => {
     return agent
       .post("/record/createRecord")
       .set("Content-Type", "application/json")
       .set("Authorization", jwtToken)
       .send({
+        _id: "61695204687a7c05e401666e", 
         contact_id: "6131e5b0e0accb25d09663f6",
         location: "University of Melbourne",
         dateTime: "2021-10-01T10:28:10.018Z",
@@ -155,16 +206,20 @@ describe("Integration test: Test for create Record", () => {
       });
   });
 
-  test("Test 6: Add a record without a location", () => {
+  test("Test 8: Edit a record without a location", () => {
     return agent
       .post("/record/createRecord")
       .set("Content-Type", "application/json")
       .set("Authorization", jwtToken)
       .send({
+        _id: "61695204687a7c05e401666e", 
         contact_id: "6131e5b0e0accb25d09663f6",
         location: null,
         dateTime: "2021-10-01T10:28:10.018Z",
-        geoCoords: null,
+        geoCoords: {
+            "lat": "122334545", 
+            "lng":"52123456"
+        },
         notes: "account",
         customField: "testCustomField"
       })
@@ -173,72 +228,4 @@ describe("Integration test: Test for create Record", () => {
         expect(res.text).toContain("Miss Important Information Input");
       });
   });
-  
-
-  /*
-  test("Test 4: Add a record without the linkedAccount", () => {
-    return agent
-      .post("/record/createRecord")
-      .set("Content-Type", "application/json")
-      .set("Authorization", jwtToken)
-      .send({
-        contact_id: "6131e5b0e0accb25d09663f6",
-        location: "University of Melbourne",
-        dateTime: "2021-10-01T10:28:10.018Z",
-        geoCoords: {
-            "lat": "122334545",
-            "lng": "52123456"
-        },
-        notes: "account"
-    })
-      .then((res) => {
-        expect(res.statusCode).toBe(200);
-        expect(res.text).not.toContain("Database query failed");
-      });
-  });*/
-
-  /*
-  test("Test 4: Add a record with a linkedAccount, but the linkedAccount is invalid", () => {
-    return agent
-      .post("/record/createRecord")
-      .set("Content-Type", "application/json")
-      .set("Authorization", jwtToken)
-      .send({
-        contact_id: "6131e5b0e0accb25d09663f6",
-        location: "University of Melbourne",
-        dateTime: "2021-10-01T10:28:10.018Z",
-        geoCoords: {
-            "lat": "122334545",
-            "lng": "52123456"
-        },
-        notes: "account"
-    })
-      .then((res) => {
-        expect(res.statusCode).toBe(200);
-        expect(res.text).toContain("Database query failed");
-      });
-  });*/
-
-  /*
-  test("Test 5: Add a record with a linkedAccount, and the linkedAccount is valid", () => {
-    return agent
-      .post("/record/createRecord")
-      .set("Content-Type", "application/json")
-      .set("Authorization", jwtToken)
-      .send({
-        contact_id: "6131e5b0e0accb25d09663f6",
-        location: "University of Melbourne",
-        dateTime: "2021-10-01T10:28:10.018Z",
-        geoCoords: {
-            "lat": "122334545",
-            "lng": "52123456"
-        },
-        notes: "account"
-    })
-      .then((res) => {
-        expect(res.statusCode).toBe(200);
-        expect(res.text).not.toContain("Database query failed");
-      });
-  });*/
-  
 });

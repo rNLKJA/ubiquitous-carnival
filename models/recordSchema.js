@@ -5,7 +5,7 @@ const mongoose = require("mongoose");
 const recordSchema = new mongoose.Schema({
   // Name of meeting person
   meetingPerson: { type: mongoose.Schema.Types.ObjectId, ref: "Contact" },
-  dateTime: { type: Date, required: true },
+  dateTime: { type: Date },
   location: { type: String, required: true },
   notes: { type: String },
   pictures: [
