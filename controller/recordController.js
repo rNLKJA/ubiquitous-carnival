@@ -76,7 +76,7 @@ const createRecord = async (req, res) => {
         $push: {
           recordList: newRecord._id,
         },
-      },
+      }
     );
 
     res.json(newRecord);
@@ -163,13 +163,18 @@ const searchRecord = async (req, res) => {
   }
 };
 
+/**
+ * function that will delete one record from database
+ * @param {express.Request} req - contacin recordId that need to be deleted
+ * @param {express.Response} res - response from the system.
+ */
 const deleteOneRecord = async (req, res) => {
   try {
     const recordId = req.body.recordId;
     const user = await User.findOne({ _id: req.user._id }).lean();
 
     var recordList = user.recordList.filter(
-      (record) => record.toString() !== req.body.recordId,
+      (record) => record.toString() !== req.body.recordId
     );
 
     console.log(recordId);
@@ -177,7 +182,7 @@ const deleteOneRecord = async (req, res) => {
     await Record.deleteOne({ _id: mongoose.Types.ObjectId(recordId) });
     await User.findOneAndUpdate(
       { _id: mongoose.Types.ObjectId(req.user._id) },
-      { recordList: recordList },
+      { recordList: recordList }
     );
     res.json({ status: "success" });
   } catch (err) {
@@ -185,8 +190,12 @@ const deleteOneRecord = async (req, res) => {
   }
 };
 
+/**
+ * function that update information of a record
+ * @param {express.Request} req - contacin recordId and new information that need to be update
+ * @param {express.Response} res - response from the system that contain updated record information.
+ */
 const editRecord = async (req, res) => {
-  console.log(req.body.customField);
   /*
     request header: user
     request body:
@@ -257,7 +266,7 @@ const editRecord = async (req, res) => {
           lng: lng,
           customField: customField,
         },
-      },
+      }
     ).lean();
 
     res.json(record);

@@ -256,6 +256,11 @@ const showProfile = async (req, res) => {
   }
 };
 
+/**
+ * Get the profile picture of user
+ * @param {express.Request} req contain user object id that need to be display
+ * @param {express.Response} res - response from the system.
+ */
 const displayImage = async (req, res) => {
   try {
     const user = await userModel.findOne({ _id: req.user._id });
