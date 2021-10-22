@@ -76,7 +76,7 @@ const createRecord = async (req, res) => {
         $push: {
           recordList: newRecord._id,
         },
-      },
+      }
     );
 
     res.json(newRecord);
@@ -251,10 +251,11 @@ const editRecord = async (req, res) => {
           lat: lat,
           lng: lng,
           customField: customField,
-        },
+        }
       },
+      { new: true }
     ).lean();
-
+    
     res.json(record);
   } catch (err) {
     if (err.message == "Miss Important Information Input") {
