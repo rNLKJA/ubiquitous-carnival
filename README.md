@@ -11,7 +11,7 @@ This repository is created for [University of Melbourne](https://www.unimelb.edu
 | Server | Working Branch | Deployment |
 | ---- | ---- | ---- |
 | Back-End | https://bit.ly/3urzPG9 | https://crm4399.herokuapp.com/ |
-| Front-End | https://bit.ly/3imk1zI | http://www.4399crm.com |
+| Front-End | https://bit.ly/3imk1zI | https://pcrm4399.herokuapp.com/ |
 
 **Please view front end with screen size 375 x 875px (iPhoneX screen size)**
 
