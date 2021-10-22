@@ -59,7 +59,9 @@ export const DisplayPerson = ({
 }) => {
     // defined variables
     const [person, setPerson] = useState(oneProfile);
-    const [valid, setValid] = useState(false)
+
+		const [valid, setValid] = useState(true)
+
 
     const [phones, setPhones] = useState(
         ConvertListStringToListObject(person.phone, "phone"),
@@ -98,49 +100,48 @@ export const DisplayPerson = ({
         var email = ConvertListObjectToListValues(emails, "email");
         var phone = ConvertListObjectToListValues(phones, "phone");
 
-        email = email.filter(e => e !== "")
-        phone = phone.filter(e => e !== "")
 
-        setValid(true)
+		email = email.filter(e => e !== "")
+		phone = phone.filter(e => e !== "")
 
-        dataValidator(phone, 'phone', setValid)
-        dataValidator(email, 'email', setValid)
 
         const data = {
             ...person,
             phone,
             email,
         };
+        setValid(true)
 
-        dataValidator(data.firstName, 'firstName', setValid)
 
-        dataValidator(data.lastName, 'lastName', setValid)
+        dataValidator(phone, 'phone', setValid)
+        dataValidator(email, 'email', setValid)
+		dataValidator(data.firstName, 'firstName', setValid)
+		dataValidator(data.lastName, 'lastName', setValid)
+		dataValidator(data.occupation, 'occupation', setValid)
 
-        dataValidator(data.occupation, 'occupation', setValid)
-
-        console.log(valid)
+		console.log(valid)
 
         if (valid) {
-            setPerson(data);
+					setPerson(data);
 
-            await fetchClient
-                .post(BASE_URL + "/profile/editProfile", data)
-                .then((response) => {
-                    // console.log(response)
-                    if (response.data === 'update success') {
-                        alert(
-                            "Update contact information succeed!\n",
-                        );
-                        setPerson({ ...data, edit: false })
+      	  await fetchClient
+            .post(BASE_URL + "/profile/editProfile", data)
+            .then((response) => {
+								// console.log(response)
+                if (response.data === 'update success') {
+                    alert(
+                        "Update contact information succeed!\n",
+                    );
+										setPerson({...data, edit:false})
 
-                        // window.location.href = "/contact";
-                    } else {
-                        alert("Opps, something wrong, please try later.");
-                    }
-                });
-
-            setValid(false)
-        }
+                    // window.location.href = "/contact";
+                } else {
+                    alert("Opps, something wrong, please try later.");
+                }
+            });
+					
+/*					setValid(false)*/
+				}
 
 
 
@@ -413,64 +414,68 @@ const ConvertListObjectToListValues = (items, type) => {
 
 const dataValidator = (items, type, setValid) => {
 
-    switch (type) {
-        case "firstName":
-            if (items.length === 0) {
 
-                setValid(false)
-                alert(`Invalid ${type} input, input cannot be empty`)
-            } else {
-            }
-            break;
-        case "lastName":
-            if (items.length === 0) {
+	switch(type) {
+		case "firstName":
+			if (items.length === 0) {
 
-                setValid(false)
-                alert(`Invalid ${type} input, input cannot be empty`)
-            } else {
+				setValid(false)
+				alert(`Invalid ${type} input, input cannot be empty`)
+			} else {
+			}
+			break;
+		case "lastName":
+			if (items.length === 0) {
 
-            }
-            break;
-        case "occupation":
+				setValid(false)
+				alert(`Invalid ${type} input, input cannot be empty`)
+			} else {
 
-            if (items.length === 0) {
+			}
+			break;
+		case "occupation":
 
-                setValid(false)
-                alert(`Invalid ${type} input, input cannot be empty`)
-            } else {
-            }
-            break;
-        case "phone":
-            var pattern = /\d{10}/;
-            if (items.length < 1) {
-                setValid(false)
-                alert("You must provide at least one phone number!")
-            }
+			if (items.length === 0) {
 
-            for (let i = 0; i < items.length; i++) {
-                if (!pattern.test(items[i])) {
-                    setValid(false)
-                    alert("Invalid phone format")
-                }
-            }
-            break;
-        case "email":
-            var pattern = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
-            if (items.length < 1) {
-                setValid(false)
-                alert("You must have at least one email!")
-            }
+				setValid(false)
+				alert(`Invalid ${type} input, input cannot be empty`)
+			} else {
+			}
+			break;
+		case "phone":
+			var pattern = /\d{10}/;
+            var notEmpty = /\S/;
+			if (items.length < 1) {
+				setValid(false)
+				alert("You must provide at least one phone number!")
+			}
 
-            for (let i = 0; i < items.length; i++) {
+			for (let i = 0; i < items.length ; i ++) {
+				if (!pattern.test(items[i]) && !notEmpty.test(items[i])) {
+					setValid(false)
+					alert("Invalid phone format")
+				}
+			}
+			break;
+		case "email":
+			var pattern = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+            var notEmpty = /\S/;
+			if (items.length < 1) {
+				setValid(false)
+				alert("You must have at least one email!")
+			}
 
-                if (!pattern.test(items[i])) {
-                    setValid(false)
-                    alert("Invalid email format")
-                }
-            }
+			for (let i = 0; i < items.length ; i ++) {
 
-            break;
-        default:
-            console.log("Invalid Input")
-    }
+				if (!pattern.test(items[i]) || !notEmpty.test(items[i]) ) {
+					setValid(false)
+					alert("Invalid email format")
+				}
+			}
+
+			break;
+		default:
+			console.log("Invalid Input")
+	}
+
 }
