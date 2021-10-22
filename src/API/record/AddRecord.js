@@ -14,6 +14,8 @@ import Map from "./map";
 import Heading from "../heading/heading.jsx";
 import Autocomplete from "@mui/material/Autocomplete";
 import { Link } from "react-router-dom";
+import Button from "@mui/material/Button";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 const CreateRecord = () => {
   useEffect(() => {
@@ -133,9 +135,19 @@ const CreateRecord = () => {
         <div className="heading-record">
           <h1> Create ・ω・</h1>
         </div>
-        <Link to="/record" className="back-button">
-          <button className="back-button">Back</button>
-        </Link>
+
+        <div className="edit-record-container">
+      <div
+        style={{ justifyContent: "center", display: "flex", padding: "10px" }}
+      >
+        <Button
+          sx={{ width: "8rem",height: "3rem",  backgroundColor : '#ef5350',color : "white"}}
+          href = '/record'
+        >
+          Back
+        </Button>
+      </div>
+        
 
         <form className="record-form">
           <Autocomplete
@@ -205,6 +217,7 @@ const CreateRecord = () => {
           />
 
           <Map setLocation={setLocation} setGeoCoords={setGeoCoords} />
+<hr />
 
           <TextField
             id="outlined-multiline-flexible"
@@ -216,6 +229,8 @@ const CreateRecord = () => {
               setNotes(e.target.value);
             }}
           />
+
+          <hr />
 
           <label>Custom Field</label>
           {customField.map((field, i) => {
@@ -243,35 +258,37 @@ const CreateRecord = () => {
                       placeholder="Field Value"
                     />
                   </div>
-                  <button
-                    className="btn btn-info"
-                    style={{
-                      width: "40px",
-                      height: "80px",
-                    }}
-                    onClick={(e) => removeHandler(e, i, "field")}
-                  >
-                    x
-                  </button>
+                  <Button
+                      variant="outlined"
+                      onClick={(e) => removeHandler(e, i, "field")}
+                    >
+                      <DeleteIcon />
+                </Button>
                 </div>
                 <hr />
               </div>
             );
           })}
 
-          <button className="btn btn-primary mt-2" onClick={handleAddField}>
-            Add Field
-            {/* {console.log(customField)} */}
-          </button>
+          <br />
 
-          <button
-            className="btn btn-warning"
-            type="button"
-            onClick={handleSubmit}
-          >
-            Create A Record
-          </button>
+<Button
+              variant="contained"
+              sx={{ width: "10rem"}}
+              onClick={handleAddField}
+            >
+              Add Field
+            </Button>
+
+            <hr />
+
+          <div style={{ justifyContent: "center", display: "flex", padding: "10px" }}>
+          <Button variant="contained"  onClick={handleSubmit} sx={{ width: "8rem",height: "3rem"}} color = 'success'>
+                Create
+        </Button>
+        </div>
         </form>
+      </div>
       </div>
     </React.Fragment>
   );

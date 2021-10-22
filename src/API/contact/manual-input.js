@@ -300,20 +300,16 @@ const AddUser = () => {
             src={"data:image/png;base64," + avatar}
           />
 
-          {upload ? (
-            [
+          
+            {upload ? (
               <div
                 className="upload-container "
                 style={{
                   alignItems: "center",
                   justifyContent: "center",
-                  display: "flex",
-                  position: "fixed",
-                  right: "1rem",
-                  top: "0rem",
                 }}
               >
-                <div>
+                <form >
                   <label
                     htmlFor="contained-button-file"
                     style={{ padding: "10px" }}
@@ -342,41 +338,21 @@ const AddUser = () => {
                     </Typography>
                   </div>
 
-                  {/* <Box sx={{ m: 1, position: 'relative', alignItems: 'center', justifyContent: "center", display: "flex" }}>
-                <Fab
-                  aria-label="save"
-                  color="primary"
-                  sx={buttonSx}
-                  onClick={onSubmit}
-                >
-                  {success ? <CheckIcon /> : <SaveIcon />}
-
-                </Fab>
-                {loading1 && (
-                  <CircularProgress
-
-                    value={uploadPercentage}
-                    variant="determinate"
-                    size={68}
-                    sx={{
-                      color: green[500],
-                      position: 'absolute',
-                    }}
-                  />
-                )}
-              </Box> */}
                   <Button onClick={onClickUpload}>Cancel</Button>
-                </div>
-              </div>,
-            ]
-          ) : (
-            <div style={{ right: "1rem", top: "3.5rem", position: "fixed" }}>
-              <Button onClick={onClickUpload}>
-                <UploadIcon />
-                Upload
-              </Button>
-            </div>
-          )}
+                </form>
+              </div>
+            ) : (
+              [
+                <div className="upload-btn">
+                  <Button onClick={onClickUpload}>
+                    <UploadIcon />
+                    Upload
+                  </Button>
+                </div>,
+              ]
+            )}
+          
+        
         </div>
         <form
           className="contact-form"

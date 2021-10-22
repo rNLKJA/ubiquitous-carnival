@@ -54,21 +54,21 @@ const Contact = () => {
   };
 
   console.log(contacts);
-    const sortContact = (contacts,setContactList) => {
+  const sortContact = (contacts,setContactList) => {
 
-        if (contacts) {
+      if (contacts) {
 
 
-            let sortedList = contacts.sort((a, b) =>
+          let sortedList = contacts.sort((a, b) =>
 
-                a.contact.lastName.toLowerCase().localeCompare(b.contact.lastName.toLowerCase()));
-            /*setContactList(sortedList);*/
-            for (let i = 0; i < sortedList.length; i++) {
-                console.log(sortedList[i].contact.lastName)
-            }
+              a.contact.lastName.toLowerCase().localeCompare(b.contact.lastName.toLowerCase()));
+          /*setContactList(sortedList);*/
+          for (let i = 0; i < sortedList.length; i++) {
+              console.log(sortedList[i].contact.lastName)
+          }
 
-        }
-    }
+      }
+  }
 
   const screenWidth = window.innerWidth;
 
