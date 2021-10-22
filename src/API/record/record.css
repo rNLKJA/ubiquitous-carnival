@@ -1,7 +1,7 @@
 .div-center{
   display: flex;
   justify-content: center;
-  align-items: center;
+  
 }
 @media only screen and (max-width: 1024px) {
   .edit-record-container{
@@ -263,6 +263,12 @@
 }
 
 @media only screen and (min-width: 1024px) {
+
+  .avatar{
+    display: flex;
+    align-items: center;
+    justify-content:center;
+  }
   * {
     box-sizing: border-box;
   }

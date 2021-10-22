@@ -206,6 +206,19 @@
                   right: "1rem";
                   top: "1.5rem",
   }
+
+  .makeStyles-card-2 {
+    width: 100%;
+    overflow: scroll;
+    box-shadow: 0 8px 16px 0 #bdc9d7;
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-content: stretch;
+    justify-content: flex-start;
+    align-items: center;
+  }
 }
 
 @media only screen and (min-width: 1024px) {
@@ -442,8 +455,10 @@
     width: 3rem;
     height: 3rem;
     position: absolute;
-    right: -135%;
+    right: -120%;
     top: 0rem;
   }
+
+  
   
 }
