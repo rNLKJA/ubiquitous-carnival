@@ -15,30 +15,28 @@ import Button from "@mui/material/Button";
 import UploadIcon from "@mui/icons-material/Upload";
 import cx from "clsx";
 import { makeStyles } from "@material-ui/core/styles";
-import SpeedDial from '@mui/material/SpeedDial';
-import SpeedDialIcon from '@mui/material/SpeedDialIcon';
-import SpeedDialAction from '@mui/material/SpeedDialAction';
-import FileCopyIcon from '@mui/icons-material/FileCopyOutlined';
-import PrintIcon from '@mui/icons-material/Print';
-import ShareIcon from '@mui/icons-material/Share';
+import SpeedDial from "@mui/material/SpeedDial";
+import SpeedDialIcon from "@mui/material/SpeedDialIcon";
+import SpeedDialAction from "@mui/material/SpeedDialAction";
+import FileCopyIcon from "@mui/icons-material/FileCopyOutlined";
+import PrintIcon from "@mui/icons-material/Print";
+import ShareIcon from "@mui/icons-material/Share";
 import DeleteIcon from "@mui/icons-material/Delete";
 import TextField from "@mui/material/TextField";
-import Stack from '@mui/material/Stack';
-import { StyledEngineProvider } from '@mui/material/styles';
-import { red } from '@mui/material/colors';
-
+import Stack from "@mui/material/Stack";
+import { StyledEngineProvider } from "@mui/material/styles";
+import { red } from "@mui/material/colors";
 
 const actions = [
-  { icon: <FileCopyIcon />, name: 'Copy' },
-  { icon: <SaveIcon />, name: 'Save' },
-  { icon: <PrintIcon />, name: 'Print' },
-  { icon: <ShareIcon />, name: 'Share' },
+  { icon: <FileCopyIcon />, name: "Copy" },
+  { icon: <SaveIcon />, name: "Save" },
+  { icon: <PrintIcon />, name: "Print" },
+  { icon: <ShareIcon />, name: "Share" },
 ];
 
 const colorSave = green[500];
 
 const colorDelete = red[500];
-
 
 const useFabStyle = makeStyles((success) => ({
   fab: {
@@ -52,9 +50,6 @@ const useFabStyle = makeStyles((success) => ({
   },
 }));
 
-// import { Contacts } from "@mui/icons-material";
-// import portrait from "./portrarit.png";
-
 // const BASE_URL = "http://localhost:5000";
 // const BASE_URL = "https://crm4399.herokuapp.com";
 
@@ -65,34 +60,28 @@ const SelectedContact = ({ setOneContact, oneContact, deleteHandler }) => {
     ...oneContact,
     edit: false,
   });
-  const [screenWidth, setScreenWidth] = useState(window.innerWidth)
-  console.log(screenWidth);
-
-
+  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
 
   return (
     <React.Fragment>
-      {screenWidth <= 1024 ? <button
-        className="back"
-        onClick={() => {
-          setOneContact({ ...oneContact, selected: false });
-          // console.log("back");
-        }}
-      >
-        Back
-      </button> : null}
+      {screenWidth <= 1024 ? (
+        <button
+          className="back"
+          onClick={() => {
+            setOneContact({ ...oneContact, selected: false });
+          }}
+        >
+          Back
+        </button>
+      ) : null}
 
-
-      {/* <img src={portrait} alt="protrait.png" style={{ paddingTop: "15px" }} /> */}
-      
-        <DisplayContact
-          selectedContact={selectedContact}
-          setSelectedContact={setSelectedContact}
-          deleteHandler={deleteHandler}
-          setOneContact={setOneContact}
-          originContact={oneContact}
-        />
-      
+      <DisplayContact
+        selectedContact={selectedContact}
+        setSelectedContact={setSelectedContact}
+        deleteHandler={deleteHandler}
+        setOneContact={setOneContact}
+        originContact={oneContact}
+      />
     </React.Fragment>
   );
 };
@@ -103,7 +92,7 @@ export function getWindowDimensions() {
   const { innerWidth: width, innerHeight: height } = window;
   return {
     width,
-    height
+    height,
   };
 }
 
@@ -114,11 +103,11 @@ export const DisplayContact = ({
   setOneContact,
   originContact,
 }) => {
-
-
   // defined variables
   // window size
-  const [windowDimensions, setWindowDimensions] = useState(getWindowDimensions());
+  const [windowDimensions, setWindowDimensions] = useState(
+    getWindowDimensions(),
+  );
   const [contact, setContact] = useState(selectedContact);
 
   const [phones, setPhones] = useState(
@@ -127,7 +116,6 @@ export const DisplayContact = ({
   const [emails, setEmails] = useState(
     ConvertListStringToListObject(contact.email, "email"),
   );
-
 
   //hooks for avatar upload
   const [upload, setUpload] = useState(false);
@@ -156,20 +144,19 @@ export const DisplayContact = ({
       setWindowDimensions(getWindowDimensions());
     }
 
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   const styles = useFabStyle(success);
 
   const styles_btn = {
-
     "&.MuiButton-contained": {
-      color: 'success'
+      color: "success",
     },
     "&.MuiButton-outlined": {
-      color: "error"
-    }
+      color: "error",
+    },
   };
 
   const handleAddField = (e) => {
@@ -220,37 +207,30 @@ export const DisplayContact = ({
 
     setSelectedContact(data);
 
-    setValid(true)
+    setValid(true);
 
-    dataValidator(phone, 'phone', setValid)
-    dataValidator(email, 'email', setValid)
-    dataValidator(data.firstName, 'firstName', setValid)
-    dataValidator(data.lastName, 'lastName', setValid)
-    dataValidator(data.occupation, 'occupation', setValid)
-    console.log(valid)
+    dataValidator(phone, "phone", setValid);
+    dataValidator(email, "email", setValid);
+    dataValidator(data.firstName, "firstName", setValid);
+    dataValidator(data.lastName, "lastName", setValid);
+    dataValidator(data.occupation, "occupation", setValid);
+    console.log(valid);
 
-    if(valid){
+    if (valid) {
       await fetchClient
-          .post("/contact/updateContactInfo", data)
-          .then((response) => {
-            if (response.data.status) {
-              alert(
-                  "Update contact information succeed!\nRedirect to Contact Page",
-              );
-              window.location.href = "/contact";
-              // window.location.href = "/contact";
-            } else {
-              alert("Opps, something wrong, please try later.");
-            }
-          });
-
+        .post("/contact/updateContactInfo", data)
+        .then((response) => {
+          if (response.data.status) {
+            alert(
+              "Update contact information succeed!\nRedirect to Contact Page",
+            );
+            window.location.href = "/contact";
+            // window.location.href = "/contact";
+          } else {
+            alert("Opps, something wrong, please try later.");
+          }
+        });
     }
-
-
-
-    // setContact({ ...contact, edit: false });
-
-    // setOneContact({ ...contact, edit: false, selected: false });
   };
 
   const fieldOnChange = (index, event) => {
@@ -376,25 +356,25 @@ export const DisplayContact = ({
     }
   };
 
-
-
   return (
     <React.Fragment>
-      {windowDimensions.width >= 1024 ? <Box sx={{ height: 100, transform: 'translateZ(0px)', flexGrow: 1 }}>
-        <SpeedDial
-          ariaLabel="SpeedDial basic example"
-          sx={{ position: 'absolute', bottom: 0, right: 100 }}
-          icon={<SpeedDialIcon />}
-        >
-          {actions.map((action) => (
-            <SpeedDialAction
-              key={action.name}
-              icon={action.icon}
-              tooltipTitle={action.name}
-            />
-          ))}
-        </SpeedDial>
-      </Box> : null}
+      {windowDimensions.width >= 1024 ? (
+        <Box sx={{ height: 100, transform: "translateZ(0px)", flexGrow: 1 }}>
+          <SpeedDial
+            ariaLabel="SpeedDial basic example"
+            sx={{ position: "absolute", bottom: 0, right: 100 }}
+            icon={<SpeedDialIcon />}
+          >
+            {actions.map((action) => (
+              <SpeedDialAction
+                key={action.name}
+                icon={action.icon}
+                tooltipTitle={action.name}
+              />
+            ))}
+          </SpeedDial>
+        </Box>
+      ) : null}
 
       {contact.edit ? null : (
         <button
@@ -417,8 +397,6 @@ export const DisplayContact = ({
           Cancel
         </button>
       ) : null}
-
-
 
       <div className="makeStyles-card-1" style={{ width: "95%" }}>
         <div className="avatar">
@@ -550,60 +528,53 @@ export const DisplayContact = ({
             }
           ></input>
 
-          {phones.length !== 0 ? <label>Phone:</label>
-            : null}
+          {phones.length !== 0 ? <label>Phone:</label> : null}
 
           {phones.map((phone, i) => {
             return (
               <>
-              <br />
-              <div key={`${phone}-${i}`} className="multi-field">
-                <div className="multi-field-input">
-                  <input
-                    text="text"
-                    pattern="\d*"
-                    value={phone.phone}
-                    className="form-control"
-                    name="phone"
-                    readOnly={!contact.edit}
-                    required
-                    minLength={10}
-                    maxLength={10}
-                    onChange={(e) => phoneOnChange(i, e)}
-                  />
+                <br />
+                <div key={`${phone}-${i}`} className="multi-field">
+                  <div className="multi-field-input">
+                    <input
+                      text="text"
+                      pattern="\d*"
+                      value={phone.phone}
+                      className="form-control"
+                      name="phone"
+                      readOnly={!contact.edit}
+                      required
+                      minLength={10}
+                      maxLength={10}
+                      onChange={(e) => phoneOnChange(i, e)}
+                    />
+                  </div>
+                  {contact.edit ? (
+                    <Button
+                      variant="outlined"
+                      onClick={(e) => removeHandler(e, i, "phone")}
+                    >
+                      <DeleteIcon />
+                    </Button>
+                  ) : null}
                 </div>
-                {contact.edit ? (
-                 
-                  <Button
-                    variant="outlined"
-                    onClick={(e) => removeHandler(e, i, "phone")}
-                  >
-                    <DeleteIcon />
-                  </Button>
-                  
-                ) : null}
-                
-                  
-              </div>
-              <hr />
+                <hr />
               </>
             );
           })}
 
           {contact.edit && (
             <>
-            <Button
-              variant="contained"
-              sx={{ width: "50%" }}
-              onClick={handleAddPhone}
-            >
-              add phone
-            </Button>
-            <br />
+              <Button
+                variant="contained"
+                sx={{ width: "50%" }}
+                onClick={handleAddPhone}
+              >
+                add phone
+              </Button>
+              <br />
             </>
           )}
-
-          
 
           {emails.length !== 0 ? <label>Email Address</label> : null}
           {emails.map((mail, i) => {
@@ -623,25 +594,21 @@ export const DisplayContact = ({
                     />
                   </div>
                   {contact.edit && (
-
                     <Button
                       variant="outlined"
                       onClick={(e) => removeHandler(e, i, "email")}
                     >
                       <DeleteIcon />
                     </Button>
-
                   )}
                 </div>
 
-
                 <hr />
-              </>)
+              </>
+            );
           })}
 
           {contact.edit && (
-
-
             <Button
               variant="contained"
               sx={{ width: "50%" }}
@@ -656,20 +623,16 @@ export const DisplayContact = ({
           <label>Notes:</label>
           <br />
 
-
-
-
           <TextField
             id="outlined-read-only-input"
             multiline
             maxRows={4}
-            
             InputProps={{
-              readOnly: !contact.edit
+              readOnly: !contact.edit,
             }}
-            value={contact.note ? contact.note : ''}
+            value={contact.note ? contact.note : ""}
             onChange={(e) => {
-              setContact({ ...contact, note: e.target.value })
+              setContact({ ...contact, note: e.target.value });
             }}
           />
 
@@ -704,8 +667,6 @@ export const DisplayContact = ({
                     />
                   </div>
                   {contact.edit && (
-
-
                     <Button
                       variant="outlined"
                       onClick={(e) => removeHandler(e, i, "field")}
@@ -722,7 +683,6 @@ export const DisplayContact = ({
           <br />
 
           {contact.edit && (
-
             <Button
               variant="contained"
               sx={{ width: "50%" }}
@@ -730,36 +690,39 @@ export const DisplayContact = ({
             >
               Add Field
             </Button>
-
           )}
 
           <hr />
 
-
-
           {contact.edit && (
             <Stack direction="row" spacing={2}>
-              <Button variant="contained" sx={styles_btn} onClick={(e) => handleSubmit(e)}>
+              <Button
+                variant="contained"
+                sx={styles_btn}
+                onClick={(e) => handleSubmit(e)}
+              >
                 Save Change
               </Button>
 
-              <Button variant="outlined" sx={styles_btn}
+              <Button
+                variant="outlined"
+                sx={styles_btn}
                 onClick={(e) => {
                   if (
-                    window.confirm("Are you sure you wanna delete this contact?")
+                    window.confirm(
+                      "Are you sure you wanna delete this contact?",
+                    )
                   ) {
                     deleteHandler(e);
                   }
-                }}>
+                }}
+              >
                 Delete The Contact
               </Button>
             </Stack>
           )}
-
-
         </form>
       </div>
-
     </React.Fragment>
   );
 };
@@ -813,31 +776,28 @@ const ConvertListObjectToListValues = (items, type) => {
   return result;
 };
 const dataValidator = (items, type, setValid) => {
-
-  switch(type) {
+  switch (type) {
     case "firstName":
       if (items.length === 0) {
-        console.log(1)
-        setValid(false)
-        alert(`Invalid ${type} input, input cannot be empty`)
+        console.log(1);
+        setValid(false);
+        alert(`Invalid ${type} input, input cannot be empty`);
       } else {
       }
       break;
     case "lastName":
       if (items.length === 0) {
-        console.log(2)
-        setValid(false)
-        alert(`Invalid ${type} input, input cannot be empty`)
+        console.log(2);
+        setValid(false);
+        alert(`Invalid ${type} input, input cannot be empty`);
       } else {
-
       }
       break;
     case "occupation":
-
       if (items.length === 0) {
-        console.log(3)
-        setValid(false)
-        alert(`Invalid ${type} input, input cannot be empty`)
+        console.log(3);
+        setValid(false);
+        alert(`Invalid ${type} input, input cannot be empty`);
       } else {
       }
       break;
@@ -845,40 +805,40 @@ const dataValidator = (items, type, setValid) => {
       var pattern = /\d{10}/;
       var notEmpty = /\S/;
       if (items.length < 1) {
-        console.log(4)
-        setValid(false)
-        alert("You must provide at least one phone number!")
+        console.log(4);
+        setValid(false);
+        alert("You must provide at least one phone number!");
       }
 
-      for (let i = 0; i < items.length ; i ++) {
+      for (let i = 0; i < items.length; i++) {
         if (!pattern.test(items[i]) && !notEmpty.test(items[i])) {
-          console.log(5)
-          setValid(false)
-          alert("Invalid phone format")
+          console.log(5);
+          setValid(false);
+          alert("Invalid phone format");
         }
       }
       break;
     case "email":
-      var pattern = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+      var pattern =
+        /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
       var notEmpty = /\S/;
       if (items.length < 1) {
-        console.log(6)
-        setValid(false)
-        alert("You must have at least one email!")
+        console.log(6);
+        setValid(false);
+        alert("You must have at least one email!");
       }
 
-      for (let i = 0; i < items.length ; i ++) {
-
-        if (!pattern.test(items[i]) && !notEmpty.test(items[i]) ) {
-          console.log(7)
-          setValid(false)
-          alert("Invalid email format")
+      for (let i = 0; i < items.length; i++) {
+        if (!pattern.test(items[i]) && !notEmpty.test(items[i])) {
+          console.log(7);
+          setValid(false);
+          alert("Invalid email format");
         }
       }
 
       break;
     default:
-      setValid(false)
-      console.log("Invalid Input")
+      setValid(false);
+      console.log("Invalid Input");
   }
-}
+};
