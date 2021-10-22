@@ -31,7 +31,7 @@ import compass from "../compass.png";
 const libraries = ["places"];
 const mapContainerStyle = {
   width: "100%",
-  height: "78vh",
+  height: "73vh",
 };
 
 const center = {
@@ -51,6 +51,10 @@ const Map = () => {
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
     libraries,
   });
+
+  const screenWidth = useState(window.innerWidth)
+
+  console.log(screenWidth[0])
 
   const { loading, records, error } = useShowAllRecords();
 

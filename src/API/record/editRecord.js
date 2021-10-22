@@ -14,6 +14,7 @@ import Map from "./map";
 // import Heading from "../heading/heading.jsx";
 import Autocomplete from "@mui/material/Autocomplete";
 import Button from "@mui/material/Button";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 const EditRecord = (prop) => {
   useEffect(() => {
@@ -53,6 +54,7 @@ const EditRecord = (prop) => {
     return {
       label: contact.contact.firstName + " " + contact.contact.lastName,
       id: contact.contact._id,
+      key: contact.contact._id
     };
   });
 
@@ -86,7 +88,7 @@ const EditRecord = (prop) => {
   const setFieldValue = (value) => {
     if (value) {
       const { id, label } = value;
-      setSelected(id);
+      setSelected(value);
       console.log(id, " + ", label);
     } else {
       setSelected("");
@@ -126,12 +128,12 @@ const EditRecord = (prop) => {
   // console.log("TIME ", convert(currentTime));
 
   return (
-    <React.Fragment>
+    <div className="edit-record-container">
       <div
         style={{ justifyContent: "center", display: "flex", padding: "10px" }}
       >
         <Button
-          sx={{ width: "30%" }}
+          sx={{ width: "30%",height: "10%",  backgroundColor : '#43a047',color : "white"}}
           onClick={() => {
             prop.setOneRecord({ ...prop.record, selected: false });
           }}
@@ -213,6 +215,7 @@ const EditRecord = (prop) => {
         />
 
         <label htmlFor="notes">Notes: </label>
+        <br/><br/>
         <TextField
           id="outlined-multiline-flexible"
           label="Add-Notes"
@@ -223,6 +226,7 @@ const EditRecord = (prop) => {
             setNotes(e.target.value);
           }}
         />
+        <hr/>
 
         <label>Custom Field</label>
         {customField.map((field, i) => {
@@ -250,36 +254,39 @@ const EditRecord = (prop) => {
                     placeholder="Field Value"
                   />
                 </div>
-                <button
-                  className="btn btn-info"
-                  style={{
-                    width: "40px",
-                    height: "80px",
-                  }}
-                  onClick={(e) => removeHandler(e, i, "field")}
-                >
-                  x
-                </button>
+                
+
+                <Button
+                      variant="outlined"
+                      onClick={(e) => removeHandler(e, i, "field")}
+                    >
+                      <DeleteIcon />
+                </Button>
               </div>
               <hr />
             </div>
           );
         })}
 
-        <button className="btn btn-primary mt-2" onClick={handleAddField}>
-          Add Field
-          {/* {console.log(customField)} */}
-        </button>
+        
+        
+        <Button
+              variant="contained"
+              sx={{ width: "10rem"}}
+              onClick={handleAddField}
+            >
+              Add Field
+            </Button>
 
-        <button
-          className="btn btn-warning"
-          type="button"
-          onClick={handleSubmit}
-        >
-          Save
-        </button>
+            <hr />
+
+        <div className="div-center">
+        <Button variant="contained"  onClick={handleSubmit}>
+                Save
+        </Button>
+        </div>
       </form>
-    </React.Fragment>
+      </div>
   );
 };
 

@@ -117,7 +117,7 @@ const Person = () => {
     return (
         <div className="sub-container">
           <div className="loading">
-            <h1>Loading Your Contact</h1>
+            <h1>Loading Your Detail</h1>
             <h1>(っ˘ω˘ς )</h1>
           </div>
         </div>
@@ -202,97 +202,119 @@ const Person = () => {
           {/* <div className="person-heading">
           <h1>Personal Information</h1>
         </div> */}
+          
           {message ? <Alert severity="error">{message}</Alert> : null}
-          <div className="Avatar-container" style={{ textAlign: 'center', fontSize: '20px', height: '100px', marginBottom: '20px', marginTop: '20px', justifyContent: "center", display: "flex" }}>
+          <div className="avatar">
+          <Avatar
+            alt="Avatar"
+            sx={{ width: 125, height: 125, border: "2px solid pink" }}
+            margin={3}
+            src={"data:image/png;base64," + avatar}
+          />
 
-            <Avatar alt="Avatar" sx={{ width: 120, height: 120, border: '2px solid pink' }} margin={3} src={"data:image/png;base64," + avatar} />
-
-
-
-            {upload ? [<div className="upload-container " style={{ alignItems: 'center', justifyContent: "center", display: "flex", position: 'fixed', right: '1rem', top: '0px' }}>
-              <form onSubmit={onSubmit}>
-
-
-
-                <label htmlFor="contained-button-file" style={{ padding: '10px'}}>
-                  <Input accept="image/*" id="contained-button-file" multiple type="file" hidden={true} onChange={onChange} />
-                  <Button variant="contained" component="span" >
-                    <Typography variant="body2">
-                      Choose
+          
+            {upload ? (
+              <div
+                className="upload-container "
+                style={{
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <form onSubmit={onSubmit}>
+                  <label
+                    htmlFor="contained-button-file"
+                    style={{ padding: "10px" }}
+                  >
+                    <Input
+                      accept="image/*"
+                      id="contained-button-file"
+                      multiple
+                      type="file"
+                      hidden={true}
+                      onChange={onChange}
+                    />
+                    <Button variant="contained" component="span">
+                      <Typography variant="body2">Choose</Typography>
+                    </Button>
+                  </label>
+                  <div
+                    style={{
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                      width: "7rem",
+                    }}
+                  >
+                    <Typography variant="body2" noWrap color="text.secondary">
+                      {fileName}
                     </Typography>
-                  </Button>
-                </label>
-                <div style={{ overflow: "hidden", textOverflow: "ellipsis", width: '7rem' }}>
-                  <Typography variant="body2" noWrap color="text.secondary">
-                    {fileName}
-                  </Typography>
-                </div>
+                  </div>
 
-
-
-                <Box sx={{ m: 1, position: 'relative', alignItems: 'center', justifyContent: "center", display: "flex" }}>
-                  <Fab
-                      className={cx(styles.name,styles.fab)}
+                  <Box
+                    sx={{
+                      m: 1,
+                      position: "relative",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      display: "flex",
+                    }}
+                  >
+                    <Fab
+                      className={cx(styles.fab)}
                       aria-label="save"
                       color="primary"
                       sx={buttonSx}
                       onClick={onSubmit}
-                  >
-                    {success ? <CheckIcon /> : <SaveIcon />}
-
-                  </Fab>
-                  {loading1 && (
+                    >
+                      {success ? <CheckIcon /> : <SaveIcon />}
+                    </Fab>
+                    {loading1 && (
                       <CircularProgress
-
-                          value={uploadPercentage}
-                          variant="determinate"
-                          size={68}
-                          sx={{
-                            color: green[500],
-                            position: 'absolute',
-                          }}
+                        value={uploadPercentage}
+                        variant="determinate"
+                        size={68}
+                        sx={{
+                          color: green[500],
+                          position: "absolute",
+                        }}
                       />
-                  )}
-                </Box>
-                <Button onClick={onClickUpload}>Cancel</Button>
-              </form>
-            </div>] : (<div style={{ right: '1rem', top: '3.5rem', position: 'fixed' }}>
-              <Button onClick={onClickUpload}>
-
-                <UploadIcon />
-                Upload
-
-              </Button>
-            </div>)}
-
-
-          </div>
+                    )}
+                  </Box>
+                  <Button onClick={onClickUpload}>Cancel</Button>
+                </form>
+              </div>
+            ) : (
+              [
+                <div className="upload-btn">
+                  <Button onClick={onClickUpload}>
+                    <UploadIcon />
+                    Upload
+                  </Button>
+                </div>,
+              ]
+            )}
+          
+        </div>
 
           {/* the code below is used for upload avatar */}
 
-          <div style={{height:"100%", overflow:"scroll"}}>
+          
 						{profile &&(
-              <div className="information-container">
+              
                 <Person1
                     key={profile._id}
                     profile={profile}
                 />
 
-              </div>
+              
 
           )}
-					</div>
+					
 
 
-          <br />
-          <Link to="/setting/qr">
-            <button className="qr-code">QR Code</button>
-          </Link>
-
-          <button className="logout-btn" onClick={LogoutUser}>
-            Log out
-          </button>
-        </div>
+        
+          </div>
+        
       </React.Fragment>
   );
 };

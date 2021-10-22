@@ -15,6 +15,30 @@ import Button from "@mui/material/Button";
 import UploadIcon from "@mui/icons-material/Upload";
 import cx from "clsx";
 import { makeStyles } from "@material-ui/core/styles";
+import SpeedDial from '@mui/material/SpeedDial';
+import SpeedDialIcon from '@mui/material/SpeedDialIcon';
+import SpeedDialAction from '@mui/material/SpeedDialAction';
+import FileCopyIcon from '@mui/icons-material/FileCopyOutlined';
+import PrintIcon from '@mui/icons-material/Print';
+import ShareIcon from '@mui/icons-material/Share';
+import DeleteIcon from "@mui/icons-material/Delete";
+import TextField from "@mui/material/TextField";
+import Stack from '@mui/material/Stack';
+import { StyledEngineProvider } from '@mui/material/styles';
+import { red } from '@mui/material/colors';
+
+
+const actions = [
+  { icon: <FileCopyIcon />, name: 'Copy' },
+  { icon: <SaveIcon />, name: 'Save' },
+  { icon: <PrintIcon />, name: 'Print' },
+  { icon: <ShareIcon />, name: 'Share' },
+];
+
+const colorSave = green[500];
+
+const colorDelete = red[500];
+
 
 const useFabStyle = makeStyles((success) => ({
   fab: {
@@ -41,11 +65,14 @@ const SelectedContact = ({ setOneContact, oneContact, deleteHandler }) => {
     ...oneContact,
     edit: false,
   });
-  console.log(selectedContact);
+  const [screenWidth, setScreenWidth] = useState(window.innerWidth)
+  console.log(screenWidth);
+
+
 
   return (
     <React.Fragment>
-      <button
+      {screenWidth <= 1024 ? <button
         className="back"
         onClick={() => {
           setOneContact({ ...oneContact, selected: false });
@@ -53,20 +80,32 @@ const SelectedContact = ({ setOneContact, oneContact, deleteHandler }) => {
         }}
       >
         Back
-      </button>
+      </button> : null}
+
+
       {/* <img src={portrait} alt="protrait.png" style={{ paddingTop: "15px" }} /> */}
-      <DisplayContact
-        selectedContact={selectedContact}
-        setSelectedContact={setSelectedContact}
-        deleteHandler={deleteHandler}
-        setOneContact={setOneContact}
-        originContact={oneContact}
-      />
+      
+        <DisplayContact
+          selectedContact={selectedContact}
+          setSelectedContact={setSelectedContact}
+          deleteHandler={deleteHandler}
+          setOneContact={setOneContact}
+          originContact={oneContact}
+        />
+      
     </React.Fragment>
   );
 };
 
 export default SelectedContact;
+
+export function getWindowDimensions() {
+  const { innerWidth: width, innerHeight: height } = window;
+  return {
+    width,
+    height
+  };
+}
 
 export const DisplayContact = ({
   selectedContact,
@@ -75,7 +114,11 @@ export const DisplayContact = ({
   setOneContact,
   originContact,
 }) => {
+
+
   // defined variables
+  // window size
+  const [windowDimensions, setWindowDimensions] = useState(getWindowDimensions());
   const [contact, setContact] = useState(selectedContact);
 
   const [phones, setPhones] = useState(
@@ -84,6 +127,7 @@ export const DisplayContact = ({
   const [emails, setEmails] = useState(
     ConvertListStringToListObject(contact.email, "email"),
   );
+
 
   //hooks for avatar upload
   const [upload, setUpload] = useState(false);
@@ -108,9 +152,25 @@ export const DisplayContact = ({
     if (contact.customField !== undefined) {
       setCustomField(contact.customField);
     }
+    function handleResize() {
+      setWindowDimensions(getWindowDimensions());
+    }
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
   }, []);
 
   const styles = useFabStyle(success);
+
+  const styles_btn = {
+
+    "&.MuiButton-contained": {
+      color: 'success'
+    },
+    "&.MuiButton-outlined": {
+      color: "error"
+    }
+  };
 
   const handleAddField = (e) => {
     e.preventDefault();
@@ -320,6 +380,22 @@ export const DisplayContact = ({
 
   return (
     <React.Fragment>
+      {windowDimensions.width >= 1024 ? <Box sx={{ height: 100, transform: 'translateZ(0px)', flexGrow: 1 }}>
+        <SpeedDial
+          ariaLabel="SpeedDial basic example"
+          sx={{ position: 'absolute', bottom: 0, right: 100 }}
+          icon={<SpeedDialIcon />}
+        >
+          {actions.map((action) => (
+            <SpeedDialAction
+              key={action.name}
+              icon={action.icon}
+              tooltipTitle={action.name}
+            />
+          ))}
+        </SpeedDial>
+      </Box> : null}
+
       {contact.edit ? null : (
         <button
           className="edit-btn"
@@ -331,7 +407,7 @@ export const DisplayContact = ({
 
       {contact.edit ? (
         <button
-          className="back"
+          className="back-btn"
           onClick={() => {
             setContact({ ...originContact, selected: true, edit: false });
             setPhones(ConvertListStringToListObject(contact.phone, "phone"));
@@ -341,6 +417,8 @@ export const DisplayContact = ({
           Cancel
         </button>
       ) : null}
+
+
 
       <div className="makeStyles-card-1" style={{ width: "95%" }}>
         <div className="avatar">
@@ -358,10 +436,6 @@ export const DisplayContact = ({
                 style={{
                   alignItems: "center",
                   justifyContent: "center",
-                  display: "flex",
-                  position: "fixed",
-                  right: "1rem",
-                  top: "1.5rem",
                 }}
               >
                 <form onSubmit={onSubmit}>
@@ -428,7 +502,7 @@ export const DisplayContact = ({
               </div>
             ) : (
               [
-                <div style={{ right: "1rem", top: "5rem", position: "fixed" }}>
+                <div className="upload-btn">
                   <Button onClick={onClickUpload}>
                     <UploadIcon />
                     Upload
@@ -476,9 +550,13 @@ export const DisplayContact = ({
             }
           ></input>
 
-          {phones.length !== 0 ? <label>Phone:</label> : null}
+          {phones.length !== 0 ? <label>Phone:</label>
+            : null}
+
           {phones.map((phone, i) => {
             return (
+              <>
+              <br />
               <div key={`${phone}-${i}`} className="multi-field">
                 <div className="multi-field-input">
                   <input
@@ -495,78 +573,105 @@ export const DisplayContact = ({
                   />
                 </div>
                 {contact.edit ? (
-                  <button
-                    className="btn btn-info"
-                    style={{
-                      width: "40px",
-                      height: "40px",
-                    }}
+                 
+                  <Button
+                    variant="outlined"
                     onClick={(e) => removeHandler(e, i, "phone")}
                   >
-                    x
-                  </button>
+                    <DeleteIcon />
+                  </Button>
+                  
                 ) : null}
+                
+                  
               </div>
+              <hr />
+              </>
             );
           })}
 
           {contact.edit && (
-            <button
-              className="btn btn-primary"
-              style={{
-                justifyContent: "center",
-                paddingBottom: "20px",
-              }}
+            <>
+            <Button
+              variant="contained"
+              sx={{ width: "50%" }}
               onClick={handleAddPhone}
             >
-              Add Phone
-            </button>
+              add phone
+            </Button>
+            <br />
+            </>
           )}
+
+          
 
           {emails.length !== 0 ? <label>Email Address</label> : null}
           {emails.map((mail, i) => {
             return (
-              <div key={`${mail}-${i}`} className="multi-field">
-                <div className="multi-field-input">
-                  <input
-                    value={mail.email}
-                    type="email"
-                    name="email"
-                    className="form-control"
-                    readOnly={!contact.edit}
-                    required
-                    onChange={(e) => emailOnChange(i, e)}
-                  />
+              <>
+                <br />
+                <div key={`${mail}-${i}`} className="multi-field">
+                  <div className="multi-field-input">
+                    <input
+                      value={mail.email}
+                      type="email"
+                      name="email"
+                      className="form-control"
+                      readOnly={!contact.edit}
+                      required
+                      onChange={(e) => emailOnChange(i, e)}
+                    />
+                  </div>
+                  {contact.edit && (
+
+                    <Button
+                      variant="outlined"
+                      onClick={(e) => removeHandler(e, i, "email")}
+                    >
+                      <DeleteIcon />
+                    </Button>
+
+                  )}
                 </div>
-                {contact.edit && (
-                  <button
-                    className="btn btn-info"
-                    style={{
-                      width: "40px",
-                      height: "40px",
-                    }}
-                    onClick={(e) => removeHandler(e, i, "email")}
-                  >
-                    x
-                  </button>
-                )}
-              </div>
-            );
+
+
+                <hr />
+              </>)
           })}
 
           {contact.edit && (
-            <button className="btn btn-primary mt-2" onClick={handleAddEmail}>
+
+
+            <Button
+              variant="contained"
+              sx={{ width: "50%" }}
+              onClick={handleAddEmail}
+            >
               Add Email
-            </button>
+            </Button>
           )}
 
+          <br />
+
           <label>Notes:</label>
-          <textarea
-            value={contact.note}
-            readOnly={!contact.edit}
-            style={contact.edit ? null : { border: "0", height: "auto" }}
-            onChange={(e) => setContact({ ...contact, note: e.target.value })}
-          ></textarea>
+          <br />
+
+
+
+
+          <TextField
+            id="outlined-read-only-input"
+            multiline
+            maxRows={4}
+            
+            InputProps={{
+              readOnly: !contact.edit
+            }}
+            value={contact.note ? contact.note : ''}
+            onChange={(e) => {
+              setContact({ ...contact, note: e.target.value })
+            }}
+          />
 
           <hr />
 
@@ -599,16 +704,14 @@ export const DisplayContact = ({
                     />
                   </div>
                   {contact.edit && (
-                    <button
-                      className="btn btn-info"
-                      style={{
-                        width: "40px",
-                        height: "80px",
-                      }}
+
+
+                    <Button
+                      variant="outlined"
                       onClick={(e) => removeHandler(e, i, "field")}
                     >
-                      x
-                    </button>
+                      <DeleteIcon />
+                    </Button>
                   )}
                 </div>
                 <hr />
@@ -616,40 +719,47 @@ export const DisplayContact = ({
             );
           })}
 
+          <br />
+
           {contact.edit && (
-            <button className="btn btn-primary mt-2" onClick={handleAddField}>
+
+            <Button
+              variant="contained"
+              sx={{ width: "50%" }}
+              onClick={handleAddField}
+            >
               Add Field
-              {/* {console.log(customField)} */}
-            </button>
+            </Button>
+
           )}
 
           <hr />
 
-          {contact.edit && (
-            <button
-              className="btn btn-warning"
-              onClick={(e) => handleSubmit(e)}
-            >
-              Save Change
-            </button>
-          )}
+
 
           {contact.edit && (
-            <button
-              className="btn btn-danger"
-              onClick={(e) => {
-                if (
-                  window.confirm("Are you sure you wanna delete this contact?")
-                ) {
-                  deleteHandler(e);
-                }
-              }}
-            >
-              Delete The Contact
-            </button>
+            <Stack direction="row" spacing={2}>
+              <Button variant="contained" sx={styles_btn} onClick={(e) => handleSubmit(e)}>
+                Save Change
+              </Button>
+
+              <Button variant="outlined" sx={styles_btn}
+                onClick={(e) => {
+                  if (
+                    window.confirm("Are you sure you wanna delete this contact?")
+                  ) {
+                    deleteHandler(e);
+                  }
+                }}>
+                Delete The Contact
+              </Button>
+            </Stack>
           )}
+
+
         </form>
       </div>
+
     </React.Fragment>
   );
 };
