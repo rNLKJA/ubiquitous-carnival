@@ -22,7 +22,7 @@
     right: 2rem;
     top: -4rem;
     color: white;
-    background-color:#43a047;
+    background-color:#2781bd;
     border-radius:100%
   }
 
@@ -275,7 +275,6 @@
   .edit-record-container{
     display: block;
     width : 100%;
-    margin-left: 10%;
     overflow-y: scroll;
   }
   body {
@@ -362,7 +361,7 @@
     right: -3rem;
     top: 2rem;
     color: white;
-    background-color:#43a047;
+    background-color:#2781bd;
     border-radius:100%;
     
   }

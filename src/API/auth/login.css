@@ -115,3 +115,57 @@
     }
   }
 }
+
+@media only screen and (min-width: 1024px){
+  .welcome-img {
+    width: 100%;
+  }
+  .login-btn {
+    margin-top: 10px;
+    width: 97%;
+    height: 40px;
+    text-align: center;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-size: 20px;
+    color: #fff;
+    border-radius: 15px;
+    background-image: linear-gradient(
+      to right,
+      #03a9f4,
+      #f441a5,
+      #ffeb3b,
+      #09a8f4
+    );
+    background-size: 400%;
+    z-index: 1;
+  }
+
+  .login-btn::before {
+    content: "";
+    position: absolute;
+    top: -5px;
+    bottom: -5px;
+    left: -5px;
+    right: -5px;
+    border-radius: 50px;
+    background-size: 400%;
+    z-index: -1;
+    filter: blur(20px);
+  }
+
+  .login-btn:hover {
+    /* 动画 名称 时间 infinite 是无限次播放 */
+    animation: sun 8s infinite;
+  }
+
+  .login-btn:hover::before {
+    animation: sun 8s infinite;
+  }
+
+  @keyframes sun {
+    100% {
+      background-position: -400% 0;
+    }
+  }
+}
