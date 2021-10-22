@@ -90,8 +90,8 @@ const createRecord = async (req, res) => {
 };
 
 /**
- * show All Records for the user
- * @param {express.Request} req
+ * show all records for the user 
+ * @param {express.Request} req - the _id of the user that you want to show records.
  * @param {express.Response} res - response from the system.
  */
 const showAllRecords = async (req, res) => {
@@ -165,7 +165,7 @@ const searchRecord = async (req, res) => {
 
 /**
  * function that will delete one record from database
- * @param {express.Request} req - contacin recordId that need to be deleted
+ * @param {express.Request} req - contain recordId that need to be deleted
  * @param {express.Response} res - response from the system.
  */
 const deleteOneRecord = async (req, res) => {
@@ -193,7 +193,7 @@ const deleteOneRecord = async (req, res) => {
 
 /**
  * edit the records
- * @param {express.Request} req - the edit information
+ * @param {express.Request} req - the edit information of the records 
  * @param {express.Response} res - response from the system.
  */
 const editRecord = async (req, res) => {
