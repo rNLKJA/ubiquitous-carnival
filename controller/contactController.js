@@ -532,9 +532,14 @@ const deleteOneContact = async (req, res) => {
   }
 };
 
+/**
+ * function that create a contact by munal input with photo uploaded
+ * @param  {express.Request} req contain contact information in req
+ * @param  {express.Response} res send contact detail if create successs
+ */
 const createContactOneStep = async (req, res) => {
   try {
-    const createResult = await createNewContactOneStep(req, res);
+    const createResult = await createContactDocumentationOneStep(req, res);
     if (createResult.status) {
       const contactId = createResult.newContact._id;
       const uploadResult = await createContactPhotoUpload(req, res, contactId);
@@ -552,7 +557,12 @@ const createContactOneStep = async (req, res) => {
   }
 };
 
-const createNewContactOneStep = async (req, res) => {
+/**
+ * function that create a new documentation of Contact in database
+ * @param  {express.Request} req contain contact information in req
+ * @param  {express.Response} res send contact detail if create successs
+ */
+const createContactDocumentationOneStep = async (req, res) => {
   try {
     //!! can not use object id as input
     const ownerAccount = await User.findOne({
@@ -625,6 +635,12 @@ const createNewContactOneStep = async (req, res) => {
   }
 };
 
+/**
+ * function that uploaded picture of contact when create new contact
+ * @param  {express.Request} req contain contact information in req
+ * @param  {express.Response} res send contact detail if upload success successs
+ * @param  {String} id the object id of contact that was created in processing
+ */
 const createContactPhotoUpload = async (req, res, id) => {
   var img = {
     data: fs.readFileSync(req.file.path),
