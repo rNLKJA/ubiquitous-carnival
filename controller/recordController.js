@@ -163,13 +163,18 @@ const searchRecord = async (req, res) => {
   }
 };
 
+/**
+ * function that will delete one record from database
+ * @param {express.Request} req - contacin recordId that need to be deleted
+ * @param {express.Response} res - response from the system.
+ */
 const deleteOneRecord = async (req, res) => {
   try {
     const recordId = req.body.recordId;
     const user = await User.findOne({ _id: req.user._id }).lean();
 
     var recordList = user.recordList.filter(
-      (record) => record.toString() !== req.body.recordId,
+      (record) => record.toString() !== req.body.recordId
     );
 
     console.log(recordId);
@@ -177,13 +182,14 @@ const deleteOneRecord = async (req, res) => {
     await Record.deleteOne({ _id: mongoose.Types.ObjectId(recordId) });
     await User.findOneAndUpdate(
       { _id: mongoose.Types.ObjectId(req.user._id) },
-      { recordList: recordList },
+      { recordList: recordList }
     );
     res.json({ status: "success" });
   } catch (err) {
     res.json({ status: "failed" });
   }
 };
+
 
 /**
  * edit the records

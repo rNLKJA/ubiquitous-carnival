@@ -1,10 +1,11 @@
 // allow to send http request to our app
 const mongoose = require("mongoose");
 
-const contactController = require("../../controller/contactController");
-
 const Contact = require("../../models/contactSchema");
+const Record = require("../../models/recordSchema");
 const { User } = require("../../models/userSchema");
+
+const contactController = require("../../controller/contactController");
 
 describe("unit test of updateContactInfo form contactController.js", () => {
   const req = {
