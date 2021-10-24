@@ -22,6 +22,7 @@ import EditRecord from "./editRecord";
 import { useContacts } from "../../BackEndAPI/contactAPI";
 import TextField from "@mui/material/TextField";
 import { makeStyles } from "@material-ui/styles";
+import Select from 'react-select'
 import { Button } from "react-bootstrap";
 
 const useRecordStyles = makeStyles(() => ({
@@ -63,32 +64,28 @@ const Record = () => {
     dateTime: "",
     selected: false,
   });
-
-  const sortRecord = (records,setRecordList) => {
-
-    if (records) {
-
-      console.log(records[0].dateTime)
-
-      let sortedList = records.sort((a, b) =>
-
-          a.dateTime.split('-').join().localeCompare(b.dateTime.split('-').join()));
-      for (let i = 0; i < sortedList.length; i++) {
-        console.log(sortedList[i].dateTime)
-      }
-/*      setRecordList(sortedList);*/
-    }
-  }
-
+  const [selectedOption, setSelectedOption] = useState({value:null,label:'Null'});
+  const options = [
+    {value:'firstName',label:'firstName'},
+    {value:'lastName',label:'lastName'},
+    {value:'location',label:'location'},
+  ];
 
   const handleChange = (e) => {
     e.preventDefault();
     setSearchTerm(e.target.value);
   };
+  const handleOptions = (selectedOption) =>{
+    setSelectedOption(selectedOption);
+    console.log(`Option selected:`, selectedOption);
+    sortRecord(records,setRecordList,selectedOption.value);
+    console.log(records)
+  }
 
   useEffect(() => {
     document.title = "Record";
   }, []);
+
 
   if (error) {
     return (
@@ -121,10 +118,8 @@ const Record = () => {
     <React.Fragment>
       <Navbar />
       <Heading />
+
       <div className="sub-container">
-        <button onClick={sortRecord(records,setRecordList)}>
-          sort
-        </button>
         {!oneRecord.selected && (
           <React.Fragment>
             
@@ -153,14 +148,21 @@ const Record = () => {
                 value={searchTerm}
                 onChange={(e) => handleChange(e)}
               />
-
-              <RecordList
-                records={records}
-                search_key={searchTerm}
-                loading={loading}
-                error={error}
-                setOneRecord={setOneRecord}
+              <Select
+/*                  value = {selectedOption}*/
+                  onChange={handleOptions}
+                  options = {options}
               />
+              {console.log(options)}
+              <RecordList
+                  records={records}
+                  search_key={searchTerm}
+                  loading={loading}
+                  error={error}
+                  setOneRecord={setOneRecord}
+                  options={selectedOption.value}
+                />
+
             </div>
           </React.Fragment>
         )}
@@ -184,17 +186,56 @@ export const RecordList = (prop) => {
   // console.log("keyword is " + prop.search_key);
   const searchRecords = () => {
     if (prop.records !== undefined) {
-      return prop.records.filter((record) =>
-        (
-          record.meetingPerson.firstName +
-          " " +
-          record.meetingPerson.lastName +
-          " " +
-          record.location
-        )
-          .toLowerCase()
-          .includes(prop.search_key.toLowerCase()),
-      );
+      console.log(prop.options)
+      switch (prop.options){
+        case "firstName":
+          console.log("firstName1")
+          return prop.records.filter((record) =>
+              (
+                  record.meetingPerson.firstName
+              )
+                  .toLowerCase()
+                  .includes(prop.search_key.toLowerCase()),
+          );
+
+          break
+        case "lastName":
+          console.log("lastName2")
+          return prop.records.filter((record) =>
+              (
+
+                  record.meetingPerson.lastName
+
+              )
+                  .toLowerCase()
+                  .includes(prop.search_key.toLowerCase()),
+          );
+          break
+        case "location":
+          console.log("location3")
+          return prop.records.filter((record) =>
+              (
+                  record.location
+              )
+                  .toLowerCase()
+                  .includes(prop.search_key.toLowerCase()),
+          );
+          break
+        case null:
+          console.log("NULL")
+          return prop.records.filter((record) =>
+              (
+                  record.meetingPerson.firstName +
+                  " " +
+                  record.meetingPerson.lastName +
+                  " " +
+                  record.location
+              )
+                  .toLowerCase()
+                  .includes(prop.search_key.toLowerCase()),
+          );
+          break
+      }
     }
   };
 
@@ -277,4 +318,51 @@ export function convert(str) {
   var strTime = " " + hours + ":" + minutes + " " + ampm;
 
   return [date.getFullYear(), month, day].join("-") + strTime;
+}
+const sortRecord = (records,setRecordList,type) => {
+
+  if (records) {
+    console.log(records[0])
+    switch (type){
+      case "firstName":
+        console.log("firstName");
+        records.sort((a, b) =>
+
+            a.meetingPerson.firstName.localeCompare(b.meetingPerson.firstName));
+        for (let i = 0; i < records.length; i++) {
+          console.log(records[i].meetingPerson.firstName)
+        }
+        break;
+      case "lastName":
+        console.log("lastName");
+        records.sort((a, b) =>
+
+            a.meetingPerson.lastName.localeCompare(b.meetingPerson.lastName));
+        for (let i = 0; i < records.length; i++) {
+          console.log(records[i].meetingPerson.lastName)
+        }
+        break;
+      case "location":
+        console.log("location");
+        records.sort((a, b) =>
+
+            a.location.localeCompare(b.location));
+        for (let i = 0; i < records.length; i++) {
+          console.log(records[i].location)
+        }
+        break;
+      case "Null":
+        break
+    }
+
+/*    console.log(records[0].dateTime)
+
+    let sortedList = records.sort((a, b) =>
+
+        a.dateTime.split('-').join().localeCompare(b.dateTime.split('-').join()));
+    for (let i = 0; i < sortedList.length; i++) {
+      console.log(sortedList[i].dateTime)
+    }*/
+    /*      setRecordList(sortedList);*/
+  }
 }
