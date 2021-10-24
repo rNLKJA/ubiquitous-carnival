@@ -137,144 +137,144 @@ const CreateRecord = () => {
         </div>
 
         <div className="edit-record-container">
-      <div
-        style={{ justifyContent: "center", display: "flex", padding: "10px" }}
-      >
-        <Button
-          sx={{ width: "8rem",height: "3rem",  backgroundColor : '#ef5350',color : "white"}}
-          href = '/record'
-        >
-          Back
-        </Button>
-      </div>
-        
-
-        <form className="record-form">
-          <Autocomplete
-            label="Contacts"
-            name="Contacts"
-            options={names}
-            sx={{ width: "100%" }}
-            isOptionEqualToValue={(option, value) => option.id === value.id}
-            onChange={(e, v) => setFieldValue(v)}
-            renderInput={(params) => (
-              <TextField
-                {...params}
-                label="Contacts"
-                error={selected === ""}
-                helperText={
-                  selected === "" ? "Select a contact つ；－；つ" : ""
-                }
-              />
-            )}
-          />
-          <br />
-          <div className="timer-container">
-            <LocalizationProvider dateAdapter={AdapterDateFns}>
-              <DateTimePicker
-                renderInput={(params) => <TextField {...params} />}
-                label="Meeting time"
-                value={currentTime}
-                onChange={(newValue) => {
-                  setCurrentTime(newValue);
-                }}
-                minDate={new Date("2021-02-14")}
-                maxTime={new Date("2025-02-14")}
-                ampm={true}
-                disableIgnoringDatePartForTimeValidation={true}
-              />
-            </LocalizationProvider>
+          <div
+            style={{ justifyContent: "center", display: "flex", padding: "10px" }}
+          >
+            <Button
+              sx={{ width: "8rem", height: "3rem", backgroundColor: '#ef5350', color: "white" }}
+              href='/record'
+            >
+              Back
+            </Button>
           </div>
 
-          <br />
-          <label htmlFor="location">Location: </label>
-          <input
-            name="location"
-            type="text"
-            placeholder="Please enter the location"
-            onChange={(e) => setLocation(e.target.value)}
-            value={location}
-            required
-            className="form-control"
-            style={{ width: "100%" }}
-          ></input>
 
-          <input
-            htmlFor="geoCoords"
-            type="number"
-            step="any"
-            value={geoCoords.lat}
-            onChange={() => {}}
-            hidden
-          />
-          <input
-            htmlFor="geoCoords"
-            type="number"
-            step="any"
-            value={geoCoords.lng}
-            onChange={() => {}}
-            hidden
-          />
+          <form className="record-form">
+            <Autocomplete
+              label="Contacts"
+              name="Contacts"
+              options={names}
+              sx={{ width: "100%" }}
+              isOptionEqualToValue={(option, value) => option.id === value.id}
+              onChange={(e, v) => setFieldValue(v)}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  label="Contacts"
+                  error={selected === ""}
+                  helperText={
+                    selected === "" ? "Select a contact つ；－；つ" : ""
+                  }
+                />
+              )}
+            />
+            <br />
+            <div className="timer-container">
+              <LocalizationProvider dateAdapter={AdapterDateFns}>
+                <DateTimePicker
+                  renderInput={(params) => <TextField {...params} />}
+                  label="Meeting time"
+                  value={currentTime}
+                  onChange={(newValue) => {
+                    setCurrentTime(newValue);
+                  }}
+                  minDate={new Date("2021-02-14")}
+                  maxTime={new Date("2025-02-14")}
+                  ampm={true}
+                  disableIgnoringDatePartForTimeValidation={true}
+                />
+              </LocalizationProvider>
+            </div>
 
-          <Map setLocation={setLocation} setGeoCoords={setGeoCoords} />
-<hr />
+            <br />
+            <label htmlFor="location">Location: </label>
+            <input
+              name="location"
+              type="text"
+              placeholder="Please enter the location"
+              onChange={(e) => setLocation(e.target.value)}
+              value={location}
+              required
+              className="form-control"
+              style={{ width: "100%" }}
+            ></input>
 
-          <TextField
-            id="outlined-multiline-flexible"
-            label="Add-Notes"
-            multiline
-            maxRows={4}
-            value={notes}
-            onChange={(e) => {
-              setNotes(e.target.value);
-            }}
-          />
+            <input
+              htmlFor="geoCoords"
+              type="number"
+              step="any"
+              value={geoCoords.lat}
+              onChange={() => { }}
+              hidden
+            />
+            <input
+              htmlFor="geoCoords"
+              type="number"
+              step="any"
+              value={geoCoords.lng}
+              onChange={() => { }}
+              hidden
+            />
 
-          <hr />
+            <Map setLocation={setLocation} setGeoCoords={setGeoCoords} />
+            <hr />
 
-          <label>Custom Field</label>
-          {customField.map((field, i) => {
-            return (
-              <div>
-                <div key={`${field}-${i}`} className="multi-field">
-                  <div className="multi-field-input">
-                    <input
-                      value={field.field}
-                      name="field"
-                      type="text"
-                      className="form-control"
-                      required
-                      onChange={(e) => fieldOnChange(i, e)}
-                      placeholder="Field Name"
-                    />
+            <TextField
+              id="outlined-multiline-flexible"
+              label="Add-Notes"
+              multiline
+              maxRows={4}
+              value={notes}
+              onChange={(e) => {
+                setNotes(e.target.value);
+              }}
+            />
 
-                    <input
-                      value={field.value}
-                      type="text"
-                      name="value"
-                      className="form-control"
-                      required
-                      onChange={(e) => fieldOnChange(i, e)}
-                      placeholder="Field Value"
-                    />
-                  </div>
-                  <Button
+            <hr />
+
+            <label>Custom Field</label>
+            {customField.map((field, i) => {
+              return (
+                <div>
+                  <div key={`${field}-${i}`} className="multi-field">
+                    <div className="multi-field-input">
+                      <input
+                        value={field.field}
+                        name="field"
+                        type="text"
+                        className="form-control"
+                        required
+                        onChange={(e) => fieldOnChange(i, e)}
+                        placeholder="Field Name"
+                      />
+
+                      <input
+                        value={field.value}
+                        type="text"
+                        name="value"
+                        className="form-control"
+                        required
+                        onChange={(e) => fieldOnChange(i, e)}
+                        placeholder="Field Value"
+                      />
+                    </div>
+                    <Button
                       variant="outlined"
                       onClick={(e) => removeHandler(e, i, "field")}
                     >
                       <DeleteIcon />
-                </Button>
+                    </Button>
+                  </div>
+                  <hr />
                 </div>
-                <hr />
-              </div>
-            );
-          })}
+              );
+            })}
 
-          <br />
+            <br />
 
-<Button
+            <Button
               variant="contained"
-              sx={{ width: "10rem"}}
+              sx={{ width: "10rem" }}
               onClick={handleAddField}
             >
               Add Field
@@ -282,13 +282,13 @@ const CreateRecord = () => {
 
             <hr />
 
-          <div style={{ justifyContent: "center", display: "flex", padding: "10px" }}>
-          <Button variant="contained"  onClick={handleSubmit} sx={{ width: "8rem",height: "3rem"}} color = 'success'>
+            <div style={{ justifyContent: "center", display: "flex", padding: "10px" }}>
+              <Button variant="contained" onClick={handleSubmit} sx={{ width: "8rem", height: "3rem" }} color='success'>
                 Create
-        </Button>
+              </Button>
+            </div>
+          </form>
         </div>
-        </form>
-      </div>
       </div>
     </React.Fragment>
   );

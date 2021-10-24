@@ -60,7 +60,7 @@ export const DisplayPerson = ({
     // defined variables
     const [person, setPerson] = useState(oneProfile);
 
-		const [valid, setValid] = useState(true)
+    const [valid, setValid] = useState(true)
 
 
     const [phones, setPhones] = useState(
@@ -101,8 +101,8 @@ export const DisplayPerson = ({
         var phone = ConvertListObjectToListValues(phones, "phone");
 
 
-		email = email.filter(e => e !== "")
-		phone = phone.filter(e => e !== "")
+        email = email.filter(e => e !== "")
+        phone = phone.filter(e => e !== "")
 
 
         const data = {
@@ -115,33 +115,33 @@ export const DisplayPerson = ({
 
         dataValidator(phone, 'phone', setValid)
         dataValidator(email, 'email', setValid)
-		dataValidator(data.firstName, 'firstName', setValid)
-		dataValidator(data.lastName, 'lastName', setValid)
-		dataValidator(data.occupation, 'occupation', setValid)
+        dataValidator(data.firstName, 'firstName', setValid)
+        dataValidator(data.lastName, 'lastName', setValid)
+        dataValidator(data.occupation, 'occupation', setValid)
 
-		console.log(valid)
+        console.log(valid)
 
         if (valid) {
-					setPerson(data);
+            setPerson(data);
 
-      	  await fetchClient
-            .post(BASE_URL + "/profile/editProfile", data)
-            .then((response) => {
-								// console.log(response)
-                if (response.data === 'update success') {
-                    alert(
-                        "Update contact information succeed!\n",
-                    );
-										setPerson({...data, edit:false})
+            await fetchClient
+                .post(BASE_URL + "/profile/editProfile", data)
+                .then((response) => {
+                    // console.log(response)
+                    if (response.data === 'update success') {
+                        alert(
+                            "Update contact information succeed!\n",
+                        );
+                        setPerson({ ...data, edit: false })
 
-                    // window.location.href = "/contact";
-                } else {
-                    alert("Opps, something wrong, please try later.");
-                }
-            });
-					
-/*					setValid(false)*/
-				}
+                        // window.location.href = "/contact";
+                    } else {
+                        alert("Opps, something wrong, please try later.");
+                    }
+                });
+
+            /*					setValid(false)*/
+        }
 
 
 
@@ -201,29 +201,32 @@ export const DisplayPerson = ({
                 </button> */}
 
                 {!person.edit ? <Button variant="contained" onClick={() => setPerson({ ...person, edit: !person.edit })}><EditIcon /></Button> : null}
-                {!person.edit ?<Button variant="contained" color = 'success' href="/setting/qr">
+                {!person.edit ? <Button variant="contained" color='success' href="/setting/qr">
                     <QrCodeIcon />
-                </Button>: null}
-                {!person.edit ?<Button variant="contained" color = 'error' onClick={LogoutUser}>
+                </Button> : null}
+                {person.edit ? <Button variant="contained" sx = {{backgroundColor : '#01579b'}} href="/resetPassword">
+                    change password
+                </Button> : null}
+                {!person.edit ? <Button variant="contained" color='error' onClick={LogoutUser}>
                     <LogoutIcon />
-                </Button>:null}
+                </Button> : null}
 
-                {person.edit ? <Button variant="contained" onClick={() => {
-                        setPerson({ ...originProfile, selected: true, edit: false });
-                        setPhones(ConvertListStringToListObject(person.phone, "phone"));
-                        setEmails(ConvertListStringToListObject(person.email, "email"));
-                    }}>
+                {person.edit ? <Button variant="contained" color='error' onClick={() => {
+                    setPerson({ ...originProfile, selected: true, edit: false });
+                    setPhones(ConvertListStringToListObject(person.phone, "phone"));
+                    setEmails(ConvertListStringToListObject(person.email, "email"));
+                }}>
                     cancel
                 </Button>
-                : null}
+                    : null}
 
             </Stack>
 
-            
 
-            <div className="div-center">
 
-                <div className="makeStyles-card-2" style={{ width: "95%" }}>
+            <div className="person-details">
+
+                <div className="makeStyles-card-2" >
                     <form className="edit-contact-form" style={{ display: 'flex', overflow: "scroll", flexDirection: 'column', height: "90%" }}>
                         <label>First Name: </label>
                         <input
@@ -286,15 +289,15 @@ export const DisplayPerson = ({
                                             />
                                         </div>
                                         {person.edit ? (
-                 
-                 <Button
-                   variant="outlined"
-                   onClick={(e) => removeHandler(e, i, "phone")}
-                 >
-                   <DeleteIcon />
-                 </Button>
-                 
-               ) : null}
+
+                                            <Button
+                                                variant="outlined"
+                                                onClick={(e) => removeHandler(e, i, "phone")}
+                                            >
+                                                <DeleteIcon />
+                                            </Button>
+
+                                        ) : null}
                                     </div>
 
                                     <hr />
@@ -303,18 +306,18 @@ export const DisplayPerson = ({
                             );
                         })}
 
-{person.edit && (
-            <div className="div-center">
-            <Button
-              variant="contained"
-              sx={{ width: "50%" }}
-              onClick={handleAddPhone}
-            >
-              add phone
-            </Button>
-            <br />
-            </div>
-          )}
+                        {person.edit && (
+                            <div className="div-center">
+                                <Button
+                                    variant="contained"
+                                    sx={{ width: "50%" }}
+                                    onClick={handleAddPhone}
+                                >
+                                    add phone
+                                </Button>
+                                <br />
+                            </div>
+                        )}
 
                         <label>Email:</label>
                         {emails.map((mail, i) => {
@@ -333,14 +336,14 @@ export const DisplayPerson = ({
                                             />
                                         </div>
                                         {person.edit && (
-                                            
-                                           <Button
-                                           variant="outlined"
-                                           onClick={(e) => removeHandler(e, i, "email")}
-                                         >
-                                           <DeleteIcon />
-                                         </Button>
-                                         
+
+                                            <Button
+                                                variant="outlined"
+                                                onClick={(e) => removeHandler(e, i, "email")}
+                                            >
+                                                <DeleteIcon />
+                                            </Button>
+
                                         )}
                                     </div>
 
@@ -352,23 +355,23 @@ export const DisplayPerson = ({
 
                         {person.edit && (
                             <div className="div-center">
-                            <Button
-                            variant="contained"
-                            sx={{ width: "50%" }}
-                            onClick={handleAddEmail}
-                          >
-                            Add Email
-                          </Button>
-                          </div>
+                                <Button
+                                    variant="contained"
+                                    sx={{ width: "50%" }}
+                                    onClick={handleAddEmail}
+                                >
+                                    Add Email
+                                </Button>
+                            </div>
                         )}
-                        
+
                         <hr />
 
 
                         {person.edit && (
-                            <Button variant="contained" color = 'success' onClick={(e) => handleSubmit(e)}>
-                            Save Change
-                          </Button>
+                            <Button variant="contained" color='success' onClick={(e) => handleSubmit(e)}>
+                                Save Change
+                            </Button>
                         )}
 
                     </form>
@@ -415,67 +418,67 @@ const ConvertListObjectToListValues = (items, type) => {
 const dataValidator = (items, type, setValid) => {
 
 
-	switch(type) {
-		case "firstName":
-			if (items.length === 0) {
+    switch (type) {
+        case "firstName":
+            if (items.length === 0) {
 
-				setValid(false)
-				alert(`Invalid ${type} input, input cannot be empty`)
-			} else {
-			}
-			break;
-		case "lastName":
-			if (items.length === 0) {
+                setValid(false)
+                alert(`Invalid ${type} input, input cannot be empty`)
+            } else {
+            }
+            break;
+        case "lastName":
+            if (items.length === 0) {
 
-				setValid(false)
-				alert(`Invalid ${type} input, input cannot be empty`)
-			} else {
+                setValid(false)
+                alert(`Invalid ${type} input, input cannot be empty`)
+            } else {
 
-			}
-			break;
-		case "occupation":
+            }
+            break;
+        case "occupation":
 
-			if (items.length === 0) {
+            if (items.length === 0) {
 
-				setValid(false)
-				alert(`Invalid ${type} input, input cannot be empty`)
-			} else {
-			}
-			break;
-		case "phone":
-			var pattern = /\d{10}/;
+                setValid(false)
+                alert(`Invalid ${type} input, input cannot be empty`)
+            } else {
+            }
+            break;
+        case "phone":
+            var pattern = /\d{10}/;
             var notEmpty = /\S/;
-			if (items.length < 1) {
-				setValid(false)
-				alert("You must provide at least one phone number!")
-			}
+            if (items.length < 1) {
+                setValid(false)
+                alert("You must provide at least one phone number!")
+            }
 
-			for (let i = 0; i < items.length ; i ++) {
-				if (!pattern.test(items[i]) && !notEmpty.test(items[i])) {
-					setValid(false)
-					alert("Invalid phone format")
-				}
-			}
-			break;
-		case "email":
-			var pattern = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+            for (let i = 0; i < items.length; i++) {
+                if (!pattern.test(items[i]) && !notEmpty.test(items[i])) {
+                    setValid(false)
+                    alert("Invalid phone format")
+                }
+            }
+            break;
+        case "email":
+            var pattern = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
             var notEmpty = /\S/;
-			if (items.length < 1) {
-				setValid(false)
-				alert("You must have at least one email!")
-			}
+            if (items.length < 1) {
+                setValid(false)
+                alert("You must have at least one email!")
+            }
 
-			for (let i = 0; i < items.length ; i ++) {
+            for (let i = 0; i < items.length; i++) {
 
-				if (!pattern.test(items[i]) || !notEmpty.test(items[i]) ) {
-					setValid(false)
-					alert("Invalid email format")
-				}
-			}
+                if (!pattern.test(items[i]) || !notEmpty.test(items[i])) {
+                    setValid(false)
+                    alert("Invalid email format")
+                }
+            }
 
-			break;
-		default:
-			console.log("Invalid Input")
-	}
+            break;
+        default:
+            console.log("Invalid Input")
+    }
 
 }

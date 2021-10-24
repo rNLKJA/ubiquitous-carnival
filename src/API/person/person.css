@@ -1,11 +1,29 @@
-@media only screen and (max-width: 1024px) {
+@media only screen and (max-width: 1023px) {
   .profile-container{
     display:flex;
     flex-direction: column;
     overflow-y: scroll;
     justify-content: flex-start;
     align-items: center;
+    margin-bottom: 1rem;
+    height: calc(100% - 200px);
   }
+
+  .person-details{
+    display: block;
+    justify-content: center;
+    width: 95%;
+  }
+
+  .person-container {
+    height: 100%;
+    left: 0;
+    top: 0;
+    bottom: 20px;
+    
+    margin-block-end: 5%;
+  }
+
   
 
   .edit-profile-btn{
@@ -139,6 +157,14 @@
     border-radius: 5px;
   }
 
+  .makeStyles-card-2 {
+    width: 100%;
+    overflow: scroll;
+    box-shadow: 0 8px 16px 0 #bdc9d7;
+    border-radius: 16px;
+    
+  }
+
 
 	
 
@@ -151,12 +177,16 @@
     height: 30px;
     border-radius: 5px;
   }
+
+
   .profile-container{
     display:flex;
     flex-direction: column;
     overflow-y: scroll;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
+    margin-bottom: 1rem;
+    height: 100%;
   }
   .basicInformation {
     width: 100%;
@@ -235,11 +265,12 @@
   }
 
   .makeStyles-card-2 {
-    width: 50%;
+    width: 100%;
     box-shadow: 0 8px 16px 0 #bdc9d7;
     border-radius: 16px;
-    display: block;
-    padding: 3rem;
+    
+    padding: 1.5rem;
+    
     
   }
 
@@ -248,6 +279,16 @@
     overflow-y: scroll;
     align-items: flex-start;
   }
+
+  .person-details{
+  
+    width: 60%;
+  }
+
+  .person-container {
+    height: calc(100% - 4rem)
+  }
+  
 
 
 }

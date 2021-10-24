@@ -133,7 +133,7 @@ const EditRecord = (prop) => {
         style={{ justifyContent: "center", display: "flex", padding: "10px" }}
       >
         <Button
-          sx={{ width: "30%",height: "10%",  backgroundColor : '#43a047',color : "white"}}
+          sx={{ width: "30%", height: "10%", backgroundColor: '#43a047', color: "white" }}
           onClick={() => {
             prop.setOneRecord({ ...prop.record, selected: false });
           }}
@@ -195,7 +195,7 @@ const EditRecord = (prop) => {
           type="number"
           step="any"
           value={geoCoords.lat}
-          onChange={() => {}}
+          onChange={() => { }}
           hidden
         />
         <input
@@ -203,7 +203,7 @@ const EditRecord = (prop) => {
           type="number"
           step="any"
           value={geoCoords.lng}
-          onChange={() => {}}
+          onChange={() => { }}
           hidden
         />
 
@@ -215,7 +215,7 @@ const EditRecord = (prop) => {
         />
 
         <label htmlFor="notes">Notes: </label>
-        <br/><br/>
+        <br /><br />
         <TextField
           id="outlined-multiline-flexible"
           label="Add-Notes"
@@ -226,7 +226,7 @@ const EditRecord = (prop) => {
             setNotes(e.target.value);
           }}
         />
-        <hr/>
+        <hr />
 
         <label>Custom Field</label>
         {customField.map((field, i) => {
@@ -254,13 +254,13 @@ const EditRecord = (prop) => {
                     placeholder="Field Value"
                   />
                 </div>
-                
+
 
                 <Button
-                      variant="outlined"
-                      onClick={(e) => removeHandler(e, i, "field")}
-                    >
-                      <DeleteIcon />
+                  variant="outlined"
+                  onClick={(e) => removeHandler(e, i, "field")}
+                >
+                  <DeleteIcon />
                 </Button>
               </div>
               <hr />
@@ -268,25 +268,25 @@ const EditRecord = (prop) => {
           );
         })}
 
-        
-        
+
+
         <Button
-              variant="contained"
-              sx={{ width: "10rem"}}
-              onClick={handleAddField}
-            >
-              Add Field
-            </Button>
-
-            <hr />
-
-        <div className="div-center">
-        <Button variant="contained"  onClick={handleSubmit}>
-                Save
+          variant="contained"
+          sx={{ width: "10rem" }}
+          onClick={handleAddField}
+        >
+          Add Field
         </Button>
+
+        <hr />
+
+        <div style={{ justifyContent: "center", display: "flex", padding: "10px" }}>
+          <Button variant="contained" onClick={handleSubmit} sx={{ width: "8rem", height: "3rem" , backgroundColor: "#4caf50"}} color='success'>
+            Save
+          </Button>
         </div>
       </form>
-      </div>
+    </div>
   );
 };
 
