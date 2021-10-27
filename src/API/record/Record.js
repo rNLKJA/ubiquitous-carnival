@@ -69,9 +69,11 @@ const Record = () => {
     label: "Null",
   });
   const options = [
-    { value: "firstName", label: "First Name" },
-    { value: "lastName", label: "Last Name" },
-    { value: "location", label: "Location" },
+    {value:'firstName',label:'First Name'},
+    {value:'lastName',label:'Last Name'},
+    {value:'location',label:'Location'},
+    {value:'notes',label:'Notes'},
+    {value:null,label:'Null'},
   ];
 
   const handleChange = (e) => {
@@ -194,53 +196,78 @@ export const RecordList = (prop) => {
   // console.log("keyword is " + prop.search_key);
   const searchRecords = () => {
     if (prop.records !== undefined) {
-      console.log(prop.options);
-      switch (prop.options) {
+      console.log(prop.options)
+      switch (prop.options){
         case "firstName":
-          console.log("firstName1");
           return prop.records.filter((record) =>
-            record.meetingPerson.firstName
-              .toLowerCase()
-              .includes(prop.search_key.toLowerCase()),
+              (
+                  record.meetingPerson.firstName
+              )
+                  .toLowerCase()
+                  .includes(prop.search_key.toLowerCase()),
           );
 
-          break;
+          break
         case "lastName":
-          console.log("lastName2");
           return prop.records.filter((record) =>
-            record.meetingPerson.lastName
-              .toLowerCase()
-              .includes(prop.search_key.toLowerCase()),
-          );
-          break;
-        case "location":
-          console.log("location3");
-          return prop.records.filter((record) =>
-            record.location
-              .toLowerCase()
-              .includes(prop.search_key.toLowerCase()),
-          );
-          break;
-        case null:
-          console.log("NULL");
-          return prop.records.filter((record) =>
-            (
-              record.meetingPerson.firstName +
-              " " +
-              record.meetingPerson.lastName +
-              " " +
-              record.location
-            )
-              .toLowerCase()
-              .includes(prop.search_key.toLowerCase()),
-          );
-          break;
+              (
 
-        default:
-          break;
+                  record.meetingPerson.lastName
+
+              )
+                  .toLowerCase()
+                  .includes(prop.search_key.toLowerCase()),
+          );
+          break
+        case "location":
+          return prop.records.filter((record) =>
+              (
+                  record.location
+              )
+                  .toLowerCase()
+                  .includes(prop.search_key.toLowerCase()),
+          );
+          break
+        case "notes":
+          return prop.records.filter((record) =>
+              (
+                  record.notes
+              )
+                  .toLowerCase()
+                  .includes(prop.search_key.toLowerCase()),
+          );
+          break
+          /*        case "time":
+                    return prop.records.filter((record) =>
+                        (
+                            record.dateTime
+                        )
+                            .toLowerCase()
+                            .includes(prop.search_key.toLowerCase()),
+                    );
+                    break*/
+        case null:
+          console.log("NULL")
+          return prop.records.filter((record) =>
+              (
+                  record.meetingPerson.firstName +
+                  " " +
+                  record.meetingPerson.lastName +
+                  " " +
+                  /*                  record.dateTime +
+                                    " " +*/
+                  record.notes +
+                  " " +
+                  record.location
+              )
+                  .toLowerCase()
+                  .includes(prop.search_key.toLowerCase()),
+          );
+          break
       }
     }
   };
+
 
   let fitterRecords = searchRecords();
 
@@ -325,47 +352,49 @@ export function convert(str) {
 
   return [date.getFullYear(), month, day].join("-") + strTime;
 }
-const sortRecord = (records, setRecordList, type) => {
+const sortRecord = (records,setRecordList,type) => {
+
   if (records) {
-    console.log(records[0]);
+    console.log(records[0])
     switch (type) {
       case "firstName":
-        // console.log("firstName");
+        console.log("firstName");
         records.sort((a, b) =>
-          a.meetingPerson.firstName.localeCompare(b.meetingPerson.firstName),
-        );
+
+            a.meetingPerson.firstName.localeCompare(b.meetingPerson.firstName));
         for (let i = 0; i < records.length; i++) {
-          console.log(records[i].meetingPerson.firstName);
+          console.log(records[i].meetingPerson.firstName)
         }
         break;
       case "lastName":
-        // console.log("lastName");
+        console.log("lastName");
         records.sort((a, b) =>
-          a.meetingPerson.lastName.localeCompare(b.meetingPerson.lastName),
-        );
+
+            a.meetingPerson.lastName.localeCompare(b.meetingPerson.lastName));
         for (let i = 0; i < records.length; i++) {
-          console.log(records[i].meetingPerson.lastName);
+          console.log(records[i].meetingPerson.lastName)
         }
         break;
       case "location":
-        // console.log("location");
-        records.sort((a, b) => a.location.localeCompare(b.location));
+        console.log("location");
+        records.sort((a, b) =>
+
+            a.location.localeCompare(b.location));
         for (let i = 0; i < records.length; i++) {
-          console.log(records[i].location);
+          console.log(records[i].location)
         }
         break;
-      default:
-        break;
+      case "notes":
+        console.log(records[0].notes);
+        records.sort((a, b) =>
+
+            a.notes.localeCompare(b.notes));
+        for (let i = 0; i < records.length; i++) {
+          console.log(records[i].notes)
+        }
+        break
+      case "Null":
+        break
     }
-
-    /*    console.log(records[0].dateTime)
-
-    let sortedList = records.sort((a, b) =>
-
-        a.dateTime.split('-').join().localeCompare(b.dateTime.split('-').join()));
-    for (let i = 0; i < sortedList.length; i++) {
-      console.log(sortedList[i].dateTime)
-    }*/
-    /*      setRecordList(sortedList);*/
   }
-};
+}
