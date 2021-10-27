@@ -221,7 +221,7 @@ export const RecordList = (prop) => {
               .includes(prop.search_key.toLowerCase()),
           );
           break;
-        default:
+        case null:
           console.log("NULL");
           return prop.records.filter((record) =>
             (
@@ -234,6 +234,9 @@ export const RecordList = (prop) => {
               .toLowerCase()
               .includes(prop.search_key.toLowerCase()),
           );
+          break;
+
+        default:
           break;
       }
     }
@@ -309,12 +312,15 @@ export function convert(str) {
   var date = new Date(str),
     month = ("0" + (date.getMonth() + 1)).slice(-2),
     day = ("0" + date.getDate()).slice(-2);
+
   var hours = date.getHours();
   var minutes = date.getMinutes();
   var ampm = hours >= 12 ? "pm" : "am";
+
   hours = hours % 12;
   hours = hours ? hours : 12; // the hour '0' should be '12'
   minutes = ("0" + minutes).slice(-2);
+
   var strTime = " " + hours + ":" + minutes + " " + ampm;
 
   return [date.getFullYear(), month, day].join("-") + strTime;
