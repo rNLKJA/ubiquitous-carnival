@@ -13,7 +13,7 @@ import People from "./People.jsx";
 import Error from "../error/Error";
 import Heading from "../heading/heading.jsx";
 import Navbar from "../nav/Navbar";
-import { Link } from "react-router-dom";
+import { Link, Router } from "react-router-dom";
 import TextField from "@mui/material/TextField";
 import getWindowDimensions from "../../hooks/getWindowDimensions";
 // const BASE_URL = "http://localhost:5000";
@@ -121,6 +121,9 @@ const Contact = () => {
         <Heading />
         <Navbar />
         <div className="sub-container">
+          <h1 data-testid="contact" hidden>
+            Contact Page
+          </h1>
           <div className="loading">
             <h1>Loading Your Contact</h1>
             <h1>(っ˘ω˘ς )</h1>
@@ -135,6 +138,9 @@ const Contact = () => {
       <Navbar />
       <Heading />
       <div className="sub-container">
+        <h1 data-testid="contact" hidden>
+          Contact Page
+        </h1>
         <div className="contact">
           {/* display contact as a list */}
           <button onClick={sortContact(contacts, setContactList)}>sort</button>
