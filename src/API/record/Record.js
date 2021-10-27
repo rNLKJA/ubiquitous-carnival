@@ -22,38 +22,38 @@ import EditRecord from "./editRecord";
 import { useContacts } from "../../BackEndAPI/contactAPI";
 import TextField from "@mui/material/TextField";
 import { makeStyles } from "@material-ui/styles";
-import Select from 'react-select'
+import Select from "react-select";
 import { Button } from "react-bootstrap";
 
 const useRecordStyles = makeStyles(() => ({
   text: {
-    fontFamily: 'Barlow, san-serif',
-    whiteSpace: 'nowrap',
-    textOverflow: 'ellipsis',
-    overflow: 'hidden',
+    fontFamily: "Barlow, san-serif",
+    whiteSpace: "nowrap",
+    textOverflow: "ellipsis",
+    overflow: "hidden",
   },
   name: {
     fontWeight: 600,
-    fontSize: '1rem',
-    color: '#122740',
+    fontSize: "1rem",
+    color: "#122740",
   },
   caption: {
-    fontSize: '0.8rem',
-    color: '#758392',
+    fontSize: "0.8rem",
+    color: "#758392",
     marginTop: -4,
   },
   btn: {
     borderRadius: 20,
-    padding: '0.125rem 0.75rem',
-    borderColor: '#becddc',
-    fontSize: '0.75rem',
+    padding: "0.125rem 0.75rem",
+    borderColor: "#becddc",
+    fontSize: "0.75rem",
   },
 }));
 
 const Record = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const { contacts } = useContacts();
-  const [screenWidth , setScreenWidth] = useState(window.innerWidth)
+  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
   const { loading, records, error } = useShowAllRecords();
   const [recordList, setRecordList] = useState();
   const [oneRecord, setOneRecord] = useState({
@@ -64,28 +64,30 @@ const Record = () => {
     dateTime: "",
     selected: false,
   });
-  const [selectedOption, setSelectedOption] = useState({value:null,label:'Null'});
+  const [selectedOption, setSelectedOption] = useState({
+    value: null,
+    label: "Null",
+  });
   const options = [
-    {value:'firstName',label:'firstName'},
-    {value:'lastName',label:'lastName'},
-    {value:'location',label:'location'},
+    { value: "firstName", label: "First Name" },
+    { value: "lastName", label: "Last Name" },
+    { value: "location", label: "Location" },
   ];
 
   const handleChange = (e) => {
     e.preventDefault();
     setSearchTerm(e.target.value);
   };
-  const handleOptions = (selectedOption) =>{
+  const handleOptions = (selectedOption) => {
     setSelectedOption(selectedOption);
-    console.log(`Option selected:`, selectedOption);
-    sortRecord(records,setRecordList,selectedOption.value);
-    console.log(records)
-  }
+    // console.log(`Option selected:`, selectedOption);
+    sortRecord(records, setRecordList, selectedOption.value);
+    // console.log(records);
+  };
 
   useEffect(() => {
     document.title = "Record";
   }, []);
-
 
   if (error) {
     return (
@@ -122,47 +124,53 @@ const Record = () => {
       <div className="sub-container">
         {!oneRecord.selected && (
           <React.Fragment>
-            
-
-            
             <div className="heading-record">
               <h1>Record</h1>
               <Link to="/createRecord">
-              
-              <div className="record-add-btn">
-                <AddIcon
-                  sx = {{width : '50px', height : '50px'}}
-                />
-               </div>
+                <div className="record-add-btn">
+                  <AddIcon sx={{ width: "50px", height: "50px" }} />
+                </div>
               </Link>
             </div>
 
-            <div
-              className="record-container"
-              
-            >
-              <TextField
-                id="standard-basic"
-                label="Search by name/location"
-                style={{ width: "90%" , marginTop: 10}}
-                value={searchTerm}
-                onChange={(e) => handleChange(e)}
-              />
-              <Select
-/*                  value = {selectedOption}*/
+            <div className="record-container">
+              <div
+                style={{
+                  width: "90%",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "Left",
+                  marginLeft: "10px",
+                }}
+              >
+                <Select
+                  /*                  value = {selectedOption}*/
                   onChange={handleOptions}
-                  options = {options}
-              />
-              {console.log(options)}
-              <RecordList
-                  records={records}
-                  search_key={searchTerm}
-                  loading={loading}
-                  error={error}
-                  setOneRecord={setOneRecord}
-                  options={selectedOption.value}
+                  options={options}
+                  style={{
+                    marginTop: "5px",
+                    // marginRight: "5px",
+                    fontSize: "1.9rem",
+                    zIndex: 10,
+                  }}
                 />
-
+                <TextField
+                  id="standard-basic"
+                  label="Search at here!!"
+                  style={{ width: "100%", marginTop: 10 }}
+                  value={searchTerm}
+                  onChange={(e) => handleChange(e)}
+                />
+              </div>
+              {/* {console.log(options)} */}
+              <RecordList
+                records={records}
+                search_key={searchTerm}
+                loading={loading}
+                error={error}
+                setOneRecord={setOneRecord}
+                options={selectedOption.value}
+              />
             </div>
           </React.Fragment>
         )}
@@ -186,55 +194,47 @@ export const RecordList = (prop) => {
   // console.log("keyword is " + prop.search_key);
   const searchRecords = () => {
     if (prop.records !== undefined) {
-      console.log(prop.options)
-      switch (prop.options){
+      console.log(prop.options);
+      switch (prop.options) {
         case "firstName":
-          console.log("firstName1")
+          console.log("firstName1");
           return prop.records.filter((record) =>
-              (
-                  record.meetingPerson.firstName
-              )
-                  .toLowerCase()
-                  .includes(prop.search_key.toLowerCase()),
+            record.meetingPerson.firstName
+              .toLowerCase()
+              .includes(prop.search_key.toLowerCase()),
           );
 
-          break
+          break;
         case "lastName":
-          console.log("lastName2")
+          console.log("lastName2");
           return prop.records.filter((record) =>
-              (
-
-                  record.meetingPerson.lastName
-
-              )
-                  .toLowerCase()
-                  .includes(prop.search_key.toLowerCase()),
+            record.meetingPerson.lastName
+              .toLowerCase()
+              .includes(prop.search_key.toLowerCase()),
           );
-          break
+          break;
         case "location":
-          console.log("location3")
+          console.log("location3");
           return prop.records.filter((record) =>
-              (
-                  record.location
-              )
-                  .toLowerCase()
-                  .includes(prop.search_key.toLowerCase()),
+            record.location
+              .toLowerCase()
+              .includes(prop.search_key.toLowerCase()),
           );
-          break
-        case null:
-          console.log("NULL")
+          break;
+        default:
+          console.log("NULL");
           return prop.records.filter((record) =>
-              (
-                  record.meetingPerson.firstName +
-                  " " +
-                  record.meetingPerson.lastName +
-                  " " +
-                  record.location
-              )
-                  .toLowerCase()
-                  .includes(prop.search_key.toLowerCase()),
+            (
+              record.meetingPerson.firstName +
+              " " +
+              record.meetingPerson.lastName +
+              " " +
+              record.location
+            )
+              .toLowerCase()
+              .includes(prop.search_key.toLowerCase()),
           );
-          break
+          break;
       }
     }
   };
@@ -319,43 +319,40 @@ export function convert(str) {
 
   return [date.getFullYear(), month, day].join("-") + strTime;
 }
-const sortRecord = (records,setRecordList,type) => {
-
+const sortRecord = (records, setRecordList, type) => {
   if (records) {
-    console.log(records[0])
-    switch (type){
+    console.log(records[0]);
+    switch (type) {
       case "firstName":
-        console.log("firstName");
+        // console.log("firstName");
         records.sort((a, b) =>
-
-            a.meetingPerson.firstName.localeCompare(b.meetingPerson.firstName));
+          a.meetingPerson.firstName.localeCompare(b.meetingPerson.firstName),
+        );
         for (let i = 0; i < records.length; i++) {
-          console.log(records[i].meetingPerson.firstName)
+          console.log(records[i].meetingPerson.firstName);
         }
         break;
       case "lastName":
-        console.log("lastName");
+        // console.log("lastName");
         records.sort((a, b) =>
-
-            a.meetingPerson.lastName.localeCompare(b.meetingPerson.lastName));
+          a.meetingPerson.lastName.localeCompare(b.meetingPerson.lastName),
+        );
         for (let i = 0; i < records.length; i++) {
-          console.log(records[i].meetingPerson.lastName)
+          console.log(records[i].meetingPerson.lastName);
         }
         break;
       case "location":
-        console.log("location");
-        records.sort((a, b) =>
-
-            a.location.localeCompare(b.location));
+        // console.log("location");
+        records.sort((a, b) => a.location.localeCompare(b.location));
         for (let i = 0; i < records.length; i++) {
-          console.log(records[i].location)
+          console.log(records[i].location);
         }
         break;
-      case "Null":
-        break
+      default:
+        break;
     }
 
-/*    console.log(records[0].dateTime)
+    /*    console.log(records[0].dateTime)
 
     let sortedList = records.sort((a, b) =>
 
@@ -365,4 +362,4 @@ const sortRecord = (records,setRecordList,type) => {
     }*/
     /*      setRecordList(sortedList);*/
   }
-}
+};
