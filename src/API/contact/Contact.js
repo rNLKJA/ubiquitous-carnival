@@ -172,11 +172,6 @@ const Contact = () => {
                       onChange={handleOptions}
                       options = {options}
                       style={{
-                        marginTop: "5px",
-                        // marginRight: "5px",
-                        fontSize: "1.9rem",
-                        zIndex: 10,
-                      }}
                   />
                   <People
                       contacts={contacts}
