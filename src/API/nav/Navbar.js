@@ -10,10 +10,18 @@ import mapIMG from "./icon/map.png";
 const Navbar = () => {
   return (
     <nav className="main-nav">
+      <h1 data-testid="4399" hidden>
+        4399 CRM
+      </h1>
       <div className="navbar">
         {/* link to contact route */}
         <Link to="/contact">
-          <img className="nav-icon" src={contactIMG} alt="contact-icon" />
+          <img
+            className="nav-icon"
+            data_testid="contact_icon"
+            src={contactIMG}
+            alt="contact-icon"
+          />
         </Link>
       </div>
 
@@ -23,25 +31,6 @@ const Navbar = () => {
           <img className="nav-icon" src={recordIMG} alt="record-icon" />
         </Link>
       </div>
-
-      {/* link to calendar route */}
-      {/* <div className="navbar">
-        <Link to="/calendar">
-          <img className="nav-icon" src={require("./icon/calendar.png")} />
-        </Link>
-      </div> */}
-      {/* disable calendar display function */}
-
-      {/* link to search route */}
-      {/* <div className="navbar">
-        <Link to="/search">
-          <img
-            className="nav-icon"
-            src={settingIMG}
-            alt="search-icon"
-          />
-        </Link>
-      </div> */}
 
       {/* link to map route */}
       <div className="navbar">
@@ -53,11 +42,7 @@ const Navbar = () => {
       {/* link to personal setting route */}
       <div className="navbar">
         <Link to="/setting">
-          <img
-            className="nav-icon"
-            src={settingIMG}
-            alt="set-icon"
-          />
+          <img className="nav-icon" src={settingIMG} alt="set-icon" />
         </Link>
       </div>
     </nav>
