@@ -147,8 +147,6 @@ const Contact = () => {
         </h1>
         <div className="contact">
           {/* display contact as a list */}
-          <button onClick={sortContact(contacts, setContactList)}>sort</button>
-
           <div className="contactList" style={{ width: "97%" }}>
             {!oneContact.selected && windowDimensions.width <= 1024 && (
               <>
@@ -173,6 +171,12 @@ const Contact = () => {
                   <Select
                       onChange={handleOptions}
                       options = {options}
+                      style={{
+                        marginTop: "5px",
+                        // marginRight: "5px",
+                        fontSize: "1.9rem",
+                        zIndex: 10,
+                      }}
                   />
                   <People
                       contacts={contacts}
