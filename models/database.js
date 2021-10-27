@@ -7,7 +7,7 @@ const mongoose = require("mongoose");
 if (process.env.PORT) {
   // login details retrieved from environment variables
   connectionString =
-    "mongodb+srv://<username>:<password>@cluster0.gxwjq.mongodb.net/CRM?retryWrites=true&w=majority";
+    "mongodb+srv://<username>:<password>@cluster0.upm63.mongodb.net/CRM?retryWrites=true&w=majority";
 
   dbAddress = connectionString
     .replace("<username>", process.env.MONGO_USERNAME)
@@ -15,7 +15,7 @@ if (process.env.PORT) {
 } else {
   // we are running locally
   dbAddress =
-    "mongodb+srv://4399:tBbXaMrp6MmEs5Iu@cluster0.gxwjq.mongodb.net/CRM?retryWrites=true&w=majority";
+    "mongodb+srv://4399:tBbXaMrp6MmEs5Iu@cluster0.upm63.mongodb.net/CRM?retryWrites=true&w=majority";
 }
 
 // connect to mongodb database
