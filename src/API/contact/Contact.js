@@ -65,6 +65,7 @@ const Contact = () => {
     { value: "lastName", label: "Last Name" },
     { value: "occupation", label: "Occupation" },
     { value: "notes", label: "Notes" },
+    {value:'addDate',label:'Add Date'},
     { value: null, label: "Null" },
   ];
 
@@ -299,25 +300,36 @@ export const People = (prop) => {
               .includes(prop.search_key.toLowerCase()),
           );
 
-        case null:
+        case "addDate":
           return prop.contacts.filter((contact) =>
-            (
-              contact.contact.firstName +
-              " " +
-              contact.contact.lastName +
-              " " +
-              /*                  record.dateTime +
-                                    " " +*/
-              contact.contact.note +
-              " " +
-              contact.contact.occupation
-            )
-              .toLowerCase()
-              .includes(prop.search_key.toLowerCase()),
+              (
+                  convert(contact.contact.addDate)
+              )
+                  .toLowerCase()
+                  .includes(prop.search_key.toLowerCase()),
           );
+          break
 
-        default:
-          break;
+        case null:
+          console.log("NULL")
+          return prop.contacts.filter((contact) =>
+              (
+                  contact.contact.firstName +
+                  " " +
+                  contact.contact.lastName +
+                  " " +
+                  convert(contact.contact.addDate)+
+                  " " +
+                  contact.contact.note +
+                  " " +
+                  contact.contact.occupation
+              )
+                  .toLowerCase()
+                  .includes(prop.search_key.toLowerCase()),
+          );
+          break
+        default :
+          break
       }
     }
   };
@@ -358,6 +370,30 @@ export const People = (prop) => {
     </Grid>
   );
 };
+// This function convert the dateTime to a a formal string
+export function convert(str) {
+  var date = new Date(str),
+      month = ("0" + (date.getMonth() + 1)).slice(-2),
+      day = ("0" + date.getDate()).slice(-2);
+
+  var hours = date.getHours();
+  var minutes = date.getMinutes();
+  var ampm = hours >= 12 ? "pm" : "am";
+
+  hours = hours % 12;
+  hours = hours ? hours : 12; // the hour '0' should be '12'
+  minutes = ("0" + minutes).slice(-2);
+
+  if(hours>9){
+    var strTime = " " + hours + ":" + minutes + " " + ampm;
+  }else {
+    var strTime = " 0" + hours + ":" + minutes + " " + ampm;
+  }
+
+
+  return [date.getFullYear(), month, day].join("-") + strTime;
+}
+
 
 const useStyles = makeStyles(() => ({
   card: {
@@ -414,11 +450,20 @@ const sortContact = (contacts, setContactList, type) => {
 
         break;
 
-      case "Null":
-        break;
+      case "addDate":
+        console.log(contacts[0]);
+        contacts.sort((a, b) =>
 
-      default:
-        break;
+            convert(a.contact.addDate).localeCompare(convert(b.contact.addDate)));
+        for (let i = 0; i < contacts.length; i++) {
+          console.log(contacts[i].contact.addDate)
+        }
+        break
+
+      case "Null":
+        break
+      default :
+        break
     }
   }
 };
