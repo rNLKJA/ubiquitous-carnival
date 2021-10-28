@@ -9,11 +9,11 @@ import { convert } from "./Record";
 import fetchClient from "../axiosClient/axiosClient";
 import Error from "../error/Error";
 import Navbar from "../nav/Navbar";
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import Map from "./map";
 import Heading from "../heading/heading.jsx";
 import Autocomplete from "@mui/material/Autocomplete";
-import { Link } from "react-router-dom";
+// import { Redirect } from "react-router-dom";
 import Button from "@mui/material/Button";
 import DeleteIcon from "@mui/icons-material/Delete";
 
@@ -22,7 +22,7 @@ const CreateRecord = () => {
     document.title = "Add Record";
   }, []);
 
-  const textAreaRef = useRef(null);
+  // const textAreaRef = useRef(null);
 
   const [currentTime, setCurrentTime] = useState(new Date());
   const { loading, contacts, error } = useContacts();
@@ -138,16 +138,24 @@ const CreateRecord = () => {
 
         <div className="edit-record-container">
           <div
-            style={{ justifyContent: "center", display: "flex", padding: "10px" }}
+            style={{
+              justifyContent: "center",
+              display: "flex",
+              padding: "10px",
+            }}
           >
             <Button
-              sx={{ width: "8rem", height: "3rem", backgroundColor: '#ef5350', color: "white" }}
-              href='/record'
+              sx={{
+                width: "8rem",
+                height: "3rem",
+                backgroundColor: "#ef5350",
+                color: "white",
+              }}
+              href="/record"
             >
               Back
             </Button>
           </div>
-
 
           <form className="record-form">
             <Autocomplete
@@ -204,7 +212,7 @@ const CreateRecord = () => {
               type="number"
               step="any"
               value={geoCoords.lat}
-              onChange={() => { }}
+              onChange={() => {}}
               hidden
             />
             <input
@@ -212,7 +220,7 @@ const CreateRecord = () => {
               type="number"
               step="any"
               value={geoCoords.lng}
-              onChange={() => { }}
+              onChange={() => {}}
               hidden
             />
 
@@ -282,8 +290,19 @@ const CreateRecord = () => {
 
             <hr />
 
-            <div style={{ justifyContent: "center", display: "flex", padding: "10px" }}>
-              <Button variant="contained" onClick={handleSubmit} sx={{ width: "8rem", height: "3rem" }} color='success'>
+            <div
+              style={{
+                justifyContent: "center",
+                display: "flex",
+                padding: "10px",
+              }}
+            >
+              <Button
+                variant="contained"
+                onClick={handleSubmit}
+                sx={{ width: "8rem", height: "3rem" }}
+                color="success"
+              >
                 Create
               </Button>
             </div>

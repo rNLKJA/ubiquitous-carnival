@@ -5,7 +5,7 @@ import "./contact.css";
 import "./manual-input.css";
 // import axios from "axios";
 import fetchClient from "../axiosClient/axiosClient";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import Heading from "../heading/heading.jsx";
 import NavBar from "../nav/Navbar";
 import Avatar from "@mui/material/Avatar";
@@ -23,8 +23,8 @@ import UploadIcon from "@mui/icons-material/Upload";
 import { makeStyles } from "@material-ui/core/styles";
 import cx from "clsx";
 import TextField from "@mui/material/TextField";
-import { width } from "@mui/system";
-import Alert from "@mui/material/Alert";
+// import { width } from "@mui/system";
+// import Alert from "@mui/material/Alert";
 import DeleteIcon from "@mui/icons-material/Delete";
 
 const useFabStyle = makeStyles((success) => ({
@@ -46,7 +46,7 @@ const AddUser = () => {
   useEffect(() => {
     document.title = "Add a new Contact";
   }, []);
-  const BASE_URL = "https://crm4399.herokuapp.com";
+  // const BASE_URL = "https://crm4399.herokuapp.com";
   // const BASE_URL = "http://localhost:5000";
 
   const [firstName, setFirstName] = useState("");
@@ -61,13 +61,13 @@ const AddUser = () => {
 
   const [avatar, setAvatar] = useState("");
   const [file, setFile] = useState("");
-  const [message, setMessage] = useState("");
+  // const [message, setMessage] = useState("");
   const [uploadPercentage, setUploadPercentage] = useState(0);
   const [loading1, setLoading1] = useState(false);
   const [success, setSuccess] = useState(false);
   const [fileName, setFileName] = useState("");
 
-  const [contact, setContact] = useState("");
+  // const [contact, setContact] = useState("");
   const styles = useFabStyle(success);
 
   // console.log(firstName, lastName, emails, phones, occupation, note)
