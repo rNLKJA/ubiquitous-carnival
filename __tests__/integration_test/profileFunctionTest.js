@@ -17,7 +17,7 @@ describe("Integration test: Test for profile", () => {
       .set("Content-Type", "application/json")
       .send({
         userName: "test123",
-        password: "123",
+        password: "testtest123",
       })
       .then((res) => {
         jwtToken = res.body.token;

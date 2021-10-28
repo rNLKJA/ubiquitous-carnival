@@ -17,7 +17,7 @@ describe("Integration test: Test for create Record", () => {
       .set("Content-Type", "application/json")
       .send({
         userName: "test123",
-        password: "123",
+        password: "testtest123",
       })
       .then((res) => {
         jwtToken = res.body.token;
@@ -40,12 +40,12 @@ describe("Integration test: Test for create Record", () => {
         location: "University of Melbourne",
         dateTime: "2021-10-01T10:28:10.018Z",
         geoCoords: {
-            "lat": "122334545",
-            "lng": "52123456"
+          lat: "122334545",
+          lng: "52123456",
         },
         notes: "account",
-        customField: "testCustomField"
-    })
+        customField: "testCustomField",
+      })
       .then((res) => {
         expect(res.statusCode).toBe(200);
         expect(res.text).toContain("Database query failed");
@@ -62,12 +62,12 @@ describe("Integration test: Test for create Record", () => {
         location: "University of Melbourne",
         dateTime: "2021-10-01T10:28:10.018Z",
         geoCoords: {
-            "lat": "122334545",
-            "lng": "52123456"
+          lat: "122334545",
+          lng: "52123456",
         },
         notes: "account",
-        customField: "testCustomField"
-    })
+        customField: "testCustomField",
+      })
       .then((res) => {
         expect(res.statusCode).toBe(200);
         expect(res.text).toContain("Miss Important Information Input");
@@ -84,11 +84,11 @@ describe("Integration test: Test for create Record", () => {
         location: "University of Melbourne",
         dateTime: null,
         geoCoords: {
-            "lat": "122334545",
-            "lng": "52123456"
+          lat: "122334545",
+          lng: "52123456",
         },
         notes: "account",
-        customField: "testCustomField"
+        customField: "testCustomField",
       })
       .then((res) => {
         expect(res.statusCode).toBe(200);
@@ -98,7 +98,9 @@ describe("Integration test: Test for create Record", () => {
         expect(res.body.lat).toBe(122334545);
         expect(res.body.lng).toBe(52123456);
         expect(res.body.notes).toBe("account");
-        expect(res.body.customField).toEqual(expect.arrayContaining(["testCustomField"]));
+        expect(res.body.customField).toEqual(
+          expect.arrayContaining(["testCustomField"])
+        );
       });
   });
 
@@ -112,11 +114,11 @@ describe("Integration test: Test for create Record", () => {
         location: "University of Melbourne",
         dateTime: "2021-10-01T10:28:10.018Z",
         geoCoords: {
-            "lat": "122334545",
-            "lng": "52123456"
+          lat: "122334545",
+          lng: "52123456",
         },
         notes: "account",
-        customField: "testCustomField"
+        customField: "testCustomField",
       })
       .then((res) => {
         expect(res.statusCode).toBe(200);
@@ -126,7 +128,9 @@ describe("Integration test: Test for create Record", () => {
         expect(res.body.lat).toBe(122334545);
         expect(res.body.lng).toBe(52123456);
         expect(res.body.notes).toBe("account");
-        expect(res.body.customField).toEqual(expect.arrayContaining(["testCustomField"]));
+        expect(res.body.customField).toEqual(
+          expect.arrayContaining(["testCustomField"])
+        );
       });
   });
 
@@ -141,7 +145,7 @@ describe("Integration test: Test for create Record", () => {
         dateTime: "2021-10-01T10:28:10.018Z",
         geoCoords: null,
         notes: "account",
-        customField: "testCustomField"
+        customField: "testCustomField",
       })
       .then((res) => {
         expect(res.statusCode).toBe(200);
@@ -151,7 +155,9 @@ describe("Integration test: Test for create Record", () => {
         expect(res.body.lat).toBe(null);
         expect(res.body.lng).toBe(null);
         expect(res.body.notes).toBe("account");
-        expect(res.body.customField).toEqual(expect.arrayContaining(["testCustomField"]));
+        expect(res.body.customField).toEqual(
+          expect.arrayContaining(["testCustomField"])
+        );
       });
   });
 
@@ -166,14 +172,13 @@ describe("Integration test: Test for create Record", () => {
         dateTime: "2021-10-01T10:28:10.018Z",
         geoCoords: null,
         notes: "account",
-        customField: "testCustomField"
+        customField: "testCustomField",
       })
       .then((res) => {
         expect(res.statusCode).toBe(200);
         expect(res.text).toContain("Miss Important Information Input");
       });
   });
-  
 
   /*
   test("Test 4: Add a record without the linkedAccount", () => {
@@ -240,5 +245,4 @@ describe("Integration test: Test for create Record", () => {
         expect(res.text).not.toContain("Database query failed");
       });
   });*/
-  
 });
