@@ -165,7 +165,7 @@ const Contact = () => {
                   <TextField
                     id="standard-basic"
                     label="Search by name/occupation"
-                    style={{ width: "90%" }}
+                    style={{ width: "100%" }}
                     value={searchTerm}
                     onChange={(e) => handleChange(e)}
                   />
@@ -173,7 +173,12 @@ const Contact = () => {
                   <Select
                     onChange={handleOptions}
                     options={options}
-                    style={{}}
+                    style={{
+                      marginTop: "5px",
+                      // marginRight: "5px",
+                      fontSize: "1.9rem",
+                      zIndex: 10,
+                    }}
                   />
                   <People
                     contacts={contacts}

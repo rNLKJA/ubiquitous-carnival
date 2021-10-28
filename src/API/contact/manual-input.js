@@ -66,6 +66,7 @@ const AddUser = () => {
   const [loading1, setLoading1] = useState(false);
   const [success, setSuccess] = useState(false);
   const [fileName, setFileName] = useState("");
+  const [valid, setValid] = useState(false);
 
   // const [contact, setContact] = useState("");
   const styles = useFabStyle(success);
@@ -117,15 +118,15 @@ const AddUser = () => {
     var email = ConvertListObjectToListValues(emails, "email");
     var phone = ConvertListObjectToListValues(phones, "phone");
 
-    console.log(
-      "in submit ,",
-      firstName,
-      lastName,
-      email,
-      phone,
-      occupation,
-      note,
-    );
+    setValid(true);
+
+    dataValidator(phone, "phone", setValid);
+    dataValidator(email, "email", setValid);
+    dataValidator(firstName, "firstName", setValid);
+    dataValidator(lastName, "lastName", setValid);
+    dataValidator(occupation, "occupation", setValid);
+    dataValidator(customField, "field", setValid);
+
     const formData = new FormData();
     formData.append("firstName", firstName);
     formData.append("lastName", lastName);
@@ -141,62 +142,67 @@ const AddUser = () => {
       console.log(pair[0] + ", " + pair[1]);
     }
 
-    try {
-      setSuccess(false);
-      setLoading1(true);
-      const response = await fetchClient
-        .post("/contact/createContactOneStep", formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-          onUploadProgress: (progressEvent) => {
-            setUploadPercentage(
-              parseInt(
-                Math.round((progressEvent.loaded * 100) / progressEvent.total),
-              ),
-            );
-          },
-        })
-        .then((res) => {
-          if (res.data.dupContact) {
-            alert("duplicate contact");
-          }
-          if (res.data.status === "false") {
-            alert("upload failed");
-          }
+    if (valid) {
+      try {
+        setSuccess(false);
+        setLoading1(true);
+        const response = await fetchClient
+          .post("/contact/createContactOneStep", formData, {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+            onUploadProgress: (progressEvent) => {
+              setUploadPercentage(
+                parseInt(
+                  Math.round(
+                    (progressEvent.loaded * 100) / progressEvent.total,
+                  ),
+                ),
+              );
+            },
+          })
+          .then((res) => {
+            if (res.data.dupContact) {
+              alert("duplicate contact");
+            }
+            if (res.data.status === "false") {
+              alert("upload failed");
+            }
 
-          alert("You've create a new contact!");
-          return res;
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+            alert("You've create a new contact!");
+            return res;
+          })
+          .catch((err) => {
+            console.log(err);
+          });
 
-      if (response.data.status === "false") {
-        alert("upload failed");
-        return;
+        if (response.data.status === "false") {
+          alert("upload failed");
+          return;
+        }
+
+        // setTimeout(() => setUploadPercentage(0), 100);
+
+        setSuccess(true);
+        setLoading1(false);
+        setUpload(false);
+        window.location.href = "/contact";
+      } catch (err) {
+        if (err) {
+          alert(err);
+          return;
+        }
+        setUploadPercentage(0);
       }
-
-      // setTimeout(() => setUploadPercentage(0), 100);
-
-      setSuccess(true);
-      setLoading1(false);
-      setUpload(false);
-      window.location.href = "/contact";
-    } catch (err) {
-      if (err) {
-        alert(err);
-        return;
-      }
-      setUploadPercentage(0);
+      setFirstName("");
+      setLastName("");
+      setEmails([]);
+      setPhones([]);
+      setOccupation("");
+      setNote("");
+    } else {
+      alert("Invalid input");
     }
-
-    setFirstName("");
-    setLastName("");
-    setEmails([]);
-    setPhones([]);
-    setOccupation("");
-    setNote("");
   };
 
   // const [image, setImage] = useState("");
@@ -625,4 +631,76 @@ const ConvertListObjectToListValues = (items, type) => {
   }
 
   return result;
+};
+
+const dataValidator = (items, type, setValid) => {
+  var pattern, notEmpty;
+  switch (type) {
+    case "firstName":
+      if (items.length === 0) {
+        setValid(false);
+        alert(`Invalid ${type} input, input cannot be empty`);
+      } else {
+      }
+      break;
+    case "lastName":
+      if (items.length === 0) {
+        setValid(false);
+        alert(`Invalid ${type} input, input cannot be empty`);
+      } else {
+      }
+      break;
+    case "occupation":
+      if (items.length === 0) {
+        setValid(false);
+        alert(`Invalid ${type} input, input cannot be empty`);
+      } else {
+      }
+      break;
+    case "phone":
+      pattern = /\d{10}/;
+      notEmpty = /\S/;
+      if (items.length < 1) {
+        setValid(false);
+        alert("You must provide at least one phone number!");
+      }
+
+      for (let i = 0; i < items.length; i++) {
+        if (!pattern.test(items[i]) && !notEmpty.test(items[i])) {
+          setValid(false);
+          alert("Invalid phone format");
+        }
+      }
+      break;
+    case "email":
+      pattern = /^([A-Za-z0-9_\-.])+@([A-Za-z0-9_\-.])+\.([A-Za-z]{2,4})$/;
+      notEmpty = /\S/;
+      if (items.length < 1) {
+        setValid(false);
+        alert("You must have at least one email!");
+      }
+
+      for (let i = 0; i < items.length; i++) {
+        if (!pattern.test(items[i]) && !notEmpty.test(items[i])) {
+          setValid(false);
+          alert("Invalid email format");
+        }
+      }
+
+      break;
+    case "field":
+      for (let i = 0; i < items.length; i++) {
+        if (items[i].field === "") {
+          setValid(false);
+          alert("Field name cannot be empty");
+        } else if (items[i].value === "") {
+          setValid(false);
+          alert("Field value cannot be empty");
+        }
+      }
+      break;
+    default:
+      setValid(false);
+      console.log("Invalid Input");
+  }
 };

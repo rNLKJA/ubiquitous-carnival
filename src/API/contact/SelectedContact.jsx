@@ -129,7 +129,7 @@ export const DisplayContact = ({
   const [success, setSuccess] = useState(false);
   const [fileName, setFileName] = useState("");
   const [customField, setCustomField] = useState([]);
-  const [valid, setValid] = useState(true);
+  const [valid, setValid] = useState(false);
   useEffect(() => {
     if (contact.portrait === null) {
       setAvatar("");
@@ -776,12 +776,12 @@ const ConvertListObjectToListValues = (items, type) => {
 
   return result;
 };
+
 const dataValidator = (items, type, setValid) => {
   var pattern, notEmpty;
   switch (type) {
     case "firstName":
       if (items.length === 0) {
-        console.log(1);
         setValid(false);
         alert(`Invalid ${type} input, input cannot be empty`);
       } else {
@@ -789,7 +789,6 @@ const dataValidator = (items, type, setValid) => {
       break;
     case "lastName":
       if (items.length === 0) {
-        console.log(2);
         setValid(false);
         alert(`Invalid ${type} input, input cannot be empty`);
       } else {
@@ -797,7 +796,6 @@ const dataValidator = (items, type, setValid) => {
       break;
     case "occupation":
       if (items.length === 0) {
-        console.log(3);
         setValid(false);
         alert(`Invalid ${type} input, input cannot be empty`);
       } else {
@@ -807,14 +805,12 @@ const dataValidator = (items, type, setValid) => {
       pattern = /\d{10}/;
       notEmpty = /\S/;
       if (items.length < 1) {
-        console.log(4);
         setValid(false);
         alert("You must provide at least one phone number!");
       }
 
       for (let i = 0; i < items.length; i++) {
         if (!pattern.test(items[i]) && !notEmpty.test(items[i])) {
-          console.log(5);
           setValid(false);
           alert("Invalid phone format");
         }
@@ -824,14 +820,12 @@ const dataValidator = (items, type, setValid) => {
       pattern = /^([A-Za-z0-9_\-.])+@([A-Za-z0-9_\-.])+\.([A-Za-z]{2,4})$/;
       notEmpty = /\S/;
       if (items.length < 1) {
-        console.log(6);
         setValid(false);
         alert("You must have at least one email!");
       }
 
       for (let i = 0; i < items.length; i++) {
         if (!pattern.test(items[i]) && !notEmpty.test(items[i])) {
-          console.log(7);
           setValid(false);
           alert("Invalid email format");
         }
@@ -839,7 +833,6 @@ const dataValidator = (items, type, setValid) => {
 
       break;
     case "field":
-      console.log(items);
       for (let i = 0; i < items.length; i++) {
         if (items[i].field === "") {
           setValid(false);

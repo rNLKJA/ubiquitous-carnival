@@ -32,6 +32,7 @@ const CreateRecord = () => {
   const [notes, setNotes] = useState("");
 
   const [customField, setCustomField] = useState([]);
+  const [valid, setValid] = useState(false);
 
   if (error) {
     return <Error msg={"Something Wrong with Record Component"}></Error>;
@@ -59,7 +60,8 @@ const CreateRecord = () => {
     };
   });
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     // return console.log(location);
     const recordInfo = {
       contact_id: selected,
@@ -70,19 +72,24 @@ const CreateRecord = () => {
       customField,
     };
 
-    // console.log(recordInfo);
+    setValid(true);
+    dataValidator(customField, "field", setValid);
 
-    await fetchClient
-      .post("/record/createRecord", recordInfo)
-      .then(() => alert("Successfully create a record つ - - つ"))
-      .catch((err) => {
-        alert(err);
-        console.error(err);
-      });
-    setLocation("");
-    setSelected("");
+    console.log(valid);
 
-    window.location.href = "/record";
+    if (valid === true) {
+      await fetchClient
+        .post("/record/createRecord", recordInfo)
+        .then(() => alert("Successfully create a record つ - - つ"))
+        .catch((err) => {
+          alert(err);
+          console.error(err);
+        });
+      setLocation("");
+      setSelected("");
+
+      window.location.href = "/record";
+    }
   };
 
   const setFieldValue = (value) => {
@@ -314,3 +321,75 @@ const CreateRecord = () => {
 };
 
 export default CreateRecord;
+
+const dataValidator = (items, type, setValid) => {
+  var pattern, notEmpty;
+  switch (type) {
+    case "firstName":
+      if (items.length === 0) {
+        setValid(false);
+        alert(`Invalid ${type} input, input cannot be empty`);
+      } else {
+      }
+      break;
+    case "lastName":
+      if (items.length === 0) {
+        setValid(false);
+        alert(`Invalid ${type} input, input cannot be empty`);
+      } else {
+      }
+      break;
+    case "occupation":
+      if (items.length === 0) {
+        setValid(false);
+        alert(`Invalid ${type} input, input cannot be empty`);
+      } else {
+      }
+      break;
+    case "phone":
+      pattern = /\d{10}/;
+      notEmpty = /\S/;
+      if (items.length < 1) {
+        setValid(false);
+        alert("You must provide at least one phone number!");
+      }
+
+      for (let i = 0; i < items.length; i++) {
+        if (!pattern.test(items[i]) && !notEmpty.test(items[i])) {
+          setValid(false);
+          alert("Invalid phone format");
+        }
+      }
+      break;
+    case "email":
+      pattern = /^([A-Za-z0-9_\-.])+@([A-Za-z0-9_\-.])+\.([A-Za-z]{2,4})$/;
+      notEmpty = /\S/;
+      if (items.length < 1) {
+        setValid(false);
+        alert("You must have at least one email!");
+      }
+
+      for (let i = 0; i < items.length; i++) {
+        if (!pattern.test(items[i]) && !notEmpty.test(items[i])) {
+          setValid(false);
+          alert("Invalid email format");
+        }
+      }
+
+      break;
+    case "field":
+      for (let i = 0; i < items.length; i++) {
+        if (items[i].field === "") {
+          setValid(false);
+          alert("Field name cannot be empty");
+        } else if (items[i].value === "") {
+          setValid(false);
+          alert("Field value cannot be empty");
+        }
+      }
+      break;
+    default:
+      setValid(false);
+      console.log("Invalid Input");
+  }
+};

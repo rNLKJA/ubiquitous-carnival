@@ -69,11 +69,11 @@ const Record = () => {
     label: "Null",
   });
   const options = [
-    {value:'firstName',label:'First Name'},
-    {value:'lastName',label:'Last Name'},
-    {value:'location',label:'Location'},
-    {value:'notes',label:'Notes'},
-    {value:null,label:'Null'},
+    { value: "firstName", label: "First Name" },
+    { value: "lastName", label: "Last Name" },
+    { value: "location", label: "Location" },
+    { value: "notes", label: "Notes" },
+    { value: null, label: "Null" },
   ];
 
   const handleChange = (e) => {
@@ -145,6 +145,13 @@ const Record = () => {
                   marginLeft: "10px",
                 }}
               >
+                <TextField
+                  id="standard-basic"
+                  label="Search at here!!"
+                  style={{ width: "100%", marginTop: 10 }}
+                  value={searchTerm}
+                  onChange={(e) => handleChange(e)}
+                />
                 <Select
                   /*                  value = {selectedOption}*/
                   onChange={handleOptions}
@@ -155,13 +162,6 @@ const Record = () => {
                     fontSize: "1.9rem",
                     zIndex: 10,
                   }}
-                />
-                <TextField
-                  id="standard-basic"
-                  label="Search at here!!"
-                  style={{ width: "100%", marginTop: 10 }}
-                  value={searchTerm}
-                  onChange={(e) => handleChange(e)}
                 />
               </div>
               {/* {console.log(options)} */}
@@ -196,48 +196,36 @@ export const RecordList = (prop) => {
   // console.log("keyword is " + prop.search_key);
   const searchRecords = () => {
     if (prop.records !== undefined) {
-      console.log(prop.options)
-      switch (prop.options){
+      console.log(prop.options);
+      switch (prop.options) {
         case "firstName":
           return prop.records.filter((record) =>
-              (
-                  record.meetingPerson.firstName
-              )
-                  .toLowerCase()
-                  .includes(prop.search_key.toLowerCase()),
+            record.meetingPerson.firstName
+              .toLowerCase()
+              .includes(prop.search_key.toLowerCase()),
           );
 
-          break
+          break;
         case "lastName":
           return prop.records.filter((record) =>
-              (
-
-                  record.meetingPerson.lastName
-
-              )
-                  .toLowerCase()
-                  .includes(prop.search_key.toLowerCase()),
+            record.meetingPerson.lastName
+              .toLowerCase()
+              .includes(prop.search_key.toLowerCase()),
           );
-          break
+          break;
         case "location":
           return prop.records.filter((record) =>
-              (
-                  record.location
-              )
-                  .toLowerCase()
-                  .includes(prop.search_key.toLowerCase()),
+            record.location
+              .toLowerCase()
+              .includes(prop.search_key.toLowerCase()),
           );
-          break
+          break;
         case "notes":
           return prop.records.filter((record) =>
-              (
-                  record.notes
-              )
-                  .toLowerCase()
-                  .includes(prop.search_key.toLowerCase()),
+            record.notes.toLowerCase().includes(prop.search_key.toLowerCase()),
           );
-          break
-          /*        case "time":
+          break;
+        /*        case "time":
                     return prop.records.filter((record) =>
                         (
                             record.dateTime
@@ -247,27 +235,26 @@ export const RecordList = (prop) => {
                     );
                     break*/
         case null:
-          console.log("NULL")
+          console.log("NULL");
           return prop.records.filter((record) =>
-              (
-                  record.meetingPerson.firstName +
-                  " " +
-                  record.meetingPerson.lastName +
-                  " " +
-                  /*                  record.dateTime +
+            (
+              record.meetingPerson.firstName +
+              " " +
+              record.meetingPerson.lastName +
+              " " +
+              /*                  record.dateTime +
                                     " " +*/
-                  record.notes +
-                  " " +
-                  record.location
-              )
-                  .toLowerCase()
-                  .includes(prop.search_key.toLowerCase()),
+              record.notes +
+              " " +
+              record.location
+            )
+              .toLowerCase()
+              .includes(prop.search_key.toLowerCase()),
           );
-          break
+          break;
       }
     }
   };
-
 
   let fitterRecords = searchRecords();
 
@@ -352,49 +339,44 @@ export function convert(str) {
 
   return [date.getFullYear(), month, day].join("-") + strTime;
 }
-const sortRecord = (records,setRecordList,type) => {
-
+const sortRecord = (records, setRecordList, type) => {
   if (records) {
-    console.log(records[0])
+    console.log(records[0]);
     switch (type) {
       case "firstName":
         console.log("firstName");
         records.sort((a, b) =>
-
-            a.meetingPerson.firstName.localeCompare(b.meetingPerson.firstName));
+          a.meetingPerson.firstName.localeCompare(b.meetingPerson.firstName),
+        );
         for (let i = 0; i < records.length; i++) {
-          console.log(records[i].meetingPerson.firstName)
+          console.log(records[i].meetingPerson.firstName);
         }
         break;
       case "lastName":
         console.log("lastName");
         records.sort((a, b) =>
-
-            a.meetingPerson.lastName.localeCompare(b.meetingPerson.lastName));
+          a.meetingPerson.lastName.localeCompare(b.meetingPerson.lastName),
+        );
         for (let i = 0; i < records.length; i++) {
-          console.log(records[i].meetingPerson.lastName)
+          console.log(records[i].meetingPerson.lastName);
         }
         break;
       case "location":
         console.log("location");
-        records.sort((a, b) =>
-
-            a.location.localeCompare(b.location));
+        records.sort((a, b) => a.location.localeCompare(b.location));
         for (let i = 0; i < records.length; i++) {
-          console.log(records[i].location)
+          console.log(records[i].location);
         }
         break;
       case "notes":
         console.log(records[0].notes);
-        records.sort((a, b) =>
-
-            a.notes.localeCompare(b.notes));
+        records.sort((a, b) => a.notes.localeCompare(b.notes));
         for (let i = 0; i < records.length; i++) {
-          console.log(records[i].notes)
+          console.log(records[i].notes);
         }
-        break
+        break;
       case "Null":
-        break
+        break;
     }
   }
-}
+};
