@@ -91,7 +91,6 @@ const Contact = () => {
 
   const deleteHandler = async (e) => {
     e.preventDefault();
-    console.log(oneContact);
     await fetchClient
       .get(
         "/contact/deleteOneContact/" +
@@ -264,8 +263,6 @@ const Contact = () => {
 
 export default Contact;
 export const People = (prop) => {
-  // console.log("keyword is " + prop.search_key);
-  console.log(prop.contacts);
   const styles = useStyles();
   const searchContacts = () => {
     if (prop.contacts !== undefined) {
@@ -277,42 +274,28 @@ export const People = (prop) => {
               .includes(prop.search_key.toLowerCase()),
           );
 
-          break;
         case "lastName":
           return prop.contacts.filter((contact) =>
             contact.contact.lastName
               .toLowerCase()
               .includes(prop.search_key.toLowerCase()),
           );
-          break;
+
         case "occupation":
           return prop.contacts.filter((contact) =>
             contact.contact.occupation
               .toLowerCase()
               .includes(prop.search_key.toLowerCase()),
           );
-          break;
+
         case "notes":
-          {
-            console.log(prop.contacts[0].note);
-          }
           return prop.contacts.filter((contact) =>
             contact.contact.note
               .toLowerCase()
               .includes(prop.search_key.toLowerCase()),
           );
-          break;
-        /*        case "time":
-                    return prop.records.filter((record) =>
-                        (
-                            record.dateTime
-                        )
-                            .toLowerCase()
-                            .includes(prop.search_key.toLowerCase()),
-                    );
-                    break*/
+
         case null:
-          console.log("NULL");
           return prop.contacts.filter((contact) =>
             (
               contact.contact.firstName +
@@ -328,6 +311,8 @@ export const People = (prop) => {
               .toLowerCase()
               .includes(prop.search_key.toLowerCase()),
           );
+
+        default:
           break;
       }
     }
@@ -386,57 +371,37 @@ const useStyles = makeStyles(() => ({
   },
 }));
 const sortContact = (contacts, setContactList, type) => {
-  console.log(contacts);
-
   if (contacts !== undefined) {
-    console.log(contacts[0]);
     switch (type) {
       case "firstName":
-        console.log("firstName");
         contacts.sort((a, b) =>
           a.contact.firstName.localeCompare(b.contact.firstName),
         );
-        for (let i = 0; i < contacts.length; i++) {
-          console.log(contacts[i].contact.firstName);
-        }
+
         break;
       case "lastName":
-        console.log("lastName");
         contacts.sort((a, b) =>
           a.contact.lastName.localeCompare(b.contact.lastName),
         );
-        for (let i = 0; i < contacts.length; i++) {
-          console.log(contacts[i].contact.lastName);
-        }
+
         break;
       case "occupation":
-        console.log("location");
         contacts.sort((a, b) =>
           a.contact.occupation.localeCompare(b.contact.occupation),
         );
-        for (let i = 0; i < contacts.length; i++) {
-          console.log(contacts[i].contact.occupation);
-        }
+        for (let i = 0; i < contacts.length; i++) {}
         break;
       case "notes":
-        console.log(contacts[0]);
         contacts.sort((a, b) => a.contact.note.localeCompare(b.contact.note));
-        for (let i = 0; i < contacts.length; i++) {
-          console.log(contacts[i].contact.note);
-        }
+
         break;
 
       case "Null":
         break;
-    }
 
-    /*    console.log(records[0].dateTime)
-        let sortedList = records.sort((a, b) =>
-            a.dateTime.split('-').join().localeCompare(b.dateTime.split('-').join()));
-        for (let i = 0; i < sortedList.length; i++) {
-          console.log(sortedList[i].dateTime)
-        }*/
-    /*      setRecordList(sortedList);*/
+      default:
+        break;
+    }
   }
 };
 

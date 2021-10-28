@@ -12,7 +12,7 @@ import Navbar from "../nav/Navbar";
 import { Grid } from "@material-ui/core";
 // import AddCommentIcon from "@mui/icons-material/AddComment";
 // import Box from "@mui/material/Box";
-import Fab from "@mui/material/Fab";
+// import Fab from "@mui/material/Fab";
 import AddIcon from "@mui/icons-material/Add";
 // import EditIcon from "@mui/icons-material/Edit";
 // import FavoriteIcon from "@mui/icons-material/Favorite";
@@ -21,39 +21,39 @@ import { Link } from "react-router-dom";
 import EditRecord from "./editRecord";
 import { useContacts } from "../../BackEndAPI/contactAPI";
 import TextField from "@mui/material/TextField";
-import { makeStyles } from "@material-ui/styles";
+// import { makeStyles } from "@material-ui/styles";
 import Select from "react-select";
-import { Button } from "react-bootstrap";
+// import { Button } from "react-bootstrap";
 
-const useRecordStyles = makeStyles(() => ({
-  text: {
-    fontFamily: "Barlow, san-serif",
-    whiteSpace: "nowrap",
-    textOverflow: "ellipsis",
-    overflow: "hidden",
-  },
-  name: {
-    fontWeight: 600,
-    fontSize: "1rem",
-    color: "#122740",
-  },
-  caption: {
-    fontSize: "0.8rem",
-    color: "#758392",
-    marginTop: -4,
-  },
-  btn: {
-    borderRadius: 20,
-    padding: "0.125rem 0.75rem",
-    borderColor: "#becddc",
-    fontSize: "0.75rem",
-  },
-}));
+// const useRecordStyles = makeStyles(() => ({
+//   text: {
+//     fontFamily: "Barlow, san-serif",
+//     whiteSpace: "nowrap",
+//     textOverflow: "ellipsis",
+//     overflow: "hidden",
+//   },
+//   name: {
+//     fontWeight: 600,
+//     fontSize: "1rem",
+//     color: "#122740",
+//   },
+//   caption: {
+//     fontSize: "0.8rem",
+//     color: "#758392",
+//     marginTop: -4,
+//   },
+//   btn: {
+//     borderRadius: 20,
+//     padding: "0.125rem 0.75rem",
+//     borderColor: "#becddc",
+//     fontSize: "0.75rem",
+//   },
+// }));
 
 const Record = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const { contacts } = useContacts();
-  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
+  // const [screenWidth, setScreenWidth] = useState(window.innerWidth);
   const { loading, records, error } = useShowAllRecords();
   const [recordList, setRecordList] = useState();
   const [oneRecord, setOneRecord] = useState({
@@ -82,9 +82,7 @@ const Record = () => {
   };
   const handleOptions = (selectedOption) => {
     setSelectedOption(selectedOption);
-    // console.log(`Option selected:`, selectedOption);
     sortRecord(records, setRecordList, selectedOption.value);
-    // console.log(records);
   };
 
   useEffect(() => {
@@ -164,7 +162,7 @@ const Record = () => {
                   }}
                 />
               </div>
-              {/* {console.log(options)} */}
+
               <RecordList
                 records={records}
                 search_key={searchTerm}
@@ -193,10 +191,8 @@ const Record = () => {
 export default Record;
 
 export const RecordList = (prop) => {
-  // console.log("keyword is " + prop.search_key);
   const searchRecords = () => {
     if (prop.records !== undefined) {
-      console.log(prop.options);
       switch (prop.options) {
         case "firstName":
           return prop.records.filter((record) =>
@@ -205,37 +201,26 @@ export const RecordList = (prop) => {
               .includes(prop.search_key.toLowerCase()),
           );
 
-          break;
         case "lastName":
           return prop.records.filter((record) =>
             record.meetingPerson.lastName
               .toLowerCase()
               .includes(prop.search_key.toLowerCase()),
           );
-          break;
+
         case "location":
           return prop.records.filter((record) =>
             record.location
               .toLowerCase()
               .includes(prop.search_key.toLowerCase()),
           );
-          break;
+
         case "notes":
           return prop.records.filter((record) =>
             record.notes.toLowerCase().includes(prop.search_key.toLowerCase()),
           );
-          break;
-        /*        case "time":
-                    return prop.records.filter((record) =>
-                        (
-                            record.dateTime
-                        )
-                            .toLowerCase()
-                            .includes(prop.search_key.toLowerCase()),
-                    );
-                    break*/
+
         case null:
-          console.log("NULL");
           return prop.records.filter((record) =>
             (
               record.meetingPerson.firstName +
@@ -251,6 +236,8 @@ export const RecordList = (prop) => {
               .toLowerCase()
               .includes(prop.search_key.toLowerCase()),
           );
+
+        default:
           break;
       }
     }
@@ -341,41 +328,26 @@ export function convert(str) {
 }
 const sortRecord = (records, setRecordList, type) => {
   if (records) {
-    console.log(records[0]);
     switch (type) {
       case "firstName":
-        console.log("firstName");
         records.sort((a, b) =>
           a.meetingPerson.firstName.localeCompare(b.meetingPerson.firstName),
         );
-        for (let i = 0; i < records.length; i++) {
-          console.log(records[i].meetingPerson.firstName);
-        }
         break;
       case "lastName":
-        console.log("lastName");
         records.sort((a, b) =>
           a.meetingPerson.lastName.localeCompare(b.meetingPerson.lastName),
         );
-        for (let i = 0; i < records.length; i++) {
-          console.log(records[i].meetingPerson.lastName);
-        }
         break;
       case "location":
-        console.log("location");
         records.sort((a, b) => a.location.localeCompare(b.location));
-        for (let i = 0; i < records.length; i++) {
-          console.log(records[i].location);
-        }
         break;
       case "notes":
-        console.log(records[0].notes);
         records.sort((a, b) => a.notes.localeCompare(b.notes));
-        for (let i = 0; i < records.length; i++) {
-          console.log(records[i].notes);
-        }
         break;
       case "Null":
+        break;
+      default:
         break;
     }
   }

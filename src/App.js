@@ -24,7 +24,7 @@ import UserID from "./API/contact/user-id";
 import CreateRecord from "./API/record/AddRecord";
 import ShowQrCode from "./API/person/qr";
 import Reset from "./API/restPassword/Reset";
-import FileUpload from "./API/fileUpload/FileUpload"
+import FileUpload from "./API/fileUpload/FileUpload";
 
 // defined the map function
 function App() {
@@ -121,7 +121,7 @@ function App() {
               exact
               path="/uploadTest"
               component={FileUpload}
-            ></ProtectedRouters>      
+            ></ProtectedRouters>
 
             <Route path="*">
               <Error msg={"AHHHHHHHH"} />
