@@ -133,6 +133,7 @@ const AddUser = () => {
     formData.append("phone", phone);
     formData.append("occupation", occupation);
     formData.append("portrait", file);
+    note ? formData.append("note", note) : formData.append("note", "");
     formData.append("note", note);
     formData.append("field", customField);
 
