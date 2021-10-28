@@ -52,15 +52,17 @@ const Contact = () => {
   });
 
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedOption, setSelectedOption] = useState({value:null,label:'Null'});
+  const [selectedOption, setSelectedOption] = useState({
+    value: null,
+    label: "Null",
+  });
   const options = [
-    {value:'firstName',label:'First Name'},
-    {value:'lastName',label:'Last Name'},
-    {value:'occupation',label:'Occupation'},
-    {value:'notes',label:'Notes'},
-    {value:null,label:'Null'},
+    { value: "firstName", label: "First Name" },
+    { value: "lastName", label: "Last Name" },
+    { value: "occupation", label: "Occupation" },
+    { value: "notes", label: "Notes" },
+    { value: null, label: "Null" },
   ];
-
 
   const searchContacts = () => {
     return contacts.filter((contact) =>
@@ -82,10 +84,10 @@ const Contact = () => {
     e.preventDefault();
     setSearchTerm(e.target.value);
   };
-  const handleOptions = (selectedOption) =>{
+  const handleOptions = (selectedOption) => {
     setSelectedOption(selectedOption);
-    sortContact(contacts,setContactList,selectedOption.value);
-  }
+    sortContact(contacts, setContactList, selectedOption.value);
+  };
 
   const deleteHandler = async (e) => {
     e.preventDefault();
@@ -169,17 +171,17 @@ const Contact = () => {
                   />
 
                   <Select
-                      onChange={handleOptions}
-                      options = {options}
-                      style={{
+                    onChange={handleOptions}
+                    options={options}
+                    style={{}}
                   />
                   <People
-                      contacts={contacts}
-                      search_key={searchTerm}
-                      loading={loading}
-                      error={error}
-                      options={selectedOption.value}
-                      setOneContact={setOneContact}
+                    contacts={contacts}
+                    search_key={searchTerm}
+                    loading={loading}
+                    error={error}
+                    options={selectedOption.value}
+                    setOneContact={setOneContact}
                   />
                 </div>
               </>
@@ -205,18 +207,15 @@ const Contact = () => {
                     onChange={(e) => handleChange(e)}
                   />
 
-                  <Select
-                      onChange={handleOptions}
-                      options = {options}
-                  />
+                  <Select onChange={handleOptions} options={options} />
 
                   <People
-                      contacts={contacts}
-                      search_key={searchTerm}
-                      loading={loading}
-                      error={error}
-                      options={selectedOption.value}
-                      setOneContact={setOneContact}
+                    contacts={contacts}
+                    search_key={searchTerm}
+                    loading={loading}
+                    error={error}
+                    options={selectedOption.value}
+                    setOneContact={setOneContact}
                   />
                 </div>
               </>
@@ -261,52 +260,44 @@ const Contact = () => {
 export default Contact;
 export const People = (prop) => {
   // console.log("keyword is " + prop.search_key);
-  console.log(prop.contacts)
+  console.log(prop.contacts);
   const styles = useStyles();
   const searchContacts = () => {
     if (prop.contacts !== undefined) {
-      switch (prop.options){
+      switch (prop.options) {
         case "firstName":
           return prop.contacts.filter((contact) =>
-              (
-                  contact.contact.firstName
-              )
-                  .toLowerCase()
-                  .includes(prop.search_key.toLowerCase()),
+            contact.contact.firstName
+              .toLowerCase()
+              .includes(prop.search_key.toLowerCase()),
           );
 
-          break
+          break;
         case "lastName":
           return prop.contacts.filter((contact) =>
-              (
-
-                  contact.contact.lastName
-
-              )
-                  .toLowerCase()
-                  .includes(prop.search_key.toLowerCase()),
+            contact.contact.lastName
+              .toLowerCase()
+              .includes(prop.search_key.toLowerCase()),
           );
-          break
+          break;
         case "occupation":
           return prop.contacts.filter((contact) =>
-              (
-                  contact.contact.occupation
-              )
-                  .toLowerCase()
-                  .includes(prop.search_key.toLowerCase()),
+            contact.contact.occupation
+              .toLowerCase()
+              .includes(prop.search_key.toLowerCase()),
           );
-          break
+          break;
         case "notes":
-        {console.log(prop.contacts[0].note)}
+          {
+            console.log(prop.contacts[0].note);
+          }
           return prop.contacts.filter((contact) =>
-              (
-                  contact.contact.note
-              )
-                  .toLowerCase()
-                  .includes(prop.search_key.toLowerCase()),
+            contact.contact.note
+              .toLowerCase()
+              .includes(prop.search_key.toLowerCase()),
           );
-          break
-          /*        case "time":
+          break;
+        /*        case "time":
                     return prop.records.filter((record) =>
                         (
                             record.dateTime
@@ -316,23 +307,23 @@ export const People = (prop) => {
                     );
                     break*/
         case null:
-          console.log("NULL")
+          console.log("NULL");
           return prop.contacts.filter((contact) =>
-              (
-                  contact.contact.firstName +
-                  " " +
-                  contact.contact.lastName +
-                  " " +
-                  /*                  record.dateTime +
+            (
+              contact.contact.firstName +
+              " " +
+              contact.contact.lastName +
+              " " +
+              /*                  record.dateTime +
                                     " " +*/
-                  contact.contact.note +
-                  " " +
-                  contact.contact.occupation
-              )
-                  .toLowerCase()
-                  .includes(prop.search_key.toLowerCase()),
+              contact.contact.note +
+              " " +
+              contact.contact.occupation
+            )
+              .toLowerCase()
+              .includes(prop.search_key.toLowerCase()),
           );
-          break
+          break;
       }
     }
   };
@@ -340,116 +331,109 @@ export const People = (prop) => {
   let fitterContacts = searchContacts();
 
   return (
-      <Grid container
-            direction="row"
-            justify="center"
-            alignItems="center"
-            margin = {2}
-            spacing={2}>
-
-        {fitterContacts.map((contact) => {
-          return (
-              <Grid key={contact.contact._id} item xs={12} sm={6} md={12} >
-                <Person contact={contact} setOneContact={prop.setOneContact} />
-                <Divider variant={'middle'} className={styles.divider} />
-              </Grid>
-          )
-        })}
-
-      </Grid>
+    <Grid
+      container
+      direction="row"
+      justify="center"
+      alignItems="center"
+      margin={2}
+      spacing={2}
+    >
+      {fitterContacts.map((contact) => {
+        return (
+          <Grid key={contact.contact._id} item xs={12} sm={6} md={12}>
+            <Person contact={contact} setOneContact={prop.setOneContact} />
+            <Divider variant={"middle"} className={styles.divider} />
+          </Grid>
+        );
+      })}
+    </Grid>
   );
 };
 
-
-
 const useStyles = makeStyles(() => ({
   card: {
-    width: '100%',
+    width: "100%",
     borderRadius: 16,
-    boxShadow: '0 8px 16px 0 #BDC9D7',
-    overflow: 'scroll'
+    boxShadow: "0 8px 16px 0 #BDC9D7",
+    overflow: "scroll",
   },
   header: {
-    fontFamily: 'Barlow, san-serif',
-    backgroundColor: '#fff',
+    fontFamily: "Barlow, san-serif",
+    backgroundColor: "#fff",
   },
   headline: {
-    color: '#122740',
-    fontSize: '1.25rem',
+    color: "#122740",
+    fontSize: "1.25rem",
     fontWeight: 600,
   },
   link: {
-    color: '#2281bb',
-    padding: '0 0.25rem',
-    fontSize: '0.875rem',
+    color: "#2281bb",
+    padding: "0 0.25rem",
+    fontSize: "0.875rem",
   },
   actions: {
-    color: '#BDC9D7'
+    color: "#BDC9D7",
   },
   divider: {
-    backgroundColor: '#d9e2ee',
-    margin: '0 20px',
-  }
+    backgroundColor: "#d9e2ee",
+    margin: "0 20px",
+  },
 }));
-const sortContact = (contacts,setContactList,type) => {
-  console.log(contacts)
+const sortContact = (contacts, setContactList, type) => {
+  console.log(contacts);
 
   if (contacts !== undefined) {
-    console.log(contacts[0])
+    console.log(contacts[0]);
     switch (type) {
       case "firstName":
         console.log("firstName");
         contacts.sort((a, b) =>
-
-            a.contact.firstName.localeCompare(b.contact.firstName));
+          a.contact.firstName.localeCompare(b.contact.firstName),
+        );
         for (let i = 0; i < contacts.length; i++) {
-          console.log(contacts[i].contact.firstName)
+          console.log(contacts[i].contact.firstName);
         }
         break;
       case "lastName":
         console.log("lastName");
         contacts.sort((a, b) =>
-
-            a.contact.lastName.localeCompare(b.contact.lastName));
+          a.contact.lastName.localeCompare(b.contact.lastName),
+        );
         for (let i = 0; i < contacts.length; i++) {
-          console.log(contacts[i].contact.lastName)
+          console.log(contacts[i].contact.lastName);
         }
         break;
       case "occupation":
         console.log("location");
         contacts.sort((a, b) =>
-
-            a.contact.occupation.localeCompare(b.contact.occupation));
+          a.contact.occupation.localeCompare(b.contact.occupation),
+        );
         for (let i = 0; i < contacts.length; i++) {
-          console.log(contacts[i].contact.occupation)
+          console.log(contacts[i].contact.occupation);
         }
         break;
       case "notes":
         console.log(contacts[0]);
-        contacts.sort((a, b) =>
-
-            a.contact.note.localeCompare(b.contact.note));
+        contacts.sort((a, b) => a.contact.note.localeCompare(b.contact.note));
         for (let i = 0; i < contacts.length; i++) {
-          console.log(contacts[i].contact.note)
+          console.log(contacts[i].contact.note);
         }
-        break
+        break;
 
       case "Null":
-        break
+        break;
     }
 
-
     /*    console.log(records[0].dateTime)
-
         let sortedList = records.sort((a, b) =>
-
             a.dateTime.split('-').join().localeCompare(b.dateTime.split('-').join()));
         for (let i = 0; i < sortedList.length; i++) {
           console.log(sortedList[i].dateTime)
         }*/
     /*      setRecordList(sortedList);*/
   }
-}
+};
 
 export const PersonInfo = ({ prop }) => {
   return <div className="personInfo"></div>;

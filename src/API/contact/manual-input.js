@@ -300,59 +300,56 @@ const AddUser = () => {
             src={"data:image/png;base64," + avatar}
           />
 
-          
-            {upload ? (
-              <div
-                className="upload-container "
-                style={{
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                <form >
-                  <label
-                    htmlFor="contained-button-file"
-                    style={{ padding: "10px" }}
-                  >
-                    <Input
-                      accept="image/*"
-                      id="contained-button-file"
-                      multiple
-                      type="file"
-                      hidden={true}
-                      onChange={onChange}
-                    />
-                    <Button variant="contained" component="span">
-                      <Typography variant="body2">Choose</Typography>
-                    </Button>
-                  </label>
-                  <div
-                    style={{
-                      overflow: "hidden",
-                      textOverflow: "ellipsis",
-                      width: "7rem",
-                    }}
-                  >
-                    <Typography variant="body2" noWrap color="text.secondary">
-                      {fileName}
-                    </Typography>
-                  </div>
-
-                  <Button onClick={onClickUpload}>Cancel</Button>
-                </form>
-              </div>
-            ) : (
-              [
-                <div className="upload-btn">
-                  <Button onClick={onClickUpload}>
-                    <UploadIcon />
-                    Upload
+          {upload ? (
+            <div
+              className="upload-container "
+              style={{
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <form>
+                <label
+                  htmlFor="contained-button-file"
+                  style={{ padding: "10px" }}
+                >
+                  <Input
+                    accept="image/*"
+                    id="contained-button-file"
+                    multiple
+                    type="file"
+                    hidden={true}
+                    onChange={onChange}
+                  />
+                  <Button variant="contained" component="span">
+                    <Typography variant="body2">Choose</Typography>
                   </Button>
-                </div>,
-              ]
-            )}
-          
-        
+                </label>
+                <div
+                  style={{
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    width: "7rem",
+                  }}
+                >
+                  <Typography variant="body2" noWrap color="text.secondary">
+                    {fileName}
+                  </Typography>
+                </div>
+
+                <Button onClick={onClickUpload}>Cancel</Button>
+              </form>
+            </div>
+          ) : (
+            [
+              <div className="upload-btn">
+                <Button onClick={onClickUpload}>
+                  <UploadIcon />
+                  Upload
+                </Button>
+              </div>,
+            ]
+          )}
         </div>
         <form
           className="contact-form"
