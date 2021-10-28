@@ -52,9 +52,9 @@ const Map = () => {
     libraries,
   });
 
-  const screenWidth = useState(window.innerWidth)
+  // const screenWidth = useState(window.innerWidth);
 
-  console.log(screenWidth[0])
+  // console.log(screenWidth[0])
 
   const { loading, records, error } = useShowAllRecords();
 
@@ -65,7 +65,11 @@ const Map = () => {
   });
   const [selected, setSelected] = useState(null);
 
-	console.log(address)
+  if (false) {
+    console.log(address);
+  }
+
+  // console.log(address)
   // set the callback function
   // const onMapClick = useCallback((event) => {
   //   fetchAddress(
@@ -128,7 +132,7 @@ const Map = () => {
 
         <h1 className="heading-map">Map</h1>
 
-        {/* define the address search box and locate buttom  */}
+        {/* define the address search box and locate button  */}
         <div className="top-bar">
           <Search
             key={new Date().toISOString()}
@@ -175,9 +179,10 @@ const Map = () => {
               onCloseClick={() => setSelected(null)}
             >
               <div>
-                <form style={{width: "300px"}}>
+                <form style={{ width: "300px" }}>
                   <label>You Met</label>
-                  <input className="form-control"
+                  <input
+                    className="form-control"
                     value={
                       selected.meetingPerson.firstName +
                       " " +
@@ -186,15 +191,37 @@ const Map = () => {
                     readonly
                   />
                   <label>On</label>
-									
-                  <input className="form-control" type="text" value={selected.dateTime.replace('T', ' ').replace('.000Z', '')} readonly />
+
+                  <input
+                    className="form-control"
+                    type="text"
+                    value={selected.dateTime
+                      .replace("T", " ")
+                      .replace(".000Z", "")}
+                    readonly
+                  />
 
                   <label>At</label>
-                  <input className="form-control" type="text" value={selected.location.replace(/VIC [a-zA-Z0-9.]*/i, '').replace(/[\u4e00-\u9fa5]/g, '')} readonly />
-                  {selected.notes && <div>
-										<label>Notes:</label>
-                  	<textarea className="form-control" type="text" readonly value={selected.notes} style={{border: '0', height:"auto"}}></textarea>	
-									</div>}
+                  <input
+                    className="form-control"
+                    type="text"
+                    value={selected.location
+                      .replace(/VIC [a-zA-Z0-9.]*/i, "")
+                      .replace(/[\u4e00-\u9fa5]/g, "")}
+                    readonly
+                  />
+                  {selected.notes && (
+                    <div>
+                      <label>Notes:</label>
+                      <textarea
+                        className="form-control"
+                        type="text"
+                        readonly
+                        value={selected.notes}
+                        style={{ border: "0", height: "auto" }}
+                      ></textarea>
+                    </div>
+                  )}
                 </form>
               </div>
             </InfoWindow>

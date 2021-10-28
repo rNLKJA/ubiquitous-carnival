@@ -1,6 +1,8 @@
 # Custom Dictionary Words
 AHHHHHHHH
 Astloch
+Combobox
+Datetime
 flexbox
 portrarit
 Tian

@@ -54,7 +54,7 @@ export const DisplayPerson = ({
   // defined variables
   const [person, setPerson] = useState(oneProfile);
 
-  const [valid, setValid] = useState(true);
+  const [valid, setValid] = useState(false);
 
   const [phones, setPhones] = useState(
     ConvertListStringToListObject(person.phone, "phone"),
@@ -109,7 +109,7 @@ export const DisplayPerson = ({
     dataValidator(data.lastName, "lastName", setValid);
     dataValidator(data.occupation, "occupation", setValid);
 
-    console.log(valid);
+    // console.log(valid);
 
     if (valid) {
       setPerson(data);
@@ -303,7 +303,7 @@ export const DisplayPerson = ({
                         className="form-control"
                         name="phone"
                         readOnly={!person.edit}
-                        required="true"
+                        required={true}
                         minLength={10}
                         maxLength={10}
                         onChange={(e) => phoneOnChange(i, e)}

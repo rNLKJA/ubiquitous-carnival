@@ -61,7 +61,7 @@ const Person = () => {
   const [success, setSuccess] = useState(false);
   const [fileName, setFileName] = useState("");
 
-  console.log(success, loading1);
+  // console.log(success, loading1);
 
   const styles = useFabStyle(success);
 
