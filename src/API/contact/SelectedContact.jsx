@@ -7,7 +7,7 @@ import { green } from "@mui/material/colors";
 import Fab from "@mui/material/Fab";
 import CheckIcon from "@mui/icons-material/Check";
 import SaveIcon from "@mui/icons-material/Save";
-import Alert from "@mui/material/Alert";
+// import Alert from "@mui/material/Alert";
 import Input from "@mui/material/Input";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
@@ -24,8 +24,9 @@ import ShareIcon from "@mui/icons-material/Share";
 import DeleteIcon from "@mui/icons-material/Delete";
 import TextField from "@mui/material/TextField";
 import Stack from "@mui/material/Stack";
-import { StyledEngineProvider } from "@mui/material/styles";
-import { red } from "@mui/material/colors";
+// import { StyledEngineProvider } from "@mui/material/styles";
+// import { red } from "@mui/material/colors";
+// import { Redirect } from "react-router-dom";
 
 const actions = [
   { icon: <FileCopyIcon />, name: "Copy" },
@@ -34,9 +35,9 @@ const actions = [
   { icon: <ShareIcon />, name: "Share" },
 ];
 
-const colorSave = green[500];
+// const colorSave = green[500];
 
-const colorDelete = red[500];
+// const colorDelete = red[500];
 
 const useFabStyle = makeStyles((success) => ({
   fab: {
@@ -60,11 +61,10 @@ const SelectedContact = ({ setOneContact, oneContact, deleteHandler }) => {
     ...oneContact,
     edit: false,
   });
-  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
 
   return (
     <React.Fragment>
-      {screenWidth <= 1024 ? (
+      {window.innerWidth <= 1024 ? (
         <button
           className="back"
           onClick={() => {
@@ -123,6 +123,7 @@ export const DisplayContact = ({
   const [avatar, setAvatar] = useState("");
   const [file, setFile] = useState("");
   const [message, setMessage] = useState("");
+
   const [uploadPercentage, setUploadPercentage] = useState(0);
   const [loading1, setLoading1] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -214,7 +215,7 @@ export const DisplayContact = ({
     dataValidator(data.firstName, "firstName", setValid);
     dataValidator(data.lastName, "lastName", setValid);
     dataValidator(data.occupation, "occupation", setValid);
-    console.log(valid);
+    dataValidator(data.customField, "field", setValid);
 
     if (valid) {
       await fetchClient
@@ -224,7 +225,6 @@ export const DisplayContact = ({
             alert(
               "Update contact information succeed!\nRedirect to Contact Page",
             );
-            window.location.href = "/contact";
             // window.location.href = "/contact";
           } else {
             alert("Opps, something wrong, please try later.");
@@ -335,6 +335,7 @@ export const DisplayContact = ({
 
       if (res.data.status === "false") {
         setMessage("upload failed ");
+        console.log(message);
         return;
       }
 
@@ -498,11 +499,11 @@ export const DisplayContact = ({
             value={contact.firstName}
             className="form-control"
             readOnly={!contact.edit}
-            required
+            validate={true}
             onChange={(e) =>
               setContact({ ...contact, firstName: e.target.value })
             }
-          ></input>
+          />
 
           <label>Last Name: </label>
           <input
@@ -510,11 +511,11 @@ export const DisplayContact = ({
             value={contact.lastName}
             className="form-control"
             readOnly={!contact.edit}
-            required
+            validate={true}
             onChange={(e) =>
               setContact({ ...contact, lastName: e.target.value })
             }
-          ></input>
+          />
 
           <label>Occupation: </label>
           <input
@@ -526,7 +527,7 @@ export const DisplayContact = ({
             onChange={(e) =>
               setContact({ ...contact, occupation: e.target.value })
             }
-          ></input>
+          />
 
           {phones.length !== 0 ? <label>Phone:</label> : null}
 
@@ -543,7 +544,7 @@ export const DisplayContact = ({
                       className="form-control"
                       name="phone"
                       readOnly={!contact.edit}
-                      required
+                      required={true}
                       minLength={10}
                       maxLength={10}
                       onChange={(e) => phoneOnChange(i, e)}
@@ -589,7 +590,7 @@ export const DisplayContact = ({
                       name="email"
                       className="form-control"
                       readOnly={!contact.edit}
-                      required
+                      validate={true}
                       onChange={(e) => emailOnChange(i, e)}
                     />
                   </div>
@@ -650,7 +651,7 @@ export const DisplayContact = ({
                       type="text"
                       className="form-control"
                       readOnly={!contact.edit}
-                      required
+                      validate={true}
                       onChange={(e) => fieldOnChange(i, e)}
                       placeholder="Field Name"
                     />
@@ -661,7 +662,7 @@ export const DisplayContact = ({
                       name="value"
                       className="form-control"
                       readOnly={!contact.edit}
-                      required
+                      validate={true}
                       onChange={(e) => fieldOnChange(i, e)}
                       placeholder="Field Value"
                     />
@@ -729,7 +730,7 @@ export const DisplayContact = ({
 
 const ConvertListStringToListObject = (items, type) => {
   var result = [];
-  if (items != undefined && items.length > 0) {
+  if (items !== undefined && items.length > 0) {
     if (type === "phone") {
       for (let i = 0; i < items.length; i++) {
         result.push({ phone: items[i] });
@@ -753,7 +754,7 @@ const ConvertListStringToListObject = (items, type) => {
 
 const ConvertListObjectToListValues = (items, type) => {
   var result = [];
-  if (items != undefined && items.length > 0) {
+  if (items !== undefined && items.length > 0) {
     if (type === "phone") {
       for (let i = 0; i < items.length; i++) {
         result.push(items[i].phone);
@@ -776,6 +777,7 @@ const ConvertListObjectToListValues = (items, type) => {
   return result;
 };
 const dataValidator = (items, type, setValid) => {
+  var pattern, notEmpty;
   switch (type) {
     case "firstName":
       if (items.length === 0) {
@@ -802,8 +804,8 @@ const dataValidator = (items, type, setValid) => {
       }
       break;
     case "phone":
-      var pattern = /\d{10}/;
-      var notEmpty = /\S/;
+      pattern = /\d{10}/;
+      notEmpty = /\S/;
       if (items.length < 1) {
         console.log(4);
         setValid(false);
@@ -819,9 +821,8 @@ const dataValidator = (items, type, setValid) => {
       }
       break;
     case "email":
-      var pattern =
-        /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
-      var notEmpty = /\S/;
+      pattern = /^([A-Za-z0-9_\-.])+@([A-Za-z0-9_\-.])+\.([A-Za-z]{2,4})$/;
+      notEmpty = /\S/;
       if (items.length < 1) {
         console.log(6);
         setValid(false);
@@ -836,6 +837,18 @@ const dataValidator = (items, type, setValid) => {
         }
       }
 
+      break;
+    case "field":
+      console.log(items);
+      for (let i = 0; i < items.length; i++) {
+        if (items[i].field === "") {
+          setValid(false);
+          alert("Field name cannot be empty");
+        } else if (items[i].value === "") {
+          setValid(false);
+          alert("Field value cannot be empty");
+        }
+      }
       break;
     default:
       setValid(false);

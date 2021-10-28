@@ -13,7 +13,7 @@ import SelectedContact from "./SelectedContact.jsx";
 import Error from "../error/Error";
 import Heading from "../heading/heading.jsx";
 import Navbar from "../nav/Navbar";
-import { Link, Router } from "react-router-dom";
+import { Link } from "react-router-dom";
 import TextField from "@mui/material/TextField";
 import getWindowDimensions from "../../hooks/getWindowDimensions";
 import Select from "react-select";
@@ -64,21 +64,21 @@ const Contact = () => {
     { value: null, label: "Null" },
   ];
 
-  const searchContacts = () => {
-    return contacts.filter((contact) =>
-      (
-        contact.contact.firstName +
-        " " +
-        contact.contact.lastName +
-        " " +
-        contact.contact.occupation
-      )
-        .toLowerCase()
-        .includes(searchTerm.toLowerCase()),
-    );
-  };
+  // const searchContacts = () => {
+  //   return contacts.filter((contact) =>
+  //     (
+  //       contact.contact.firstName +
+  //       " " +
+  //       contact.contact.lastName +
+  //       " " +
+  //       contact.contact.occupation
+  //     )
+  //       .toLowerCase()
+  //       .includes(searchTerm.toLowerCase()),
+  //   );
+  // };
 
-  const screenWidth = window.innerWidth;
+  // const screenWidth = window.innerWidth;
 
   const handleChange = (e) => {
     e.preventDefault();
