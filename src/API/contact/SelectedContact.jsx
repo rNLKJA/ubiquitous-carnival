@@ -369,7 +369,7 @@ export const DisplayContact = ({
           >
             {actions.map((action) => (
               <SpeedDialAction
-                key={action.name}
+                key={action.name + new Date().toISOString()}
                 icon={action.icon}
                 tooltipTitle={action.name}
               />
@@ -500,7 +500,6 @@ export const DisplayContact = ({
             value={contact.firstName}
             className="form-control"
             readOnly={!contact.edit}
-            validate={true}
             onChange={(e) =>
               setContact({ ...contact, firstName: e.target.value })
             }
@@ -512,7 +511,6 @@ export const DisplayContact = ({
             value={contact.lastName}
             className="form-control"
             readOnly={!contact.edit}
-            validate={true}
             onChange={(e) =>
               setContact({ ...contact, lastName: e.target.value })
             }
@@ -536,7 +534,10 @@ export const DisplayContact = ({
             return (
               <>
                 <br />
-                <div key={`${phone}-${i}`} className="multi-field">
+                <div
+                  key={`${phone}-${i} + ${new Date().toISOString()}`}
+                  className="multi-field"
+                >
                   <div className="multi-field-input">
                     <input
                       text="text"
@@ -583,7 +584,10 @@ export const DisplayContact = ({
             return (
               <>
                 <br />
-                <div key={`${mail}-${i}`} className="multi-field">
+                <div
+                  key={`${mail}-${i} ${new Date().toISOString()}`}
+                  className="multi-field"
+                >
                   <div className="multi-field-input">
                     <input
                       value={mail.email}
@@ -591,7 +595,6 @@ export const DisplayContact = ({
                       name="email"
                       className="form-control"
                       readOnly={!contact.edit}
-                      validate={true}
                       onChange={(e) => emailOnChange(i, e)}
                     />
                   </div>
@@ -644,15 +647,18 @@ export const DisplayContact = ({
           {customField.map((field, i) => {
             return (
               <div>
-                <div key={`${field}-${i}`} className="multi-field">
+                <div
+                  key={`${field}-${i} ${new Date().toISOString()}`}
+                  className="multi-field"
+                >
                   <div className="multi-field-input">
                     <input
+                      key={new Date().toISOString()}
                       value={field.field}
                       name="field"
                       type="text"
                       className="form-control"
                       readOnly={!contact.edit}
-                      validate={true}
                       onChange={(e) => fieldOnChange(i, e)}
                       placeholder="Field Name"
                     />
@@ -663,7 +669,6 @@ export const DisplayContact = ({
                       name="value"
                       className="form-control"
                       readOnly={!contact.edit}
-                      validate={true}
                       onChange={(e) => fieldOnChange(i, e)}
                       placeholder="Field Value"
                     />

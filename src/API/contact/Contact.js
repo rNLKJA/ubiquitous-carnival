@@ -335,9 +335,23 @@ export const People = (prop) => {
     >
       {fitterContacts.map((contact) => {
         return (
-          <Grid key={contact.contact._id} item xs={12} sm={6} md={12}>
-            <Person contact={contact} setOneContact={prop.setOneContact} />
-            <Divider variant={"middle"} className={styles.divider} />
+          <Grid
+            key={contact.contact._id + new Date().toISOString()}
+            item
+            xs={12}
+            sm={6}
+            md={12}
+          >
+            <Person
+              key={new Date().toISOString() + "1"}
+              contact={contact}
+              setOneContact={prop.setOneContact}
+            />
+            <Divider
+              key={new Date().toISOString() + "2"}
+              variant={"middle"}
+              className={styles.divider}
+            />
           </Grid>
         );
       })}
