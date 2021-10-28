@@ -51,6 +51,10 @@ const Contact = () => {
     selected: false,
   });
 
+  if (false) {
+    console.log(contactList);
+  }
+
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedOption, setSelectedOption] = useState({
     value: null,
@@ -324,7 +328,7 @@ export const People = (prop) => {
     <Grid
       container
       direction="row"
-      justify="center"
+      justifyContent="center"
       alignItems="center"
       margin={2}
       spacing={2}

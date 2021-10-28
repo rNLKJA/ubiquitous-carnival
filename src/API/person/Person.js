@@ -1,8 +1,8 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 // import axios from "axios";
-import LogoutUser from "../../hooks/useLogout";
+// import LogoutUser from "../../hooks/useLogout";
 import "./person.css";
 import { useShowProfile } from "../../BackEndAPI/profileAPI";
 import fetchClient from "../axiosClient/axiosClient";

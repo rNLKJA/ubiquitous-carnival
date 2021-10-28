@@ -97,6 +97,9 @@ const CreateRecord = () => {
       const { id, label } = value;
       setSelected(id);
       // console.log(id, " + ", label);
+      if (!value) {
+        console.log(label);
+      }
     } else {
       setSelected("");
     }

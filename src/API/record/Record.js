@@ -56,6 +56,11 @@ const Record = () => {
   // const [screenWidth, setScreenWidth] = useState(window.innerWidth);
   const { loading, records, error } = useShowAllRecords();
   const [recordList, setRecordList] = useState();
+
+  if (false) {
+    console.log(recordList);
+  }
+
   const [oneRecord, setOneRecord] = useState({
     meetingPerson: "",
     location: "",

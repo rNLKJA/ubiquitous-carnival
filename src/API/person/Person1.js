@@ -10,7 +10,7 @@ import LogoutUser from "../../hooks/useLogout";
 // import { Contacts } from "@mui/icons-material";
 // import portrait from "./portrarit.png";
 import Stack from "@mui/material/Stack";
-import Link from "@mui/material/Link";
+// import Link from "@mui/material/Link";
 import Button from "@mui/material/Button";
 import QrCodeIcon from "@mui/icons-material/QrCode";
 import LogoutIcon from "@mui/icons-material/Logout";
@@ -433,6 +433,7 @@ const ConvertListObjectToListValues = (items, type) => {
 };
 
 const dataValidator = (items, type, setValid) => {
+  var pattern, notEmpty;
   switch (type) {
     case "firstName":
       if (items.length === 0) {
@@ -456,8 +457,8 @@ const dataValidator = (items, type, setValid) => {
       }
       break;
     case "phone":
-      var pattern = /\d{10}/;
-      var notEmpty = /\S/;
+      pattern = /\d{10}/;
+      notEmpty = /\S/;
       if (items.length < 1) {
         setValid(false);
         alert("You must provide at least one phone number!");
@@ -471,9 +472,8 @@ const dataValidator = (items, type, setValid) => {
       }
       break;
     case "email":
-      var pattern =
-        /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
-      var notEmpty = /\S/;
+      pattern = /^([A-Za-z0-9_\-.])+@([A-Za-z0-9_\-.])+\.([A-Za-z]{2,4})$/;
+      notEmpty = /\S/;
       if (items.length < 1) {
         setValid(false);
         alert("You must have at least one email!");

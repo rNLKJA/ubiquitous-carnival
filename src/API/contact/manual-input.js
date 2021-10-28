@@ -60,6 +60,7 @@ const AddUser = () => {
   const [upload, setUpload] = useState(false);
 
   const [avatar, setAvatar] = useState("");
+  setAvatar("");
   const [file, setFile] = useState("");
   // const [message, setMessage] = useState("");
   const [uploadPercentage, setUploadPercentage] = useState(0);

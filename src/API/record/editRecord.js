@@ -9,7 +9,7 @@ import DateTimePicker from "@mui/lab/DateTimePicker";
 import fetchClient from "../axiosClient/axiosClient";
 // import Error from "../error/Error";
 // import Navbar from "../nav/Navbar";
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import Map from "./map";
 // import Heading from "../heading/heading.jsx";
 import Autocomplete from "@mui/material/Autocomplete";
@@ -20,7 +20,7 @@ const EditRecord = (prop) => {
   useEffect(() => {
     document.title = "Add Record";
   }, []);
-  const textAreaRef = useRef(null);
+  // const textAreaRef = useRef(null);
 
   const [currentTime, setCurrentTime] = useState(prop.record.dateTime);
 
@@ -43,7 +43,7 @@ const EditRecord = (prop) => {
     if (prop.record.customField !== undefined) {
       setCustomField(prop.record.customField);
     }
-  }, []);
+  }, [prop.record.customField]);
 
   // console.log(geoCoords);
   // console.log(currentTime);
@@ -54,7 +54,7 @@ const EditRecord = (prop) => {
     return {
       label: contact.contact.firstName + " " + contact.contact.lastName,
       id: contact.contact._id,
-      key: contact.contact._id
+      key: contact.contact._id,
     };
   });
 
@@ -133,7 +133,12 @@ const EditRecord = (prop) => {
         style={{ justifyContent: "center", display: "flex", padding: "10px" }}
       >
         <Button
-          sx={{ width: "30%", height: "10%", backgroundColor: '#43a047', color: "white" }}
+          sx={{
+            width: "30%",
+            height: "10%",
+            backgroundColor: "#43a047",
+            color: "white",
+          }}
           onClick={() => {
             prop.setOneRecord({ ...prop.record, selected: false });
           }}
@@ -195,7 +200,7 @@ const EditRecord = (prop) => {
           type="number"
           step="any"
           value={geoCoords.lat}
-          onChange={() => { }}
+          onChange={() => {}}
           hidden
         />
         <input
@@ -203,7 +208,7 @@ const EditRecord = (prop) => {
           type="number"
           step="any"
           value={geoCoords.lng}
-          onChange={() => { }}
+          onChange={() => {}}
           hidden
         />
 
@@ -215,7 +220,8 @@ const EditRecord = (prop) => {
         />
 
         <label htmlFor="notes">Notes: </label>
-        <br /><br />
+        <br />
+        <br />
         <TextField
           id="outlined-multiline-flexible"
           label="Add-Notes"
@@ -255,7 +261,6 @@ const EditRecord = (prop) => {
                   />
                 </div>
 
-
                 <Button
                   variant="outlined"
                   onClick={(e) => removeHandler(e, i, "field")}
@@ -268,8 +273,6 @@ const EditRecord = (prop) => {
           );
         })}
 
-
-
         <Button
           variant="contained"
           sx={{ width: "10rem" }}
@@ -280,8 +283,15 @@ const EditRecord = (prop) => {
 
         <hr />
 
-        <div style={{ justifyContent: "center", display: "flex", padding: "10px" }}>
-          <Button variant="contained" onClick={handleSubmit} sx={{ width: "8rem", height: "3rem" , backgroundColor: "#4caf50"}} color='success'>
+        <div
+          style={{ justifyContent: "center", display: "flex", padding: "10px" }}
+        >
+          <Button
+            variant="contained"
+            onClick={handleSubmit}
+            sx={{ width: "8rem", height: "3rem", backgroundColor: "#4caf50" }}
+            color="success"
+          >
             Save
           </Button>
         </div>

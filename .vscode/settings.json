@@ -17,5 +17,6 @@
       "addWords": true,
       "scope": "workspace"
     }
-  }
+  },
+  "cSpell.ignoreWords": ["Astloch", "Proile", "haspopup"]
 }

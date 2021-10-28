@@ -10,7 +10,7 @@ import Box from "@mui/material/Box";
 import CircularProgress from "@mui/material/CircularProgress";
 import { green } from "@mui/material/colors";
 import Button from "@mui/material/Button";
-import { isThisSecond } from "date-fns";
+// import { isThisSecond } from "date-fns";
 import Alert from "@mui/material/Alert";
 
 class Registration extends React.Component {
@@ -24,9 +24,8 @@ class Registration extends React.Component {
       authCode: "",
       loading: false,
       success: false,
-      uploadPercentage:'',
-      error:''
-
+      uploadPercentage: "",
+      error: "",
     };
     this.changeEmail = this.changeEmail.bind(this);
     this.changePassword = this.changePassword.bind(this);
@@ -115,55 +114,54 @@ class Registration extends React.Component {
     });
   }
 
-  setUploadPercentage(value){
+  setUploadPercentage(value) {
     this.setState({
-      uploadPercentage: value
-    })
+      uploadPercentage: value,
+    });
   }
 
   async sendAuthCode() {
-    if (this.state.email === ''){
-      this.setState({error: {msg :'fill the email',type: 'email'}})
-      return
+    if (this.state.email === "") {
+      this.setState({ error: { msg: "fill the email", type: "email" } });
+      return;
     }
     const data = {
       email: this.state.email,
     };
-    this.setState({success:false})
-    this.setState({loading:true})
+    this.setState({ success: false });
+    this.setState({ loading: true });
     await fetchClient
       // .post("http://localhost:5000/user/sendEmailCode", data)
-      .post("https://crm4399.herokuapp.com/user/sendEmailCode", data,{
-        
-        onUploadProgress: progressEvent => {
-          this.setState({uploadPercentage:parseInt(
-            Math.round((progressEvent.loaded * 100) / progressEvent.total)
-          )})
-          }
-      }
-      )
+      .post("https://crm4399.herokuapp.com/user/sendEmailCode", data, {
+        onUploadProgress: (progressEvent) => {
+          this.setState({
+            uploadPercentage: parseInt(
+              Math.round((progressEvent.loaded * 100) / progressEvent.total),
+            ),
+          });
+        },
+      })
       .then((response) => {
         if (response.data.status) {
-
           setTimeout(() => this.setUploadPercentage(0), 100);
 
-          this.setState({success:true})
-          this.setState({loading:false})
-          this.setState({error:''})
-
+          this.setState({ success: true });
+          this.setState({ loading: false });
+          this.setState({ error: "" });
         } else {
           alert(response.data);
         }
       });
   }
 
-
   render() {
     return (
       <div className="sub-container">
         <div className="registration">
           <img src={welcomeImg} alt="welcomeImg" />
-          {this.state.error && this.state.error.type === 'uerName'? <Alert severity="error">{this.state.error.msg}</Alert> : null}
+          {this.state.error && this.state.error.type === "uerName" ? (
+            <Alert severity="error">{this.state.error.msg}</Alert>
+          ) : null}
           <div className="form-div">
             <form onSubmit={this.onSubmit}>
               <label className="form-label">Username</label>
@@ -185,26 +183,40 @@ class Registration extends React.Component {
                 className="form-control form-group"
                 required
               />
-              {this.state.error && this.state.error.type === 'email'? <Alert severity="error">{this.state.error.msg}</Alert> : null}
-              
+              {this.state.error && this.state.error.type === "email" ? (
+                <Alert severity="error">{this.state.error.msg}</Alert>
+              ) : null}
 
-              <Box sx={{ m: 1, position: "relative" , alignItems: 'center', justifyContent: "center", display: "flex", marginTop : 3}}>
+              <Box
+                sx={{
+                  m: 1,
+                  position: "relative",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  display: "flex",
+                  marginTop: 3,
+                }}
+              >
                 <Button
                   variant="contained"
-                  sx={(this.state.success && {
-                    bgcolor: green[500],
-                    "&:hover": {
-                      bgcolor: green[700]
+                  sx={
+                    this.state.success && {
+                      bgcolor: green[500],
+                      "&:hover": {
+                        bgcolor: green[700],
+                      },
                     }
-                  })}
+                  }
                   disabled={this.state.loading}
                   onClick={this.sendAuthCode}
                 >
-                  {this.state.success? "Successfully sent" : "Send Authentication Code"}
+                  {this.state.success
+                    ? "Successfully sent"
+                    : "Send Authentication Code"}
                 </Button>
                 {this.state.loading && (
                   <CircularProgress
-                   value={this.state.uploadPercentage}
+                    value={this.state.uploadPercentage}
                     size={24}
                     sx={{
                       color: green[500],
@@ -212,12 +224,11 @@ class Registration extends React.Component {
                       top: "50%",
                       left: "50%",
                       marginTop: "-12px",
-                      marginLeft: "-12px"
+                      marginLeft: "-12px",
                     }}
                   />
                 )}
               </Box>
-              
 
               <br />
               <label className="form-label">Authentication Code</label>

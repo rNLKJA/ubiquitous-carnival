@@ -31,9 +31,9 @@ const ExpandMore1 = styled((props) => {
 
 const RecordDetail = (prop) => {
   const [expand, setExpand] = useState(false);
-  const onExpandClick = () => {
-    setExpand(!expand);
-  };
+  // const onExpandClick = () => {
+  //   setExpand(!expand);
+  // };
   const [expanded, setExpanded] = useState(false);
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -75,11 +75,11 @@ const RecordDetail = (prop) => {
   }
 
   return (
-    <Card sx={{ maxWidth: 500, margin: 2 }} mx= {{ maxWidth: 600, margin: 2 }} >
+    <Card sx={{ maxWidth: 500, margin: 2 }} mx={{ maxWidth: 600, margin: 2 }}>
       <CardHeader
         avatar={
           <Avatar
-            aria-label="recipe" 
+            aria-label="recipe"
             src={"data:image/png;base64," + avatar}
           ></Avatar>
           // sx={{ bgcolor: "pink" }}
@@ -114,7 +114,7 @@ const RecordDetail = (prop) => {
             }}
           >
             <Typography noWrap>
-              {"Notes : \n" + "  " + prop.record.notes.replace("\n\r", "")}
+              {"Notes : \n" + prop.record.notes.replace("\n\r", "")}
             </Typography>
           </div>
         )}
@@ -202,7 +202,7 @@ const RecordDetail = (prop) => {
           {prop.record.customField &&
             prop.record.customField.map((field) => {
               return (
-                <React.Fragment>
+                <React.Fragment key={new Date().toISOString()}>
                   <Typography
                     variant="body1"
                     style={{ whiteSpace: "pre-line" }}

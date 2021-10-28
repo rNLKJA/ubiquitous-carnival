@@ -130,6 +130,7 @@ export const DisplayContact = ({
   const [fileName, setFileName] = useState("");
   const [customField, setCustomField] = useState([]);
   const [valid, setValid] = useState(false);
+
   useEffect(() => {
     if (contact.portrait === null) {
       setAvatar("");
@@ -147,7 +148,7 @@ export const DisplayContact = ({
 
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
-  }, []);
+  }, [contact.portrait, contact.customField]);
 
   const styles = useFabStyle(success);
 

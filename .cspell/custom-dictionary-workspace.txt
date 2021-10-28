@@ -1,4 +1,7 @@
 # Custom Dictionary Words
 AHHHHHHHH
+Astloch
+flexbox
+portrarit
 Tian
 unimelb
