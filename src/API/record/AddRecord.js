@@ -31,6 +31,17 @@ const CreateRecord = () => {
   const [geoCoords, setGeoCoords] = useState({ lat: -37.7972, lng: 144.961 });
   const [notes, setNotes] = useState("");
 
+  const address = {
+    lat: Number.parseFloat(sessionStorage.getItem("selected-lat")),
+    lng: Number.parseFloat(sessionStorage.getItem("selected-lng")),
+    text: sessionStorage.getItem("selected-text"),
+  };
+
+  useEffect(() => {
+    setLocation(address.text);
+    setGeoCoords({ lat: address.lat, lng: address.lng });
+  }, []);
+
   const [customField, setCustomField] = useState([]);
   const [valid, setValid] = useState(false);
 
@@ -74,8 +85,6 @@ const CreateRecord = () => {
 
     setValid(true);
     dataValidator(customField, "field", setValid);
-
-    console.log(valid);
 
     if (valid === true) {
       await fetchClient
@@ -143,7 +152,7 @@ const CreateRecord = () => {
       <Navbar />
       <div className="sub-container">
         <div className="heading-record">
-          <h1> Create ・ω・</h1>
+          <h1> Create ・ ω・</h1>
         </div>
 
         <div className="edit-record-container">
@@ -234,7 +243,12 @@ const CreateRecord = () => {
               hidden
             />
 
-            <Map setLocation={setLocation} setGeoCoords={setGeoCoords} />
+            <Map
+              setLocation={setLocation}
+              setGeoCoords={setGeoCoords}
+              geoLocation={{ lat: address.lat, lng: address.lng }}
+              text={address.text}
+            />
             <hr />
 
             <TextField

@@ -26,12 +26,14 @@ import mapStyle from "./mapStyles";
 // import { Info, LaptopWindows } from "@material-ui/icons";
 import "./map.css";
 
+import { useHistory } from "react-router-dom";
+
 import compass from "../compass.png";
 
 const libraries = ["places"];
 const mapContainerStyle = {
   width: "100%",
-  height: "73vh",
+  height: "80vh",
 };
 
 const center = {
@@ -62,24 +64,31 @@ const Map = () => {
   const [address, setAddress] = useState({
     ...center,
     text: "The University of Melbourne",
+    selected: false,
   });
   const [selected, setSelected] = useState(null);
+  const [selectedAddress, setSelectedAddress] = useState(null);
 
   if (false) {
     console.log(address);
   }
 
+  const history = useHistory();
+  const routeChange = () => {
+    history.push("/createRecord");
+  };
+
   // console.log(address)
   // set the callback function
-  // const onMapClick = useCallback((event) => {
-  //   fetchAddress(
-  //     {
-  //       lat: event.latLng.lat(),
-  //       lng: event.latLng.lng(),
-  //     },
-  //     setAddress,
-  //   );
-  // }, []);
+  const onMapClick = useCallback((event) => {
+    fetchAddress(
+      {
+        lat: event.latLng.lat(),
+        lng: event.latLng.lng(),
+      },
+      setAddress,
+    );
+  }, []);
 
   // pin the location
   const panTo = React.useCallback(({ lat, lng }) => {
@@ -148,11 +157,62 @@ const Map = () => {
           zoom={14}
           center={center}
           options={options}
-          // onClick={onMapClick}
+          onClick={onMapClick}
           onLoad={onMapLoad}
         >
-          {/* create marker to pin the location */}
+          <Marker
+            position={address}
+            icon={{
+              url: "./user-pin.png",
+              scaledSize: new window.google.maps.Size(50, 50),
+              origin: new window.google.maps.Point(0, 0),
+              anchor: new window.google.maps.Point(15, 15),
+            }}
+            onClick={() => {
+              setSelectedAddress(address);
+            }}
+          />
+          {selectedAddress ? (
+            <InfoWindow
+              position={{ lat: selectedAddress.lat, lng: selectedAddress.lng }}
+              onCloseClick={() => setSelectedAddress(null)}
+            >
+              <form>
+                <label>Current Location</label>
+                <textarea value={selectedAddress.text}></textarea>
 
+                <br />
+
+                <button
+                  onClick={(e) => {
+                    e.preventDefault();
+                    if (window.confirm("Do you want to create a new record?")) {
+                      sessionStorage.setItem(
+                        "selected-lat",
+                        selectedAddress.lat,
+                      );
+                      sessionStorage.setItem(
+                        "selected-lng",
+                        selectedAddress.lng,
+                      );
+                      sessionStorage.setItem(
+                        "selected-text",
+                        selectedAddress.text,
+                      );
+                    }
+                    routeChange();
+                  }}
+                  className="btn btn-primary"
+                >
+                  Create a new record?
+                </button>
+              </form>
+            </InfoWindow>
+          ) : null}
+
+          {/* open up a info window when use click on it */}
+
+          {/* create marker to pin the location */}
           {records.map((record) => {
             // console.log(record);
             return (
@@ -171,12 +231,13 @@ const Map = () => {
               />
             );
           })}
-
           {/* open up a info window when use click on it */}
           {selected ? (
             <InfoWindow
               position={{ lat: selected.lat, lng: selected.lng }}
-              onCloseClick={() => setSelected(null)}
+              onCloseClick={() => {
+                setSelected(null);
+              }}
             >
               <div>
                 <form style={{ width: "300px" }}>

@@ -45,13 +45,13 @@ const options = {
 };
 
 // return map component
-const Map = ({ setLocation, setGeoCoords, geoLocation , text}) => {
+const Map = ({ setLocation, setGeoCoords, geoLocation, text }) => {
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
     libraries,
   });
 
-  const initLocation = geoLocation ? geoLocation : center
+  const initLocation = geoLocation ? geoLocation : center;
 
   // console.log(geoLocation ,"geo" ,  "init " , initLocation)
 
