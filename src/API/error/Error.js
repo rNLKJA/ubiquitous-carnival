@@ -6,7 +6,7 @@ import "./error.css";
 const Error = ({ msg }) => {
   return (
     <div className="sub-container">
-      <div class="error">
+      <div className="error">
         <p>Opps, Error Occured</p>
         <p>(✖ ´ ╹ ‸ ╹ ` ✖)</p>
         <p>{msg}</p>
