@@ -26,7 +26,7 @@ import TextField from "@mui/material/TextField";
 import Stack from "@mui/material/Stack";
 // import { StyledEngineProvider } from "@mui/material/styles";
 // import { red } from "@mui/material/colors";
-// import { Redirect } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 const actions = [
   { icon: <FileCopyIcon />, name: "Copy" },
@@ -104,6 +104,8 @@ export const DisplayContact = ({
   originContact,
 }) => {
   // defined variables
+  const history = useHistory();
+
   // window size
   const [windowDimensions, setWindowDimensions] = useState(
     getWindowDimensions(),
@@ -210,13 +212,14 @@ export const DisplayContact = ({
     setSelectedContact(data);
 
     setValid(true);
+    console.log(valid);
 
-    dataValidator(phone, "phone", setValid);
-    dataValidator(email, "email", setValid);
-    dataValidator(data.firstName, "firstName", setValid);
-    dataValidator(data.lastName, "lastName", setValid);
-    dataValidator(data.occupation, "occupation", setValid);
-    dataValidator(data.customField, "field", setValid);
+    dataValidator(phone, "phone", setValid, valid);
+    dataValidator(email, "email", setValid, valid);
+    dataValidator(data.firstName, "firstName", setValid, valid);
+    dataValidator(data.lastName, "lastName", setValid, valid);
+    dataValidator(data.occupation, "occupation", setValid, valid);
+    dataValidator(data.customField, "field", setValid, valid);
 
     if (valid) {
       await fetchClient
@@ -227,6 +230,7 @@ export const DisplayContact = ({
               "Update contact information succeed!\nRedirect to Contact Page",
             );
             // window.location.href = "/contact";
+            history.push("/contact");
           } else {
             alert("Opps, something wrong, please try later.");
           }
@@ -546,7 +550,6 @@ export const DisplayContact = ({
                       className="form-control"
                       name="phone"
                       readOnly={!contact.edit}
-                      required={true}
                       minLength={10}
                       maxLength={10}
                       onChange={(e) => phoneOnChange(i, e)}
@@ -783,7 +786,7 @@ const ConvertListObjectToListValues = (items, type) => {
   return result;
 };
 
-const dataValidator = (items, type, setValid) => {
+const dataValidator = (items, type, setValid, valid) => {
   var pattern, notEmpty;
   switch (type) {
     case "firstName":
@@ -810,10 +813,13 @@ const dataValidator = (items, type, setValid) => {
     case "phone":
       pattern = /\d{10}/;
       notEmpty = /\S/;
+      console.log(valid);
       if (items.length < 1) {
         setValid(false);
         alert("You must provide at least one phone number!");
       }
+
+      console.log(valid);
 
       for (let i = 0; i < items.length; i++) {
         if (!pattern.test(items[i]) && !notEmpty.test(items[i])) {

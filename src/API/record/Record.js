@@ -79,13 +79,14 @@ const Record = () => {
     { value: "location", label: "Location" },
     { value: "notes", label: "Notes" },
     { value: "time", label: "Time" },
-    { value: null, label: "Null" },
+    { value: null, label: "All" },
   ];
 
   const handleChange = (e) => {
     e.preventDefault();
     setSearchTerm(e.target.value);
   };
+
   const handleOptions = (selectedOption) => {
     setSelectedOption(selectedOption);
     sortRecord(records, setRecordList, selectedOption.value);
@@ -342,6 +343,7 @@ export function convert(str) {
 
   return [date.getFullYear(), month, day].join("-") + strTime;
 }
+
 const sortRecord = (records, setRecordList, type) => {
   if (records) {
     switch (type) {
@@ -373,7 +375,7 @@ const sortRecord = (records, setRecordList, type) => {
       case "Null":
         break;
       default:
-        break;
+        return records;
     }
   }
 };

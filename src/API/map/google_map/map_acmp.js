@@ -27,6 +27,8 @@ import mapStyle from "./mapStyles";
 import "./map.css";
 
 import { useHistory } from "react-router-dom";
+import TextField from "@mui/material/TextField";
+import Selected from "react-select";
 
 import compass from "../compass.png";
 
@@ -68,6 +70,14 @@ const Map = () => {
   });
   const [selected, setSelected] = useState(null);
   const [selectedAddress, setSelectedAddress] = useState(null);
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const options1 = [
+    { value: "2019", label: "2019" },
+    { value: "2020", label: "2020" },
+    { value: "2021", label: "2021" },
+    { value: "2022", label: "2022" },
+  ];
 
   if (false) {
     console.log(address);
@@ -128,6 +138,11 @@ const Map = () => {
     );
   }
 
+  const handleChange = (e) => {
+    e.preventDefault();
+    setSearchTerm(e.target.value);
+  };
+
   // return component
   return (
     <div className="google-map">
@@ -148,6 +163,13 @@ const Map = () => {
             panTo={panTo}
             setAddress={setAddress}
           />
+          {/* <TextField
+            id="standard-basic"
+            label="Search at here!!"
+            style={{ width: "100%", marginTop: 10, backgroundColor: "white" }}
+            value={searchTerm}
+            onChange={(e) => handleChange(e)}
+          /> */}
           <Locate panTo={panTo} setAddress={setAddress} />
         </div>
 
@@ -327,7 +349,11 @@ const Locate = ({ panTo, setAddress }) => {
         );
       }}
     >
-      <img src={compass} alt="compass - locate" />
+      <img
+        style={{ position: "fixed", right: "1rem", top: "-4rem" }}
+        src={compass}
+        alt="compass - locate"
+      />
     </button>
   );
 };
@@ -375,6 +401,7 @@ const Search = ({ panTo, setAddress }) => {
             setValue(event.target.value);
           }}
           disabled={!ready}
+          style={{ width: "100%" }}
           placeholder="Enter an address"
         />
         <ComboboxPopover>
@@ -406,3 +433,81 @@ const fetchAddress = (position, setAddress) => {
 // 	let result = d.getFullYear() + '-' + d.getMonth() + '-' + d.getDay() + ' ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds()
 // 	return result
 // }
+const searchRecords = (records, search_key) => {
+  if (records !== undefined) {
+    switch (options) {
+      case "firstName":
+        return records.filter((record) =>
+          record.meetingPerson.firstName
+            .toLowerCase()
+            .includes(search_key.toLowerCase()),
+        );
+
+      case "lastName":
+        return records.filter((record) =>
+          record.meetingPerson.lastName
+            .toLowerCase()
+            .includes(search_key.toLowerCase()),
+        );
+
+      case "location":
+        return records.filter((record) =>
+          record.location.toLowerCase().includes(search_key.toLowerCase()),
+        );
+
+      case "notes":
+        return records.filter((record) =>
+          record.notes.toLowerCase().includes(search_key.toLowerCase()),
+        );
+      case "time":
+        return records.filter((record) =>
+          convert(record.dateTime)
+            .toLowerCase()
+            .includes(search_key.toLowerCase()),
+        );
+      case null:
+        // console.log("NULL")
+        return records.filter((record) =>
+          (
+            record.meetingPerson.firstName +
+            " " +
+            record.meetingPerson.lastName +
+            " " +
+            convert(record.dateTime) +
+            " " +
+            record.notes +
+            " " +
+            record.location
+          )
+            .toLowerCase()
+            .includes(search_key.toLowerCase()),
+        );
+      default:
+        break;
+    }
+  }
+};
+
+// This function convert the dateTime to a a formal string
+export function convert(str) {
+  var date = new Date(str),
+    month = ("0" + (date.getMonth() + 1)).slice(-2),
+    day = ("0" + date.getDate()).slice(-2);
+
+  var hours = date.getHours();
+  var minutes = date.getMinutes();
+  var ampm = hours >= 12 ? "pm" : "am";
+
+  hours = hours % 12;
+  hours = hours ? hours : 12; // the hour '0' should be '12'
+  minutes = ("0" + minutes).slice(-2);
+
+  var strTime;
+  if (hours > 9) {
+    strTime = " " + hours + ":" + minutes + " " + ampm;
+  } else {
+    strTime = " 0" + hours + ":" + minutes + " " + ampm;
+  }
+
+  return [date.getFullYear(), month, day].join("-") + strTime;
+}

@@ -26,6 +26,7 @@ import TextField from "@mui/material/TextField";
 // import { width } from "@mui/system";
 // import Alert from "@mui/material/Alert";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { useHistory } from "react-router-dom";
 
 const useFabStyle = makeStyles((success) => ({
   name: {
@@ -43,6 +44,7 @@ const useFabStyle = makeStyles((success) => ({
 }));
 
 const AddUser = () => {
+  const history = useHistory();
   useEffect(() => {
     document.title = "Add a new Contact";
   }, []);
@@ -60,7 +62,6 @@ const AddUser = () => {
   const [upload, setUpload] = useState(false);
 
   const [avatar, setAvatar] = useState("");
-  setAvatar("");
   const [file, setFile] = useState("");
   // const [message, setMessage] = useState("");
   const [uploadPercentage, setUploadPercentage] = useState(0);
@@ -187,7 +188,7 @@ const AddUser = () => {
         setSuccess(true);
         setLoading1(false);
         setUpload(false);
-        window.location.href = "/contact";
+        history.push("/contact");
       } catch (err) {
         if (err) {
           alert(err);
@@ -452,7 +453,7 @@ const AddUser = () => {
                   }}
                 >
                   <input
-                    type="number"
+                    type="text"
                     pattern="\d*"
                     value={phone.phone}
                     className="form-control"
