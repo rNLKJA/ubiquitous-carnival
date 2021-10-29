@@ -78,7 +78,7 @@ const Record = () => {
     { value: "lastName", label: "Last Name" },
     { value: "location", label: "Location" },
     { value: "notes", label: "Notes" },
-    {value:'time',label: 'Time'},
+    { value: "time", label: "Time" },
     { value: null, label: "Null" },
   ];
 
@@ -227,33 +227,29 @@ export const RecordList = (prop) => {
           );
         case "time":
           return prop.records.filter((record) =>
-              (
-                  convert(record.dateTime)
-              )
-                  .toLowerCase()
-                  .includes(prop.search_key.toLowerCase()),
+            convert(record.dateTime)
+              .toLowerCase()
+              .includes(prop.search_key.toLowerCase()),
           );
-          break
         case null:
-          console.log("NULL")
+          // console.log("NULL")
           return prop.records.filter((record) =>
-              (
-                  record.meetingPerson.firstName +
-                  " " +
-                  record.meetingPerson.lastName +
-                  " " +
-                  convert(record.dateTime) +
-                  " " +
-                  record.notes +
-                  " " +
-                  record.location
-              )
-                  .toLowerCase()
-                  .includes(prop.search_key.toLowerCase()),
+            (
+              record.meetingPerson.firstName +
+              " " +
+              record.meetingPerson.lastName +
+              " " +
+              convert(record.dateTime) +
+              " " +
+              record.notes +
+              " " +
+              record.location
+            )
+              .toLowerCase()
+              .includes(prop.search_key.toLowerCase()),
           );
-          break
-        default :
-          break
+        default:
+          break;
       }
     }
   };
@@ -337,10 +333,11 @@ export function convert(str) {
   hours = hours ? hours : 12; // the hour '0' should be '12'
   minutes = ("0" + minutes).slice(-2);
 
-  if(hours>9){
-    var strTime = " " + hours + ":" + minutes + " " + ampm;
-  }else {
-    var strTime = " 0" + hours + ":" + minutes + " " + ampm;
+  var strTime;
+  if (hours > 9) {
+    strTime = " " + hours + ":" + minutes + " " + ampm;
+  } else {
+    strTime = " 0" + hours + ":" + minutes + " " + ampm;
   }
 
   return [date.getFullYear(), month, day].join("-") + strTime;
@@ -350,12 +347,12 @@ const sortRecord = (records, setRecordList, type) => {
     switch (type) {
       case "firstName":
         records.sort((a, b) =>
-            a.meetingPerson.firstName.localeCompare(b.meetingPerson.firstName),
+          a.meetingPerson.firstName.localeCompare(b.meetingPerson.firstName),
         );
         break;
       case "lastName":
         records.sort((a, b) =>
-            a.meetingPerson.lastName.localeCompare(b.meetingPerson.lastName),
+          a.meetingPerson.lastName.localeCompare(b.meetingPerson.lastName),
         );
         break;
       case "location":
@@ -367,16 +364,16 @@ const sortRecord = (records, setRecordList, type) => {
       case "time":
         console.log(records[0].dateTime);
         records.sort((a, b) =>
-
-            convert(a.dateTime).localeCompare(convert(b.dateTime)));
+          convert(a.dateTime).localeCompare(convert(b.dateTime)),
+        );
         for (let i = 0; i < records.length; i++) {
-          console.log(records[i].notes)
+          console.log(records[i].notes);
         }
-        break
+        break;
       case "Null":
-        break
-      default :
-        break
+        break;
+      default:
+        break;
     }
   }
 };
