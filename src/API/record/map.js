@@ -51,7 +51,14 @@ const Map = ({ setLocation, setGeoCoords, geoLocation, text }) => {
     libraries,
   });
 
-  const initLocation = geoLocation ? geoLocation : center;
+  var initLocation;
+  if (isNaN(geoLocation.lat)) {
+    initLocation = center;
+  } else {
+    initLocation = geoLocation;
+  }
+
+  console.log(initLocation);
 
   // console.log(geoLocation ,"geo" ,  "init " , initLocation)
 
@@ -126,7 +133,7 @@ const Map = ({ setLocation, setGeoCoords, geoLocation, text }) => {
         <GoogleMap
           mapContainerStyle={mapContainerStyle}
           zoom={14}
-          center={geoLocation ? geoLocation : center}
+          center={initLocation}
           options={options}
           onClick={onMapClick}
           onLoad={onMapLoad}

@@ -16,6 +16,7 @@ import Autocomplete from "@mui/material/Autocomplete";
 // import { Redirect } from "react-router-dom";
 import Button from "@mui/material/Button";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { useHistory } from "react-router-dom";
 
 const CreateRecord = () => {
   useEffect(() => {
@@ -37,14 +38,16 @@ const CreateRecord = () => {
     text: sessionStorage.getItem("selected-text"),
   };
 
-  sessionStorage.removeItem("selected-lat");
-  sessionStorage.removeItem("selected-lng");
-  sessionStorage.removeItem("selected-text");
+  const history = useHistory();
 
   useEffect(() => {
-    setLocation(address.text);
-    setGeoCoords({ lat: address.lat, lng: address.lng });
+    if (address.lat !== null || address.lat !== undefined) {
+      setLocation(address.text);
+      setGeoCoords({ lat: address.lat, lng: address.lng });
+    }
   }, [address.lat, address.lng, address.text]);
+
+  console.log(address);
 
   const [customField, setCustomField] = useState([]);
   const [valid, setValid] = useState(false);
@@ -101,7 +104,7 @@ const CreateRecord = () => {
       setLocation("");
       setSelected("");
 
-      window.location.href = "/record";
+      history.push("/record");
     }
   };
 
