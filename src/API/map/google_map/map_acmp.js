@@ -278,9 +278,7 @@ const Map = () => {
                   <input
                     className="form-control"
                     type="text"
-                    value={selected.dateTime
-                      .replace("T", " ")
-                      .replace(".000Z", "")}
+                    value={convert(selected.dateTime)}
                     readonly
                   />
 
@@ -489,6 +487,7 @@ const searchRecords = (records, search_key) => {
 };
 
 // This function convert the dateTime to a a formal string
+
 export function convert(str) {
   var date = new Date(str),
     month = ("0" + (date.getMonth() + 1)).slice(-2),
