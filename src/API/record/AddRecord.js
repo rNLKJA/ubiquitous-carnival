@@ -212,7 +212,7 @@ const CreateRecord = () => {
                   onChange={(newValue) => {
                     setCurrentTime(newValue);
                   }}
-                  minDate={new Date("2021-02-14")}
+                  minDate={new Date("2019-02-14")}
                   maxTime={new Date("2025-02-14")}
                   ampm={true}
                   disableIgnoringDatePartForTimeValidation={true}

@@ -62,3 +62,11 @@
   z-index: 10;
   color: rgb(47, 71, 147);
 }
+
+.range-selector {
+  display: grid;
+  grid-auto-columns: 1fr 1fr;
+  background-color: white;
+  gap: 0.5rem;
+  margin-top: 10px;
+}

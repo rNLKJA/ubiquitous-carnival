@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useRef } from "react";
+import React, { useState, useCallback, useRef, useEffect } from "react";
 import {
   GoogleMap,
   useLoadScript,
@@ -21,14 +21,14 @@ import {
 import "@reach/combobox/styles.css";
 import { useShowAllRecords } from "../../../BackEndAPI/recordAPI";
 import Error from "../../error/Error";
-// import { formatRelative } from "date-fns";
 import mapStyle from "./mapStyles";
-// import { Info, LaptopWindows } from "@material-ui/icons";
 import "./map.css";
 
 import { useHistory } from "react-router-dom";
+import LocalizationProvider from "@mui/lab/LocalizationProvider";
+import DatePicker from "@mui/lab/DatePicker";
+import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import TextField from "@mui/material/TextField";
-import Selected from "react-select";
 
 import compass from "../compass.png";
 
@@ -70,18 +70,16 @@ const Map = () => {
   });
   const [selected, setSelected] = useState(null);
   const [selectedAddress, setSelectedAddress] = useState(null);
-  const [searchTerm, setSearchTerm] = useState("");
+  const [startDate, setStartDate] = useState(new Date());
+  const [endDate, setEndDate] = useState(new Date());
 
-  const options1 = [
-    { value: "2019", label: "2019" },
-    { value: "2020", label: "2020" },
-    { value: "2021", label: "2021" },
-    { value: "2022", label: "2022" },
-  ];
+  const [Records, setRecords] = useState(records);
 
   if (false) {
     console.log(address);
   }
+
+  console.log(Records, 1);
 
   const history = useHistory();
   const routeChange = () => {
@@ -138,11 +136,6 @@ const Map = () => {
     );
   }
 
-  const handleChange = (e) => {
-    e.preventDefault();
-    setSearchTerm(e.target.value);
-  };
-
   // return component
   return (
     <div className="google-map">
@@ -163,13 +156,43 @@ const Map = () => {
             panTo={panTo}
             setAddress={setAddress}
           />
-          {/* <TextField
-            id="standard-basic"
-            label="Search at here!!"
-            style={{ width: "100%", marginTop: 10, backgroundColor: "white" }}
-            value={searchTerm}
-            onChange={(e) => handleChange(e)}
-          /> */}
+
+          <div className="range-selector">
+            <LocalizationProvider dateAdapter={AdapterDateFns}>
+              <DatePicker
+                renderInput={(params) => <TextField {...params} />}
+                label="Start Time"
+                value={startDate}
+                onChange={(newValue) => {
+                  setStartDate(newValue);
+                }}
+                minDate={new Date("2019-02-14")}
+                maxTime={new Date("2025-02-14")}
+                ampm={true}
+                disableIgnoringDatePartForTimeValidation={true}
+                style={{ color: "white" }}
+              />
+            </LocalizationProvider>
+
+            <br />
+
+            <LocalizationProvider dateAdapter={AdapterDateFns}>
+              <DatePicker
+                renderInput={(params) => <TextField {...params} />}
+                label="End Time"
+                value={endDate}
+                onChange={(newValue) => {
+                  setEndDate(newValue);
+                }}
+                minDate={new Date("2019-02-14")}
+                maxTime={new Date("2025-02-14")}
+                ampm={true}
+                disableIgnoringDatePartForTimeValidation={true}
+                style={{ color: "white" }}
+              />
+            </LocalizationProvider>
+          </div>
+
           <Locate panTo={panTo} setAddress={setAddress} />
         </div>
 
@@ -235,24 +258,41 @@ const Map = () => {
           {/* open up a info window when use click on it */}
 
           {/* create marker to pin the location */}
-          {records.map((record) => {
-            // console.log(record);
-            return (
-              <Marker
-                position={{ ...record }}
-                key={new Date().toISOString()}
-                icon={{
-                  url: "./google-maps.png",
-                  scaledSize: new window.google.maps.Size(50, 50),
-                  origin: new window.google.maps.Point(0, 0),
-                  anchor: new window.google.maps.Point(15, 15),
-                }}
-                onClick={() => {
-                  setSelected(record);
-                }}
-              />
-            );
-          })}
+          {records
+            .filter((record) => {
+              return (
+                convert(record.dateTime) >=
+                  startDate.getFullYear() +
+                    "-" +
+                    startDate.getMonth() +
+                    "-" +
+                    startDate.getDay() &&
+                convert(record.dateTime) <=
+                  endDate.getFullYear() +
+                    "-" +
+                    endDate.getMonth() +
+                    "-" +
+                    endDate.getDay()
+              );
+            })
+            .map((record) => {
+              // console.log(record);
+              return (
+                <Marker
+                  position={{ ...record }}
+                  key={new Date().toISOString()}
+                  icon={{
+                    url: "./google-maps.png",
+                    scaledSize: new window.google.maps.Size(50, 50),
+                    origin: new window.google.maps.Point(0, 0),
+                    anchor: new window.google.maps.Point(15, 15),
+                  }}
+                  onClick={() => {
+                    setSelected(record);
+                  }}
+                />
+              );
+            })}
           {/* open up a info window when use click on it */}
           {selected ? (
             <InfoWindow
