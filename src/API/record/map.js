@@ -110,7 +110,7 @@ const Map = ({ setLocation, setGeoCoords, geoLocation, text }) => {
           {address.text}
         </h4> */}
 
-        {/* define the address search box and locate buttom  */}
+        {/* define the address search box and locate button  */}
         <div className="top-bar-1">
           <Search
             key={new Date().toISOString()}

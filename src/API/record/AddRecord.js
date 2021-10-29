@@ -37,10 +37,14 @@ const CreateRecord = () => {
     text: sessionStorage.getItem("selected-text"),
   };
 
+  sessionStorage.removeItem("selected-lat");
+  sessionStorage.removeItem("selected-lng");
+  sessionStorage.removeItem("selected-text");
+
   useEffect(() => {
     setLocation(address.text);
     setGeoCoords({ lat: address.lat, lng: address.lng });
-  }, []);
+  }, [address.lat, address.lng, address.text]);
 
   const [customField, setCustomField] = useState([]);
   const [valid, setValid] = useState(false);
