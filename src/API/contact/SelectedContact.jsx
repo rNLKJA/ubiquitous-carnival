@@ -344,7 +344,6 @@ export const DisplayContact = ({
       setSuccess(true);
       setLoading1(false);
       setUpload(false);
-      // TODO: backend should return the decoded string of image in res.data.portrait.
       // update hook state to rerender the new avatar
       // setAvatar(res.data.portrait)
     } catch (err) {
