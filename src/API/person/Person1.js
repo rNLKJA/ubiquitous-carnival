@@ -207,7 +207,7 @@ export const DisplayPerson = ({
             change password
           </Button>
         ) : null}
-        {!person.edit ? (
+        {/* {!person.edit ? (
           <Button
             variant="contained"
             sx={{ backgroundColor: "#01579b" }}
@@ -215,7 +215,7 @@ export const DisplayPerson = ({
           >
             <ShareIcon />
           </Button>
-        ) : null}
+        ) : null} */}
         {!person.edit ? (
           <Button variant="contained" color="error" onClick={LogoutUser}>
             <LogoutIcon />

@@ -90,22 +90,20 @@ const CreateRecord = () => {
       customField,
     };
 
-    setValid(true);
-    dataValidator(customField, "field", setValid);
+    // setValid(true);
+    // dataValidator(customField, "field", setValid);
 
-    if (valid === true) {
-      await fetchClient
-        .post("/record/createRecord", recordInfo)
-        .then(() => alert("Successfully create a record つ - - つ"))
-        .catch((err) => {
-          alert(err);
-          console.error(err);
-        });
-      setLocation("");
-      setSelected("");
+    await fetchClient
+      .post("/record/createRecord", recordInfo)
+      .then(() => alert("Successfully create a record つ - - つ"))
+      .catch((err) => {
+        alert(err);
+        console.error(err);
+      });
+    setLocation("");
+    setSelected("");
 
-      history.push("/record");
-    }
+    history.push("/record");
   };
 
   const setFieldValue = (value) => {
