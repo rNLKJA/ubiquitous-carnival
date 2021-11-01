@@ -122,12 +122,13 @@ const AddUser = () => {
 
     setValid(true);
 
-    dataValidator(phone, "phone", setValid);
-    dataValidator(email, "email", setValid);
-    dataValidator(firstName, "firstName", setValid);
-    dataValidator(lastName, "lastName", setValid);
-    dataValidator(occupation, "occupation", setValid);
-    dataValidator(customField, "field", setValid);
+    // dataValidator(phone, "phone", setValid);
+    // console.log(valid);
+    // dataValidator(email, "email", setValid);
+    // dataValidator(firstName, "firstName", setValid);
+    // dataValidator(lastName, "lastName", setValid);
+    // dataValidator(occupation, "occupation", setValid);
+    // dataValidator(customField, "field", setValid);
 
     const formData = new FormData();
     formData.append("firstName", firstName);
@@ -137,74 +138,67 @@ const AddUser = () => {
     formData.append("occupation", occupation);
     formData.append("portrait", file);
     note ? formData.append("note", note) : formData.append("note", "");
-    formData.append("note", note);
     formData.append("field", customField);
 
-    for (var pair of formData.entries()) {
-      console.log(pair[0] + ", " + pair[1]);
-    }
+    // for (var pair of formData.entries()) {
+    //   console.log(pair[0] + ", " + pair[1]);
+    // }
 
-    if (valid) {
-      try {
-        setSuccess(false);
-        setLoading1(true);
-        const response = await fetchClient
-          .post("/contact/createContactOneStep", formData, {
-            headers: {
-              "Content-Type": "multipart/form-data",
-            },
-            onUploadProgress: (progressEvent) => {
-              setUploadPercentage(
-                parseInt(
-                  Math.round(
-                    (progressEvent.loaded * 100) / progressEvent.total,
-                  ),
-                ),
-              );
-            },
-          })
-          .then((res) => {
-            if (res.data.dupContact) {
-              alert("duplicate contact");
-            }
-            if (res.data.status === "false") {
-              alert("upload failed");
-            }
+    try {
+      setSuccess(false);
+      setLoading1(true);
+      const response = await fetchClient
+        .post("/contact/createContactOneStep", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+          onUploadProgress: (progressEvent) => {
+            setUploadPercentage(
+              parseInt(
+                Math.round((progressEvent.loaded * 100) / progressEvent.total),
+              ),
+            );
+          },
+        })
+        .then((res) => {
+          if (res.data.dupContact) {
+            alert("duplicate contact");
+          }
+          if (res.data.status === "false") {
+            alert("upload failed");
+          }
 
-            alert("You've create a new contact!");
-            return res;
-          })
-          .catch((err) => {
-            console.log(err);
-          });
+          alert("You've create a new contact!");
+          return res;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
 
-        if (response.data.status === "false") {
-          alert("upload failed");
-          return;
-        }
-
-        // setTimeout(() => setUploadPercentage(0), 100);
-
-        setSuccess(true);
-        setLoading1(false);
-        setUpload(false);
-        history.push("/contact");
-      } catch (err) {
-        if (err) {
-          alert(err);
-          return;
-        }
-        setUploadPercentage(0);
+      if (response.data.status === "false") {
+        alert("upload failed");
+        return;
       }
-      setFirstName("");
-      setLastName("");
-      setEmails([]);
-      setPhones([]);
-      setOccupation("");
-      setNote("");
-    } else {
-      alert("Invalid input");
+
+      // setTimeout(() => setUploadPercentage(0), 100);
+
+      setSuccess(true);
+      setLoading1(false);
+      setUpload(false);
+      history.push("/contact");
+    } catch (err) {
+      if (err) {
+        alert(err);
+        return;
+      }
+      setUploadPercentage(0);
     }
+    setFirstName("");
+    setLastName("");
+    setEmails([]);
+    setPhones([]);
+    setOccupation("");
+    setNote("");
   };
 
   // const [image, setImage] = useState("");
@@ -275,7 +269,7 @@ const AddUser = () => {
 
   const onChange = (e) => {
     e.preventDefault();
-    setFile(e.target.files[0]);
+    setFile(URL.createObjectURL(e.target.files[0]));
     setFileName(e.target.files[0].name);
   };
 
@@ -306,7 +300,7 @@ const AddUser = () => {
             alt="Avatar"
             sx={{ width: 125, height: 125, border: "2px solid pink" }}
             margin={3}
-            src={"data:image/png;base64," + avatar}
+            src={file}
           />
 
           {upload ? (
@@ -498,6 +492,7 @@ const AddUser = () => {
             onChange={(e) => {
               setOccupation(e.target.value);
             }}
+            required
           />
 
           {/* <label htmlFor="meetRecord">Meeting Record: </label>
