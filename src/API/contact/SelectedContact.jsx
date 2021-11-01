@@ -214,28 +214,23 @@ export const DisplayContact = ({
     setValid(true);
     console.log(valid);
 
-    dataValidator(phone, "phone", setValid, valid);
-    dataValidator(email, "email", setValid, valid);
-    dataValidator(data.firstName, "firstName", setValid, valid);
-    dataValidator(data.lastName, "lastName", setValid, valid);
-    dataValidator(data.occupation, "occupation", setValid, valid);
-    dataValidator(data.customField, "field", setValid, valid);
-
-    if (valid) {
-      await fetchClient
-        .post("/contact/updateContactInfo", data)
-        .then((response) => {
-          if (response.data.status) {
-            alert(
-              "Update contact information succeed!\nRedirect to Contact Page",
-            );
-            // window.location.href = "/contact";
-            history.push("/contact");
-          } else {
-            alert("Opps, something wrong, please try later.");
-          }
-        });
-    }
+    // dataValidator(phone, "phone", setValid, valid);
+    // dataValidator(email, "email", setValid, valid);
+    // dataValidator(data.firstName, "firstName", setValid, valid);
+    // dataValidator(data.lastName, "lastName", setValid, valid);
+    // dataValidator(data.occupation, "occupation", setValid, valid);
+    // dataValidator(data.customField, "field", setValid, valid);
+    await fetchClient
+      .post("/contact/updateContactInfo", data)
+      .then((response) => {
+        if (response.data.status) {
+          alert("Update contact information succeed!");
+          window.location.href = "/contact";
+          history.push("/contact");
+        } else {
+          alert("Opps, something wrong, please try later.");
+        }
+      });
   };
 
   const fieldOnChange = (index, event) => {
@@ -308,7 +303,7 @@ export const DisplayContact = ({
 
   const onChange = (e) => {
     e.preventDefault();
-    setFile(e.target.files[0]);
+    setFile(URL.createObjectURL(e.target.files[0]));
     setFileName(e.target.files[0].name);
   };
 
@@ -406,12 +401,22 @@ export const DisplayContact = ({
 
       <div className="makeStyles-card-1" style={{ width: "95%" }}>
         <div className="avatar">
-          <Avatar
-            alt="Avatar"
-            sx={{ width: 125, height: 125, border: "2px solid pink" }}
-            margin={3}
-            src={"data:image/png;base64," + avatar}
-          />
+          {avatar && (
+            <Avatar
+              alt="Avatar"
+              sx={{ width: 125, height: 125, border: "2px solid pink" }}
+              margin={3}
+              src={"data:image/png;base64," + avatar}
+            />
+          )}
+          {file && (
+            <Avatar
+              alt="Avatar"
+              sx={{ width: 125, height: 125, border: "2px solid pink" }}
+              margin={3}
+              src={"data:image/png;base64," + avatar}
+            />
+          )}
 
           {contact.edit ? (
             upload ? (
@@ -536,39 +541,40 @@ export const DisplayContact = ({
 
           {phones.map((phone, i) => {
             return (
-              <>
-                <br />
+              <div className="multi-field" key={"phone" + i}>
                 <div
-                  key={`${phone}-${i} + ${new Date().toISOString()}`}
-                  className="multi-field"
+                  className="multi-field-input"
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    gap: "10px",
+                    width: "100%",
+                  }}
                 >
-                  <div className="multi-field-input">
-                    <input
-                      text="text"
-                      pattern="\d*"
-                      value={phone.phone}
-                      className="form-control"
-                      name="phone"
-                      readOnly={!contact.edit}
-                      minLength={10}
-                      maxLength={10}
-                      onChange={(e) => phoneOnChange(i, e)}
-                    />
-                  </div>
-                  {contact.edit ? (
+                  <input
+                    type="text"
+                    pattern="\d*"
+                    value={phone.phone}
+                    className="form-control"
+                    name="phone"
+                    required
+                    minLength={10}
+                    maxLength={10}
+                    onChange={(e) => phoneOnChange(i, e)}
+                  />
+
+                  {contact.edit && (
                     <Button
                       variant="outlined"
                       onClick={(e) => removeHandler(e, i, "phone")}
                     >
                       <DeleteIcon />
                     </Button>
-                  ) : null}
+                  )}
                 </div>
-                <hr />
-              </>
+              </div>
             );
           })}
-
           {contact.edit && (
             <>
               <Button
@@ -585,22 +591,25 @@ export const DisplayContact = ({
           {emails.length !== 0 ? <label>Email Address</label> : null}
           {emails.map((mail, i) => {
             return (
-              <>
-                <br />
+              <div className="multi-field" key={"email" + i}>
                 <div
-                  key={`${mail}-${i} ${new Date().toISOString()}`}
-                  className="multi-field"
+                  className="multi-field-input"
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    gap: "10px",
+                    width: "100%",
+                  }}
                 >
-                  <div className="multi-field-input">
-                    <input
-                      value={mail.email}
-                      type="email"
-                      name="email"
-                      className="form-control"
-                      readOnly={!contact.edit}
-                      onChange={(e) => emailOnChange(i, e)}
-                    />
-                  </div>
+                  <input
+                    value={mail.email}
+                    type="email"
+                    name="email"
+                    className="form-control"
+                    required
+                    onChange={(e) => emailOnChange(i, e)}
+                  ></input>
+
                   {contact.edit && (
                     <Button
                       variant="outlined"
@@ -610,9 +619,7 @@ export const DisplayContact = ({
                     </Button>
                   )}
                 </div>
-
-                <hr />
-              </>
+              </div>
             );
           })}
 
