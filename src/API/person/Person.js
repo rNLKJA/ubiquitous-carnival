@@ -6,7 +6,7 @@ import { useState, useEffect } from "react";
 import "./person.css";
 import { useShowProfile } from "../../BackEndAPI/profileAPI";
 import fetchClient from "../axiosClient/axiosClient";
-// import qr_code from "../nav/qr-code.png";
+// import e.target.files[0]_code from "../nav/qr-code.png";
 import Heading from "../heading/heading";
 import Navbar from "../nav/Navbar";
 import UpdatePassword from "./UpdatePassword";
@@ -177,7 +177,7 @@ const Person = () => {
 
   const onChange = (e) => {
     e.preventDefault();
-    setFile(e.target.files[0]);
+    setFile(URL.createObjectURL(e.target.files[0]));
     setFileName(e.target.files[0].name);
   };
 
@@ -204,7 +204,7 @@ const Person = () => {
                 marginTop: "15px",
               }}
               margin={3}
-              src={"data:image/png;base64," + avatar}
+              src={avatar ? "data:image/png;base64," + avatar : file}
             />
 
             <span>
