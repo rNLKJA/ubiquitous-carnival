@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useRef, useEffect } from "react";
+import React, { useState, useCallback, useRef } from "react";
 import {
   GoogleMap,
   useLoadScript,
@@ -73,20 +73,17 @@ const Map = () => {
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
 
-  const [Records, setRecords] = useState(records);
+  // const [Records, setRecords] = useState(records);
 
   if (false) {
     console.log(address);
   }
-
-  console.log(Records, 1);
 
   const history = useHistory();
   const routeChange = () => {
     history.push("/createRecord");
   };
 
-  // console.log(address)
   // set the callback function
   const onMapClick = useCallback((event) => {
     fetchAddress(
@@ -192,6 +189,7 @@ const Map = () => {
               />
             </LocalizationProvider>
           </div>
+          {/* {console.log(`End Date :: ${convert(endDate).split(" ")[0]}`)} */}
 
           <Locate panTo={panTo} setAddress={setAddress} />
         </div>
@@ -261,26 +259,15 @@ const Map = () => {
           {records
             .filter((record) => {
               return (
-                convert(record.dateTime) >=
-                  startDate.getFullYear() +
-                    "-" +
-                    startDate.getMonth() +
-                    "-" +
-                    startDate.getDay() &&
-                convert(record.dateTime) <=
-                  endDate.getFullYear() +
-                    "-" +
-                    endDate.getMonth() +
-                    "-" +
-                    endDate.getDay()
+                convert(record.dateTime) >= convert(startDate).split(" ")[0] &&
+                convert(record.dateTime) <= convert(endDate).split(" ")[0]
               );
             })
             .map((record) => {
-              // console.log(record);
               return (
                 <Marker
                   position={{ ...record }}
-                  key={new Date().toISOString()}
+                  key={new Date().toISOString() + record.dateTime}
                   icon={{
                     url: "./google-maps.png",
                     scaledSize: new window.google.maps.Size(50, 50),
@@ -471,60 +458,60 @@ const fetchAddress = (position, setAddress) => {
 // 	let result = d.getFullYear() + '-' + d.getMonth() + '-' + d.getDay() + ' ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds()
 // 	return result
 // }
-const searchRecords = (records, search_key) => {
-  if (records !== undefined) {
-    switch (options) {
-      case "firstName":
-        return records.filter((record) =>
-          record.meetingPerson.firstName
-            .toLowerCase()
-            .includes(search_key.toLowerCase()),
-        );
+// const searchRecords = (records, search_key) => {
+//   if (records !== undefined) {
+//     switch (options) {
+//       case "firstName":
+//         return records.filter((record) =>
+//           record.meetingPerson.firstName
+//             .toLowerCase()
+//             .includes(search_key.toLowerCase()),
+//         );
 
-      case "lastName":
-        return records.filter((record) =>
-          record.meetingPerson.lastName
-            .toLowerCase()
-            .includes(search_key.toLowerCase()),
-        );
+//       case "lastName":
+//         return records.filter((record) =>
+//           record.meetingPerson.lastName
+//             .toLowerCase()
+//             .includes(search_key.toLowerCase()),
+//         );
 
-      case "location":
-        return records.filter((record) =>
-          record.location.toLowerCase().includes(search_key.toLowerCase()),
-        );
+//       case "location":
+//         return records.filter((record) =>
+//           record.location.toLowerCase().includes(search_key.toLowerCase()),
+//         );
 
-      case "notes":
-        return records.filter((record) =>
-          record.notes.toLowerCase().includes(search_key.toLowerCase()),
-        );
-      case "time":
-        return records.filter((record) =>
-          convert(record.dateTime)
-            .toLowerCase()
-            .includes(search_key.toLowerCase()),
-        );
-      case null:
-        // console.log("NULL")
-        return records.filter((record) =>
-          (
-            record.meetingPerson.firstName +
-            " " +
-            record.meetingPerson.lastName +
-            " " +
-            convert(record.dateTime) +
-            " " +
-            record.notes +
-            " " +
-            record.location
-          )
-            .toLowerCase()
-            .includes(search_key.toLowerCase()),
-        );
-      default:
-        break;
-    }
-  }
-};
+//       case "notes":
+//         return records.filter((record) =>
+//           record.notes.toLowerCase().includes(search_key.toLowerCase()),
+//         );
+//       case "time":
+//         return records.filter((record) =>
+//           convert(record.dateTime)
+//             .toLowerCase()
+//             .includes(search_key.toLowerCase()),
+//         );
+//       case null:
+//         // console.log("NULL")
+//         return records.filter((record) =>
+//           (
+//             record.meetingPerson.firstName +
+//             " " +
+//             record.meetingPerson.lastName +
+//             " " +
+//             convert(record.dateTime) +
+//             " " +
+//             record.notes +
+//             " " +
+//             record.location
+//           )
+//             .toLowerCase()
+//             .includes(search_key.toLowerCase()),
+//         );
+//       default:
+//         break;
+//     }
+//   }
+// };
 
 // This function convert the dateTime to a a formal string
 

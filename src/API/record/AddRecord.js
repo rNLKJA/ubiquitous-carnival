@@ -47,7 +47,7 @@ const CreateRecord = () => {
     }
   }, [address.lat, address.lng, address.text]);
 
-  console.log(address);
+  // console.log(address);
 
   const [customField, setCustomField] = useState([]);
   const [valid, setValid] = useState(false);
