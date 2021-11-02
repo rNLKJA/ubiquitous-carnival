@@ -16,8 +16,8 @@ describe("Integration test: Test for profile", () => {
       .post("/user/login")
       .set("Content-Type", "application/json")
       .send({
-        userName: "test123",
-        password: "123",
+        userName: "TestDontDelete",
+        password: "testtest123",
       })
       .then((res) => {
         jwtToken = res.body.token;
