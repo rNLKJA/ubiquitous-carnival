@@ -201,18 +201,35 @@
   }
 
   .upload-container {
-                  display: "flex";
-                  position: "fixed";
-                  right: "1rem";
-                  top: "1.5rem",
+    display: "flex";
+    position: "fixed";
+    right: "1rem";
+    top: "1.5rem";
   }
 
-  
+  .change-slice {
+    position: fixed;
+    bottom: 0px;
+    border-top: 1px solid#bdc9d7;
+    width: 100%;
+    justify-content: center;
+    text-align: center;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+
+  .slice-range-index {
+    border: none;
+    margin: none;
+    text-align: center;
+    /* height: 10px; */
+    /* line-height: 10px; */
+    padding: 0px;
+  }
 }
 
 @media only screen and (min-width: 1024px) {
-  .multi-field{
-    
+  .multi-field {
     justify-content: center;
     align-items: center;
   }
@@ -387,10 +404,10 @@
   }
 
   .upload-container {
-                  display: "flex";
-                  position: "fixed";
-                  right: "1rem";
-                  top: "1.5rem",
+    display: "flex";
+    position: "fixed";
+    right: "1rem";
+    top: "1.5rem";
   }
 
   .makeStyles-card-1 {
@@ -421,7 +438,7 @@
     bottom: 3rem;
   }
 
-  .edit-btn{
+  .edit-btn {
     position: absolute;
     width: 3rem;
     height: 3rem;
@@ -430,14 +447,13 @@
     top: 10rem;
   }
 
-  .back-btn{
+  .back-btn {
     position: absolute;
     width: 4rem;
     height: 3rem;
     position: absolute;
     right: -5%;
     top: 15rem;
-    
   }
 
   .add-contact > img {
@@ -447,7 +463,4 @@
     right: -120%;
     top: 0rem;
   }
-
-  
-  
 }

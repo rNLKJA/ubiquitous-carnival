@@ -51,6 +51,9 @@ const Contact = () => {
     selected: false,
   });
 
+  const [slice, setSlice] = useState(5); // define the number of records display in the contact list
+  const [count, setCount] = useState(5);
+
   if (false) {
     console.log(contactList);
   }
@@ -143,6 +146,22 @@ const Contact = () => {
     );
   }
 
+  const addCount = () => {
+    if (slice <= contacts.length) {
+      setCount(parseInt(count) + parseInt(slice));
+    } else {
+      setCount(contacts.length);
+    }
+  };
+
+  const subCount = () => {
+    if (parseInt(count) - parseInt(slice) <= 0) {
+      setCount(5);
+    } else {
+      setCount(parseInt(count) - parseInt(slice));
+    }
+  };
+
   return (
     <React.Fragment>
       <Navbar />
@@ -191,7 +210,32 @@ const Contact = () => {
                     error={error}
                     options={selectedOption.value}
                     setOneContact={setOneContact}
+                    count={count}
                   />
+                  <div className="change-slice">
+                    <button
+                      className="btn btn-primary add-slice"
+                      onClick={subCount}
+                    >
+                      Previous
+                    </button>
+                    <div style={{ border: "2px #bdc9d7 solid" }}>
+                      <input
+                        name="slice-range-index"
+                        className="slice-range-index"
+                        type="number"
+                        value={slice}
+                        onChange={(e) => setSlice(e.target.value)}
+                      ></input>
+                    </div>
+                    <button
+                      className="btn btn-primary add-slice"
+                      onClick={addCount}
+                    >
+                      Next
+                    </button>
+                  </div>
+                  {console.log(count)}
                 </div>
               </>
             )}
@@ -210,7 +254,7 @@ const Contact = () => {
                 >
                   <TextField
                     id="standard-basic"
-                    label="Search by name/occupation"
+                    label="Search by name/occupation/date"
                     style={{ width: "90%" }}
                     value={searchTerm}
                     onChange={(e) => handleChange(e)}
@@ -341,7 +385,7 @@ export const People = (prop) => {
       margin={2}
       spacing={2}
     >
-      {filteredContacts.map((contact) => {
+      {filteredContacts.slice(prop.count - 5, prop.count).map((contact) => {
         return (
           <Grid
             key={contact.contact._id + new Date().toISOString()}
