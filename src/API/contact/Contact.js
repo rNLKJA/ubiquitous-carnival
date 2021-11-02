@@ -330,7 +330,7 @@ export const People = (prop) => {
     }
   };
 
-  let fitterContacts = searchContacts();
+  let filteredContacts = searchContacts();
 
   return (
     <Grid
@@ -341,7 +341,7 @@ export const People = (prop) => {
       margin={2}
       spacing={2}
     >
-      {fitterContacts.map((contact) => {
+      {filteredContacts.map((contact) => {
         return (
           <Grid
             key={contact.contact._id + new Date().toISOString()}
