@@ -17,7 +17,7 @@ describe("Integration test: Test for create Record", () => {
       .set("Content-Type", "application/json")
       .send({
         userName: "test123",
-        password: "123",
+        password: "testtest123",
       })
       .then((res) => {
         jwtToken = res.body.token;
@@ -29,6 +29,8 @@ describe("Integration test: Test for create Record", () => {
     mongoose.connection.close();
     done();
   });
+
+  jest.setTimeout(30000)
 
   test("Test 1: Add a record with invalid contact_id", () => {
     return agent
@@ -80,7 +82,7 @@ describe("Integration test: Test for create Record", () => {
       .set("Content-Type", "application/json")
       .set("Authorization", jwtToken)
       .send({
-        contact_id: "6131e5b0e0accb25d09663f6",
+        contact_id: "6179489393243300163836a4",
         location: "University of Melbourne",
         dateTime: null,
         geoCoords: {
@@ -92,7 +94,7 @@ describe("Integration test: Test for create Record", () => {
       })
       .then((res) => {
         expect(res.statusCode).toBe(200);
-        expect(res.body.meetingPerson).toBe("6131e5b0e0accb25d09663f6");
+        expect(res.body.meetingPerson).toBe("6179489393243300163836a4");
         expect(res.body.location).toBe("University of Melbourne");
         expect(res.body.dateTime).not.toBe(null);
         expect(res.body.lat).toBe(122334545);
@@ -108,7 +110,7 @@ describe("Integration test: Test for create Record", () => {
       .set("Content-Type", "application/json")
       .set("Authorization", jwtToken)
       .send({
-        contact_id: "6131e5b0e0accb25d09663f6",
+        contact_id: "6179489393243300163836a4",
         location: "University of Melbourne",
         dateTime: "2021-10-01T10:28:10.018Z",
         geoCoords: {
@@ -120,7 +122,7 @@ describe("Integration test: Test for create Record", () => {
       })
       .then((res) => {
         expect(res.statusCode).toBe(200);
-        expect(res.body.meetingPerson).toBe("6131e5b0e0accb25d09663f6");
+        expect(res.body.meetingPerson).toBe("6179489393243300163836a4");
         expect(res.body.location).toBe("University of Melbourne");
         expect(res.body.dateTime).toBe("2021-10-01T10:28:10.018Z");
         expect(res.body.lat).toBe(122334545);
@@ -136,7 +138,7 @@ describe("Integration test: Test for create Record", () => {
       .set("Content-Type", "application/json")
       .set("Authorization", jwtToken)
       .send({
-        contact_id: "6131e5b0e0accb25d09663f6",
+        contact_id: "6179489393243300163836a4",
         location: "University of Melbourne",
         dateTime: "2021-10-01T10:28:10.018Z",
         geoCoords: null,
@@ -145,7 +147,7 @@ describe("Integration test: Test for create Record", () => {
       })
       .then((res) => {
         expect(res.statusCode).toBe(200);
-        expect(res.body.meetingPerson).toBe("6131e5b0e0accb25d09663f6");
+        expect(res.body.meetingPerson).toBe("6179489393243300163836a4");
         expect(res.body.location).toBe("University of Melbourne");
         expect(res.body.dateTime).toBe("2021-10-01T10:28:10.018Z");
         expect(res.body.lat).toBe(null);
@@ -161,7 +163,7 @@ describe("Integration test: Test for create Record", () => {
       .set("Content-Type", "application/json")
       .set("Authorization", jwtToken)
       .send({
-        contact_id: "6131e5b0e0accb25d09663f6",
+        contact_id: "6179489393243300163836a4",
         location: null,
         dateTime: "2021-10-01T10:28:10.018Z",
         geoCoords: null,
@@ -182,7 +184,7 @@ describe("Integration test: Test for create Record", () => {
       .set("Content-Type", "application/json")
       .set("Authorization", jwtToken)
       .send({
-        contact_id: "6131e5b0e0accb25d09663f6",
+        contact_id: "6179489393243300163836a4",
         location: "University of Melbourne",
         dateTime: "2021-10-01T10:28:10.018Z",
         geoCoords: {
@@ -204,7 +206,7 @@ describe("Integration test: Test for create Record", () => {
       .set("Content-Type", "application/json")
       .set("Authorization", jwtToken)
       .send({
-        contact_id: "6131e5b0e0accb25d09663f6",
+        contact_id: "6179489393243300163836a4",
         location: "University of Melbourne",
         dateTime: "2021-10-01T10:28:10.018Z",
         geoCoords: {
@@ -226,7 +228,7 @@ describe("Integration test: Test for create Record", () => {
       .set("Content-Type", "application/json")
       .set("Authorization", jwtToken)
       .send({
-        contact_id: "6131e5b0e0accb25d09663f6",
+        contact_id: "6179489393243300163836a4",
         location: "University of Melbourne",
         dateTime: "2021-10-01T10:28:10.018Z",
         geoCoords: {
