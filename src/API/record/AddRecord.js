@@ -197,6 +197,7 @@ const CreateRecord = () => {
                   helperText={
                     selected === "" ? "Select a contact つ；－；つ" : ""
                   }
+                  required
                 />
               )}
             />
