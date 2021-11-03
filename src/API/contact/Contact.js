@@ -254,10 +254,16 @@ const Contact = () => {
                     options={selectedOption.value}
                     setOneContact={setOneContact}
                   />
-                  <div className="change-slice">
+                  <div
+                    className="change-slice"
+                    style={{ position: "fixed", bottom: 0, right: 0 }}
+                  >
                     <button
                       className="btn btn-primary add-slice"
-                      onClick={addCount}
+                      onClick={() => {
+                        addCount();
+                        console.log(count);
+                      }}
                     >
                       More
                     </button>
