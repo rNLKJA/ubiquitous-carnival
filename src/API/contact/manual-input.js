@@ -26,9 +26,7 @@ import TextField from "@mui/material/TextField";
 // import { width } from "@mui/system";
 // import Alert from "@mui/material/Alert";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { useHistory,Redirect } from "react-router-dom";
-
-
+import { useHistory, Redirect } from "react-router-dom";
 
 const useFabStyle = makeStyles((success) => ({
   name: {
@@ -65,6 +63,7 @@ const AddUser = () => {
 
   const [avatar, setAvatar] = useState("");
   const [file, setFile] = useState("");
+  const [file1, setFile1] = useState("");
   // const [message, setMessage] = useState("");
   const [uploadPercentage, setUploadPercentage] = useState(0);
   const [loading1, setLoading1] = useState(false);
@@ -99,8 +98,8 @@ const AddUser = () => {
     }
   };
 
-  if (redirect){
-    return <Redirect to= '/addUser' />
+  if (redirect) {
+    return <Redirect to="/addUser" />;
   }
 
   const fieldOnChange = (index, event) => {
@@ -143,7 +142,7 @@ const AddUser = () => {
     formData.append("email", email);
     formData.append("phone", phone);
     formData.append("occupation", occupation);
-    formData.append("portrait", file);
+    formData.append("portrait", file1);
     note ? formData.append("note", note) : formData.append("note", "");
     formData.append("field", customField);
 
@@ -276,6 +275,7 @@ const AddUser = () => {
 
   const onChange = (e) => {
     e.preventDefault();
+    setFile1(e.target.files[0]);
     setFile(URL.createObjectURL(e.target.files[0]));
     setFileName(e.target.files[0].name);
   };
@@ -295,7 +295,11 @@ const AddUser = () => {
       <Heading />
       <NavBar />
       <div className="sub-container">
-        <Button variant="outlined" sx={{ width: "25%", padding: "5px" }} onClick = {() => setRedirect(true)}>
+        <Button
+          variant="outlined"
+          sx={{ width: "25%", padding: "5px" }}
+          onClick={() => setRedirect(true)}
+        >
           Back
         </Button>
         {/* <div className="upload-img">

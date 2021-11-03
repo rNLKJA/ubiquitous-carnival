@@ -55,6 +55,7 @@ const Person = () => {
 
   const [avatar, setAvatar] = useState("");
   const [file, setFile] = useState("");
+  const [file1, setFile1] = useState("");
   const [message, setMessage] = useState("");
   const [uploadPercentage, setUploadPercentage] = useState(0);
   const [loading1, setLoading1] = useState(false);
@@ -135,7 +136,7 @@ const Person = () => {
   const onSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData();
-    formData.append("portrait", file);
+    formData.append("portrait", file1);
 
     try {
       setSuccess(false);
@@ -177,6 +178,7 @@ const Person = () => {
 
   const onChange = (e) => {
     e.preventDefault();
+    setFile1(e.target.files[0]);
     setFile(URL.createObjectURL(e.target.files[0]));
     setFileName(e.target.files[0].name);
   };
