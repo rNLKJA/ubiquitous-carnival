@@ -143,10 +143,6 @@ const Map = () => {
     ),
   );
 
-  {
-    console.log(convert(records[0].dateTime).split(" ")[0]);
-  }
-
   // return component
   return (
     <div className="google-map">
