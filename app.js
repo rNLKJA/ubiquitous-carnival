@@ -32,7 +32,7 @@ app.use(
 app.use(
   cors({
     origin: [
-      "http://localhost:3000",
+      "http://localhost:3000/",
       "https://pcrm4399.herokuapp.com",
       "https://www.4399crm.com",
     ],
