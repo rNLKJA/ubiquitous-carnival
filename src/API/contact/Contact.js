@@ -51,8 +51,8 @@ const Contact = () => {
     selected: false,
   });
 
-  const [slice, setSlice] = useState(5); // define the number of records display in the contact list
-  const [count, setCount] = useState(5);
+  const [slice, setSlice] = useState(9); // define the number of records display in the contact list
+  const [count, setCount] = useState(9);
 
   if (false) {
     console.log(contactList);
@@ -215,27 +215,11 @@ const Contact = () => {
                   <div className="change-slice">
                     <button
                       className="btn btn-primary add-slice"
-                      onClick={subCount}
-                    >
-                      Previous
-                    </button>
-                    <div style={{ border: "2px #bdc9d7 solid" }}>
-                      <input
-                        name="slice-range-index"
-                        className="slice-range-index"
-                        type="number"
-                        value={slice}
-                        onChange={(e) => setSlice(e.target.value)}
-                      ></input>
-                    </div>
-                    <button
-                      className="btn btn-primary add-slice"
                       onClick={addCount}
                     >
-                      Next
+                      More
                     </button>
                   </div>
-                  {console.log(count)}
                 </div>
               </>
             )}
@@ -270,6 +254,14 @@ const Contact = () => {
                     options={selectedOption.value}
                     setOneContact={setOneContact}
                   />
+                  <div className="change-slice">
+                    <button
+                      className="btn btn-primary add-slice"
+                      onClick={addCount}
+                    >
+                      More
+                    </button>
+                  </div>
                 </div>
               </>
             )}
@@ -384,8 +376,9 @@ export const People = (prop) => {
       alignItems="center"
       margin={2}
       spacing={2}
+      padding={"20px"}
     >
-      {filteredContacts.slice(prop.count - 5, prop.count).map((contact) => {
+      {filteredContacts.slice(0, prop.count).map((contact) => {
         return (
           <Grid
             key={contact.contact._id + new Date().toISOString()}

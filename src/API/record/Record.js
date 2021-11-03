@@ -56,6 +56,7 @@ const Record = () => {
   // const [screenWidth, setScreenWidth] = useState(window.innerWidth);
   const { loading, records, error } = useShowAllRecords();
   const [recordList, setRecordList] = useState();
+  const [count, setCount] = useState(9);
 
   if (false) {
     console.log(recordList);
@@ -123,6 +124,10 @@ const Record = () => {
     );
   }
 
+  const moreRecords = () => {
+    setCount(count + 9);
+  };
+
   return (
     <React.Fragment>
       <Navbar />
@@ -177,7 +182,17 @@ const Record = () => {
                 error={error}
                 setOneRecord={setOneRecord}
                 options={selectedOption.value}
+                count={count}
               />
+            </div>
+            <div className="change-slice">
+              <button
+                className="btn btn-primary"
+                style={{ width: 100, fontWeight: "bold" }}
+                onClick={moreRecords}
+              >
+                More
+              </button>
             </div>
           </React.Fragment>
         )}
@@ -260,7 +275,7 @@ export const RecordList = (prop) => {
   return (
     <Grid container>
       {fitterRecords.length >= 1 ? (
-        fitterRecords.map((record) => {
+        fitterRecords.slice(0, prop.count).map((record) => {
           return (
             <Grid
               key={record._id + new Date().toISOString()}
