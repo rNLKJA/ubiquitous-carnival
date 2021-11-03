@@ -8,14 +8,12 @@ export default function useFindUser() {
   useEffect(() => {
     let isMounted = true;
     async function findUser() {
-
       await fetchClient
         .get("/user/jwtTest")
         .then((res) => {
-          if(isMounted){
+          if (isMounted) {
             setUser(res.data);
             setLoading(false);
-            console.log(res.data)
           }
         })
         .catch((err) => {
@@ -23,7 +21,9 @@ export default function useFindUser() {
         });
     }
     findUser();
-    return (()=> {isMounted = false})
+    return () => {
+      isMounted = false;
+    };
   }, []);
   return {
     user,

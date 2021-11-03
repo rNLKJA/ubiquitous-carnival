@@ -201,18 +201,40 @@
   }
 
   .upload-container {
-                  display: "flex";
-                  position: "fixed";
-                  right: "1rem";
-                  top: "1.5rem",
+    display: "flex";
+    position: "fixed";
+    right: "1rem";
+    top: "1.5rem";
   }
 
-  
+  .change-slice {
+    position: fixed;
+    bottom: 0px;
+    border-top: 1px solid#bdc9d7;
+    width: 100%;
+    justify-content: center;
+    text-align: center;
+    display: grid;
+    grid-template-columns: 1fr;
+    background-color: #fcfcfc;
+  }
+
+  .slice-range-index {
+    border: none;
+    margin: none;
+    text-align: center;
+    /* height: 10px; */
+    /* line-height: 10px; */
+    padding: 0px;
+  }
+
+  .MuiGrid-spacing-xs-2 {
+    padding-bottom: 20px;
+  }
 }
 
 @media only screen and (min-width: 1024px) {
-  .multi-field{
-    
+  .multi-field {
     justify-content: center;
     align-items: center;
   }
@@ -387,15 +409,15 @@
   }
 
   .upload-container {
-                  display: "flex";
-                  position: "fixed";
-                  right: "1rem";
-                  top: "1.5rem",
+    display: "flex";
+    position: "fixed";
+    right: "1rem";
+    top: "1.5rem";
   }
 
   .makeStyles-card-1 {
     width: 100%;
-    overflow: scroll;
+    overflow-y: scroll;
     box-shadow: 0 8px 16px 0 #bdc9d7;
     border-radius: 16px;
     display: flex;
@@ -421,7 +443,7 @@
     bottom: 3rem;
   }
 
-  .edit-btn{
+  .edit-btn {
     position: absolute;
     width: 3rem;
     height: 3rem;
@@ -430,24 +452,32 @@
     top: 10rem;
   }
 
-  .back-btn{
+  .back-btn {
     position: absolute;
     width: 4rem;
     height: 3rem;
     position: absolute;
     right: -5%;
     top: 15rem;
-    
   }
 
   .add-contact > img {
     width: 3rem;
     height: 3rem;
-    position: absolute;
-    right: -120%;
-    top: 0rem;
+    position: fixed;
+    right: 1rem;
+    top: 10rem;
   }
 
-  
-  
+  .change-slice {
+    position: fixed;
+    bottom: 0px;
+    border-top: 1px solid#bdc9d7;
+
+    justify-content: center;
+    text-align: center;
+    display: grid;
+    grid-template-columns: 1fr;
+    background-color: #fcfcfc;
+  }
 }

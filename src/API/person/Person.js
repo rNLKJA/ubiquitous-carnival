@@ -1,12 +1,12 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 // import axios from "axios";
-import LogoutUser from "../../hooks/useLogout";
+// import LogoutUser from "../../hooks/useLogout";
 import "./person.css";
 import { useShowProfile } from "../../BackEndAPI/profileAPI";
 import fetchClient from "../axiosClient/axiosClient";
-// import qr_code from "../nav/qr-code.png";
+// import e.target.files[0]_code from "../nav/qr-code.png";
 import Heading from "../heading/heading";
 import Navbar from "../nav/Navbar";
 import UpdatePassword from "./UpdatePassword";
@@ -61,7 +61,7 @@ const Person = () => {
   const [success, setSuccess] = useState(false);
   const [fileName, setFileName] = useState("");
 
-  console.log(success, loading1);
+  // console.log(success, loading1);
 
   const styles = useFabStyle(success);
 
@@ -177,7 +177,7 @@ const Person = () => {
 
   const onChange = (e) => {
     e.preventDefault();
-    setFile(e.target.files[0]);
+    setFile(URL.createObjectURL(e.target.files[0]));
     setFileName(e.target.files[0].name);
   };
 
@@ -204,7 +204,7 @@ const Person = () => {
                 marginTop: "15px",
               }}
               margin={3}
-              src={"data:image/png;base64," + avatar}
+              src={avatar ? "data:image/png;base64," + avatar : file}
             />
 
             <span>

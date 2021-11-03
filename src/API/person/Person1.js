@@ -10,7 +10,7 @@ import LogoutUser from "../../hooks/useLogout";
 // import { Contacts } from "@mui/icons-material";
 // import portrait from "./portrarit.png";
 import Stack from "@mui/material/Stack";
-import Link from "@mui/material/Link";
+// import Link from "@mui/material/Link";
 import Button from "@mui/material/Button";
 import QrCodeIcon from "@mui/icons-material/QrCode";
 import LogoutIcon from "@mui/icons-material/Logout";
@@ -54,7 +54,7 @@ export const DisplayPerson = ({
   // defined variables
   const [person, setPerson] = useState(oneProfile);
 
-  const [valid, setValid] = useState(true);
+  const [valid, setValid] = useState(false);
 
   const [phones, setPhones] = useState(
     ConvertListStringToListObject(person.phone, "phone"),
@@ -109,7 +109,7 @@ export const DisplayPerson = ({
     dataValidator(data.lastName, "lastName", setValid);
     dataValidator(data.occupation, "occupation", setValid);
 
-    console.log(valid);
+    // console.log(valid);
 
     if (valid) {
       setPerson(data);
@@ -207,7 +207,7 @@ export const DisplayPerson = ({
             change password
           </Button>
         ) : null}
-        {!person.edit ? (
+        {/* {!person.edit ? (
           <Button
             variant="contained"
             sx={{ backgroundColor: "#01579b" }}
@@ -215,7 +215,7 @@ export const DisplayPerson = ({
           >
             <ShareIcon />
           </Button>
-        ) : null}
+        ) : null} */}
         {!person.edit ? (
           <Button variant="contained" color="error" onClick={LogoutUser}>
             <LogoutIcon />
@@ -243,7 +243,6 @@ export const DisplayPerson = ({
             className="edit-contact-form"
             style={{
               display: "flex",
-              overflow: "scroll",
               flexDirection: "column",
               height: "90%",
             }}
@@ -303,7 +302,7 @@ export const DisplayPerson = ({
                         className="form-control"
                         name="phone"
                         readOnly={!person.edit}
-                        required="true"
+                        required={true}
                         minLength={10}
                         maxLength={10}
                         onChange={(e) => phoneOnChange(i, e)}
@@ -433,6 +432,7 @@ const ConvertListObjectToListValues = (items, type) => {
 };
 
 const dataValidator = (items, type, setValid) => {
+  var pattern, notEmpty;
   switch (type) {
     case "firstName":
       if (items.length === 0) {
@@ -456,8 +456,8 @@ const dataValidator = (items, type, setValid) => {
       }
       break;
     case "phone":
-      var pattern = /\d{10}/;
-      var notEmpty = /\S/;
+      pattern = /\d{10}/;
+      notEmpty = /\S/;
       if (items.length < 1) {
         setValid(false);
         alert("You must provide at least one phone number!");
@@ -471,9 +471,8 @@ const dataValidator = (items, type, setValid) => {
       }
       break;
     case "email":
-      var pattern =
-        /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
-      var notEmpty = /\S/;
+      pattern = /^([A-Za-z0-9_\-.])+@([A-Za-z0-9_\-.])+\.([A-Za-z]{2,4})$/;
+      notEmpty = /\S/;
       if (items.length < 1) {
         setValid(false);
         alert("You must have at least one email!");

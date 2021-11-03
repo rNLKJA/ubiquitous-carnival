@@ -5,7 +5,7 @@ import "./contact.css";
 import "./manual-input.css";
 // import axios from "axios";
 import fetchClient from "../axiosClient/axiosClient";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import Heading from "../heading/heading.jsx";
 import NavBar from "../nav/Navbar";
 import Avatar from "@mui/material/Avatar";
@@ -23,9 +23,12 @@ import UploadIcon from "@mui/icons-material/Upload";
 import { makeStyles } from "@material-ui/core/styles";
 import cx from "clsx";
 import TextField from "@mui/material/TextField";
-import { width } from "@mui/system";
-import Alert from "@mui/material/Alert";
+// import { width } from "@mui/system";
+// import Alert from "@mui/material/Alert";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { useHistory,Redirect } from "react-router-dom";
+
+
 
 const useFabStyle = makeStyles((success) => ({
   name: {
@@ -43,10 +46,11 @@ const useFabStyle = makeStyles((success) => ({
 }));
 
 const AddUser = () => {
+  const history = useHistory();
   useEffect(() => {
     document.title = "Add a new Contact";
   }, []);
-  const BASE_URL = "https://crm4399.herokuapp.com";
+  // const BASE_URL = "https://crm4399.herokuapp.com";
   // const BASE_URL = "http://localhost:5000";
 
   const [firstName, setFirstName] = useState("");
@@ -61,13 +65,15 @@ const AddUser = () => {
 
   const [avatar, setAvatar] = useState("");
   const [file, setFile] = useState("");
-  const [message, setMessage] = useState("");
+  // const [message, setMessage] = useState("");
   const [uploadPercentage, setUploadPercentage] = useState(0);
   const [loading1, setLoading1] = useState(false);
   const [success, setSuccess] = useState(false);
   const [fileName, setFileName] = useState("");
+  const [valid, setValid] = useState(false);
+  const [redirect, setRedirect] = useState(false);
 
-  const [contact, setContact] = useState("");
+  // const [contact, setContact] = useState("");
   const styles = useFabStyle(success);
 
   // console.log(firstName, lastName, emails, phones, occupation, note)
@@ -93,6 +99,10 @@ const AddUser = () => {
     }
   };
 
+  if (redirect){
+    return <Redirect to= '/addUser' />
+  }
+
   const fieldOnChange = (index, event) => {
     event.preventDefault();
     event.persist();
@@ -117,15 +127,16 @@ const AddUser = () => {
     var email = ConvertListObjectToListValues(emails, "email");
     var phone = ConvertListObjectToListValues(phones, "phone");
 
-    console.log(
-      "in submit ,",
-      firstName,
-      lastName,
-      email,
-      phone,
-      occupation,
-      note,
-    );
+    setValid(true);
+
+    // dataValidator(phone, "phone", setValid);
+    // console.log(valid);
+    // dataValidator(email, "email", setValid);
+    // dataValidator(firstName, "firstName", setValid);
+    // dataValidator(lastName, "lastName", setValid);
+    // dataValidator(occupation, "occupation", setValid);
+    // dataValidator(customField, "field", setValid);
+
     const formData = new FormData();
     formData.append("firstName", firstName);
     formData.append("lastName", lastName);
@@ -133,12 +144,12 @@ const AddUser = () => {
     formData.append("phone", phone);
     formData.append("occupation", occupation);
     formData.append("portrait", file);
-    formData.append("note", note);
+    note ? formData.append("note", note) : formData.append("note", "");
     formData.append("field", customField);
 
-    for (var pair of formData.entries()) {
-      console.log(pair[0] + ", " + pair[1]);
-    }
+    // for (var pair of formData.entries()) {
+    //   console.log(pair[0] + ", " + pair[1]);
+    // }
 
     try {
       setSuccess(false);
@@ -181,7 +192,7 @@ const AddUser = () => {
       setSuccess(true);
       setLoading1(false);
       setUpload(false);
-      window.location.href = "/contact";
+      history.push("/contact");
     } catch (err) {
       if (err) {
         alert(err);
@@ -189,7 +200,6 @@ const AddUser = () => {
       }
       setUploadPercentage(0);
     }
-
     setFirstName("");
     setLastName("");
     setEmails([]);
@@ -266,7 +276,7 @@ const AddUser = () => {
 
   const onChange = (e) => {
     e.preventDefault();
-    setFile(e.target.files[0]);
+    setFile(URL.createObjectURL(e.target.files[0]));
     setFileName(e.target.files[0].name);
   };
 
@@ -285,8 +295,8 @@ const AddUser = () => {
       <Heading />
       <NavBar />
       <div className="sub-container">
-        <Button variant="outlined" sx={{ width: "25%", padding: "5px" }}>
-          <a href="/addUser">Back</a>
+        <Button variant="outlined" sx={{ width: "25%", padding: "5px" }} onClick = {() => setRedirect(true)}>
+          Back
         </Button>
         {/* <div className="upload-img">
           <input type="file" onChange={(e) => setImage(e.target.files[0])} />
@@ -297,62 +307,59 @@ const AddUser = () => {
             alt="Avatar"
             sx={{ width: 125, height: 125, border: "2px solid pink" }}
             margin={3}
-            src={"data:image/png;base64," + avatar}
+            src={file}
           />
 
-          
-            {upload ? (
-              <div
-                className="upload-container "
-                style={{
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                <form >
-                  <label
-                    htmlFor="contained-button-file"
-                    style={{ padding: "10px" }}
-                  >
-                    <Input
-                      accept="image/*"
-                      id="contained-button-file"
-                      multiple
-                      type="file"
-                      hidden={true}
-                      onChange={onChange}
-                    />
-                    <Button variant="contained" component="span">
-                      <Typography variant="body2">Choose</Typography>
-                    </Button>
-                  </label>
-                  <div
-                    style={{
-                      overflow: "hidden",
-                      textOverflow: "ellipsis",
-                      width: "7rem",
-                    }}
-                  >
-                    <Typography variant="body2" noWrap color="text.secondary">
-                      {fileName}
-                    </Typography>
-                  </div>
-
-                  <Button onClick={onClickUpload}>Cancel</Button>
-                </form>
-              </div>
-            ) : (
-              [
-                <div className="upload-btn">
-                  <Button onClick={onClickUpload}>
-                    <UploadIcon />
-                    Upload
+          {upload ? (
+            <div
+              className="upload-container "
+              style={{
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <form>
+                <label
+                  htmlFor="contained-button-file"
+                  style={{ padding: "10px" }}
+                >
+                  <Input
+                    accept="image/*"
+                    id="contained-button-file"
+                    multiple
+                    type="file"
+                    hidden={true}
+                    onChange={onChange}
+                  />
+                  <Button variant="contained" component="span">
+                    <Typography variant="body2">Choose</Typography>
                   </Button>
-                </div>,
-              ]
-            )}
-          
-        
+                </label>
+                <div
+                  style={{
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    width: "7rem",
+                  }}
+                >
+                  <Typography variant="body2" noWrap color="text.secondary">
+                    {fileName}
+                  </Typography>
+                </div>
+
+                <Button onClick={onClickUpload}>Cancel</Button>
+              </form>
+            </div>
+          ) : (
+            [
+              <div className="upload-btn">
+                <Button onClick={onClickUpload}>
+                  <UploadIcon />
+                  Upload
+                </Button>
+              </div>,
+            ]
+          )}
         </div>
         <form
           className="contact-form"
@@ -447,7 +454,7 @@ const AddUser = () => {
                   }}
                 >
                   <input
-                    type="number"
+                    type="text"
                     pattern="\d*"
                     value={phone.phone}
                     className="form-control"
@@ -492,6 +499,7 @@ const AddUser = () => {
             onChange={(e) => {
               setOccupation(e.target.value);
             }}
+            required
           />
 
           {/* <label htmlFor="meetRecord">Meeting Record: </label>
@@ -627,4 +635,76 @@ const ConvertListObjectToListValues = (items, type) => {
   }
 
   return result;
+};
+
+const dataValidator = (items, type, setValid) => {
+  var pattern, notEmpty;
+  switch (type) {
+    case "firstName":
+      if (items.length === 0) {
+        setValid(false);
+        alert(`Invalid ${type} input, input cannot be empty`);
+      } else {
+      }
+      break;
+    case "lastName":
+      if (items.length === 0) {
+        setValid(false);
+        alert(`Invalid ${type} input, input cannot be empty`);
+      } else {
+      }
+      break;
+    case "occupation":
+      if (items.length === 0) {
+        setValid(false);
+        alert(`Invalid ${type} input, input cannot be empty`);
+      } else {
+      }
+      break;
+    case "phone":
+      pattern = /\d{10}/;
+      notEmpty = /\S/;
+      if (items.length < 1) {
+        setValid(false);
+        alert("You must provide at least one phone number!");
+      }
+
+      for (let i = 0; i < items.length; i++) {
+        if (!pattern.test(items[i]) && !notEmpty.test(items[i])) {
+          setValid(false);
+          alert("Invalid phone format");
+        }
+      }
+      break;
+    case "email":
+      pattern = /^([A-Za-z0-9_\-.])+@([A-Za-z0-9_\-.])+\.([A-Za-z]{2,4})$/;
+      notEmpty = /\S/;
+      if (items.length < 1) {
+        setValid(false);
+        alert("You must have at least one email!");
+      }
+
+      for (let i = 0; i < items.length; i++) {
+        if (!pattern.test(items[i]) && !notEmpty.test(items[i])) {
+          setValid(false);
+          alert("Invalid email format");
+        }
+      }
+
+      break;
+    case "field":
+      for (let i = 0; i < items.length; i++) {
+        if (items[i].field === "") {
+          setValid(false);
+          alert("Field name cannot be empty");
+        } else if (items[i].value === "") {
+          setValid(false);
+          alert("Field value cannot be empty");
+        }
+      }
+      break;
+    default:
+      setValid(false);
+      console.log("Invalid Input");
+  }
 };

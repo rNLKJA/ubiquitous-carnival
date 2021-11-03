@@ -4,7 +4,7 @@ const style = [
     elementType: "labels.text",
     stylers: [
       {
-        hue: "#ff0000",
+        hue: "#e6ecf8",
       },
     ],
   },
@@ -13,7 +13,7 @@ const style = [
     elementType: "labels.text.fill",
     stylers: [
       {
-        hue: "#ff0000",
+        hue: "#e6ecf8",
       },
     ],
   },
@@ -40,7 +40,7 @@ const style = [
     elementType: "labels.text",
     stylers: [
       {
-        hue: "#ff0000",
+        hue: "#e6ecf8",
       },
     ],
   },
@@ -49,7 +49,7 @@ const style = [
     elementType: "all",
     stylers: [
       {
-        hue: "#ff0000",
+        hue: "#e6ecf8",
       },
     ],
   },
@@ -58,7 +58,7 @@ const style = [
     elementType: "all",
     stylers: [
       {
-        hue: "#ff0000",
+        hue: "#e6ecf8",
       },
     ],
   },
@@ -67,7 +67,7 @@ const style = [
     elementType: "all",
     stylers: [
       {
-        hue: "#ff0000",
+        hue: "#e6ecf8",
       },
     ],
   },
@@ -115,7 +115,7 @@ const style = [
     elementType: "labels.text",
     stylers: [
       {
-        hue: "#ff0000",
+        hue: "#e6ecf8",
       },
     ],
   },
@@ -124,7 +124,7 @@ const style = [
     elementType: "labels.text.fill",
     stylers: [
       {
-        hue: "#ff0000",
+        hue: "#e6ecf8",
       },
     ],
   },
@@ -142,7 +142,7 @@ const style = [
     elementType: "all",
     stylers: [
       {
-        hue: "#ff0000",
+        hue: "#e6ecf8",
       },
     ],
   },
@@ -151,7 +151,7 @@ const style = [
     elementType: "geometry",
     stylers: [
       {
-        color: "#ff0000",
+        color: "#e6ecf8",
       },
     ],
   },
@@ -160,7 +160,7 @@ const style = [
     elementType: "all",
     stylers: [
       {
-        hue: "#ff0000",
+        hue: "#e6ecf8",
       },
     ],
   },
@@ -169,7 +169,7 @@ const style = [
     elementType: "geometry.fill",
     stylers: [
       {
-        hue: "#ff0000",
+        hue: "#e6ecf8",
       },
     ],
   },
@@ -187,7 +187,7 @@ const style = [
     elementType: "labels",
     stylers: [
       {
-        hue: "#ff0000",
+        hue: "#e6ecf8",
       },
     ],
   },
@@ -196,7 +196,7 @@ const style = [
     elementType: "all",
     stylers: [
       {
-        hue: "#ff0000",
+        hue: "#e6ecf8",
       },
     ],
   },
@@ -205,7 +205,7 @@ const style = [
     elementType: "all",
     stylers: [
       {
-        hue: "#ff0000",
+        hue: "#e6ecf8",
       },
     ],
   },

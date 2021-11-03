@@ -1,10 +1,9 @@
-.div-center{
+.div-center {
   display: flex;
   justify-content: center;
-  
 }
 @media only screen and (max-width: 1024px) {
-  .edit-record-container{
+  .edit-record-container {
     display: flex;
     flex-direction: column;
     overflow-y: scroll;
@@ -15,15 +14,15 @@
     margin-left: 20%; */
   }
 
-  .record-add-btn{
+  .record-add-btn {
     width: 50px;
     height: 50px;
     position: fixed;
     right: 2rem;
     top: -4rem;
     color: white;
-    background-color:#2781bd;
-    border-radius:100%
+    background-color: #2781bd;
+    border-radius: 100%;
   }
 
   .record-form {
@@ -172,7 +171,7 @@
   }
   .avatar {
     width: 140px;
-    margin :  auto;
+    margin: auto;
   }
   .avatar img {
     /* width: 50px; */
@@ -260,21 +259,29 @@
   .fa-location-arrow {
     font-size: 15px;
   }
+
+  .change-slice {
+    position: fixed;
+    bottom: 0px;
+
+    display: flex;
+    align-items: center;
+    width: 100%;
+  }
 }
 
 @media only screen and (min-width: 1024px) {
-
-  .avatar{
+  .avatar {
     display: flex;
     align-items: center;
-    justify-content:center;
+    justify-content: center;
   }
   * {
     box-sizing: border-box;
   }
-  .edit-record-container{
+  .edit-record-container {
     display: block;
-    width : 100%;
+    width: 100%;
     overflow-y: scroll;
   }
   body {
@@ -346,6 +353,12 @@
   .fa-location-arrow {
     font-size: 15px;
   }
+
+  .change-slice {
+    position: fixed;
+    bottom: 0px;
+    right: 5rem;
+  }
 }
 
 @media only screen and (max-width: 768px) {
@@ -355,15 +368,13 @@
 }
 
 @media only screen and (min-width: 1024px) {
-  .record-add-btn{
-    
+  .record-add-btn {
     position: absolute;
     right: -3rem;
     top: 2rem;
     color: white;
-    background-color:#2781bd;
-    border-radius:100%;
-    
+    background-color: #2781bd;
+    border-radius: 100%;
   }
   .record-container {
     display: flex;
@@ -388,4 +399,19 @@
     padding-top: 8px;
     padding-bottom: 8px; */
   }
+
+  .change-slice {
+    position: fixed;
+    bottom: 0px;
+    right: 5rem;
+  }
+}
+
+.css-b62m3t-container {
+  width: 90%;
+}
+
+.css-b62m3t-container {
+  width: 100%;
+  z-index: 10;
 }

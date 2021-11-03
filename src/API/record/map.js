@@ -45,13 +45,20 @@ const options = {
 };
 
 // return map component
-const Map = ({ setLocation, setGeoCoords, geoLocation , text}) => {
+const Map = ({ setLocation, setGeoCoords, geoLocation, text }) => {
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
     libraries,
   });
 
-  const initLocation = geoLocation ? geoLocation : center
+  var initLocation;
+  if (isNaN(geoLocation.lat)) {
+    initLocation = center;
+  } else {
+    initLocation = geoLocation;
+  }
+
+  console.log(initLocation);
 
   // console.log(geoLocation ,"geo" ,  "init " , initLocation)
 
@@ -110,7 +117,7 @@ const Map = ({ setLocation, setGeoCoords, geoLocation , text}) => {
           {address.text}
         </h4> */}
 
-        {/* define the address search box and locate buttom  */}
+        {/* define the address search box and locate button  */}
         <div className="top-bar-1">
           <Search
             key={new Date().toISOString()}
@@ -126,7 +133,7 @@ const Map = ({ setLocation, setGeoCoords, geoLocation , text}) => {
         <GoogleMap
           mapContainerStyle={mapContainerStyle}
           zoom={14}
-          center={geoLocation ? geoLocation : center}
+          center={initLocation}
           options={options}
           onClick={onMapClick}
           onLoad={onMapLoad}

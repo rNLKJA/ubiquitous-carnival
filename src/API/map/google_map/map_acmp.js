@@ -21,17 +21,21 @@ import {
 import "@reach/combobox/styles.css";
 import { useShowAllRecords } from "../../../BackEndAPI/recordAPI";
 import Error from "../../error/Error";
-// import { formatRelative } from "date-fns";
 import mapStyle from "./mapStyles";
-// import { Info, LaptopWindows } from "@material-ui/icons";
 import "./map.css";
+
+import { useHistory } from "react-router-dom";
+import LocalizationProvider from "@mui/lab/LocalizationProvider";
+import DatePicker from "@mui/lab/DatePicker";
+import AdapterDateFns from "@mui/lab/AdapterDateFns";
+import TextField from "@mui/material/TextField";
 
 import compass from "../compass.png";
 
 const libraries = ["places"];
 const mapContainerStyle = {
   width: "100%",
-  height: "73vh",
+  height: "80vh",
 };
 
 const center = {
@@ -52,9 +56,9 @@ const Map = () => {
     libraries,
   });
 
-  const screenWidth = useState(window.innerWidth)
+  // const screenWidth = useState(window.innerWidth);
 
-  console.log(screenWidth[0])
+  // console.log(screenWidth[0])
 
   const { loading, records, error } = useShowAllRecords();
 
@@ -62,20 +66,34 @@ const Map = () => {
   const [address, setAddress] = useState({
     ...center,
     text: "The University of Melbourne",
+    selected: false,
   });
   const [selected, setSelected] = useState(null);
+  const [selectedAddress, setSelectedAddress] = useState(null);
+  const [startDate, setStartDate] = useState(new Date());
+  const [endDate, setEndDate] = useState(new Date());
 
-	console.log(address)
+  // const [Records, setRecords] = useState(records);
+
+  if (false) {
+    console.log(address);
+  }
+
+  const history = useHistory();
+  const routeChange = () => {
+    history.push("/createRecord");
+  };
+
   // set the callback function
-  // const onMapClick = useCallback((event) => {
-  //   fetchAddress(
-  //     {
-  //       lat: event.latLng.lat(),
-  //       lng: event.latLng.lng(),
-  //     },
-  //     setAddress,
-  //   );
-  // }, []);
+  const onMapClick = useCallback((event) => {
+    fetchAddress(
+      {
+        lat: event.latLng.lat(),
+        lng: event.latLng.lng(),
+      },
+      setAddress,
+    );
+  }, []);
 
   // pin the location
   const panTo = React.useCallback(({ lat, lng }) => {
@@ -115,6 +133,20 @@ const Map = () => {
     );
   }
 
+  console.log(
+    records.filter(
+      (record) =>
+        convert(record.dateTime).split(" ")[0] >=
+          convert(startDate).split(" ")[0] &&
+        convert(record.dateTime).split(" ")[0] <=
+          convert(endDate).split(" ")[0],
+    ),
+  );
+
+  {
+    console.log(convert(records[0].dateTime).split(" ")[0]);
+  }
+
   // return component
   return (
     <div className="google-map">
@@ -123,18 +155,56 @@ const Map = () => {
         <h4>
           Current Address Information: lat {address.lat} && lng {address.lng} &&
           Address:
-          {address.text}
+				{address.text}
         </h4> */}
 
         <h1 className="heading-map">Map</h1>
 
-        {/* define the address search box and locate buttom  */}
+        {/* define the address search box and locate button  */}
         <div className="top-bar">
           <Search
             key={new Date().toISOString()}
             panTo={panTo}
             setAddress={setAddress}
           />
+
+          <div className="range-selector">
+            <LocalizationProvider dateAdapter={AdapterDateFns}>
+              <DatePicker
+                renderInput={(params) => <TextField {...params} />}
+                label="Start Time"
+                value={startDate}
+                onChange={(newValue) => {
+                  setStartDate(newValue);
+                }}
+                minDate={new Date("2019-02-14")}
+                maxTime={new Date("2025-02-14")}
+                ampm={true}
+                disableIgnoringDatePartForTimeValidation={true}
+                style={{ color: "white" }}
+              />
+            </LocalizationProvider>
+
+            <br />
+
+            <LocalizationProvider dateAdapter={AdapterDateFns}>
+              <DatePicker
+                renderInput={(params) => <TextField {...params} />}
+                label="End Time"
+                value={endDate}
+                onChange={(newValue) => {
+                  setEndDate(newValue);
+                }}
+                minDate={new Date("2019-02-14")}
+                maxTime={new Date("2025-02-14")}
+                ampm={true}
+                disableIgnoringDatePartForTimeValidation={true}
+                style={{ color: "white" }}
+              />
+            </LocalizationProvider>
+          </div>
+          {/* {console.log(`End Date :: ${convert(endDate).split(" ")[0]}`)} */}
+
           <Locate panTo={panTo} setAddress={setAddress} />
         </div>
 
@@ -144,40 +214,101 @@ const Map = () => {
           zoom={14}
           center={center}
           options={options}
-          // onClick={onMapClick}
+          onClick={onMapClick}
           onLoad={onMapLoad}
         >
+          <Marker
+            position={address}
+            icon={{
+              url: "./user-pin.png",
+              scaledSize: new window.google.maps.Size(50, 50),
+              origin: new window.google.maps.Point(0, 0),
+              anchor: new window.google.maps.Point(15, 15),
+            }}
+            onClick={() => {
+              setSelectedAddress(address);
+            }}
+          />
+          {selectedAddress ? (
+            <InfoWindow
+              position={{ lat: selectedAddress.lat, lng: selectedAddress.lng }}
+              onCloseClick={() => setSelectedAddress(null)}
+            >
+              <form>
+                <label>Current Location</label>
+                <textarea value={selectedAddress.text}></textarea>
+
+                <br />
+
+                <button
+                  onClick={(e) => {
+                    e.preventDefault();
+                    if (window.confirm("Do you want to create a new record?")) {
+                      sessionStorage.setItem(
+                        "selected-lat",
+                        selectedAddress.lat,
+                      );
+                      sessionStorage.setItem(
+                        "selected-lng",
+                        selectedAddress.lng,
+                      );
+                      sessionStorage.setItem(
+                        "selected-text",
+                        selectedAddress.text,
+                      );
+                    }
+                    routeChange();
+                  }}
+                  className="btn btn-primary"
+                >
+                  Create a new record?
+                </button>
+              </form>
+            </InfoWindow>
+          ) : null}
+
+          {/* open up a info window when use click on it */}
+
           {/* create marker to pin the location */}
-
-          {records.map((record) => {
-            // console.log(record);
-            return (
-              <Marker
-                position={{ ...record }}
-                key={new Date().toISOString()}
-                icon={{
-                  url: "./google-maps.png",
-                  scaledSize: new window.google.maps.Size(50, 50),
-                  origin: new window.google.maps.Point(0, 0),
-                  anchor: new window.google.maps.Point(15, 15),
-                }}
-                onClick={() => {
-                  setSelected(record);
-                }}
-              />
-            );
-          })}
-
+          {records
+            .filter((record) => {
+              return (
+                convert(record.dateTime).split(" ")[0] >=
+                  convert(startDate).split(" ")[0] &&
+                convert(record.dateTime).split(" ")[0] <=
+                  convert(endDate).split(" ")[0]
+              );
+            })
+            .map((record) => {
+              return (
+                <Marker
+                  position={{ ...record }}
+                  key={new Date().toISOString() + record.dateTime}
+                  icon={{
+                    url: "./google-maps.png",
+                    scaledSize: new window.google.maps.Size(50, 50),
+                    origin: new window.google.maps.Point(0, 0),
+                    anchor: new window.google.maps.Point(15, 15),
+                  }}
+                  onClick={() => {
+                    setSelected(record);
+                  }}
+                />
+              );
+            })}
           {/* open up a info window when use click on it */}
           {selected ? (
             <InfoWindow
               position={{ lat: selected.lat, lng: selected.lng }}
-              onCloseClick={() => setSelected(null)}
+              onCloseClick={() => {
+                setSelected(null);
+              }}
             >
               <div>
-                <form style={{width: "300px"}}>
+                <form style={{ width: "300px" }}>
                   <label>You Met</label>
-                  <input className="form-control"
+                  <input
+                    className="form-control"
                     value={
                       selected.meetingPerson.firstName +
                       " " +
@@ -186,15 +317,35 @@ const Map = () => {
                     readonly
                   />
                   <label>On</label>
-									
-                  <input className="form-control" type="text" value={selected.dateTime.replace('T', ' ').replace('.000Z', '')} readonly />
+
+                  <input
+                    className="form-control"
+                    type="text"
+                    value={convert(selected.dateTime)}
+                    readonly
+                  />
 
                   <label>At</label>
-                  <input className="form-control" type="text" value={selected.location.replace(/VIC [a-zA-Z0-9.]*/i, '').replace(/[\u4e00-\u9fa5]/g, '')} readonly />
-                  {selected.notes && <div>
-										<label>Notes:</label>
-                  	<textarea className="form-control" type="text" readonly value={selected.notes} style={{border: '0', height:"auto"}}></textarea>	
-									</div>}
+                  <input
+                    className="form-control"
+                    type="text"
+                    value={selected.location
+                      .replace(/VIC [a-zA-Z0-9.]*/i, "")
+                      .replace(/[\u4e00-\u9fa5]/g, "")}
+                    readonly
+                  />
+                  {selected.notes && (
+                    <div>
+                      <label>Notes:</label>
+                      <textarea
+                        className="form-control"
+                        type="text"
+                        readonly
+                        value={selected.notes}
+                        style={{ border: "0", height: "auto" }}
+                      ></textarea>
+                    </div>
+                  )}
                 </form>
               </div>
             </InfoWindow>
@@ -239,7 +390,11 @@ const Locate = ({ panTo, setAddress }) => {
         );
       }}
     >
-      <img src={compass} alt="compass - locate" />
+      <img
+        style={{ position: "fixed", right: "1rem", top: "-4rem" }}
+        src={compass}
+        alt="compass - locate"
+      />
     </button>
   );
 };
@@ -287,6 +442,7 @@ const Search = ({ panTo, setAddress }) => {
             setValue(event.target.value);
           }}
           disabled={!ready}
+          style={{ width: "100%" }}
           placeholder="Enter an address"
         />
         <ComboboxPopover>
@@ -318,3 +474,82 @@ const fetchAddress = (position, setAddress) => {
 // 	let result = d.getFullYear() + '-' + d.getMonth() + '-' + d.getDay() + ' ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds()
 // 	return result
 // }
+// const searchRecords = (records, search_key) => {
+//   if (records !== undefined) {
+//     switch (options) {
+//       case "firstName":
+//         return records.filter((record) =>
+//           record.meetingPerson.firstName
+//             .toLowerCase()
+//             .includes(search_key.toLowerCase()),
+//         );
+
+//       case "lastName":
+//         return records.filter((record) =>
+//           record.meetingPerson.lastName
+//             .toLowerCase()
+//             .includes(search_key.toLowerCase()),
+//         );
+
+//       case "location":
+//         return records.filter((record) =>
+//           record.location.toLowerCase().includes(search_key.toLowerCase()),
+//         );
+
+//       case "notes":
+//         return records.filter((record) =>
+//           record.notes.toLowerCase().includes(search_key.toLowerCase()),
+//         );
+//       case "time":
+//         return records.filter((record) =>
+//           convert(record.dateTime)
+//             .toLowerCase()
+//             .includes(search_key.toLowerCase()),
+//         );
+//       case null:
+//         // console.log("NULL")
+//         return records.filter((record) =>
+//           (
+//             record.meetingPerson.firstName +
+//             " " +
+//             record.meetingPerson.lastName +
+//             " " +
+//             convert(record.dateTime) +
+//             " " +
+//             record.notes +
+//             " " +
+//             record.location
+//           )
+//             .toLowerCase()
+//             .includes(search_key.toLowerCase()),
+//         );
+//       default:
+//         break;
+//     }
+//   }
+// };
+
+// This function convert the dateTime to a a formal string
+
+export function convert(str) {
+  var date = new Date(str),
+    month = ("0" + (date.getMonth() + 1)).slice(-2),
+    day = ("0" + date.getDate()).slice(-2);
+
+  var hours = date.getHours();
+  var minutes = date.getMinutes();
+  var ampm = hours >= 12 ? "pm" : "am";
+
+  hours = hours % 12;
+  hours = hours ? hours : 12; // the hour '0' should be '12'
+  minutes = ("0" + minutes).slice(-2);
+
+  var strTime;
+  if (hours > 9) {
+    strTime = " " + hours + ":" + minutes + " " + ampm;
+  } else {
+    strTime = " 0" + hours + ":" + minutes + " " + ampm;
+  }
+
+  return [date.getFullYear(), month, day].join("-") + strTime;
+}

@@ -1,3 +1,23 @@
 {
-  "cSpell.words": ["ampm"]
+  "cSpell.words": [
+    "ampm",
+    "bgcolor",
+    "clsx",
+    "Hongji",
+    "Liang",
+    "Occured",
+    "Opps",
+    "PCRM",
+    "Yixiao",
+    "Zhao"
+  ],
+  "cSpell.customDictionaries": {
+    "custom-dictionary-workspace": {
+      "name": "custom-dictionary-workspace",
+      "path": "${workspaceFolder:COMP30022-49}/.cspell/custom-dictionary-workspace.txt",
+      "addWords": true,
+      "scope": "workspace"
+    }
+  },
+  "cSpell.ignoreWords": ["Astloch", "Proile", "acmp", "haspopup"]
 }

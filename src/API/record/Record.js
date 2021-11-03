@@ -12,7 +12,7 @@ import Navbar from "../nav/Navbar";
 import { Grid } from "@material-ui/core";
 // import AddCommentIcon from "@mui/icons-material/AddComment";
 // import Box from "@mui/material/Box";
-import Fab from "@mui/material/Fab";
+// import Fab from "@mui/material/Fab";
 import AddIcon from "@mui/icons-material/Add";
 // import EditIcon from "@mui/icons-material/Edit";
 // import FavoriteIcon from "@mui/icons-material/Favorite";
@@ -21,41 +21,47 @@ import { Link } from "react-router-dom";
 import EditRecord from "./editRecord";
 import { useContacts } from "../../BackEndAPI/contactAPI";
 import TextField from "@mui/material/TextField";
-import { makeStyles } from "@material-ui/styles";
+// import { makeStyles } from "@material-ui/styles";
 import Select from "react-select";
-import { Button } from "react-bootstrap";
+// import { Button } from "react-bootstrap";
 
-const useRecordStyles = makeStyles(() => ({
-  text: {
-    fontFamily: "Barlow, san-serif",
-    whiteSpace: "nowrap",
-    textOverflow: "ellipsis",
-    overflow: "hidden",
-  },
-  name: {
-    fontWeight: 600,
-    fontSize: "1rem",
-    color: "#122740",
-  },
-  caption: {
-    fontSize: "0.8rem",
-    color: "#758392",
-    marginTop: -4,
-  },
-  btn: {
-    borderRadius: 20,
-    padding: "0.125rem 0.75rem",
-    borderColor: "#becddc",
-    fontSize: "0.75rem",
-  },
-}));
+// const useRecordStyles = makeStyles(() => ({
+//   text: {
+//     fontFamily: "Barlow, san-serif",
+//     whiteSpace: "nowrap",
+//     textOverflow: "ellipsis",
+//     overflow: "hidden",
+//   },
+//   name: {
+//     fontWeight: 600,
+//     fontSize: "1rem",
+//     color: "#122740",
+//   },
+//   caption: {
+//     fontSize: "0.8rem",
+//     color: "#758392",
+//     marginTop: -4,
+//   },
+//   btn: {
+//     borderRadius: 20,
+//     padding: "0.125rem 0.75rem",
+//     borderColor: "#becddc",
+//     fontSize: "0.75rem",
+//   },
+// }));
 
 const Record = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const { contacts } = useContacts();
-  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
+  // const [screenWidth, setScreenWidth] = useState(window.innerWidth);
   const { loading, records, error } = useShowAllRecords();
   const [recordList, setRecordList] = useState();
+  const [count, setCount] = useState(9);
+
+  if (false) {
+    console.log(recordList);
+  }
+
   const [oneRecord, setOneRecord] = useState({
     meetingPerson: "",
     location: "",
@@ -72,17 +78,19 @@ const Record = () => {
     { value: "firstName", label: "First Name" },
     { value: "lastName", label: "Last Name" },
     { value: "location", label: "Location" },
+    { value: "notes", label: "Notes" },
+    { value: "time", label: "Time" },
+    { value: null, label: "All" },
   ];
 
   const handleChange = (e) => {
     e.preventDefault();
     setSearchTerm(e.target.value);
   };
+
   const handleOptions = (selectedOption) => {
     setSelectedOption(selectedOption);
-    // console.log(`Option selected:`, selectedOption);
     sortRecord(records, setRecordList, selectedOption.value);
-    // console.log(records);
   };
 
   useEffect(() => {
@@ -116,6 +124,10 @@ const Record = () => {
     );
   }
 
+  const moreRecords = () => {
+    setCount(count + 9);
+  };
+
   return (
     <React.Fragment>
       <Navbar />
@@ -143,6 +155,13 @@ const Record = () => {
                   marginLeft: "10px",
                 }}
               >
+                <TextField
+                  id="standard-basic"
+                  label="Search at here!!"
+                  style={{ width: "100%", marginTop: 10 }}
+                  value={searchTerm}
+                  onChange={(e) => handleChange(e)}
+                />
                 <Select
                   /*                  value = {selectedOption}*/
                   onChange={handleOptions}
@@ -154,15 +173,8 @@ const Record = () => {
                     zIndex: 10,
                   }}
                 />
-                <TextField
-                  id="standard-basic"
-                  label="Search at here!!"
-                  style={{ width: "100%", marginTop: 10 }}
-                  value={searchTerm}
-                  onChange={(e) => handleChange(e)}
-                />
               </div>
-              {/* {console.log(options)} */}
+
               <RecordList
                 records={records}
                 search_key={searchTerm}
@@ -170,7 +182,17 @@ const Record = () => {
                 error={error}
                 setOneRecord={setOneRecord}
                 options={selectedOption.value}
+                count={count}
               />
+            </div>
+            <div className="change-slice">
+              <button
+                className="btn btn-primary"
+                style={{ width: 100, fontWeight: "bold" }}
+                onClick={moreRecords}
+              >
+                More
+              </button>
             </div>
           </React.Fragment>
         )}
@@ -191,51 +213,57 @@ const Record = () => {
 export default Record;
 
 export const RecordList = (prop) => {
-  // console.log("keyword is " + prop.search_key);
   const searchRecords = () => {
     if (prop.records !== undefined) {
-      console.log(prop.options);
       switch (prop.options) {
         case "firstName":
-          console.log("firstName1");
           return prop.records.filter((record) =>
             record.meetingPerson.firstName
               .toLowerCase()
               .includes(prop.search_key.toLowerCase()),
           );
 
-          break;
         case "lastName":
-          console.log("lastName2");
           return prop.records.filter((record) =>
             record.meetingPerson.lastName
               .toLowerCase()
               .includes(prop.search_key.toLowerCase()),
           );
-          break;
+
         case "location":
-          console.log("location3");
           return prop.records.filter((record) =>
             record.location
               .toLowerCase()
               .includes(prop.search_key.toLowerCase()),
           );
-          break;
+
+        case "notes":
+          return prop.records.filter((record) =>
+            record.notes.toLowerCase().includes(prop.search_key.toLowerCase()),
+          );
+        case "time":
+          return prop.records.filter((record) =>
+            convert(record.dateTime)
+              .toLowerCase()
+              .includes(prop.search_key.toLowerCase()),
+          );
         case null:
-          console.log("NULL");
+          // console.log("NULL")
           return prop.records.filter((record) =>
             (
               record.meetingPerson.firstName +
               " " +
               record.meetingPerson.lastName +
               " " +
+              convert(record.dateTime) +
+              " " +
+              record.notes +
+              " " +
               record.location
             )
               .toLowerCase()
               .includes(prop.search_key.toLowerCase()),
           );
-          break;
-
         default:
           break;
       }
@@ -247,7 +275,7 @@ export const RecordList = (prop) => {
   return (
     <Grid container>
       {fitterRecords.length >= 1 ? (
-        fitterRecords.map((record) => {
+        fitterRecords.slice(0, prop.count).map((record) => {
           return (
             <Grid
               key={record._id + new Date().toISOString()}
@@ -321,51 +349,48 @@ export function convert(str) {
   hours = hours ? hours : 12; // the hour '0' should be '12'
   minutes = ("0" + minutes).slice(-2);
 
-  var strTime = " " + hours + ":" + minutes + " " + ampm;
+  var strTime;
+  if (hours > 9) {
+    strTime = " " + hours + ":" + minutes + " " + ampm;
+  } else {
+    strTime = " 0" + hours + ":" + minutes + " " + ampm;
+  }
 
   return [date.getFullYear(), month, day].join("-") + strTime;
 }
+
 const sortRecord = (records, setRecordList, type) => {
   if (records) {
-    console.log(records[0]);
     switch (type) {
       case "firstName":
-        // console.log("firstName");
         records.sort((a, b) =>
           a.meetingPerson.firstName.localeCompare(b.meetingPerson.firstName),
         );
-        for (let i = 0; i < records.length; i++) {
-          console.log(records[i].meetingPerson.firstName);
-        }
         break;
       case "lastName":
-        // console.log("lastName");
         records.sort((a, b) =>
           a.meetingPerson.lastName.localeCompare(b.meetingPerson.lastName),
         );
-        for (let i = 0; i < records.length; i++) {
-          console.log(records[i].meetingPerson.lastName);
-        }
         break;
       case "location":
-        // console.log("location");
         records.sort((a, b) => a.location.localeCompare(b.location));
+        break;
+      case "notes":
+        records.sort((a, b) => a.notes.localeCompare(b.notes));
+        break;
+      case "time":
+        console.log(records[0].dateTime);
+        records.sort((a, b) =>
+          convert(a.dateTime).localeCompare(convert(b.dateTime)),
+        );
         for (let i = 0; i < records.length; i++) {
-          console.log(records[i].location);
+          console.log(records[i].notes);
         }
         break;
-      default:
+      case "Null":
         break;
+      default:
+        return records;
     }
-
-    /*    console.log(records[0].dateTime)
-
-    let sortedList = records.sort((a, b) =>
-
-        a.dateTime.split('-').join().localeCompare(b.dateTime.split('-').join()));
-    for (let i = 0; i < sortedList.length; i++) {
-      console.log(sortedList[i].dateTime)
-    }*/
-    /*      setRecordList(sortedList);*/
   }
 };

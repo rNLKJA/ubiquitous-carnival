@@ -9,20 +9,21 @@ import { convert } from "./Record";
 import fetchClient from "../axiosClient/axiosClient";
 import Error from "../error/Error";
 import Navbar from "../nav/Navbar";
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import Map from "./map";
 import Heading from "../heading/heading.jsx";
 import Autocomplete from "@mui/material/Autocomplete";
-import { Link } from "react-router-dom";
+// import { Redirect } from "react-router-dom";
 import Button from "@mui/material/Button";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { useHistory,Redirect } from "react-router-dom";
 
 const CreateRecord = () => {
   useEffect(() => {
     document.title = "Add Record";
   }, []);
 
-  const textAreaRef = useRef(null);
+  // const textAreaRef = useRef(null);
 
   const [currentTime, setCurrentTime] = useState(new Date());
   const { loading, contacts, error } = useContacts();
@@ -30,8 +31,27 @@ const CreateRecord = () => {
   const [location, setLocation] = useState("");
   const [geoCoords, setGeoCoords] = useState({ lat: -37.7972, lng: 144.961 });
   const [notes, setNotes] = useState("");
+  const [redirect, setRedirect] = useState(false);
+
+  const address = {
+    lat: Number.parseFloat(sessionStorage.getItem("selected-lat")),
+    lng: Number.parseFloat(sessionStorage.getItem("selected-lng")),
+    text: sessionStorage.getItem("selected-text"),
+  };
+
+  const history = useHistory();
+
+  useEffect(() => {
+    if (address.lat !== null || address.lat !== undefined) {
+      setLocation(address.text);
+      setGeoCoords({ lat: address.lat, lng: address.lng });
+    }
+  }, [address.lat, address.lng, address.text]);
+
+  // console.log(address);
 
   const [customField, setCustomField] = useState([]);
+  const [valid, setValid] = useState(false);
 
   if (error) {
     return <Error msg={"Something Wrong with Record Component"}></Error>;
@@ -52,6 +72,10 @@ const CreateRecord = () => {
     );
   }
 
+  if (redirect){
+    return <Redirect to= '/record' />
+  }
+
   let names = contacts.map(function (contact, index) {
     return {
       label: contact.contact.firstName + " " + contact.contact.lastName,
@@ -59,7 +83,8 @@ const CreateRecord = () => {
     };
   });
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     // return console.log(location);
     const recordInfo = {
       contact_id: selected,
@@ -70,7 +95,8 @@ const CreateRecord = () => {
       customField,
     };
 
-    // console.log(recordInfo);
+    // setValid(true);
+    // dataValidator(customField, "field", setValid);
 
     await fetchClient
       .post("/record/createRecord", recordInfo)
@@ -82,7 +108,7 @@ const CreateRecord = () => {
     setLocation("");
     setSelected("");
 
-    window.location.href = "/record";
+    history.push("/record");
   };
 
   const setFieldValue = (value) => {
@@ -90,6 +116,9 @@ const CreateRecord = () => {
       const { id, label } = value;
       setSelected(id);
       // console.log(id, " + ", label);
+      if (!value) {
+        console.log(label);
+      }
     } else {
       setSelected("");
     }
@@ -133,21 +162,29 @@ const CreateRecord = () => {
       <Navbar />
       <div className="sub-container">
         <div className="heading-record">
-          <h1> Create ・ω・</h1>
+          <h1> Create ・ ω・</h1>
         </div>
 
         <div className="edit-record-container">
           <div
-            style={{ justifyContent: "center", display: "flex", padding: "10px" }}
+            style={{
+              justifyContent: "center",
+              display: "flex",
+              padding: "10px",
+            }}
           >
             <Button
-              sx={{ width: "8rem", height: "3rem", backgroundColor: '#ef5350', color: "white" }}
-              href='/record'
+              sx={{
+                width: "8rem",
+                height: "3rem",
+                backgroundColor: "#ef5350",
+                color: "white",
+              }}
+              onClick={() => {setRedirect(true)}}
             >
               Back
             </Button>
           </div>
-
 
           <form className="record-form">
             <Autocomplete
@@ -165,6 +202,7 @@ const CreateRecord = () => {
                   helperText={
                     selected === "" ? "Select a contact つ；－；つ" : ""
                   }
+                  required
                 />
               )}
             />
@@ -178,7 +216,7 @@ const CreateRecord = () => {
                   onChange={(newValue) => {
                     setCurrentTime(newValue);
                   }}
-                  minDate={new Date("2021-02-14")}
+                  minDate={new Date("2019-02-14")}
                   maxTime={new Date("2025-02-14")}
                   ampm={true}
                   disableIgnoringDatePartForTimeValidation={true}
@@ -204,7 +242,7 @@ const CreateRecord = () => {
               type="number"
               step="any"
               value={geoCoords.lat}
-              onChange={() => { }}
+              onChange={() => {}}
               hidden
             />
             <input
@@ -212,11 +250,16 @@ const CreateRecord = () => {
               type="number"
               step="any"
               value={geoCoords.lng}
-              onChange={() => { }}
+              onChange={() => {}}
               hidden
             />
 
-            <Map setLocation={setLocation} setGeoCoords={setGeoCoords} />
+            <Map
+              setLocation={setLocation}
+              setGeoCoords={setGeoCoords}
+              geoLocation={{ lat: address.lat, lng: address.lng }}
+              text={address.text}
+            />
             <hr />
 
             <TextField
@@ -282,8 +325,19 @@ const CreateRecord = () => {
 
             <hr />
 
-            <div style={{ justifyContent: "center", display: "flex", padding: "10px" }}>
-              <Button variant="contained" onClick={handleSubmit} sx={{ width: "8rem", height: "3rem" }} color='success'>
+            <div
+              style={{
+                justifyContent: "center",
+                display: "flex",
+                padding: "10px",
+              }}
+            >
+              <Button
+                variant="contained"
+                onClick={handleSubmit}
+                sx={{ width: "8rem", height: "3rem" }}
+                color="success"
+              >
                 Create
               </Button>
             </div>
@@ -295,3 +349,75 @@ const CreateRecord = () => {
 };
 
 export default CreateRecord;
+
+const dataValidator = (items, type, setValid) => {
+  var pattern, notEmpty;
+  switch (type) {
+    case "firstName":
+      if (items.length === 0) {
+        setValid(false);
+        alert(`Invalid ${type} input, input cannot be empty`);
+      } else {
+      }
+      break;
+    case "lastName":
+      if (items.length === 0) {
+        setValid(false);
+        alert(`Invalid ${type} input, input cannot be empty`);
+      } else {
+      }
+      break;
+    case "occupation":
+      if (items.length === 0) {
+        setValid(false);
+        alert(`Invalid ${type} input, input cannot be empty`);
+      } else {
+      }
+      break;
+    case "phone":
+      pattern = /\d{10}/;
+      notEmpty = /\S/;
+      if (items.length < 1) {
+        setValid(false);
+        alert("You must provide at least one phone number!");
+      }
+
+      for (let i = 0; i < items.length; i++) {
+        if (!pattern.test(items[i]) && !notEmpty.test(items[i])) {
+          setValid(false);
+          alert("Invalid phone format");
+        }
+      }
+      break;
+    case "email":
+      pattern = /^([A-Za-z0-9_\-.])+@([A-Za-z0-9_\-.])+\.([A-Za-z]{2,4})$/;
+      notEmpty = /\S/;
+      if (items.length < 1) {
+        setValid(false);
+        alert("You must have at least one email!");
+      }
+
+      for (let i = 0; i < items.length; i++) {
+        if (!pattern.test(items[i]) && !notEmpty.test(items[i])) {
+          setValid(false);
+          alert("Invalid email format");
+        }
+      }
+
+      break;
+    case "field":
+      for (let i = 0; i < items.length; i++) {
+        if (items[i].field === "") {
+          setValid(false);
+          alert("Field name cannot be empty");
+        } else if (items[i].value === "") {
+          setValid(false);
+          alert("Field value cannot be empty");
+        }
+      }
+      break;
+    default:
+      setValid(false);
+      console.log("Invalid Input");
+  }
+};
