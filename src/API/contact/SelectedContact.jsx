@@ -76,7 +76,7 @@ const SelectedContact = ({ setOneContact, oneContact, deleteHandler }) => {
       ) : null}
 
       <DisplayContact
-        key ={selectedContact._id}
+        key={selectedContact._id}
         selectedContact={selectedContact}
         setSelectedContact={setSelectedContact}
         deleteHandler={deleteHandler}
@@ -125,6 +125,7 @@ export const DisplayContact = ({
 
   const [avatar, setAvatar] = useState("");
   const [file, setFile] = useState("");
+  const [file1, setFile1] = useState("");
   const [message, setMessage] = useState("");
 
   const [uploadPercentage, setUploadPercentage] = useState(0);
@@ -300,11 +301,12 @@ export const DisplayContact = ({
 
   const onClickUpload = () => {
     setUpload(!upload);
-    setFile('');
+    setFile("");
   };
 
   const onChange = (e) => {
     e.preventDefault();
+    setFile1(e.target.files[0]);
     setFile(URL.createObjectURL(e.target.files[0]));
     setFileName(e.target.files[0].name);
   };
@@ -312,7 +314,7 @@ export const DisplayContact = ({
   const onSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData();
-    formData.append("portrait", file);
+    formData.append("portrait", file1);
     formData.append("_id", contact._id);
 
     try {
@@ -334,9 +336,10 @@ export const DisplayContact = ({
         .then((response) => {
           setAvatar(response.data.portrait.data.toString("base64"));
           setLoading1(false);
-        }).catch((error) => {
+        })
+        .catch((error) => {
           setLoading1(false);
-          alert(error)
+          alert(error);
         });
 
       if (res.data.status === "false") {
@@ -406,15 +409,14 @@ export const DisplayContact = ({
 
       <div className="makeStyles-card-1" style={{ width: "95%" }}>
         <div className="avatar">
-          {avatar && (
+          {avatar ? (
             <Avatar
               alt="Avatar"
               sx={{ width: 125, height: 125, border: "2px solid pink" }}
               margin={3}
-              src={avatar? ("data:image/png;base64," + avatar) : ""}
+              src={avatar ? "data:image/png;base64," + avatar : ""}
             />
-          )}
-          {file && (
+          ) : (
             <Avatar
               alt="Avatar"
               sx={{ width: 125, height: 125, border: "2px solid pink" }}
