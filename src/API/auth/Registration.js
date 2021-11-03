@@ -1,7 +1,5 @@
-// import { flexbox, grid } from "@mui/system";
+
 import React from "react";
-// import "bootstrap/dist/css/bootstrap.min.css"
-// import axios from "axios";
 import fetchClient from "../axiosClient/axiosClient";
 import "./registration.css";
 import { Link } from "react-router-dom";
@@ -10,7 +8,6 @@ import Box from "@mui/material/Box";
 import CircularProgress from "@mui/material/CircularProgress";
 import { green } from "@mui/material/colors";
 import Button from "@mui/material/Button";
-// import { isThisSecond } from "date-fns";
 import Alert from "@mui/material/Alert";
 
 class Registration extends React.Component {
@@ -35,6 +32,7 @@ class Registration extends React.Component {
     this.changeAuthCode = this.changeAuthCode.bind(this);
     this.sendAuthCode = this.sendAuthCode.bind(this);
     this.setUploadPercentage = this.setUploadPercentage.bind(this);
+    this.checkUserName = this.checkUserName.bind(this);
   }
 
   async onSubmit(event) {
@@ -120,6 +118,32 @@ class Registration extends React.Component {
     });
   }
 
+  async checkUserName() {
+    if (this.state.userName===""){
+      this.setState({ error: { msg: "fill the userName", type: "userName" } });
+      return;
+    }
+
+    const data = {
+      userName : this.state.userName,
+    }
+
+    await fetchClient
+      // .post("http://localhost:5000/user/checkUserName", data)
+      .post("https://crm4399.herokuapp.com/user/checkUserName", data)
+      .then((response) => {
+        console.log(response.data)
+        if (response.data.status) {
+
+          this.setState({ error: {msg: response.data.msg, type : "userName" ,status : true}})
+        } else {
+          this.setState({ error: {msg: response.data.message, type : "userName",status : false }});
+        }
+      });
+    
+
+  }
+
   async sendAuthCode() {
     if (this.state.email === "") {
       this.setState({ error: { msg: "fill the email", type: "email" } });
@@ -165,6 +189,7 @@ class Registration extends React.Component {
           <div className="form-div">
             <form onSubmit={this.onSubmit}>
               <label className="form-label">Username</label>
+              <div>
               <input
                 type="text"
                 placeholder="Enter prefer userName"
@@ -173,6 +198,21 @@ class Registration extends React.Component {
                 className="form-control form-group"
                 required
               />
+
+              <Button
+                  variant="contained"
+                  onClick={this.checkUserName}
+              >check</Button>
+              </div>
+
+
+              {this.state.error && this.state.error.type === "userName" && this.state.error.status ? (
+                <Alert severity="success">{this.state.error.msg}</Alert>
+              ) : null}
+ 
+              {this.state.error && this.state.error.type === "userName" && !this.state.error.status ? (
+                <Alert severity="error">{this.state.error.msg}</Alert>
+              ) : null}    
 
               <label className="form-label">Email</label>
               <input
@@ -199,7 +239,7 @@ class Registration extends React.Component {
               >
                 <Button
                   variant="contained"
-                  sx={
+                  sx={ 
                     this.state.success && {
                       bgcolor: green[500],
                       "&:hover": {
