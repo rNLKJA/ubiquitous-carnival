@@ -133,6 +133,20 @@ const Map = () => {
     );
   }
 
+  console.log(
+    records.filter(
+      (record) =>
+        convert(record.dateTime).split(" ")[0] >=
+          convert(startDate).split(" ")[0] &&
+        convert(record.dateTime).split(" ")[0] <=
+          convert(endDate).split(" ")[0],
+    ),
+  );
+
+  {
+    console.log(convert(records[0].dateTime).split(" ")[0]);
+  }
+
   // return component
   return (
     <div className="google-map">
@@ -141,7 +155,7 @@ const Map = () => {
         <h4>
           Current Address Information: lat {address.lat} && lng {address.lng} &&
           Address:
-          {address.text}
+				{address.text}
         </h4> */}
 
         <h1 className="heading-map">Map</h1>
@@ -259,8 +273,10 @@ const Map = () => {
           {records
             .filter((record) => {
               return (
-                convert(record.dateTime) >= convert(startDate).split(" ")[0] &&
-                convert(record.dateTime) <= convert(endDate).split(" ")[0]
+                convert(record.dateTime).split(" ")[0] >=
+                  convert(startDate).split(" ")[0] &&
+                convert(record.dateTime).split(" ")[0] <=
+                  convert(endDate).split(" ")[0]
               );
             })
             .map((record) => {

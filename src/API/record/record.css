@@ -259,6 +259,15 @@
   .fa-location-arrow {
     font-size: 15px;
   }
+
+  .change-slice {
+    position: fixed;
+    bottom: 0px;
+
+    display: flex;
+    align-items: center;
+    width: 100%;
+  }
 }
 
 @media only screen and (min-width: 1024px) {
@@ -344,6 +353,12 @@
   .fa-location-arrow {
     font-size: 15px;
   }
+
+  .change-slice {
+    position: fixed;
+    bottom: 0px;
+    right: 5rem;
+  }
 }
 
 @media only screen and (max-width: 768px) {
@@ -383,6 +398,12 @@
     padding-right: 8px;
     padding-top: 8px;
     padding-bottom: 8px; */
+  }
+
+  .change-slice {
+    position: fixed;
+    bottom: 0px;
+    right: 5rem;
   }
 }
 
