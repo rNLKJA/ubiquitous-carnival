@@ -1,6 +1,7 @@
 {
-  "name": "project",
-  "version": "0.1.0",
+  "name": "IT Project Group 049 Team 4399",
+  "homepage": "https://pcrm4399.herokuapp.com/",
+  "version": "1.0.0",
   "private": true,
   "engines": {
     "npm": "6.14.8",
