@@ -300,6 +300,7 @@ export const DisplayContact = ({
 
   const onClickUpload = () => {
     setUpload(!upload);
+    setFile('');
   };
 
   const onChange = (e) => {
@@ -332,6 +333,10 @@ export const DisplayContact = ({
         })
         .then((response) => {
           setAvatar(response.data.portrait.data.toString("base64"));
+          setLoading1(false);
+        }).catch((error) => {
+          setLoading1(false);
+          alert(error)
         });
 
       if (res.data.status === "false") {
@@ -359,7 +364,7 @@ export const DisplayContact = ({
 
   return (
     <React.Fragment>
-      {windowDimensions.width >= 1024 ? (
+      {/* {windowDimensions.width >= 1024 ? (
         <Box sx={{ height: 100, transform: "translateZ(0px)", flexGrow: 1 }}>
           <SpeedDial
             ariaLabel="SpeedDial basic example"
@@ -375,7 +380,7 @@ export const DisplayContact = ({
             ))}
           </SpeedDial>
         </Box>
-      ) : null}
+      ) : null} */}
 
       {contact.edit ? null : (
         <button
@@ -406,7 +411,7 @@ export const DisplayContact = ({
               alt="Avatar"
               sx={{ width: 125, height: 125, border: "2px solid pink" }}
               margin={3}
-              src={"data:image/png;base64," + avatar}
+              src={avatar? ("data:image/png;base64," + avatar) : ""}
             />
           )}
           {file && (
@@ -414,7 +419,7 @@ export const DisplayContact = ({
               alt="Avatar"
               sx={{ width: 125, height: 125, border: "2px solid pink" }}
               margin={3}
-              src={"data:image/png;base64," + avatar}
+              src={file}
             />
           )}
 

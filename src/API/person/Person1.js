@@ -243,7 +243,6 @@ export const DisplayPerson = ({
             className="edit-contact-form"
             style={{
               display: "flex",
-              overflow: "scroll",
               flexDirection: "column",
               height: "90%",
             }}
