@@ -16,7 +16,7 @@ import Autocomplete from "@mui/material/Autocomplete";
 // import { Redirect } from "react-router-dom";
 import Button from "@mui/material/Button";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { useHistory } from "react-router-dom";
+import { useHistory,Redirect } from "react-router-dom";
 
 const CreateRecord = () => {
   useEffect(() => {
@@ -31,6 +31,7 @@ const CreateRecord = () => {
   const [location, setLocation] = useState("");
   const [geoCoords, setGeoCoords] = useState({ lat: -37.7972, lng: 144.961 });
   const [notes, setNotes] = useState("");
+  const [redirect, setRedirect] = useState(false);
 
   const address = {
     lat: Number.parseFloat(sessionStorage.getItem("selected-lat")),
@@ -69,6 +70,10 @@ const CreateRecord = () => {
         </div>
       </React.Fragment>
     );
+  }
+
+  if (redirect){
+    return <Redirect to= '/record' />
   }
 
   let names = contacts.map(function (contact, index) {
@@ -175,7 +180,7 @@ const CreateRecord = () => {
                 backgroundColor: "#ef5350",
                 color: "white",
               }}
-              href="/record"
+              onClick={() => {setRedirect(true)}}
             >
               Back
             </Button>

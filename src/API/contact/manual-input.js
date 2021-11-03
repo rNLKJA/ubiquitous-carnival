@@ -26,7 +26,9 @@ import TextField from "@mui/material/TextField";
 // import { width } from "@mui/system";
 // import Alert from "@mui/material/Alert";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { useHistory } from "react-router-dom";
+import { useHistory,Redirect } from "react-router-dom";
+
+
 
 const useFabStyle = makeStyles((success) => ({
   name: {
@@ -69,6 +71,7 @@ const AddUser = () => {
   const [success, setSuccess] = useState(false);
   const [fileName, setFileName] = useState("");
   const [valid, setValid] = useState(false);
+  const [redirect, setRedirect] = useState(false);
 
   // const [contact, setContact] = useState("");
   const styles = useFabStyle(success);
@@ -95,6 +98,10 @@ const AddUser = () => {
       setEmails((prev) => prev.filter((item) => item !== prev[index]));
     }
   };
+
+  if (redirect){
+    return <Redirect to= '/addUser' />
+  }
 
   const fieldOnChange = (index, event) => {
     event.preventDefault();
@@ -288,8 +295,8 @@ const AddUser = () => {
       <Heading />
       <NavBar />
       <div className="sub-container">
-        <Button variant="outlined" sx={{ width: "25%", padding: "5px" }}>
-          <a href="/addUser">Back</a>
+        <Button variant="outlined" sx={{ width: "25%", padding: "5px" }} onClick = {() => setRedirect(true)}>
+          Back
         </Button>
         {/* <div className="upload-img">
           <input type="file" onChange={(e) => setImage(e.target.files[0])} />

@@ -76,6 +76,7 @@ const SelectedContact = ({ setOneContact, oneContact, deleteHandler }) => {
       ) : null}
 
       <DisplayContact
+        key ={selectedContact._id}
         selectedContact={selectedContact}
         setSelectedContact={setSelectedContact}
         deleteHandler={deleteHandler}
