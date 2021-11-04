@@ -105,10 +105,13 @@ const emailRegisterCodeSend = async (req, res) => {
   const registerAccount = res.locals._id; // read email from the request formdata field
   // console.log(email);
 
-  const registeCode = autoCodeGenerator(10);
+  const registerCode = autoCodeGenerator(10);
   //TODO:replace to front end website
   const fastRegisterLink =
-    "http://localhost:3000/fastRegister/" + registerAccount;
+    "http://localhost:3000/fastRegister/" +
+    registerAccount +
+    "/" +
+    registerCode;
   transport.sendMail(
     {
       from: "team4399Auth@gmail.com",
@@ -130,7 +133,7 @@ const emailRegisterCodeSend = async (req, res) => {
 
     const RegisterDocument = new EmailRegister({
       registerAccount: mongoose.Types.ObjectId(registerAccount),
-      fastRegisterCode: registeCode,
+      fastRegisterCode: registerCode,
     });
 
     await RegisterDocument.save();
