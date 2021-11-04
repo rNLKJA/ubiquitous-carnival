@@ -108,13 +108,13 @@ const emailRegisterCodeSend = async (req, res) => {
   const registeCode = autoCodeGenerator(10);
   //TODO:replace to front end website
   const fastRegisterLink =
-    "https://pcrm4399.herokuapp.com/fastRegister/" + registerAccount;
+    "http://localhost:3000/fastRegister/" + registerAccount;
   transport.sendMail(
     {
       from: "team4399Auth@gmail.com",
       to: email[0],
       subject: "Complete your register by access the Link",
-      html: `${fastRegisterLink}`,
+      html: `<a>${fastRegisterLink}</a>`,
     },
     function (error, data) {
       console.log(error);
