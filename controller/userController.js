@@ -143,7 +143,6 @@ const register = async (req, res) => {
        re_password: 'Harrison_59347835' }
     */
 
-  //1. get the input from the user
   const {
     userName,
     email,
@@ -151,43 +150,16 @@ const register = async (req, res) => {
     re_password
   } = req.body;
 
-  // //username regex
-  // const userNameReg = /^[A-Za-z][A-Za-z0-9_]{7,19}$/
-  // //email check regex
-  // const emailReg = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-  // //Use 8 or more characters with a mix of letters, numbers & symbols
-  // const passwordReg = /^[A-Za-z\d@$!%*?&]{8,}$/
-  // console.log({
-  //     userName,
-  //     email,
-  //     password,
-  //     re_password
-  // })
-  //use regex to check the all the user inputs
-  // if (!emailReg.test(email)) {
-  //     res.send('Incorrect email format, please try again you dump ass')
-  // } else if (!userNameReg.test(userName)) {
-  //     res.send('Username should start with an alphabet and length as 8-20')
-  // } else if (!passwordReg.test(password)) {
-  //     res.send('Use 8 or more characters with a mix of letters, numbers & symbols')
-  // } else
-
-  // for easy testing, delete the regex test
   if (password != re_password) {
     res.send("The passwords is different from you typed before");
   } else {
     try {
-      const user_email = await userModel.findOne({
-        email: email,
-      });
+
       const user_name = await userModel.findOne({
         userName: userName,
       });
-
-      if (user_email) {
-        console.log("email has been used for someone else");
-        res.send("email has been used for someone else");
-      } else if (user_name) {
+      
+      if (user_name) {
         console.log("uerName has been used for someone else");
         res.send("userName has been used for someone else");
       } else {
