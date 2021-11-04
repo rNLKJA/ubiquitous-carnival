@@ -643,11 +643,11 @@ const createContactDocumentationOneStep = async (req, res) => {
  * @param  {String} id the object id of contact that was created in processing
  */
 const createContactPhotoUpload = async (req, res, id) => {
-  var img = {
-    data: fs.readFileSync(req.file.path),
-    contentType: req.file.mimetype,
-  };
   try {
+    var img = {
+      data: fs.readFileSync(req.file.path),
+      contentType: req.file.mimetype,
+    };
     // req.body._id is the id of contact that need to be upload
     var contact = await Contact.findOneAndUpdate(
       { _id: mongoose.Types.ObjectId(id) },
