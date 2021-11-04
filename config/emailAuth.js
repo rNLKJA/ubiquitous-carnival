@@ -1,3 +1,4 @@
+const { response } = require("express");
 const ExpressHandlebars = require("express-handlebars/lib/express-handlebars");
 const mongoose = require("mongoose");
 const nodemailer = require("nodemailer");
@@ -16,7 +17,7 @@ const transport = nodemailer.createTransport(
       user: "team4399Auth@gmail.com",
       pass: "Team4399.com",
     },
-  })
+  }),
 );
 
 transport.verify(function (error, success) {
@@ -56,7 +57,7 @@ const emailAuthSend = async (req, res) => {
     function (error, data) {
       // assert(error, 500, "fail to send vertify code")
       transport.close();
-    }
+    },
   );
   try {
     await EmailAuth.deleteMany({ email: email });
@@ -107,38 +108,45 @@ const emailRegisterCodeSend = async (req, res) => {
   const registeCode = autoCodeGenerator(10);
   //TODO:replace to front end website
   const fastRegisterLink =
-    "http://localhost:5000/user/fastRegister/" + registerAccount;
+    "http://localhost:3000/user/fastRegister/" + registerAccount;
   transport.sendMail(
     {
       from: "team4399Auth@gmail.com",
-      to: email,
-      subject: "Complete your resigter by access the Link",
-      html: `Testing`,
+      to: email[0],
+      subject: "Complete your register by access the Link",
+      html: `${fastRegisterLink}`,
     },
     function (error, data) {
       console.log(error);
       // assert(error, 500, "fail to send vertify code")
       transport.close();
-    }
+    },
   );
+
   try {
     await EmailRegister.deleteMany({
       registerAccount: mongoose.Types.ObjectId(registerAccount),
     });
+
     const RegisterDocument = new EmailRegister({
       registerAccount: mongoose.Types.ObjectId(registerAccount),
       fastRegisterCode: registeCode,
     });
+
     await RegisterDocument.save();
+
     setTimeout(async () => {
       await EmailRegister.deleteMany({
         registerAccount: mongoose.Types.ObjectId(registerAccount),
       });
     }, 1000 * 60 * 15);
-    res.send("your email code has been send!");
+
+    return res.send({ status: true, msg: "Email Code send" });
   } catch (err) {
     console.log(err);
   }
+
+  console.log(req.body);
 };
 
 /**
@@ -189,7 +197,7 @@ const sendResetCode = async (req, res) => {
     function (error, data) {
       // assert(error, 500, "fail to send vertify code")
       transport.close();
-    }
+    },
   );
 
   try {

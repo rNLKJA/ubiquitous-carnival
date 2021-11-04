@@ -69,7 +69,7 @@ const handleLogin = async (req, res, next) => {
             {
               body,
             },
-            process.env.PASSPORT_KEY
+            process.env.PASSPORT_KEY,
           );
 
           //Send back the token to the client
@@ -82,7 +82,7 @@ const handleLogin = async (req, res, next) => {
             token: "Bearer " + token,
             message: "Your token release successfully",
           });
-        }
+        },
       );
     } catch (error) {
       return next(error);
@@ -186,23 +186,30 @@ const emailFastRegister = async (req, res, next) => {
       phone: req.body.phone,
       occupation: req.body.occupation,
       status: false,
+      password: "NOPASSWORD",
+      userName: new Date().toISOString(),
     });
+
     await newUser.save();
+
     // save user id for send email
     res.locals._id = newUser._id;
+
     // send new User object to front end to trigger function to connect contact with an account
-    res.send(newUser._id);
+    // res.send(newUser._id);
+
     //delete temporary user after 16 minutes
     setTimeout(async () => {
       const temUser = await userModel.findOne({
         _id: mongoose.Types.ObjectId(newUser._id),
       });
-      if (temUser.staus == false) {
+      if (temUser.status == false) {
         await userModel.deleteMany({
           _id: mongoose.Types.ObjectId(newUser._id),
         });
       }
     }, 1000 * 60 * 16);
+
     next();
   } catch (err) {
     console.log(err);
@@ -233,10 +240,10 @@ const emailFastRegisterConfirm = async (req, res) => {
         res.send("userName has been used for someone else");
       } else {
         const userPassword = await bcrypt.hash(password, 10);
-        constnewUser = await userModel.findOneAndUpdate(
+        const newUser = await userModel.findOneAndUpdate(
           { _id: mongoose.Types.ObjectId(req.body._id) },
           { userName: userName, password: userPassword, status: true },
-          { new: true }
+          { new: true },
         );
         res.send("your account is active now!");
       }
@@ -261,7 +268,7 @@ const updatePassword = async (req, res) => {
       {
         _id: req.user._id,
       },
-      { password: newPassword }
+      { password: newPassword },
     );
 
     return res.json({ status: true });
@@ -303,7 +310,7 @@ const resetPassword = async (req, res) => {
       {
         userName: req.body.userName,
       },
-      { password: password }
+      { password: password },
     );
 
     // console.log(verify);

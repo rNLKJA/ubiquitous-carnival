@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const userModel = mongoose.model("User");
 const fs = require("fs");
 const passport = require("passport");
+
 require("../config/passport")(passport);
 
 /**
@@ -17,7 +18,7 @@ const editFirstName = async (req, res) => {
     const editFirstNameFunction = await userModel.findOneAndUpdate(
       { _id: req.user._id },
       { $set: { firstName: req.body.firstName } },
-      { upsert: true, new: true }
+      { upsert: true, new: true },
     );
     res.send("update success");
   } catch (err) {
@@ -39,7 +40,7 @@ const editLastName = async (req, res) => {
     const editLastNameFunction = await userModel.findOneAndUpdate(
       { _id: req.user._id },
       { $set: { lastName: req.body.lastName } },
-      { upsert: true, new: true }
+      { upsert: true, new: true },
     );
     res.send("update success");
   } catch (err) {
@@ -61,7 +62,7 @@ const editOccupation = async (req, res) => {
     const editOccupationFunction = await userModel.findOneAndUpdate(
       { _id: req.user._id },
       { $set: { occupation: req.body.occupation } },
-      { upsert: true, new: true }
+      { upsert: true, new: true },
     );
     res.send("update success");
   } catch (err) {
@@ -83,7 +84,7 @@ const editStatus = async (req, res) => {
     const editStatusFunction = await userModel.findOneAndUpdate(
       { _id: req.user._id },
       { $set: { status: req.body.status } },
-      { upsert: true, new: true }
+      { upsert: true, new: true },
     );
     res.send("update success");
   } catch (err) {
@@ -117,7 +118,7 @@ const editProfile = async (req, res) => {
           email: req.body.email,
         },
       },
-      { upsert: true, new: true }
+      { upsert: true, new: true },
     );
     res.send("update success");
   } catch (err) {
@@ -140,7 +141,7 @@ const addPhone = async (req, res) => {
     const updatePhone = await userModel.findOneAndUpdate(
       { _id: req.user._id },
       { $push: { phone: req.body.phone } },
-      { upsert: true, new: true }
+      { upsert: true, new: true },
     );
     res.send("update success");
   } catch (err) {
@@ -164,7 +165,7 @@ const delPhone = async (req, res) => {
     function (err) {
       if (err) res.send("delete fail");
       else res.send("delete success");
-    }
+    },
   );
 };
 
@@ -181,7 +182,7 @@ const addEmail = async (req, res) => {
     await userModel.findOneAndUpdate(
       { _id: req.user._id },
       { $push: { email: req.body.email } },
-      { upsert: true, new: true }
+      { upsert: true, new: true },
     );
     res.send("update success");
   } catch (err) {
@@ -205,7 +206,7 @@ const delEmail = async (req, res) => {
     function (err) {
       if (err) res.send("delete fail");
       else res.send("delete success");
-    }
+    },
   );
 };
 /**
