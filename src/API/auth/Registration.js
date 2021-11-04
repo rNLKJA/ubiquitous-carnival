@@ -1,4 +1,3 @@
-
 import React from "react";
 import fetchClient from "../axiosClient/axiosClient";
 import "./registration.css";
@@ -119,29 +118,34 @@ class Registration extends React.Component {
   }
 
   async checkUserName() {
-    if (this.state.userName===""){
+    if (this.state.userName === "") {
       this.setState({ error: { msg: "fill the userName", type: "userName" } });
       return;
     }
 
     const data = {
-      userName : this.state.userName,
-    }
+      userName: this.state.userName,
+    };
 
     await fetchClient
       // .post("http://localhost:5000/user/checkUserName", data)
       .post("https://crm4399.herokuapp.com/user/checkUserName", data)
       .then((response) => {
-        console.log(response.data)
+        console.log(response.data);
         if (response.data.status) {
-
-          this.setState({ error: {msg: response.data.msg, type : "userName" ,status : true}})
+          this.setState({
+            error: { msg: response.data.msg, type: "userName", status: true },
+          });
         } else {
-          this.setState({ error: {msg: response.data.message, type : "userName",status : false }});
+          this.setState({
+            error: {
+              msg: response.data.message,
+              type: "userName",
+              status: false,
+            },
+          });
         }
       });
-    
-
   }
 
   async sendAuthCode() {
@@ -190,29 +194,31 @@ class Registration extends React.Component {
             <form onSubmit={this.onSubmit}>
               <label className="form-label">Username</label>
               <div>
-              <input
-                type="text"
-                placeholder="Enter prefer userName"
-                onChange={this.changeUserName}
-                value={this.state.userName}
-                className="form-control form-group"
-                required
-              />
+                <input
+                  type="text"
+                  placeholder="Enter prefer userName"
+                  onChange={this.changeUserName}
+                  value={this.state.userName}
+                  className="form-control form-group"
+                  required
+                />
 
-              <Button
-                  variant="contained"
-                  onClick={this.checkUserName}
-              >check</Button>
+                <Button variant="contained" onClick={this.checkUserName}>
+                  check
+                </Button>
               </div>
 
-
-              {this.state.error && this.state.error.type === "userName" && this.state.error.status ? (
+              {this.state.error &&
+              this.state.error.type === "userName" &&
+              this.state.error.status ? (
                 <Alert severity="success">{this.state.error.msg}</Alert>
               ) : null}
- 
-              {this.state.error && this.state.error.type === "userName" && !this.state.error.status ? (
+
+              {this.state.error &&
+              this.state.error.type === "userName" &&
+              !this.state.error.status ? (
                 <Alert severity="error">{this.state.error.msg}</Alert>
-              ) : null}    
+              ) : null}
 
               <label className="form-label">Email</label>
               <input
@@ -239,7 +245,7 @@ class Registration extends React.Component {
               >
                 <Button
                   variant="contained"
-                  sx={ 
+                  sx={
                     this.state.success && {
                       bgcolor: green[500],
                       "&:hover": {

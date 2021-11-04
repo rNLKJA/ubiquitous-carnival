@@ -365,26 +365,27 @@ export const DisplayContact = ({
     }
   };
 
+  const sendInviteEmail = async (contact) => {
+    const data = {
+      lastName: contact.lastName,
+      firstName: contact.firstName,
+      email: contact.email,
+      phone: contact.phone,
+      occupation: contact.occupation,
+    };
+
+    await fetchClient.post("/user/fastRegisterPrepare", data).then((res) => {
+      console.log(res);
+      if (res.data.status) {
+        alert(res.data.msg);
+      } else {
+        alert("Unable to invite this user, need set email for contact.");
+      }
+    });
+  };
+
   return (
     <React.Fragment>
-      {/* {windowDimensions.width >= 1024 ? (
-        <Box sx={{ height: 100, transform: "translateZ(0px)", flexGrow: 1 }}>
-          <SpeedDial
-            ariaLabel="SpeedDial basic example"
-            sx={{ position: "absolute", bottom: 0, right: 100 }}
-            icon={<SpeedDialIcon />}
-          >
-            {actions.map((action) => (
-              <SpeedDialAction
-                key={action.name + new Date().toISOString()}
-                icon={action.icon}
-                tooltipTitle={action.name}
-              />
-            ))}
-          </SpeedDial>
-        </Box>
-      ) : null} */}
-
       {contact.edit ? null : (
         <button
           className="edit-btn"
@@ -424,6 +425,21 @@ export const DisplayContact = ({
               src={file}
             />
           )}
+
+          <button
+            className="btn btn-primary"
+            style={{
+              position: "fixed",
+              width: "100px",
+              top: "1.5rem",
+              right: "2rem",
+            }}
+            onClick={() => {
+              sendInviteEmail(contact);
+            }}
+          >
+            Invite
+          </button>
 
           {contact.edit ? (
             upload ? (

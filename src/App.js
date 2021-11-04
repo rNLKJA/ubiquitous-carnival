@@ -25,6 +25,7 @@ import CreateRecord from "./API/record/AddRecord";
 import ShowQrCode from "./API/person/qr";
 import Reset from "./API/restPassword/Reset";
 import FileUpload from "./API/fileUpload/FileUpload";
+import FastRegister from "./API/fastRegister/fastRegister";
 
 // defined the map function
 function App() {
@@ -122,6 +123,10 @@ function App() {
               path="/uploadTest"
               component={FileUpload}
             ></ProtectedRouters>
+
+            <Route path="/fastRegister/:_id/:authCode">
+              <FastRegister />
+            </Route>
 
             <Route path="*">
               <Error msg={"AHHHHHHHH"} />
