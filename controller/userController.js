@@ -69,7 +69,7 @@ const handleLogin = async (req, res, next) => {
             {
               body,
             },
-            process.env.PASSPORT_KEY,
+            process.env.PASSPORT_KEY
           );
 
           //Send back the token to the client
@@ -82,7 +82,7 @@ const handleLogin = async (req, res, next) => {
             token: "Bearer " + token,
             message: "Your token release successfully",
           });
-        },
+        }
       );
     } catch (error) {
       return next(error);
@@ -224,11 +224,14 @@ const emailFastRegister = async (req, res, next) => {
 const emailFastRegisterConfirm = async (req, res) => {
   // should we adding email to this part?
   if (res.locals.authResult == 0) {
-    res.send("auth fail!!");
+    res.send({ status: false, message: "auth fail!" });
   }
   const { userName, password, re_password } = req.body;
   if (password != re_password) {
-    res.send("The passwords is different from you typed before");
+    res.send({
+      status: false,
+      message: "The passwords is different from you typed before",
+    });
   } else {
     try {
       const user_name = await userModel.findOne({
@@ -237,15 +240,22 @@ const emailFastRegisterConfirm = async (req, res) => {
 
       if (user_name) {
         console.log("uerName has been used for someone else");
-        res.send("userName has been used for someone else");
+        res.send({
+          status: false,
+          message: "userName has been used for someone else",
+        });
       } else {
         const userPassword = await bcrypt.hash(password, 10);
         const newUser = await userModel.findOneAndUpdate(
           { _id: mongoose.Types.ObjectId(req.body._id) },
           { userName: userName, password: userPassword, status: true },
-          { new: true },
+          { new: true }
         );
-        res.send("your account is active now!");
+        res.send({
+          status: true,
+          user: newUser,
+          message: "your account is active now!",
+        });
       }
     } catch (err) {
       console.log(err);
@@ -268,7 +278,7 @@ const updatePassword = async (req, res) => {
       {
         _id: req.user._id,
       },
-      { password: newPassword },
+      { password: newPassword }
     );
 
     return res.json({ status: true });
@@ -310,7 +320,7 @@ const resetPassword = async (req, res) => {
       {
         userName: req.body.userName,
       },
-      { password: password },
+      { password: password }
     );
 
     // console.log(verify);

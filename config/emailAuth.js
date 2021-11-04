@@ -17,7 +17,7 @@ const transport = nodemailer.createTransport(
       user: "team4399Auth@gmail.com",
       pass: "Team4399.com",
     },
-  }),
+  })
 );
 
 transport.verify(function (error, success) {
@@ -57,7 +57,7 @@ const emailAuthSend = async (req, res) => {
     function (error, data) {
       // assert(error, 500, "fail to send vertify code")
       transport.close();
-    },
+    }
   );
   try {
     await EmailAuth.deleteMany({ email: email });
@@ -120,7 +120,7 @@ const emailRegisterCodeSend = async (req, res) => {
       console.log(error);
       // assert(error, 500, "fail to send vertify code")
       transport.close();
-    },
+    }
   );
 
   try {
@@ -158,14 +158,15 @@ const emailRegisterCodeSend = async (req, res) => {
 const emailRegisterVerify = async (req, res, next) => {
   const verify = await EmailRegister.findOne({
     registerAccount: mongoose.Types.ObjectId(req.body._id),
+    registerAccount: req.body.fastRegisterCode,
   });
   console.log(verify);
   if (!verify.length) {
-    re.locals.authResult = 0;
+    res.locals.authResult = 0;
     next();
   }
   res.locals.authResult = 1;
-  await EmailAuth.deleteMany({
+  await EmailRegister.deleteMany({
     registerAccount: mongoose.Types.ObjectId(req.body._id),
   });
   next();
@@ -197,7 +198,7 @@ const sendResetCode = async (req, res) => {
     function (error, data) {
       // assert(error, 500, "fail to send vertify code")
       transport.close();
-    },
+    }
   );
 
   try {
