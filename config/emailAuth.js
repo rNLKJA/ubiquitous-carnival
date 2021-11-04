@@ -161,10 +161,10 @@ const emailRegisterCodeSend = async (req, res) => {
 const emailRegisterVerify = async (req, res, next) => {
   const verify = await EmailRegister.findOne({
     registerAccount: mongoose.Types.ObjectId(req.body._id),
-    registerAccount: req.body.fastRegisterCode,
+    fastRegisterCode: req.body.fastRegisterCode,
   });
   console.log(verify);
-  if (!verify.length) {
+  if (verify !== null) {
     res.locals.authResult = 0;
     next();
   }
