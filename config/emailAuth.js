@@ -111,9 +111,9 @@ const emailRegisterCodeSend = async (req, res) => {
   transport.sendMail(
     {
       from: "team4399Auth@gmail.com",
-      to: email,
+      to: email[0],
       subject: "Complete your resigter by access the Link",
-      html: `Testing`,
+      html: `<a>${fastRegisterLink}</a>`,
     },
     function (error, data) {
       console.log(error);
@@ -135,7 +135,7 @@ const emailRegisterCodeSend = async (req, res) => {
         registerAccount: mongoose.Types.ObjectId(registerAccount),
       });
     }, 1000 * 60 * 15);
-    res.send("your email code has been send!");
+    return res.send({ status: true, msg: "Email Code send" });
   } catch (err) {
     console.log(err);
   }
@@ -153,11 +153,11 @@ const emailRegisterVerify = async (req, res, next) => {
   });
   console.log(verify);
   if (!verify.length) {
-    re.locals.authResult = 0;
+    res.locals.authResult = 0;
     next();
   }
   res.locals.authResult = 1;
-  await EmailAuth.deleteMany({
+  await EmailRegister.deleteMany({
     registerAccount: mongoose.Types.ObjectId(req.body._id),
   });
   next();
