@@ -18,7 +18,7 @@ describe("Integration test: Test for edit Record", () => {
       .post("/user/login")
       .set("Content-Type", "application/json")
       .send({
-        userName: "TestDontDelete",
+        userName: "IntegrationTest_DontDelete",
         password: "testtest123",
       })
       .then((res) => {
@@ -39,7 +39,7 @@ describe("Integration test: Test for edit Record", () => {
       .set("Authorization", jwtToken)
       .send({
         _id: null, 
-        contact_id: "6181133d92f80b001605abac",
+        contact_id: "618503c2ad6a53001643245e",
         location: "University of Melbourne",
         dateTime: "2021-10-01T10:28:10.018Z",
         geoCoords: {
@@ -62,7 +62,7 @@ describe("Integration test: Test for edit Record", () => {
       .set("Authorization", jwtToken)
       .send({
         _id: "123456", 
-        contact_id: "6181133d92f80b001605abac",
+        contact_id: "618503c2ad6a53001643245e",
         location: "University of Melbourne",
         dateTime: "2021-10-01T10:28:10.018Z",
         geoCoords: {
@@ -84,7 +84,7 @@ describe("Integration test: Test for edit Record", () => {
       .set("Content-Type", "application/json")
       .set("Authorization", jwtToken)
       .send({
-        _id: "618113b292f80b001605abc0", 
+        _id: "618505cfad6a530016432520", 
         contact_id: "1234567",
         location: "University of Melbourne",
         dateTime: "2021-10-01T10:28:10.018Z",
@@ -107,7 +107,7 @@ describe("Integration test: Test for edit Record", () => {
       .set("Content-Type", "application/json")
       .set("Authorization", jwtToken)
       .send({
-        _id: "618113b292f80b001605abc0", 
+        _id: "618505cfad6a530016432520", 
         contact_id: null,
         location: "University of Melbourne",
         dateTime: "2021-10-01T10:28:10.018Z",
@@ -130,8 +130,8 @@ describe("Integration test: Test for edit Record", () => {
       .set("Content-Type", "application/json")
       .set("Authorization", jwtToken)
       .send({
-        _id: "618113b292f80b001605abc0", 
-        contact_id: "6181133d92f80b001605abac",
+        _id: "618505cfad6a530016432520", 
+        contact_id: "618503c2ad6a53001643245e",
         location: "University of Melbourne",
         dateTime: null,
         geoCoords: {
@@ -143,7 +143,7 @@ describe("Integration test: Test for edit Record", () => {
       })
       .then((res) => {
         expect(res.statusCode).toBe(200);
-        expect(res.body.meetingPerson).toBe("6181133d92f80b001605abac");
+        expect(res.body.meetingPerson).toBe("618503c2ad6a53001643245e");
         expect(res.body.location).toBe("University of Melbourne");
         expect(res.body.dateTime).not.toBe(null);
         expect(res.body.lat).toBe(122334545);
@@ -161,8 +161,8 @@ describe("Integration test: Test for edit Record", () => {
       .set("Content-Type", "application/json")
       .set("Authorization", jwtToken)
       .send({
-        _id: "618113b292f80b001605abc0", 
-        contact_id: "6181133d92f80b001605abac",
+        _id: "618505cfad6a530016432520", 
+        contact_id: "618503c2ad6a53001643245e",
         location: "University of Melbourne",
         dateTime: "2021-10-01T10:28:10.018Z",
         geoCoords: {
@@ -174,7 +174,7 @@ describe("Integration test: Test for edit Record", () => {
       })
       .then((res) => {
         expect(res.statusCode).toBe(200);
-        expect(res.body.meetingPerson).toBe("6181133d92f80b001605abac");
+        expect(res.body.meetingPerson).toBe("618503c2ad6a53001643245e");
         expect(res.body.location).toBe("University of Melbourne");
         expect(res.body.dateTime).toBe("2021-10-01T10:28:10.018Z");
         expect(res.body.lat).toBe(122334545);
@@ -192,8 +192,8 @@ describe("Integration test: Test for edit Record", () => {
       .set("Content-Type", "application/json")
       .set("Authorization", jwtToken)
       .send({
-        _id: "618113b292f80b001605abc0", 
-        contact_id: "6181133d92f80b001605abac",
+        _id: "618505cfad6a530016432520", 
+        contact_id: "618503c2ad6a53001643245e",
         location: "University of Melbourne",
         dateTime: "2021-10-01T10:28:10.018Z",
         geoCoords: null,
@@ -202,7 +202,7 @@ describe("Integration test: Test for edit Record", () => {
       })
       .then((res) => {
         expect(res.statusCode).toBe(200);
-        expect(res.body.meetingPerson).toBe("6181133d92f80b001605abac");
+        expect(res.body.meetingPerson).toBe("618503c2ad6a53001643245e");
         expect(res.body.location).toBe("University of Melbourne");
         expect(res.body.dateTime).toBe("2021-10-01T10:28:10.018Z");
         expect(res.body.lat).toBe(null);
@@ -220,8 +220,8 @@ describe("Integration test: Test for edit Record", () => {
       .set("Content-Type", "application/json")
       .set("Authorization", jwtToken)
       .send({
-        _id: "618113b292f80b001605abc0", 
-        contact_id: "6181133d92f80b001605abac",
+        _id: "618505cfad6a530016432520", 
+        contact_id: "618503c2ad6a53001643245e",
         location: null,
         dateTime: "2021-10-01T10:28:10.018Z",
         geoCoords: {
