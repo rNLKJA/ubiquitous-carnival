@@ -10,8 +10,6 @@ describe("Integration test: Test for Create Contact", () => {
 
   // store the token
   let jwtToken = null;
-
-  var contactId = null;
   
   jest.setTimeout(20000)
 
@@ -34,20 +32,13 @@ describe("Integration test: Test for Create Contact", () => {
     done();
   });
 
-  afterEach(() => {
-      return agent
-        .get("/contact/deleteOneContact/IntegrationTest_DontDelete/" + contactId)
-        .set("Content-Type", "application/json")
-        .set("Authorization", jwtToken)
-        .send({});
-  })
-
-  test("Test 1: Creat a contact without last name", () => {
+  test("Test 1: Update a contact without last name", () => {
     return agent
-      .post("/contact/createContactOneStep")
+      .post("/contact/updateContactInfo")
       .set("Content-Type", "application/json")
       .set("Authorization", jwtToken)
       .send({
+        _id: "618503c2ad6a53001643245e",
         lastName: null,
         firstName: "Huang",
         email: "12345678@qq.com",
@@ -58,16 +49,16 @@ describe("Integration test: Test for Create Contact", () => {
       })
       .then((res) => {
         expect(res.body.status).toBe(false);
-        contactId = null;
       });
   });
 
-  test("Test 2: Creat a contact without firstName", () => {
+  test("Test 2: Update a contact without firstName", () => {
     return agent
-      .post("/contact/createContactOneStep")
+      .post("/contact/updateContactInfo")
       .set("Content-Type", "application/json")
       .set("Authorization", jwtToken)
       .send({
+        _id: "618503c2ad6a53001643245e",
         lastName: "Hongji",
         firstName: null,
         email: "12345678@qq.com",
@@ -78,18 +69,18 @@ describe("Integration test: Test for Create Contact", () => {
       })
       .then((res) => {
         expect(res.body.status).toBe(false);
-        contactId = null;
       });
   });
 
-  test("Test 3: Creat a contact without email", () => {
+  test("Test 3: Update a contact without email", () => {
     return agent
-      .post("/contact/createContactOneStep")
+      .post("/contact/updateContactInfo")
       .set("Content-Type", "application/json")
       .set("Authorization", jwtToken)
       .send({
+        _id: "618503c2ad6a53001643245e",
         lastName: "Hongji",
-        firstName: "Test3",
+        firstName: "Huang",
         email: null,
         phone: "4152864185",
         occupation: "student",
@@ -98,18 +89,18 @@ describe("Integration test: Test for Create Contact", () => {
       })
       .then((res) => {
         expect(res.body.status).toBe(false);
-        contactId = null;
       });
   });
 
-  test("Test 4: Creat a contact without phone number", () => {
+  test("Test 4: Update a contact without phone number", () => {
     return agent
-      .post("/contact/createContactOneStep")
+      .post("/contact/updateContactInfo")
       .set("Content-Type", "application/json")
       .set("Authorization", jwtToken)
       .send({
+        _id: "618503c2ad6a53001643245e",
         lastName: "Hongji",
-        firstName: "Test4",
+        firstName: "Huang",
         email: "12345678@qq.com",
         phone: null,
         occupation: "student",
@@ -118,18 +109,18 @@ describe("Integration test: Test for Create Contact", () => {
       })
       .then((res) => {
         expect(res.body.status).toBe(false);
-        contactId = null;
       });
   });
 
-  test("Test 5: Creat a contact without occupation", () => {
+  test("Test 5: Update a contact without occupation", () => {
     return agent
-      .post("/contact/createContactOneStep")
+      .post("/contact/updateContactInfo")
       .set("Content-Type", "application/json")
       .set("Authorization", jwtToken)
       .send({
+        _id: "618503c2ad6a53001643245e",
         lastName: "Hongji",
-        firstName: "Test5",
+        firstName: "Huang",
         email: "12345678@qq.com",
         phone: "4152864185",
         occupation: null,
@@ -138,18 +129,18 @@ describe("Integration test: Test for Create Contact", () => {
       })
       .then((res) => {
         expect(res.body.status).toBe(false);
-        contactId = null;
       });
   });
 
-  test("Test 6: Creat a contact without note", () => {
+  test("Test 6: Update a contact without note", () => {
     return agent
-      .post("/contact/createContactOneStep")
+      .post("/contact/updateContactInfo")
       .set("Content-Type", "application/json")
       .set("Authorization", jwtToken)
       .send({
+        _id: "618503c2ad6a53001643245e",
         lastName: "Hongji",
-        firstName: "Test6",
+        firstName: "Huang",
         email: "12345678@qq.com",
         phone: "4152864185",
         occupation: "student",
@@ -158,18 +149,18 @@ describe("Integration test: Test for Create Contact", () => {
       })
       .then((res) => {
         expect(res.body.status).toBe(true);
-        contactId = res.body.contactId;
       });
   });
 
-  test("Test 7: Creat a contact without customField", () => {
+  test("Test 7: Update a contact without customField", () => {
     return agent
-      .post("/contact/createContactOneStep")
+      .post("/contact/updateContactInfo")
       .set("Content-Type", "application/json")
       .set("Authorization", jwtToken)
       .send({
+        _id: "618503c2ad6a53001643245e",
         lastName: "Hongji",
-        firstName: "Test7",
+        firstName: "Huang",
         email: "12345678@qq.com",
         phone: "4152864185",
         occupation: "student",
@@ -178,28 +169,46 @@ describe("Integration test: Test for Create Contact", () => {
       })
       .then((res) => {
         expect(res.body.status).toBe(true);
-        contactId = res.body.contactId;
       });
   });
 
-  test("Test 8: Creat a contact with duplicate", () => {
+  test("Test 8: Update a contact without contact id", () => {
     return agent
-      .post("/contact/createContactOneStep")
+      .post("/contact/updateContactInfo")
       .set("Content-Type", "application/json")
       .set("Authorization", jwtToken)
       .send({
+        _id: null,
         lastName: "Hongji",
-        firstName: "CheckDuplicate",
-        email: [],
-        phone: [],
-        occupation: "Student",
-        note: "",
-        customField: []
+        firstName: "Huang",
+        email: "12345678@qq.com",
+        phone: "4152864185",
+        occupation: "student",
+        note: "testing",
+        customField: "testCustomField"
       })
       .then((res) => {
         expect(res.body.status).toBe(false);
-        expect(res.body.msg).toBe("dupcontact/createProblem");
-        contactId = null;
+      });
+  });
+
+  test("Test 8: Update a contact with invalid contact id", () => {
+    return agent
+      .post("/contact/updateContactInfo")
+      .set("Content-Type", "application/json")
+      .set("Authorization", jwtToken)
+      .send({
+        _id: "123456789",
+        lastName: "Hongji",
+        firstName: "Huang",
+        email: "12345678@qq.com",
+        phone: "4152864185",
+        occupation: "student",
+        note: "testing",
+        customField: "testCustomField"
+      })
+      .then((res) => {
+        expect(res.body.status).toBe(false);
       });
   });
 

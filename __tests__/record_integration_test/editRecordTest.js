@@ -84,7 +84,7 @@ describe("Integration test: Test for edit Record", () => {
       .set("Content-Type", "application/json")
       .set("Authorization", jwtToken)
       .send({
-        _id: "618505cfad6a530016432520", 
+        _id: "618548b7ad6a530016433a66", 
         contact_id: "1234567",
         location: "University of Melbourne",
         dateTime: "2021-10-01T10:28:10.018Z",
@@ -107,7 +107,7 @@ describe("Integration test: Test for edit Record", () => {
       .set("Content-Type", "application/json")
       .set("Authorization", jwtToken)
       .send({
-        _id: "618505cfad6a530016432520", 
+        _id: "618548b7ad6a530016433a66", 
         contact_id: null,
         location: "University of Melbourne",
         dateTime: "2021-10-01T10:28:10.018Z",
@@ -130,7 +130,7 @@ describe("Integration test: Test for edit Record", () => {
       .set("Content-Type", "application/json")
       .set("Authorization", jwtToken)
       .send({
-        _id: "618505cfad6a530016432520", 
+        _id: "618548b7ad6a530016433a66", 
         contact_id: "618503c2ad6a53001643245e",
         location: "University of Melbourne",
         dateTime: null,
@@ -161,7 +161,7 @@ describe("Integration test: Test for edit Record", () => {
       .set("Content-Type", "application/json")
       .set("Authorization", jwtToken)
       .send({
-        _id: "618505cfad6a530016432520", 
+        _id: "618548b7ad6a530016433a66", 
         contact_id: "618503c2ad6a53001643245e",
         location: "University of Melbourne",
         dateTime: "2021-10-01T10:28:10.018Z",
@@ -192,7 +192,7 @@ describe("Integration test: Test for edit Record", () => {
       .set("Content-Type", "application/json")
       .set("Authorization", jwtToken)
       .send({
-        _id: "618505cfad6a530016432520", 
+        _id: "618548b7ad6a530016433a66", 
         contact_id: "618503c2ad6a53001643245e",
         location: "University of Melbourne",
         dateTime: "2021-10-01T10:28:10.018Z",
@@ -220,7 +220,7 @@ describe("Integration test: Test for edit Record", () => {
       .set("Content-Type", "application/json")
       .set("Authorization", jwtToken)
       .send({
-        _id: "618505cfad6a530016432520", 
+        _id: "618548b7ad6a530016433a66", 
         contact_id: "618503c2ad6a53001643245e",
         location: null,
         dateTime: "2021-10-01T10:28:10.018Z",

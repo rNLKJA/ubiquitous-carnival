@@ -364,7 +364,6 @@ const updateContactInfo = async (req, res) => {
   query["note"] = req.body.note;
   query["customField"] = req.body.customField;
   // console.log(query, req.body);
-
   try {
     const contact = await Contact.findOneAndUpdate(
       { _id: mongoose.Types.ObjectId(req.body._id) },
