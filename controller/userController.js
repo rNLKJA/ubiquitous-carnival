@@ -46,8 +46,7 @@ const handleLogin = async (req, res, next) => {
       // in the session. By setting session to false, we are essentially
       // asking the client to give us the token with each request
       req.login(
-        user,
-        {
+        user, {
           session: false,
         },
         async (error) => {
@@ -65,8 +64,7 @@ const handleLogin = async (req, res, next) => {
           };
 
           //Sign the JWT token and populate the payload with the user email
-          const token = jwt.sign(
-            {
+          const token = jwt.sign({
               body,
             },
             process.env.PASSPORT_KEY
@@ -91,6 +89,47 @@ const handleLogin = async (req, res, next) => {
 };
 
 /**
+ * this function will check the duplication of the userName
+ * @param  {express.Request} req userName
+ * @param  {express.Response} res return response with {status: true} if the userName does not exist in the database
+ */
+ const checkUserDuplicate = async (req, res) => {
+  const {
+    userName
+  } = req.body;
+
+  if (userName == undefined || userName == null || userName == '') {
+    return res.json({
+      status: false,
+      message: "userName is empty"
+    })
+  } else {
+    try {
+      const user_name = await userModel.findOne({
+        userName: userName,
+      });
+      if (user_name) {
+        return res.json({
+          status: false,
+          message: "userName has been taken by someone else"
+        })
+      } else {
+        return res.json({
+          status: true,
+          msg: "userName is able to use"
+        })
+      }
+    } catch (err) {
+      return res.json({
+        status: false,
+        message: err
+      })
+    }
+  }
+
+}
+
+/**
  * handle user Register a account and add them to database
  * @param {express.Request} req - request that contain information of user
  * @param {express.Response} res - response from the system contain information if register successfully
@@ -104,46 +143,23 @@ const register = async (req, res) => {
        re_password: 'Harrison_59347835' }
     */
 
-  //1. get the input from the user
-  const { userName, email, password, re_password } = req.body;
+  const {
+    userName,
+    email,
+    password,
+    re_password
+  } = req.body;
 
-  // //username regex
-  // const userNameReg = /^[A-Za-z][A-Za-z0-9_]{7,19}$/
-  // //email check regex
-  // const emailReg = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-  // //Use 8 or more characters with a mix of letters, numbers & symbols
-  // const passwordReg = /^[A-Za-z\d@$!%*?&]{8,}$/
-  // console.log({
-  //     userName,
-  //     email,
-  //     password,
-  //     re_password
-  // })
-  //use regex to check the all the user inputs
-  // if (!emailReg.test(email)) {
-  //     res.send('Incorrect email format, please try again you dump ass')
-  // } else if (!userNameReg.test(userName)) {
-  //     res.send('Username should start with an alphabet and length as 8-20')
-  // } else if (!passwordReg.test(password)) {
-  //     res.send('Use 8 or more characters with a mix of letters, numbers & symbols')
-  // } else
-
-  // for easy testing, delete the regex test
   if (password != re_password) {
     res.send("The passwords is different from you typed before");
   } else {
     try {
-      const user_email = await userModel.findOne({
-        email: email,
-      });
+
       const user_name = await userModel.findOne({
         userName: userName,
       });
-
-      if (user_email) {
-        console.log("email has been used for someone else");
-        res.send("email has been used for someone else");
-      } else if (user_name) {
+      
+      if (user_name) {
         console.log("uerName has been used for someone else");
         res.send("userName has been used for someone else");
       } else {
@@ -159,7 +175,10 @@ const register = async (req, res) => {
           .save()
           .then((data) => {
             console.log("signup successfully " + data.userName);
-            res.send({ status: true, data: data.userName });
+            res.send({
+              status: true,
+              data: data.userName
+            });
           })
           .catch((err) => {
             res.send(err);
@@ -226,7 +245,11 @@ const emailFastRegisterConfirm = async (req, res) => {
   if (res.locals.authResult == 0) {
     res.send({ status: false, message: "auth fail!" });
   }
-  const { userName, password, re_password } = req.body;
+  const {
+    userName,
+    password,
+    re_password
+  } = req.body;
   if (password != re_password) {
     res.send({
       status: false,
@@ -269,21 +292,27 @@ const emailFastRegisterConfirm = async (req, res) => {
  * @param  {express.Response} res this contain auth result of temporary user register
  */
 const updatePassword = async (req, res) => {
-  const user = await userModel.findOne({ _id: req.user._id }).lean();
+  const user = await userModel.findOne({
+    _id: req.user._id
+  }).lean();
 
   try {
     const newPassword = await bcrypt.hash(req.body.newPassword1, 10);
 
-    await userModel.findOneAndUpdate(
-      {
-        _id: req.user._id,
-      },
-      { password: newPassword }
-    );
+    await userModel.findOneAndUpdate({
+      _id: req.user._id,
+    }, {
+      password: newPassword
+    });
 
-    return res.json({ status: true });
+    return res.json({
+      status: true
+    });
   } catch (err) {
-    return res.json({ status: false, msg: err });
+    return res.json({
+      status: false,
+      msg: err
+    });
   }
 };
 
@@ -316,17 +345,21 @@ const resetPassword = async (req, res) => {
 
     // console.log(typeof password);
 
-    await userModel.findOneAndUpdate(
-      {
-        userName: req.body.userName,
-      },
-      { password: password }
-    );
+    await userModel.findOneAndUpdate({
+      userName: req.body.userName,
+    }, {
+      password: password
+    });
 
     // console.log(verify);
-    return res.json({ status: true });
+    return res.json({
+      status: true
+    });
   } catch (err) {
-    return res.json({ status: false, msg: err });
+    return res.json({
+      status: false,
+      msg: err
+    });
   }
 };
 
@@ -338,4 +371,5 @@ module.exports = {
   emailFastRegister,
   resetPassword,
   updatePassword,
+  checkUserDuplicate
 };

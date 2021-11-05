@@ -37,6 +37,7 @@ userRouter.post(
 userRouter.post("/sendResetCode", emailAuth.sendResetCode);
 userRouter.post("/codeValidation", emailAuth.userCodeVerify);
 userRouter.post("/resetPassword", userController.resetPassword);
+userRouter.post("/checkUserName", userController.checkUserDuplicate)
 
 // this router is for test and debug of email fast register
 // the function will contacin a page that able to post to /fastRegisterConfirm with accountId
