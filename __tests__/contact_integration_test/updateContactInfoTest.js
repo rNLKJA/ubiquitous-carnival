@@ -5,7 +5,7 @@ const request = require("supertest");
 const app = require("../../app");
 const mongoose = require("mongoose");
 
-describe("Integration test: Test for Create Contact", () => {
+describe("Integration test: Test for Update Contact", () => {
   let agent = request.agent(app);
 
   // store the token
