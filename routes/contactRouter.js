@@ -11,12 +11,12 @@ require("../config/passport")(passport);
 
 contactRouter.get("/");
 
-/*
+
 contactRouter.post(
   "/createContact",
   passport.authenticate("jwt", { session: false }),
   (req, res) => contactController.createNewContact(req, res)
-);*/
+);
 
 contactRouter.post(
   "/createContactByUserName",

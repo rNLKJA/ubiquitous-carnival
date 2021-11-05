@@ -36,7 +36,7 @@ describe("Integration test: Test for Create Contact", () => {
 
   afterEach(() => {
       return agent
-        .get("/deleteOneContact/IntegrationTest_DontDelete/" + contactId)
+        .get("/contact/deleteOneContact/IntegrationTest_DontDelete/" + contactId)
         .set("Content-Type", "application/json")
         .set("Authorization", jwtToken)
         .send({});
@@ -178,6 +178,27 @@ describe("Integration test: Test for Create Contact", () => {
       })
       .then((res) => {
         expect(res.body.status).toBe(true);
+        contactId = res.body.contactId;
+      });
+  });
+
+  test("Test 8: Creat a contact with duplicate", () => {
+    return agent
+      .post("/contact/createContactOneStep")
+      .set("Content-Type", "application/json")
+      .set("Authorization", jwtToken)
+      .send({
+        lastName: "Hongji",
+        firstName: "CheckDuplicate",
+        email: [],
+        phone: [],
+        occupation: "Student",
+        note: "",
+        customField: []
+      })
+      .then((res) => {
+        expect(res.body.status).toBe(false);
+        expect(res.body.msg).toBe("dupcontact/createProblem");
         contactId = res.body.contactId;
       });
   });
