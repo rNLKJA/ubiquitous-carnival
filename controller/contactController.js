@@ -123,7 +123,7 @@ const createContactbyUserName = async (req, res) => {
     });
     ownerAccount.contactList.push(ContactIdLink);
     await ownerAccount.save();
-    res.json({ status: true, newContact: newContact });
+    res.json({ status: true, newContact: newContact, contactId: newContact._id });
   } catch (err) {
     console.log(err);
     return res.json({ status: false, msg: "Query Failure" });
