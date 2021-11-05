@@ -384,6 +384,7 @@ const updateContactInfo = async (req, res) => {
  * @param  {express.Request} req request that contain object id of contact we need to synchronize with its account
  * @param  {express.Response} res response contain the information of contact after update
  */
+
 const synchronizationContactInfo = async (req, res) => {
   try {
     const contact = await Contact.findOne({
@@ -462,6 +463,7 @@ const listCompare = (currentList, targetList) => {
   }
   return 1;
 };
+
 /**
  * function that allow user upload a photo for one contact
  * @param  {express.Request} req contain the object id of the contact is body, and photo in formdata
@@ -546,7 +548,7 @@ const createContactOneStep = async (req, res) => {
       if (uploadResult.status) {
         return res.json({ status: true, newContact: uploadResult.contact });
       } else {
-        return res.json({ status: false, msg: "upload failed" });
+        return res.json({ status: true, msg: "upload failed" });
       }
     } else {
       return res.json({ status: false, msg: "dupcontact/createProblem" });
@@ -562,6 +564,7 @@ const createContactOneStep = async (req, res) => {
  * @param  {express.Request} req contain contact information in req
  * @param  {express.Response} res send contact detail if create successs
  */
+
 const createContactDocumentationOneStep = async (req, res) => {
   console.log(req.body);
   try {
