@@ -16,7 +16,7 @@ describe("Integration test: Test for profile", () => {
       .post("/user/login")
       .set("Content-Type", "application/json")
       .send({
-        userName: "TestDontDelete",
+        userName: "IntegrationTest_DontDelete",
         password: "testtest123",
       })
       .then((res) => {

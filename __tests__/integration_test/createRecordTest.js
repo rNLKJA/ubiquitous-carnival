@@ -4,6 +4,8 @@ const { ContextBuilder } = require("express-validator/src/context-builder");
 const request = require("supertest");
 const app = require("../../app");
 const mongoose = require("mongoose");
+const User = mongoose.model("User");
+const Record = mongoose.model("Record");
 
 describe("Integration test: Test for create Record", () => {
   let agent = request.agent(app);
@@ -11,13 +13,15 @@ describe("Integration test: Test for create Record", () => {
   // store the token
   let jwtToken = null;
 
+  var newRecordId = null;
+
   beforeAll(() =>
     agent
       .post("/user/login")
       .set("Content-Type", "application/json")
       .send({
-        userName: "TestDontDelete",
-        password: "testtest123",
+        userName: "IntegrationTest_DontDelete",
+        password: "testtest123"
       })
       .then((res) => {
         jwtToken = res.body.token;
@@ -29,6 +33,17 @@ describe("Integration test: Test for create Record", () => {
     mongoose.connection.close();
     done();
   });
+
+  afterEach(() => {
+    return agent
+      .post("/record/deleteOneRecord")
+      .set("Content-Type", "application/json")
+      .set("Authorization", jwtToken)
+      .send({
+        recordId: newRecordId
+      });
+  });
+  
 
   jest.setTimeout(20000)
 
@@ -46,11 +61,12 @@ describe("Integration test: Test for create Record", () => {
           lng: "52123456",
         },
         notes: "account",
-        customField: "testCustomField",
+        customField: "testCustomField"
       })
       .then((res) => {
         expect(res.statusCode).toBe(200);
         expect(res.text).toContain("Database query failed");
+        newRecordId = res.body._id;
       });
   });
 
@@ -68,11 +84,12 @@ describe("Integration test: Test for create Record", () => {
           lng: "52123456",
         },
         notes: "account",
-        customField: "testCustomField",
+        customField: "testCustomField"
       })
       .then((res) => {
         expect(res.statusCode).toBe(200);
         expect(res.text).toContain("Miss Important Information Input");
+        newRecordId = res.body._id;
       });
   });
 
@@ -82,7 +99,7 @@ describe("Integration test: Test for create Record", () => {
       .set("Content-Type", "application/json")
       .set("Authorization", jwtToken)
       .send({
-        contact_id: "6181133d92f80b001605abac",
+        contact_id: "618503c2ad6a53001643245e",
         location: "University of Melbourne",
         dateTime: null,
         geoCoords: {
@@ -90,11 +107,11 @@ describe("Integration test: Test for create Record", () => {
           lng: "52123456",
         },
         notes: "account",
-        customField: "testCustomField",
+        customField: "testCustomField"
       })
       .then((res) => {
         expect(res.statusCode).toBe(200);
-        expect(res.body.meetingPerson).toBe("6181133d92f80b001605abac");
+        expect(res.body.meetingPerson).toBe("618503c2ad6a53001643245e");
         expect(res.body.location).toBe("University of Melbourne");
         expect(res.body.dateTime).not.toBe(null);
         expect(res.body.lat).toBe(122334545);
@@ -103,6 +120,7 @@ describe("Integration test: Test for create Record", () => {
         expect(res.body.customField).toEqual(
           expect.arrayContaining(["testCustomField"])
         );
+        newRecordId = res.body._id;
       });
   });
 
@@ -112,7 +130,7 @@ describe("Integration test: Test for create Record", () => {
       .set("Content-Type", "application/json")
       .set("Authorization", jwtToken)
       .send({
-        contact_id: "6181133d92f80b001605abac",
+        contact_id: "618503c2ad6a53001643245e",
         location: "University of Melbourne",
         dateTime: "2021-10-01T10:28:10.018Z",
         geoCoords: {
@@ -124,7 +142,7 @@ describe("Integration test: Test for create Record", () => {
       })
       .then((res) => {
         expect(res.statusCode).toBe(200);
-        expect(res.body.meetingPerson).toBe("6181133d92f80b001605abac");
+        expect(res.body.meetingPerson).toBe("618503c2ad6a53001643245e");
         expect(res.body.location).toBe("University of Melbourne");
         expect(res.body.dateTime).toBe("2021-10-01T10:28:10.018Z");
         expect(res.body.lat).toBe(122334545);
@@ -133,6 +151,7 @@ describe("Integration test: Test for create Record", () => {
         expect(res.body.customField).toEqual(
           expect.arrayContaining(["testCustomField"])
         );
+        newRecordId = res.body._id;
       });
   });
 
@@ -142,7 +161,7 @@ describe("Integration test: Test for create Record", () => {
       .set("Content-Type", "application/json")
       .set("Authorization", jwtToken)
       .send({
-        contact_id: "6181133d92f80b001605abac",
+        contact_id: "618503c2ad6a53001643245e",
         location: "University of Melbourne",
         dateTime: "2021-10-01T10:28:10.018Z",
         geoCoords: null,
@@ -151,7 +170,7 @@ describe("Integration test: Test for create Record", () => {
       })
       .then((res) => {
         expect(res.statusCode).toBe(200);
-        expect(res.body.meetingPerson).toBe("6181133d92f80b001605abac");
+        expect(res.body.meetingPerson).toBe("618503c2ad6a53001643245e");
         expect(res.body.location).toBe("University of Melbourne");
         expect(res.body.dateTime).toBe("2021-10-01T10:28:10.018Z");
         expect(res.body.lat).toBe(null);
@@ -160,6 +179,7 @@ describe("Integration test: Test for create Record", () => {
         expect(res.body.customField).toEqual(
           expect.arrayContaining(["testCustomField"])
         );
+        newRecordId = res.body._id;
       });
   });
 
@@ -169,7 +189,7 @@ describe("Integration test: Test for create Record", () => {
       .set("Content-Type", "application/json")
       .set("Authorization", jwtToken)
       .send({
-        contact_id: "6181133d92f80b001605abac",
+        contact_id: "618503c2ad6a53001643245e",
         location: null,
         dateTime: "2021-10-01T10:28:10.018Z",
         geoCoords: null,
@@ -179,72 +199,8 @@ describe("Integration test: Test for create Record", () => {
       .then((res) => {
         expect(res.statusCode).toBe(200);
         expect(res.text).toContain("Miss Important Information Input");
+        newRecordId = res.body._id;
       });
   });
 
-  /*
-  test("Test 4: Add a record without the linkedAccount", () => {
-    return agent
-      .post("/record/createRecord")
-      .set("Content-Type", "application/json")
-      .set("Authorization", jwtToken)
-      .send({
-        contact_id: "6181133d92f80b001605abac",
-        location: "University of Melbourne",
-        dateTime: "2021-10-01T10:28:10.018Z",
-        geoCoords: {
-            "lat": "122334545",
-            "lng": "52123456"
-        },
-        notes: "account"
-    })
-      .then((res) => {
-        expect(res.statusCode).toBe(200);
-        expect(res.text).not.toContain("Database query failed");
-      });
-  });*/
-
-  /*
-  test("Test 4: Add a record with a linkedAccount, but the linkedAccount is invalid", () => {
-    return agent
-      .post("/record/createRecord")
-      .set("Content-Type", "application/json")
-      .set("Authorization", jwtToken)
-      .send({
-        contact_id: "6181133d92f80b001605abac",
-        location: "University of Melbourne",
-        dateTime: "2021-10-01T10:28:10.018Z",
-        geoCoords: {
-            "lat": "122334545",
-            "lng": "52123456"
-        },
-        notes: "account"
-    })
-      .then((res) => {
-        expect(res.statusCode).toBe(200);
-        expect(res.text).toContain("Database query failed");
-      });
-  });*/
-
-  /*
-  test("Test 5: Add a record with a linkedAccount, and the linkedAccount is valid", () => {
-    return agent
-      .post("/record/createRecord")
-      .set("Content-Type", "application/json")
-      .set("Authorization", jwtToken)
-      .send({
-        contact_id: "6181133d92f80b001605abac",
-        location: "University of Melbourne",
-        dateTime: "2021-10-01T10:28:10.018Z",
-        geoCoords: {
-            "lat": "122334545",
-            "lng": "52123456"
-        },
-        notes: "account"
-    })
-      .then((res) => {
-        expect(res.statusCode).toBe(200);
-        expect(res.text).not.toContain("Database query failed");
-      });
-  });*/
 });
