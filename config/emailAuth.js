@@ -1,3 +1,4 @@
+const { response } = require("express");
 const ExpressHandlebars = require("express-handlebars/lib/express-handlebars");
 const mongoose = require("mongoose");
 const nodemailer = require("nodemailer");
@@ -104,16 +105,19 @@ const emailRegisterCodeSend = async (req, res) => {
   const registerAccount = res.locals._id; // read email from the request formdata field
   // console.log(email);
 
-  const registeCode = autoCodeGenerator(10);
+  const registerCode = autoCodeGenerator(10);
   //TODO:replace to front end website
   const fastRegisterLink =
-    "http://localhost:5000/user/fastRegister/" + registerAccount;
+    "http://localhost:3000/fastRegister/" +
+    registerAccount +
+    "/" +
+    registerCode;
   transport.sendMail(
     {
       from: "team4399Auth@gmail.com",
-      to: email,
-      subject: "Complete your resigter by access the Link",
-      html: `Testing`,
+      to: email[0],
+      subject: "Complete your register by access the Link",
+      html: `<a>${fastRegisterLink}</a>`,
     },
     function (error, data) {
       console.log(error);
@@ -121,24 +125,31 @@ const emailRegisterCodeSend = async (req, res) => {
       transport.close();
     }
   );
+
   try {
     await EmailRegister.deleteMany({
       registerAccount: mongoose.Types.ObjectId(registerAccount),
     });
+
     const RegisterDocument = new EmailRegister({
       registerAccount: mongoose.Types.ObjectId(registerAccount),
-      fastRegisterCode: registeCode,
+      fastRegisterCode: registerCode,
     });
+
     await RegisterDocument.save();
+
     setTimeout(async () => {
       await EmailRegister.deleteMany({
         registerAccount: mongoose.Types.ObjectId(registerAccount),
       });
     }, 1000 * 60 * 15);
-    res.send("your email code has been send!");
+
+    return res.send({ status: true, msg: "Email Code send" });
   } catch (err) {
     console.log(err);
   }
+
+  console.log(req.body);
 };
 
 /**
@@ -150,14 +161,15 @@ const emailRegisterCodeSend = async (req, res) => {
 const emailRegisterVerify = async (req, res, next) => {
   const verify = await EmailRegister.findOne({
     registerAccount: mongoose.Types.ObjectId(req.body._id),
+    fastRegisterCode: req.body.fastRegisterCode,
   });
   console.log(verify);
-  if (!verify.length) {
-    re.locals.authResult = 0;
+  if (verify !== null) {
+    res.locals.authResult = 0;
     next();
   }
   res.locals.authResult = 1;
-  await EmailAuth.deleteMany({
+  await EmailRegister.deleteMany({
     registerAccount: mongoose.Types.ObjectId(req.body._id),
   });
   next();

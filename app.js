@@ -15,8 +15,8 @@ const mongoose = require("mongoose");
 require("./models/database");
 require("./config/passport")(passport);
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(express.json({ limit: "50mb" }));
+app.use(express.urlencoded({ extended: true, limit: "50mb" }));
 
 // express-formidable
 // app.use(formidable());
@@ -26,7 +26,7 @@ app.use(
     secret: process.env.PASSPORT_KEY,
     resave: true,
     saveUninitialized: true,
-  }),
+  })
 );
 
 app.use(
@@ -38,7 +38,7 @@ app.use(
     ],
     method: ["GET", "POST"],
     credentials: true,
-  }),
+  })
 );
 
 app.use(cookieParser());
@@ -83,7 +83,7 @@ app.all("*", (req, res) => {
 if (!module.parent) {
   app.listen(process.env.PORT || 3000, () => {
     console.log(
-      `the team 4399's server is listening at PORT: ${process.env.PORT}`,
+      `the team 4399's server is listening at PORT: ${process.env.PORT}`
     );
   });
 }

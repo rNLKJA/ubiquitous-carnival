@@ -205,23 +205,30 @@ const emailFastRegister = async (req, res, next) => {
       phone: req.body.phone,
       occupation: req.body.occupation,
       status: false,
+      password: "NOPASSWORD",
+      userName: new Date().toISOString(),
     });
+
     await newUser.save();
+
     // save user id for send email
     res.locals._id = newUser._id;
+
     // send new User object to front end to trigger function to connect contact with an account
-    res.send(newUser._id);
+    // res.send(newUser._id);
+
     //delete temporary user after 16 minutes
     setTimeout(async () => {
       const temUser = await userModel.findOne({
         _id: mongoose.Types.ObjectId(newUser._id),
       });
-      if (temUser.staus == false) {
+      if (temUser.status == false) {
         await userModel.deleteMany({
           _id: mongoose.Types.ObjectId(newUser._id),
         });
       }
     }, 1000 * 60 * 16);
+
     next();
   } catch (err) {
     console.log(err);
@@ -236,7 +243,7 @@ const emailFastRegister = async (req, res, next) => {
 const emailFastRegisterConfirm = async (req, res) => {
   // should we adding email to this part?
   if (res.locals.authResult == 0) {
-    res.send("auth fail!!");
+    res.send({ status: false, message: "auth fail!" });
   }
   const {
     userName,
@@ -244,7 +251,10 @@ const emailFastRegisterConfirm = async (req, res) => {
     re_password
   } = req.body;
   if (password != re_password) {
-    res.send("The passwords is different from you typed before");
+    res.send({
+      status: false,
+      message: "The passwords is different from you typed before",
+    });
   } else {
     try {
       const user_name = await userModel.findOne({
@@ -253,19 +263,22 @@ const emailFastRegisterConfirm = async (req, res) => {
 
       if (user_name) {
         console.log("uerName has been used for someone else");
-        res.send("userName has been used for someone else");
+        res.send({
+          status: false,
+          message: "userName has been used for someone else",
+        });
       } else {
         const userPassword = await bcrypt.hash(password, 10);
-        constnewUser = await userModel.findOneAndUpdate({
-          _id: mongoose.Types.ObjectId(req.body._id)
-        }, {
-          userName: userName,
-          password: userPassword,
-          status: true
-        }, {
-          new: true
+        const newUser = await userModel.findOneAndUpdate(
+          { _id: mongoose.Types.ObjectId(req.body._id) },
+          { userName: userName, password: userPassword, status: true },
+          { new: true }
+        );
+        res.send({
+          status: true,
+          user: newUser,
+          message: "your account is active now!",
         });
-        res.send("your account is active now!");
       }
     } catch (err) {
       console.log(err);
