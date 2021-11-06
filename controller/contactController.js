@@ -373,7 +373,7 @@ const updateContactInfo = async (req, res) => {
     request header: user
     request body:
   {
-    "_idOfContact":"615549ec49ed3c0016a6a18a",
+    "_id":"615549ec49ed3c0016a6a18a",
     "lastName":"Bing",
     "firstName":"",
     "phone":[],
@@ -387,7 +387,8 @@ const updateContactInfo = async (req, res) => {
     !req.body.firstName ||
     !req.body.phone ||
     !req.body.email ||
-    !req.body.customField
+    !req.body.occupation ||
+    !req.body._id
   ) {
     return res.json({ status: false });
   }
@@ -424,6 +425,7 @@ const updateContactInfo = async (req, res) => {
     res.json({ status: false });
   }
 };
+
 /**
  * this founciton is for synchtonize the information of a contact and the account this contacat connect to
  * @param  {express.Request} req request that contain object id of contact we need to synchronize with its account
