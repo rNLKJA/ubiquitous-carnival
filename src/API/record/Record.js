@@ -57,7 +57,9 @@ const Record = () => {
   const { loading, records, error } = useShowAllRecords();
   const [recordList, setRecordList] = useState();
   const [count, setCount] = useState(9);
-
+  records.sort((a, b) =>
+      convert(a.dateTime).localeCompare(convert(b.dateTime)),
+  );
   if (false) {
     console.log(recordList);
   }
@@ -182,18 +184,25 @@ const Record = () => {
                 error={error}
                 setOneRecord={setOneRecord}
                 options={selectedOption.value}
+                setCount = {setCount}
+                moreRecords = {moreRecords}
                 count={count}
               />
+
+
             </div>
-            <div className="change-slice">
-              <button
-                className="btn btn-primary"
-                style={{ width: 100, fontWeight: "bold" }}
-                onClick={moreRecords}
-              >
-                More
-              </button>
-            </div>
+            {count<records.length ? (
+                <div className="change-slice">
+                  <button
+                      className="btn btn-primary"
+                      style={{ width: 100, fontWeight: "bold" }}
+                      onClick={moreRecords}
+                  >
+                    More
+                  </button>
+                </div>
+            ):null}
+
           </React.Fragment>
         )}
         {oneRecord.selected && (
@@ -296,7 +305,9 @@ export const RecordList = (prop) => {
           </div>
         </div>
       )}
+      
     </Grid>
+
   );
 };
 
