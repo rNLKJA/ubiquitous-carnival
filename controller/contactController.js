@@ -73,6 +73,13 @@ const linkToAccount = async (req, res) => {
  * @param {express.Response} res - response from the system.
  */
 const createContactbyUserName = async (req, res) => {
+  /*
+    request header: user
+    request body:
+    {  
+      "userName":"TestDontDelete"
+    }
+  */
   try {
     const ownerAccount = await User.findOne({
       _id: mongoose.Types.ObjectId(req.user._id),
@@ -123,7 +130,11 @@ const createContactbyUserName = async (req, res) => {
     });
     ownerAccount.contactList.push(ContactIdLink);
     await ownerAccount.save();
-    res.json({ status: true, newContact: newContact, contactId: newContact._id });
+    res.json({
+      status: true,
+      newContact: newContact,
+      contactId: newContact._id,
+    });
   } catch (err) {
     console.log(err);
     return res.json({ status: false, msg: "Query Failure" });
@@ -261,10 +272,21 @@ const showOneContact = async (req, res) => {
  * @param  {express.Response} res response contain the match contacs of this user
  */
 const searchContact = async (req, res) => {
-  // const validationErrors = expressValidator.validationResult(req)
-  // if (!validationErrors.isEmpty()){
-  //     return res.status(422).render('error', {errorCode: '422', message: 'Search works on alphabet characters only.'})
-  // }
+  /*
+    request header: user
+    request body:
+  {
+    "searchContent": "Liang Bin",
+    "lastName":"",
+    "firstName":"",
+    "contactUserName":"",
+    "phone":"",
+    "email":"",
+    "occupation":"",
+    "addDate":"",
+    "nofillter": true
+}
+  */
   var query = {};
   query["ownerAccount"] = req.user._id;
   if (req.body.nofillter == true) {
@@ -347,6 +369,28 @@ const searchContact = async (req, res) => {
  * @param  {express.Response} res response contain contact information after update.
  */
 const updateContactInfo = async (req, res) => {
+  /*
+    request header: user
+    request body:
+  {
+    "_idOfContact":"615549ec49ed3c0016a6a18a",
+    "lastName":"Bing",
+    "firstName":"",
+    "phone":[],
+    "email":[],
+    "occupation":"",
+    "note":""
+}
+  */
+  if (
+    !req.body.lastName ||
+    !req.body.firstName ||
+    !req.body.phone ||
+    !req.body.email ||
+    !req.body.customField
+  ) {
+    return res.json({ status: false });
+  }
   console.log(req.body.customField);
   var query = {};
   // if name in submitted form
@@ -356,7 +400,9 @@ const updateContactInfo = async (req, res) => {
   if (req.body.firstName !== "") {
     query["firstName"] = req.body.firstName;
   }
-  query["phone"] = req.body.phone;
+  if (req.body.phone != []) {
+    query["phone"] = req.body.phone;
+  }
   if (req.body.email != []) {
     query["email"] = req.body.email;
   }
@@ -469,6 +515,13 @@ const listCompare = (currentList, targetList) => {
  * @param  {express.Response} res contain the contact information after updated
  */
 const contactPhotoUpload = async (req, res) => {
+  /*
+    request header: user
+    request body (form-data):
+  {
+    portrait: photo.png
+}
+  */
   var img = {
     data: fs.readFileSync(req.file.path),
     contentType: req.file.mimetype,
@@ -539,7 +592,30 @@ const deleteOneContact = async (req, res) => {
  * @param  {express.Response} res send contact detail if create successs
  */
 const createContactOneStep = async (req, res) => {
+  /*
+    request header: user
+    request body:
+  {
+        lastName: "Hongji",
+        firstName: "Test7",
+        email: "12345678@qq.com",
+        phone: "4152864185",
+        occupation: "student",
+        note: "testing",
+        customField: []
+      }
+  */
+
   try {
+    if (
+      !req.body.lastName ||
+      !req.body.firstName ||
+      !req.body.phone ||
+      !req.body.email ||
+      !req.body.occupation
+    ) {
+      return res.json({ status: false });
+    }
     const createResult = await createContactDocumentationOneStep(req, res);
     if (createResult.status) {
       const contactId = createResult.newContact._id;
