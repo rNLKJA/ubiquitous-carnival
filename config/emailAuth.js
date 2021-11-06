@@ -17,7 +17,7 @@ const transport = nodemailer.createTransport(
       user: "team4399Auth@gmail.com",
       pass: "Team4399.com",
     },
-  })
+  }),
 );
 
 transport.verify(function (error, success) {
@@ -57,7 +57,7 @@ const emailAuthSend = async (req, res) => {
     function (error, data) {
       // assert(error, 500, "fail to send vertify code")
       transport.close();
-    }
+    },
   );
   try {
     await EmailAuth.deleteMany({ email: email });
@@ -108,7 +108,7 @@ const emailRegisterCodeSend = async (req, res) => {
   const registerCode = autoCodeGenerator(10);
   //TODO:replace to front end website
   const fastRegisterLink =
-    "http://localhost:3000/fastRegister/" +
+    "https://pcrm4399.herokuapp.com/fastRegister/" +
     registerAccount +
     "/" +
     registerCode;
@@ -123,7 +123,7 @@ const emailRegisterCodeSend = async (req, res) => {
       console.log(error);
       // assert(error, 500, "fail to send vertify code")
       transport.close();
-    }
+    },
   );
 
   try {
@@ -201,7 +201,7 @@ const sendResetCode = async (req, res) => {
     function (error, data) {
       // assert(error, 500, "fail to send vertify code")
       transport.close();
-    }
+    },
   );
 
   try {
