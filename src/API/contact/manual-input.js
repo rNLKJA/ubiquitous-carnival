@@ -128,13 +128,17 @@ const AddUser = () => {
 
     setValid(true);
 
-    // dataValidator(phone, "phone", setValid);
+    dataValidator(phone, "phone", setValid);
     // console.log(valid);
-    // dataValidator(email, "email", setValid);
-    // dataValidator(firstName, "firstName", setValid);
-    // dataValidator(lastName, "lastName", setValid);
-    // dataValidator(occupation, "occupation", setValid);
-    // dataValidator(customField, "field", setValid);
+    dataValidator(email, "email", setValid);
+    dataValidator(firstName, "firstName", setValid);
+    dataValidator(lastName, "lastName", setValid);
+    dataValidator(occupation, "occupation", setValid);
+    dataValidator(customField, "field", setValid);
+
+    if (valid === false) {
+      return;
+    }
 
     const formData = new FormData();
     formData.append("firstName", firstName);
@@ -292,12 +296,18 @@ const AddUser = () => {
 
   return (
     <React.Fragment>
-      <Heading />
+      {/* <Heading /> */}
       <NavBar />
       <div className="sub-container">
         <Button
           variant="outlined"
-          sx={{ width: "25%", padding: "5px" }}
+          sx={{
+            width: "25%",
+            padding: "5px",
+            top: "-4rem",
+            right: "0",
+            position: "fixed",
+          }}
           onClick={() => setRedirect(true)}
         >
           Back

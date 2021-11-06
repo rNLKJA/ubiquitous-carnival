@@ -174,7 +174,7 @@ const Record = () => {
                   }}
                 />
               </div>
-
+              {console.log(records)}
               <RecordList
                 records={records}
                 search_key={searchTerm}

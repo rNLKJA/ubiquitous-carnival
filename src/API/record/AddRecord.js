@@ -16,7 +16,7 @@ import Autocomplete from "@mui/material/Autocomplete";
 // import { Redirect } from "react-router-dom";
 import Button from "@mui/material/Button";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { useHistory,Redirect } from "react-router-dom";
+import { useHistory, Redirect } from "react-router-dom";
 
 const CreateRecord = () => {
   useEffect(() => {
@@ -72,8 +72,8 @@ const CreateRecord = () => {
     );
   }
 
-  if (redirect){
-    return <Redirect to= '/record' />
+  if (redirect) {
+    return <Redirect to="/record" />;
   }
 
   let names = contacts.map(function (contact, index) {
@@ -95,8 +95,17 @@ const CreateRecord = () => {
       customField,
     };
 
-    // setValid(true);
-    // dataValidator(customField, "field", setValid);
+    setValid(true);
+    dataValidator(customField, "field", setValid);
+
+    if (!recordInfo.contact_id) {
+      alert("Please select a contact!");
+      setValid(false);
+    }
+
+    if (valid === false) {
+      return;
+    }
 
     await fetchClient
       .post("/record/createRecord", recordInfo)
@@ -180,7 +189,9 @@ const CreateRecord = () => {
                 backgroundColor: "#ef5350",
                 color: "white",
               }}
-              onClick={() => {setRedirect(true)}}
+              onClick={() => {
+                setRedirect(true);
+              }}
             >
               Back
             </Button>
@@ -372,6 +383,12 @@ const dataValidator = (items, type, setValid) => {
         setValid(false);
         alert(`Invalid ${type} input, input cannot be empty`);
       } else {
+      }
+      break;
+    case "contact":
+      if (items.contact === "") {
+        alert("Please select A Contact Person!");
+        setValid(false);
       }
       break;
     case "phone":

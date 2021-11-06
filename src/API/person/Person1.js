@@ -16,7 +16,7 @@ import QrCodeIcon from "@mui/icons-material/QrCode";
 import LogoutIcon from "@mui/icons-material/Logout";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import ShareIcon from "@mui/icons-material/Share";
+// import ShareIcon from "@mui/icons-material/Share";
 
 // const BASE_URL = "http://localhost:5000";
 const BASE_URL = "https://crm4399.herokuapp.com";
@@ -111,8 +111,10 @@ export const DisplayPerson = ({
 
     // console.log(valid);
 
-    if (valid) {
-      setPerson(data);
+    try {
+      if (!valid) {
+        return;
+      }
 
       await fetchClient
         .post(BASE_URL + "/profile/editProfile", data)
@@ -127,8 +129,8 @@ export const DisplayPerson = ({
             alert("Opps, something wrong, please try later.");
           }
         });
-
-      /*					setValid(false)*/
+    } catch (err) {
+      console.log(err);
     }
 
     /*window.location.href = "/setting";*/

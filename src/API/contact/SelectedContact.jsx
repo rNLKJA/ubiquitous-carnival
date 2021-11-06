@@ -214,25 +214,34 @@ export const DisplayContact = ({
     setSelectedContact(data);
 
     setValid(true);
-    console.log(valid);
 
-    // dataValidator(phone, "phone", setValid, valid);
-    // dataValidator(email, "email", setValid, valid);
-    // dataValidator(data.firstName, "firstName", setValid, valid);
-    // dataValidator(data.lastName, "lastName", setValid, valid);
-    // dataValidator(data.occupation, "occupation", setValid, valid);
-    // dataValidator(data.customField, "field", setValid, valid);
-    await fetchClient
-      .post("/contact/updateContactInfo", data)
-      .then((response) => {
-        if (response.data.status) {
-          alert("Update contact information succeed!");
-          window.location.href = "/contact";
-          history.push("/contact");
-        } else {
-          alert("Opps, something wrong, please try later.");
-        }
-      });
+    dataValidator(phone, "phone", setValid, valid);
+    dataValidator(email, "email", setValid, valid);
+    dataValidator(data.firstName, "firstName", setValid, valid);
+    dataValidator(data.lastName, "lastName", setValid, valid);
+    dataValidator(data.occupation, "occupation", setValid, valid);
+    dataValidator(data.customField, "field", setValid, valid);
+
+    console.log(valid);
+    if (valid === false) {
+      return;
+    } else {
+      try {
+        await fetchClient
+          .post("/contact/updateContactInfo", data)
+          .then((response) => {
+            if (response.data.status) {
+              alert("Update contact information succeed!");
+              window.location.href = "/contact";
+              history.push("/contact");
+            } else {
+              alert("Opps, something wrong, please try later.");
+            }
+          });
+      } catch (err) {
+        console.log(err);
+      }
+    }
   };
 
   const fieldOnChange = (index, event) => {
@@ -426,20 +435,22 @@ export const DisplayContact = ({
             />
           )}
 
-          <button
-            className="btn btn-primary"
-            style={{
-              position: "fixed",
-              width: "100px",
-              top: "1.5rem",
-              right: "2rem",
-            }}
-            onClick={() => {
-              sendInviteEmail(contact);
-            }}
-          >
-            Invite
-          </button>
+          {contact.linkedAccount === null && (
+            <button
+              className="btn btn-primary"
+              style={{
+                position: "fixed",
+                width: "100px",
+                top: "1.5rem",
+                right: "2rem",
+              }}
+              onClick={() => {
+                sendInviteEmail(contact);
+              }}
+            >
+              Invite
+            </button>
+          )}
 
           {contact.edit ? (
             upload ? (
