@@ -117,6 +117,9 @@ const Record = () => {
         <Navbar />
         <Heading />
         <div className="sub-container">
+        <h1 data-testid="record-loading" hidden>
+        record-loading
+        </h1>
           <div className="loading">
             <h1>Loading Your Record</h1>
             <h1>(っ˘ω˘ς )</h1>
