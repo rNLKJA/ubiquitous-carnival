@@ -27,11 +27,9 @@ import TextField from "@mui/material/TextField";
 // import Alert from "@mui/material/Alert";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useHistory, Redirect } from "react-router-dom";
+import Alert from "@mui/material/Alert";
 
 const useFabStyle = makeStyles((success) => ({
-  name: {
-    color: "blue",
-  },
   fab: {
     ...(success && {
       bgcolor: green[500],
@@ -39,7 +37,7 @@ const useFabStyle = makeStyles((success) => ({
         bgcolor: green[700],
       },
     }),
-    borderRadius: 100,
+    borderRadius: 5,
   },
 }));
 
@@ -69,8 +67,11 @@ const AddUser = () => {
   const [loading1, setLoading1] = useState(false);
   const [success, setSuccess] = useState(false);
   const [fileName, setFileName] = useState("");
-  const [valid, setValid] = useState(false);
+  const [valid, setValid] = useState(true);
   const [redirect, setRedirect] = useState(false);
+  const [error, setError] = useState("")
+  const [loading, setLoading] = useState(false);
+
 
   // const [contact, setContact] = useState("");
   const styles = useFabStyle(success);
@@ -128,15 +129,17 @@ const AddUser = () => {
 
     setValid(true);
 
-    dataValidator(phone, "phone", setValid);
+    dataValidator(phone, "phone", setValid,valid,setError);
     // console.log(valid);
-    dataValidator(email, "email", setValid);
-    dataValidator(firstName, "firstName", setValid);
-    dataValidator(lastName, "lastName", setValid);
-    dataValidator(occupation, "occupation", setValid);
-    dataValidator(customField, "field", setValid);
+    dataValidator(email, "email", setValid,valid,setError);
+    dataValidator(firstName, "firstName", setValid,valid,setError);
+    dataValidator(lastName, "lastName", setValid,valid,setError);
+    dataValidator(occupation, "occupation", setValid, valid,setError);
+    dataValidator(customField, "field", setValid,valid,setError);
 
     if (valid === false) {
+      setTimeout(() => { setError('') }, 3000)
+      setLoading(false)
       return;
     }
 
@@ -155,6 +158,7 @@ const AddUser = () => {
     // }
 
     try {
+
       setSuccess(false);
       setLoading1(true);
       const response = await fetchClient
@@ -172,13 +176,14 @@ const AddUser = () => {
         })
         .then((res) => {
           if (res.data.dupContact) {
-            alert("duplicate contact");
+            setError("duplicate contact");
           }
           if (res.data.status === "false") {
-            alert("upload failed");
+            setError("upload failed");
           }
 
-          alert("You've create a new contact!");
+          setSuccess(true)
+          setError('')
           return res;
         })
         .catch((err) => {
@@ -186,16 +191,15 @@ const AddUser = () => {
         });
 
       if (response.data.status === "false") {
-        alert("upload failed");
+        setError("upload failed");
         return;
       }
 
       // setTimeout(() => setUploadPercentage(0), 100);
-
-      setSuccess(true);
+      setLoading(false)
       setLoading1(false);
       setUpload(false);
-      history.push("/contact");
+      setTimeout(() => { history.push("/contact") }, 2000)
     } catch (err) {
       if (err) {
         alert(err);
@@ -285,7 +289,6 @@ const AddUser = () => {
   };
 
   const buttonSx = {
-    borderRadius: 100,
     ...(success && {
       bgcolor: green[500],
       "&:hover": {
@@ -594,33 +597,36 @@ const AddUser = () => {
               display: "flex",
             }}
           >
-            <Box
-              sx={{
-                m: 1,
-                position: "relative",
-                alignItems: "center",
-                justifyContent: "center",
-                display: "flex",
-              }}
-              maxWidth="30%"
-            >
-              <Fab
-                type="submit"
-                className={cx(styles.name, styles.fab)}
-                aria-label="save"
-                color="primary"
+            {error ? <Alert severity="error">{error}</Alert> : null}
+            {!loading && success ? <Alert severity="success">{'Successfully save, the page will redirect in 3s'}</Alert> : null}
+
+            <br />
+            <Box sx={{
+              m: 1,
+              position: "relative",
+              alignItems: "center",
+              justifyContent: "center",
+              display: "flex"
+            }}>
+              <Button
+                variant="contained"
                 sx={buttonSx}
+                disabled={loading1}
+                type='submit'
               >
-                {success ? <CheckIcon /> : <SaveIcon />}
-              </Fab>
+                Save
+              </Button>
               {loading1 && (
                 <CircularProgress
                   value={uploadPercentage}
-                  variant="determinate"
-                  size={68}
+                  size={24}
                   sx={{
                     color: green[500],
                     position: "absolute",
+                    top: "50%",
+                    left: "50%",
+                    marginTop: "-12px",
+                    marginLeft: "-12px"
                   }}
                 />
               )}
@@ -651,42 +657,42 @@ const ConvertListObjectToListValues = (items, type) => {
   return result;
 };
 
-const dataValidator = (items, type, setValid) => {
+const dataValidator = (items, type, setValid, valid, setError) => {
   var pattern, notEmpty;
   switch (type) {
     case "firstName":
       if (items.length === 0) {
         setValid(false);
-        alert(`Invalid ${type} input, input cannot be empty`);
-      } else {
+        setError(`Invalid ${type} input, input cannot be empty`);
       }
       break;
     case "lastName":
       if (items.length === 0) {
         setValid(false);
-        alert(`Invalid ${type} input, input cannot be empty`);
-      } else {
+        setError(`Invalid ${type} input, input cannot be empty`);
       }
       break;
     case "occupation":
       if (items.length === 0) {
         setValid(false);
-        alert(`Invalid ${type} input, input cannot be empty`);
-      } else {
+        setError(`Invalid ${type} input, input cannot be empty`);
       }
       break;
     case "phone":
       pattern = /\d{10}/;
       notEmpty = /\S/;
+      console.log(valid);
       if (items.length < 1) {
         setValid(false);
-        alert("You must provide at least one phone number!");
+        setError("You must provide at least one phone number!");
       }
+
+      console.log(valid);
 
       for (let i = 0; i < items.length; i++) {
         if (!pattern.test(items[i]) && !notEmpty.test(items[i])) {
           setValid(false);
-          alert("Invalid phone format");
+          setError("Invalid phone format");
         }
       }
       break;
@@ -695,13 +701,13 @@ const dataValidator = (items, type, setValid) => {
       notEmpty = /\S/;
       if (items.length < 1) {
         setValid(false);
-        alert("You must have at least one email!");
+        setError("You must have at least one email!");
       }
 
       for (let i = 0; i < items.length; i++) {
         if (!pattern.test(items[i]) && !notEmpty.test(items[i])) {
           setValid(false);
-          alert("Invalid email format");
+          setError("Invalid email format");
         }
       }
 
@@ -710,10 +716,10 @@ const dataValidator = (items, type, setValid) => {
       for (let i = 0; i < items.length; i++) {
         if (items[i].field === "") {
           setValid(false);
-          alert("Field name cannot be empty");
+          setError("Field name cannot be empty");
         } else if (items[i].value === "") {
           setValid(false);
-          alert("Field value cannot be empty");
+          setError("Field value cannot be empty");
         }
       }
       break;
@@ -722,3 +728,4 @@ const dataValidator = (items, type, setValid) => {
       console.log("Invalid Input");
   }
 };
+
