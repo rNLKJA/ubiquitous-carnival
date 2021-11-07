@@ -34,12 +34,12 @@ const useFabStyle = makeStyles((success) => ({
   },
   fab: {
     ...(success && {
-      bgcolor: green[500],
+      bgcolor: "#4caf50",
       "&:hover": {
-        bgcolor: green[700],
+        bgcolor: "#388e3c",
       },
     }),
-    borderRadius: 100,
+    borderRadius: 5,
   },
 }));
 
@@ -124,7 +124,6 @@ const Person = () => {
   // following functions are used for uploadUserImage
 
   const buttonSx = {
-    borderRadius: 100,
     ...(success && {
       bgcolor: green[500],
       "&:hover": {
@@ -218,7 +217,7 @@ const Person = () => {
                     justifyContent: "center",
                   }}
                 >
-                  <form onSubmit={onSubmit}>
+                  <form onSubmit={onSubmit} style={{display: 'flex', alignItems: 'center',flexDirection: 'column'}}>
                     <label
                       htmlFor="contained-button-file"
                       style={{ padding: "10px" }}
@@ -247,37 +246,41 @@ const Person = () => {
                       </Typography>
                     </div>
 
-                    <Box
-                      sx={{
+                    {file ? (<>
+                      <Box sx={{
                         m: 1,
                         position: "relative",
                         alignItems: "center",
                         justifyContent: "center",
-                        display: "flex",
-                      }}
-                    >
-                      <Fab
-                        className={cx(styles.fab)}
-                        aria-label="save"
-                        color="primary"
-                        sx={buttonSx}
-                        onClick={onSubmit}
-                      >
-                        {success ? <CheckIcon /> : <SaveIcon />}
-                      </Fab>
-                      {loading1 && (
-                        <CircularProgress
-                          value={uploadPercentage}
-                          variant="determinate"
-                          size={68}
-                          sx={{
-                            color: green[500],
-                            position: "absolute",
-                          }}
-                        />
-                      )}
-                    </Box>
-                    <Button onClick={onClickUpload}>Cancel</Button>
+                        display: "flex"
+                      }}>
+                        <Button
+                          variant="contained"
+                          sx={buttonSx}
+                          disabled={loading1}
+                          onClick={onSubmit}
+                        >
+                          Upload
+                        </Button>
+                        {loading1 && (
+                          <CircularProgress
+                            value={uploadPercentage}
+                            size={24}
+                            sx={{
+                              color: green[500],
+                              position: "absolute",
+                              top: "50%",
+                              left: "50%",
+                              marginTop: "-12px",
+                              marginLeft: "-12px"
+                            }}
+                          />
+                        )}
+                      </Box>
+                    </>) : null}
+
+                    <Button variant="contained"
+                      color="error" onClick={onClickUpload} sx={{margin : 2}} >Cancel</Button>
                   </form>
                 </div>
               ) : (

@@ -92,8 +92,6 @@ describe('RecordDetail component test', () => {
         const {prop} = setup();
         expect(wrapper.text()).not.toMatch(prop.record.meetingPerson.phone[0]);
         expendBtn.simulate('click');
-        expect(wrapper.text()).toMatch('0432751551');
-
-       
+        expect(wrapper.text()).toMatch(prop.record.meetingPerson.phone[0]);
       });
 })
