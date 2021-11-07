@@ -397,13 +397,13 @@ const sortRecord = (records, setRecordList, type) => {
         records.sort((a, b) =>
           convert(a.dateTime).localeCompare(convert(b.dateTime)),
         );
-        for (let i = 0; i < records.length; i++) {
-          console.log(records[i].notes);
+        for (let i of records) {
+          console.log(i.notes);
         }
         break;
-      case "Null":
+      case "SearchAll":
         break;
-      default:
+      default: 
         return records;
     }
   }
