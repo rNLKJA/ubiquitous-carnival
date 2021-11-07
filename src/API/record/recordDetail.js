@@ -142,7 +142,7 @@ const RecordDetail = (prop) => {
                 >
                   {prop.record.location}
                 </Typography>
-
+                
                 <Popover
                   id="mouse-over-popover"
                   sx={{
@@ -160,6 +160,7 @@ const RecordDetail = (prop) => {
                   }}
                   onClose={handlePopoverClose}
                   disableRestoreFocus
+                  
                 >
                   <Typography sx={{ p: 1 }}>{prop.record.location}</Typography>
                 </Popover>
@@ -167,15 +168,17 @@ const RecordDetail = (prop) => {
             </CardContent>
           </IconButton>
         </div>
-
+        <div data-testid="test_btn">
         <ExpandMore1
           expand={expanded}
           onClick={handleExpandClick}
           aria-expanded={expanded}
           aria-label="show more"
+          
         >
           <ExpandMoreIcon />
         </ExpandMore1>
+        </div>
       </CardActions>
 
       <Collapse in={expanded} timeout="auto" unmountOnExit>
