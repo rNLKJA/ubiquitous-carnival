@@ -212,10 +212,6 @@ const Person = () => {
               {upload ? (
                 <div
                   className="upload-container "
-                  style={{
-                    alignItems: "center",
-                    justifyContent: "center",
-                  }}
                 >
                   <form onSubmit={onSubmit} style={{display: 'flex', alignItems: 'center',flexDirection: 'column'}}>
                     <label

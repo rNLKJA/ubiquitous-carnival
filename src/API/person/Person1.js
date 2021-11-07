@@ -16,6 +16,9 @@ import QrCodeIcon from "@mui/icons-material/QrCode";
 import LogoutIcon from "@mui/icons-material/Logout";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
+import Alert from "@mui/material/Alert";
+import LinearProgress from '@mui/material/LinearProgress';
+import Box from "@mui/material/Box";
 // import ShareIcon from "@mui/icons-material/Share";
 
 // const BASE_URL = "http://localhost:5000";
@@ -54,7 +57,7 @@ export const DisplayPerson = ({
   // defined variables
   const [person, setPerson] = useState(oneProfile);
 
-  const [valid, setValid] = useState(false);
+  const [valid, setValid] = useState(true);
 
   const [phones, setPhones] = useState(
     ConvertListStringToListObject(person.phone, "phone"),
@@ -63,6 +66,10 @@ export const DisplayPerson = ({
     ConvertListStringToListObject(person.email, "email"),
   );
 
+  const [error, setError] = useState("")
+  const [loading, setLoading] = useState(false);
+  const [progress, setProgress] = useState(0)
+  const [success, setSuccess] = useState(false);
   // add input field
   const handleAddPhone = (e) => {
     e.preventDefault();
@@ -103,41 +110,57 @@ export const DisplayPerson = ({
     };
     setValid(true);
 
-    dataValidator(phone, "phone", setValid);
-    dataValidator(email, "email", setValid);
-    dataValidator(data.firstName, "firstName", setValid);
-    dataValidator(data.lastName, "lastName", setValid);
-    dataValidator(data.occupation, "occupation", setValid);
+    setLoading(true);
+
+    dataValidator(phone, "phone", setValid, valid, setError);
+    dataValidator(email, "email", setValid, valid, setError);
+    dataValidator(data.firstName, "firstName", setValid, valid, setError);
+    dataValidator(data.lastName, "lastName", setValid, valid, setError);
+    dataValidator(data.occupation, "occupation", setValid, valid, setError);
+    dataValidator(data.customField, "field", setValid, valid, setError);
+
 
     // console.log(valid);
 
-    try {
       if (!valid) {
-        return;
+        setTimeout(() => { setError('') }, 3000)
+        setLoading(false)
+      } else {
+        try {
+          await fetchClient
+          .post(BASE_URL + "/profile/editProfile", data, {
+            onUploadProgress: (progressEvent) => {
+              setProgress(
+                parseInt(
+                  Math.round((progressEvent.loaded * 100) / progressEvent.total),
+                ),
+              );
+            },
+          })
+          .then((response) => {
+            // console.log(response)
+            if (response.data === "update success") {
+              setSuccess(true)
+              setPerson({ ...data, edit: false });
+  
+              // window.location.href = "/contact";
+            } else {
+              setError("Opps, something wrong, please try later.");
+            }
+          });
+        } catch (err) {
+        console.log(err);
       }
 
-      await fetchClient
-        .post(BASE_URL + "/profile/editProfile", data)
-        .then((response) => {
-          // console.log(response)
-          if (response.data === "update success") {
-            alert("Update contact information succeed!\n");
-            setPerson({ ...data, edit: false });
-
-            // window.location.href = "/contact";
-          } else {
-            alert("Opps, something wrong, please try later.");
-          }
-        });
-    } catch (err) {
-      console.log(err);
-    }
-
+      setLoading(false);
+      setTimeout(() => {setSuccess(false)} , 3000)
+        
     /*window.location.href = "/setting";*/
     // setContact({ ...contact, edit: false });
 
     // setOneContact({ ...contact, edit: false, selected: false });
-  };
+  }
+};
 
   // input field change handler
   const phoneOnChange = (index, event) => {
@@ -383,6 +406,14 @@ export const DisplayPerson = ({
 
             <hr />
 
+            {error ? <Alert severity="error">{error}</Alert> : null}
+          {!loading && success ? <Alert severity="success">{'Successfully save'}</Alert> : null}
+          {loading && !success ? <Box sx={{ width: '100%', padding: '10px' }}>
+            <br />
+            <LinearProgress variant="determinate" value={progress} />
+            <br />
+          </Box> : null}
+
             {person.edit && (
               <Button
                 variant="contained"
@@ -433,42 +464,42 @@ const ConvertListObjectToListValues = (items, type) => {
   return result;
 };
 
-const dataValidator = (items, type, setValid) => {
+const dataValidator = (items, type, setValid, valid, setError) => {
   var pattern, notEmpty;
   switch (type) {
     case "firstName":
       if (items.length === 0) {
         setValid(false);
-        alert(`Invalid ${type} input, input cannot be empty`);
-      } else {
+        setError(`Invalid ${type} input, input cannot be empty`);
       }
       break;
     case "lastName":
       if (items.length === 0) {
         setValid(false);
-        alert(`Invalid ${type} input, input cannot be empty`);
-      } else {
+        setError(`Invalid ${type} input, input cannot be empty`);
       }
       break;
     case "occupation":
       if (items.length === 0) {
         setValid(false);
-        alert(`Invalid ${type} input, input cannot be empty`);
-      } else {
+        setError(`Invalid ${type} input, input cannot be empty`);
       }
       break;
     case "phone":
       pattern = /\d{10}/;
       notEmpty = /\S/;
+      console.log(valid);
       if (items.length < 1) {
         setValid(false);
-        alert("You must provide at least one phone number!");
+        setError("You must provide at least one phone number!");
       }
+
+      console.log(valid);
 
       for (let i = 0; i < items.length; i++) {
         if (!pattern.test(items[i]) && !notEmpty.test(items[i])) {
           setValid(false);
-          alert("Invalid phone format");
+          setError("Invalid phone format");
         }
       }
       break;
@@ -477,18 +508,18 @@ const dataValidator = (items, type, setValid) => {
       notEmpty = /\S/;
       if (items.length < 1) {
         setValid(false);
-        alert("You must have at least one email!");
+        setError("You must have at least one email!");
       }
 
       for (let i = 0; i < items.length; i++) {
-        if (!pattern.test(items[i]) || !notEmpty.test(items[i])) {
+        if (!pattern.test(items[i]) && !notEmpty.test(items[i])) {
           setValid(false);
-          alert("Invalid email format");
+          setError("Invalid email format");
         }
       }
 
       break;
+
     default:
-      console.log("Invalid Input");
   }
 };
