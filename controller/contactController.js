@@ -371,6 +371,7 @@ const searchContact = async (req, res) => {
 const updateContactInfo = async (req, res) => {
   /*
     request header: user
+    front end should post as form data if one step upload needed
     request body:
   {
     "_id":"615549ec49ed3c0016a6a18a",
@@ -417,9 +418,16 @@ const updateContactInfo = async (req, res) => {
       query,
       { new: true }
     ).lean();
+    const uploadResult = await createContactPhotoUpload(req, res, req.body._id);
+    if (uploadResult.status) {
+      return res.json({
+        status: true,
+        contact: uploadResult.contact,
+      });
+    }
     // const contact = await Contact.findOne({ _id: req.body._id }).lean();
     // console.log(contact);
-    res.json({ status: true, contact: contact });
+    return res.json({ status: true, contact: contact });
   } catch (err) {
     console.log(err);
     res.json({ status: false });

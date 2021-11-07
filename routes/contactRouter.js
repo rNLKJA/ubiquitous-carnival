@@ -11,7 +11,6 @@ require("../config/passport")(passport);
 
 contactRouter.get("/");
 
-
 contactRouter.post(
   "/createContact",
   passport.authenticate("jwt", { session: false }),
@@ -29,7 +28,6 @@ contactRouter.get(
   passport.authenticate("jwt", { session: false }),
   (req, res) => contactController.showAllContact(req, res)
 );
-
 
 contactRouter.post(
   "/showOneContact",
@@ -53,9 +51,9 @@ contactRouter.post(
 contactRouter.post(
   "/updateContactInfo",
   passport.authenticate("jwt", { session: false }),
+  upload.single("portrait"),
   (req, res) => contactController.updateContactInfo(req, res)
 );
-
 
 contactRouter.post(
   "/searchContact",
@@ -63,13 +61,11 @@ contactRouter.post(
   (req, res) => contactController.searchContact(req, res)
 );
 
-
 contactRouter.post(
   "/synchronizationContactInfo",
   passport.authenticate("jwt", { session: false }),
   (req, res) => contactController.synchronizationContactInfo(req, res)
 );
-
 
 contactRouter.post(
   "/connectContactToAccount",

@@ -11,61 +11,62 @@ require("../config/passport")(passport);
 profileRouter.post(
   "/addPhone",
   passport.authenticate("jwt", { session: false }),
-  (req, res) => profileController.addPhone(req, res),
+  (req, res) => profileController.addPhone(req, res)
 );
 
 profileRouter.post(
   "/delPhone",
   passport.authenticate("jwt", { session: false }),
-  (req, res) => profileController.delPhone(req, res),
+  (req, res) => profileController.delPhone(req, res)
 );
 
 profileRouter.post(
   "/addEmail",
   passport.authenticate("jwt", { session: false }),
-  (req, res) => profileController.addEmail(req, res),
+  (req, res) => profileController.addEmail(req, res)
 );
 
 profileRouter.post(
   "/delEmail",
   passport.authenticate("jwt", { session: false }),
-  (req, res) => profileController.delEmail(req, res),
+  (req, res) => profileController.delEmail(req, res)
 );
 
 profileRouter.post(
   "/editFirstName",
   passport.authenticate("jwt", { session: false }),
-  (req, res) => profileController.editFirstName(req, res),
+  (req, res) => profileController.editFirstName(req, res)
 );
 
 profileRouter.post(
   "/editLastName",
   passport.authenticate("jwt", { session: false }),
-  (req, res) => profileController.editLastName(req, res),
+  (req, res) => profileController.editLastName(req, res)
 );
 
 profileRouter.post(
   "/editOccupation",
   passport.authenticate("jwt", { session: false }),
-  (req, res) => profileController.editOccupation(req, res),
+  (req, res) => profileController.editOccupation(req, res)
 );
 
 profileRouter.post(
   "/editStatus",
   passport.authenticate("jwt", { session: false }),
-  (req, res) => profileController.editStatus(req, res),
+  (req, res) => profileController.editStatus(req, res)
 );
 
 profileRouter.post(
   "/editProfile",
   passport.authenticate("jwt", { session: false }),
-  (req, res) => profileController.editProfile(req, res),
+  upload.single("portrait"),
+  (req, res) => profileController.editProfile(req, res)
 );
 
 profileRouter.get(
   "/showProfile",
   passport.authenticate("jwt", { session: false }),
-  (req, res) => profileController.showProfile(req, res),
+  (req, res) => profileController.showProfile(req, res)
 );
 
 profileRouter.post(
@@ -73,13 +74,13 @@ profileRouter.post(
   cors(),
   passport.authenticate("jwt", { session: false }),
   upload.single("portrait"),
-  (req, res) => profileController.uploadPhoto(req, res),
+  (req, res) => profileController.uploadPhoto(req, res)
 );
 
 profileRouter.get(
   "/displayImage",
   passport.authenticate("jwt", { session: false }),
-  profileController.displayImage,
+  profileController.displayImage
 );
 
 module.exports = profileRouter;
