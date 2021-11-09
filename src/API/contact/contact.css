@@ -57,6 +57,13 @@
     justify-content: flex-start;
   }
 
+  .back-button-add{
+    position: fixed;
+    width: 100px;
+    top: 1.5rem;
+    right: 2rem;
+  }
+
   .contactList-items {
     display: flex;
     flex-direction: column;
@@ -263,12 +270,21 @@
     top: -3.6rem;
   }
 
+  .back-button-add{
+    position: fixed;
+    width: 100px;
+    top: 40rem;
+    right: 2rem;
+  }
+
   .contactList {
     position: relative;
     width: 94%;
     height: 100%;
     background-color: white;
-    border: 1px black solid;
+/*    border: 1px black solid;*/
+    top: 1rem;
+    right: 1rem;
 
     grid-auto-flow: column;
     /* overflow: scroll; */
@@ -287,6 +303,7 @@
     border-radius: 15px;
     /* justify-content: space-around; */
     overflow: auto;
+
   }
 
   .contactDetail > img {
@@ -466,7 +483,7 @@
     height: 3rem;
     position: fixed;
     right: 1rem;
-    top: 6rem;
+    top: 8rem;
   }
 
   .change-slice {

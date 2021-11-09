@@ -240,12 +240,12 @@ const Contact = () => {
 
                 <div
                   className="contactList-items"
-                  style={{ alignItems: "center" }}
+                  style={{ alignItems: "center"}}
                 >
                   <TextField
                     id="standard-basic"
                     label="Search by name/occupation/date"
-                    style={{ width: "90%" }}
+                    style={{ width: "90%"}}
                     value={searchTerm}
                     onChange={(e) => handleChange(e)}
                   />

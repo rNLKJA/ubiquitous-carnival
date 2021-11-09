@@ -28,6 +28,7 @@ import TextField from "@mui/material/TextField";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useHistory, Redirect } from "react-router-dom";
 import Alert from "@mui/material/Alert";
+import getWindowDimensions from "../../hooks/getWindowDimensions";
 
 const useFabStyle = makeStyles((success) => ({
   fab: {
@@ -71,6 +72,9 @@ const AddUser = () => {
   const [redirect, setRedirect] = useState(false);
   const [error, setError] = useState("")
   const [loading, setLoading] = useState(false);
+  const [windowDimensions, setWindowDimensions] = useState(
+      getWindowDimensions(),
+  );
 
 
   // const [contact, setContact] = useState("");
@@ -302,19 +306,36 @@ const AddUser = () => {
       {/* <Heading /> */}
       <NavBar />
       <div className="sub-container">
+        {windowDimensions.width >= 1024 && (
         <Button
           variant="outlined"
           sx={{
             width: "25%",
             padding: "5px",
-            top: "-4rem",
-            right: "0",
+            top: "1rem",
+            right: "-45rem",
             position: "fixed",
           }}
           onClick={() => setRedirect(true)}
         >
           Back
         </Button>
+        )}
+        {windowDimensions.width <= 1024 && (
+            <Button
+                variant="outlined"
+                sx={{
+                  width: "25%",
+                  padding: "5px",
+                  top: "1rem",
+                  right: "0",
+                  position: "fixed",
+                }}
+                onClick={() => setRedirect(true)}
+            >
+              Back
+            </Button>
+        )}
         {/* <div className="upload-img">
           <input type="file" onChange={(e) => setImage(e.target.files[0])} />
           <button onClick={uploadImage}>Upload</button>
