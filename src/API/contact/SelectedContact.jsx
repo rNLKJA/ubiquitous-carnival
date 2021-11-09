@@ -468,7 +468,7 @@ export const DisplayContact = ({
             />
           )}
 
-          {contact.linkedAccount === null && (
+          {(contact.linkedAccount === null && window.innerWidth <= 1024) &&(
             <button
               className="btn btn-primary"
               style={{
@@ -483,6 +483,22 @@ export const DisplayContact = ({
             >
               Invite
             </button>
+          )}
+          {(contact.linkedAccount === null && window.innerWidth >= 1024) &&(
+              <button
+                  className="btn btn-primary"
+                  style={{
+                    position: "fixed",
+                    width: "50px",
+                    top: "13rem",
+                    right: "1rem",
+                  }}
+                  onClick={() => {
+                    sendInviteEmail(contact);
+                  }}
+              >
+                Invite
+              </button>
           )}
 
           {contact.edit ? (
