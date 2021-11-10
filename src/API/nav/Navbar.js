@@ -15,7 +15,7 @@ const Navbar = () => {
       </h1>
       <div className="navbar">
         {/* link to contact route */}
-        <Link to="/contact">
+        <Link to="/contact" id="contact-icon">
           <img
             className="nav-icon"
             data_testid="contact_icon"
@@ -27,21 +27,21 @@ const Navbar = () => {
 
       {/* link to records route */}
       <div className="navbar">
-        <Link to="/record">
+        <Link to="/record" id="record-icon">
           <img className="nav-icon" src={recordIMG} alt="record-icon" />
         </Link>
       </div>
 
       {/* link to map route */}
       <div className="navbar">
-        <Link to="/map">
+        <Link to="/map" id="map-icon">
           <img className="nav-icon" src={mapIMG} alt="map-icon" />
         </Link>
       </div>
 
       {/* link to personal setting route */}
       <div className="navbar">
-        <Link to="/setting">
+        <Link to="/setting" id="set-icon">
           <img className="nav-icon" src={settingIMG} alt="set-icon" />
         </Link>
       </div>

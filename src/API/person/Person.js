@@ -16,9 +16,9 @@ import Button from "@mui/material/Button";
 import { makeStyles } from "@material-ui/core/styles";
 import CircularProgress from "@mui/material/CircularProgress";
 import { green } from "@mui/material/colors";
-import Fab from "@mui/material/Fab";
-import CheckIcon from "@mui/icons-material/Check";
-import SaveIcon from "@mui/icons-material/Save";
+// import Fab from "@mui/material/Fab";
+// import CheckIcon from "@mui/icons-material/Check";
+// import SaveIcon from "@mui/icons-material/Save";
 import Alert from "@mui/material/Alert";
 import Input from "@mui/material/Input";
 import Box from "@mui/material/Box";
@@ -210,10 +210,15 @@ const Person = () => {
 
             <span>
               {upload ? (
-                <div
-                  className="upload-container "
-                >
-                  <form onSubmit={onSubmit} style={{display: 'flex', alignItems: 'center',flexDirection: 'column'}}>
+                <div className="upload-container ">
+                  <form
+                    onSubmit={onSubmit}
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      flexDirection: "column",
+                    }}
+                  >
                     <label
                       htmlFor="contained-button-file"
                       style={{ padding: "10px" }}
@@ -242,41 +247,51 @@ const Person = () => {
                       </Typography>
                     </div>
 
-                    {file ? (<>
-                      <Box sx={{
-                        m: 1,
-                        position: "relative",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        display: "flex"
-                      }}>
-                        <Button
-                          variant="contained"
-                          sx={buttonSx}
-                          disabled={loading1}
-                          onClick={onSubmit}
+                    {file ? (
+                      <>
+                        <Box
+                          sx={{
+                            m: 1,
+                            position: "relative",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            display: "flex",
+                          }}
                         >
-                          Upload
-                        </Button>
-                        {loading1 && (
-                          <CircularProgress
-                            value={uploadPercentage}
-                            size={24}
-                            sx={{
-                              color: green[500],
-                              position: "absolute",
-                              top: "50%",
-                              left: "50%",
-                              marginTop: "-12px",
-                              marginLeft: "-12px"
-                            }}
-                          />
-                        )}
-                      </Box>
-                    </>) : null}
+                          <Button
+                            variant="contained"
+                            sx={buttonSx}
+                            disabled={loading1}
+                            onClick={onSubmit}
+                          >
+                            Upload
+                          </Button>
+                          {loading1 && (
+                            <CircularProgress
+                              value={uploadPercentage}
+                              size={24}
+                              sx={{
+                                color: green[500],
+                                position: "absolute",
+                                top: "50%",
+                                left: "50%",
+                                marginTop: "-12px",
+                                marginLeft: "-12px",
+                              }}
+                            />
+                          )}
+                        </Box>
+                      </>
+                    ) : null}
 
-                    <Button variant="contained"
-                      color="error" onClick={onClickUpload} sx={{margin : 2}} >Cancel</Button>
+                    <Button
+                      variant="contained"
+                      color="error"
+                      onClick={onClickUpload}
+                      sx={{ margin: 2 }}
+                    >
+                      Cancel
+                    </Button>
                   </form>
                 </div>
               ) : (

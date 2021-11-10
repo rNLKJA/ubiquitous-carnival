@@ -17,7 +17,7 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Alert from "@mui/material/Alert";
-import LinearProgress from '@mui/material/LinearProgress';
+import LinearProgress from "@mui/material/LinearProgress";
 import Box from "@mui/material/Box";
 // import ShareIcon from "@mui/icons-material/Share";
 
@@ -66,9 +66,9 @@ export const DisplayPerson = ({
     ConvertListStringToListObject(person.email, "email"),
   );
 
-  const [error, setError] = useState("")
+  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  const [progress, setProgress] = useState(0)
+  const [progress, setProgress] = useState(0);
   const [success, setSuccess] = useState(false);
   // add input field
   const handleAddPhone = (e) => {
@@ -119,20 +119,23 @@ export const DisplayPerson = ({
     dataValidator(data.occupation, "occupation", setValid, valid, setError);
     dataValidator(data.customField, "field", setValid, valid, setError);
 
-
     // console.log(valid);
 
-      if (!valid) {
-        setTimeout(() => { setError('') }, 3000)
-        setLoading(false)
-      } else {
-        try {
-          await fetchClient
+    if (!valid) {
+      setTimeout(() => {
+        setError("");
+      }, 3000);
+      setLoading(false);
+    } else {
+      try {
+        await fetchClient
           .post(BASE_URL + "/profile/editProfile", data, {
             onUploadProgress: (progressEvent) => {
               setProgress(
                 parseInt(
-                  Math.round((progressEvent.loaded * 100) / progressEvent.total),
+                  Math.round(
+                    (progressEvent.loaded * 100) / progressEvent.total,
+                  ),
                 ),
               );
             },
@@ -140,27 +143,29 @@ export const DisplayPerson = ({
           .then((response) => {
             // console.log(response)
             if (response.data === "update success") {
-              setSuccess(true)
+              setSuccess(true);
               setPerson({ ...data, edit: false });
-  
+
               // window.location.href = "/contact";
             } else {
               setError("Opps, something wrong, please try later.");
             }
           });
-        } catch (err) {
+      } catch (err) {
         console.log(err);
       }
 
       setLoading(false);
-      setTimeout(() => {setSuccess(false)} , 3000)
-        
-    /*window.location.href = "/setting";*/
-    // setContact({ ...contact, edit: false });
+      setTimeout(() => {
+        setSuccess(false);
+      }, 3000);
 
-    // setOneContact({ ...contact, edit: false, selected: false });
-  }
-};
+      /*window.location.href = "/setting";*/
+      // setContact({ ...contact, edit: false });
+
+      // setOneContact({ ...contact, edit: false, selected: false });
+    }
+  };
 
   // input field change handler
   const phoneOnChange = (index, event) => {
@@ -214,6 +219,7 @@ export const DisplayPerson = ({
           <Button
             variant="contained"
             onClick={() => setPerson({ ...person, edit: !person.edit })}
+            id="edit-button"
           >
             <EditIcon />
           </Button>
@@ -337,6 +343,7 @@ export const DisplayPerson = ({
                       <Button
                         variant="outlined"
                         onClick={(e) => removeHandler(e, i, "phone")}
+                        id="phone-delete-btn"
                       >
                         <DeleteIcon />
                       </Button>
@@ -381,6 +388,7 @@ export const DisplayPerson = ({
                       <Button
                         variant="outlined"
                         onClick={(e) => removeHandler(e, i, "email")}
+                        id="email-delete-btn"
                       >
                         <DeleteIcon />
                       </Button>
@@ -407,12 +415,16 @@ export const DisplayPerson = ({
             <hr />
 
             {error ? <Alert severity="error">{error}</Alert> : null}
-          {!loading && success ? <Alert severity="success">{'Successfully save'}</Alert> : null}
-          {loading && !success ? <Box sx={{ width: '100%', padding: '10px' }}>
-            <br />
-            <LinearProgress variant="determinate" value={progress} />
-            <br />
-          </Box> : null}
+            {!loading && success ? (
+              <Alert severity="success">{"Successfully save"}</Alert>
+            ) : null}
+            {loading && !success ? (
+              <Box sx={{ width: "100%", padding: "10px" }}>
+                <br />
+                <LinearProgress variant="determinate" value={progress} />
+                <br />
+              </Box>
+            ) : null}
 
             {person.edit && (
               <Button
