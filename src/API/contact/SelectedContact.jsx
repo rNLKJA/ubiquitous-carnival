@@ -30,28 +30,11 @@ import { useHistory } from "react-router-dom";
 import Alert from "@mui/material/Alert";
 import LinearProgress from '@mui/material/LinearProgress';
 
-const actions = [
-  { icon: <FileCopyIcon />, name: "Copy" },
-  { icon: <SaveIcon />, name: "Save" },
-  { icon: <PrintIcon />, name: "Print" },
-  { icon: <ShareIcon />, name: "Share" },
-];
 
 // const colorSave = green[500];
 
 // const colorDelete = red[500];
 
-const useFabStyle = makeStyles((success) => ({
-  fab: {
-    ...(success && {
-      bgcolor: green[500],
-      "&:hover": {
-        bgcolor: green[700],
-      },
-    }),
-    borderRadius: 100,
-  },
-}));
 
 // const BASE_URL = "http://localhost:5000";
 // const BASE_URL = "https://crm4399.herokuapp.com";
@@ -158,8 +141,6 @@ export const DisplayContact = ({
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, [contact.portrait, contact.customField]);
-
-  const styles = useFabStyle(success);
 
   const styles_btn = {
     "&.MuiButton-contained": {
