@@ -390,7 +390,7 @@ export const People = (prop) => {
     <Grid
       container
       direction="row"
-      justifyContent="center"
+      justifyContent="flex-start"
       alignItems="center"
       margin={2}
       spacing={2}

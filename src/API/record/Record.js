@@ -285,7 +285,9 @@ export const RecordList = (prop) => {
   let fitterRecords = searchRecords();
 
   return (
-    <Grid container>
+    <Grid container   
+          justifyContent="flex-start"
+          alignItems="center">
       {fitterRecords.length >= 1 ? (
         fitterRecords.slice(0, prop.count).map((record) => {
           return (
