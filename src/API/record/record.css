@@ -2,6 +2,10 @@
   display: flex;
   justify-content: center;
 }
+
+.MuiGrid-justify-content-xs-center {
+  justify-content: flex-start;
+}
 @media only screen and (max-width: 1024px) {
   .edit-record-container {
     display: flex;
@@ -48,11 +52,11 @@
     position: absolute;
     /* justify-content: space-between; */
     /* margin-block-start: 10%; */
-    top: 50%;
+    top: 40%;
     /* left: 50%; */
     transform: translateY(-50%);
     width: 95%;
-    height: 95%;
+    height: 85%;
     /* background-color: gray; */
     overflow-y: scroll;
     border-radius: 15px;
@@ -73,6 +77,10 @@
     border-radius: 15px;
     padding: 5px;
     margin-top: 10px;
+  }
+
+  .MuiGrid-justify-content-xs-center {
+    justify-content: flex-start;
   }
 
   .record-list-container {
@@ -363,7 +371,7 @@
 
 @media only screen and (max-width: 768px) {
   .record-container {
-    top: 40%;
+    top: 35%;
   }
 }
 
