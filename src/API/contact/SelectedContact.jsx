@@ -27,29 +27,14 @@ import Stack from "@mui/material/Stack";
 // import { StyledEngineProvider } from "@mui/material/styles";
 // import { red } from "@mui/material/colors";
 import { useHistory } from "react-router-dom";
+import Alert from "@mui/material/Alert";
+import LinearProgress from '@mui/material/LinearProgress';
 
-const actions = [
-  { icon: <FileCopyIcon />, name: "Copy" },
-  { icon: <SaveIcon />, name: "Save" },
-  { icon: <PrintIcon />, name: "Print" },
-  { icon: <ShareIcon />, name: "Share" },
-];
 
 // const colorSave = green[500];
 
 // const colorDelete = red[500];
 
-const useFabStyle = makeStyles((success) => ({
-  fab: {
-    ...(success && {
-      bgcolor: green[500],
-      "&:hover": {
-        bgcolor: green[700],
-      },
-    }),
-    borderRadius: 100,
-  },
-}));
 
 // const BASE_URL = "http://localhost:5000";
 // const BASE_URL = "https://crm4399.herokuapp.com";
@@ -134,6 +119,9 @@ export const DisplayContact = ({
   const [fileName, setFileName] = useState("");
   const [customField, setCustomField] = useState([]);
   const [valid, setValid] = useState(false);
+  const [error, setError] = useState("")
+  const [loading, setLoading] = useState(false);
+  const [progress, setProgress] = useState(0)
 
   useEffect(() => {
     if (contact.portrait === null) {
@@ -153,8 +141,6 @@ export const DisplayContact = ({
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, [contact.portrait, contact.customField]);
-
-  const styles = useFabStyle(success);
 
   const styles_btn = {
     "&.MuiButton-contained": {
@@ -197,9 +183,14 @@ export const DisplayContact = ({
     }
   };
 
+  console.log(valid)
+
   // submit handler
   const handleSubmit = async (e) => {
+
     e.preventDefault();
+
+    console.log('click')
 
     var email = ConvertListObjectToListValues(emails, "email");
     var phone = ConvertListObjectToListValues(phones, "phone");
@@ -215,32 +206,54 @@ export const DisplayContact = ({
 
     setValid(true);
 
-    dataValidator(phone, "phone", setValid, valid);
-    dataValidator(email, "email", setValid, valid);
-    dataValidator(data.firstName, "firstName", setValid, valid);
-    dataValidator(data.lastName, "lastName", setValid, valid);
-    dataValidator(data.occupation, "occupation", setValid, valid);
-    dataValidator(data.customField, "field", setValid, valid);
+    setLoading(true);
 
-    console.log(valid);
+    console.log(valid)
+
+    dataValidator(phone, "phone", setValid, valid, setError);
+    dataValidator(email, "email", setValid, valid, setError);
+    dataValidator(data.firstName, "firstName", setValid, valid, setError);
+    dataValidator(data.lastName, "lastName", setValid, valid, setError);
+    dataValidator(data.occupation, "occupation", setValid, valid, setError);
+    dataValidator(data.customField, "field", setValid, valid, setError);
+
+    console.log(data.customField)
+
+    console.log("aft" , valid)
+
+
     if (valid === false) {
-      return;
+      setTimeout(() => { setError('') }, 3000)
+      setLoading(false)
+
     } else {
       try {
+        setError('')
+        setLoading(true);
+        setSuccess(false);
         await fetchClient
-          .post("/contact/updateContactInfo", data)
+          .post("/contact/updateContactInfo", data, {
+            onUploadProgress: (progressEvent) => {
+              setProgress(
+                parseInt(
+                  Math.round((progressEvent.loaded * 100) / progressEvent.total),
+                ),
+              );
+            },
+          })
           .then((response) => {
             if (response.data.status) {
-              alert("Update contact information succeed!");
-              window.location.href = "/contact";
-              history.push("/contact");
+              setSuccess(true)
             } else {
-              alert("Opps, something wrong, please try later.");
+              setError("Opps, something wrong, please try later.");
             }
           });
       } catch (err) {
         console.log(err);
       }
+      setLoading(false);
+
+      setTimeout(() => { window.location.href = '/contact' }, 1000)
     }
   };
 
@@ -311,6 +324,7 @@ export const DisplayContact = ({
   const onClickUpload = () => {
     setUpload(!upload);
     setFile("");
+    setFileName("");
   };
 
   const onChange = (e) => {
@@ -435,7 +449,7 @@ export const DisplayContact = ({
             />
           )}
 
-          {contact.linkedAccount === null && (
+          {(contact.linkedAccount === null && window.innerWidth <= 1024) &&(
             <button
               className="btn btn-primary"
               style={{
@@ -451,17 +465,29 @@ export const DisplayContact = ({
               Invite
             </button>
           )}
+          {(contact.linkedAccount === null && window.innerWidth >= 1024) &&(
+              <button
+                  className="btn btn-primary"
+                  style={{
+                    position: "fixed",
+                    width: "50px",
+                    top: "13rem",
+                    right: "1rem",
+                  }}
+                  onClick={() => {
+                    sendInviteEmail(contact);
+                  }}
+              >
+                Invite
+              </button>
+          )}
 
           {contact.edit ? (
             upload ? (
               <div
                 className="upload-container "
-                style={{
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
               >
-                <form onSubmit={onSubmit}>
+                <form onSubmit={onSubmit} style={{ display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
                   <label
                     htmlFor="contained-button-file"
                     style={{ padding: "10px" }}
@@ -490,37 +516,40 @@ export const DisplayContact = ({
                     </Typography>
                   </div>
 
-                  <Box
-                    sx={{
+                  {file ? (<>
+                    <Box sx={{
                       m: 1,
                       position: "relative",
                       alignItems: "center",
                       justifyContent: "center",
-                      display: "flex",
-                    }}
-                  >
-                    <Fab
-                      className={cx(styles.fab)}
-                      aria-label="save"
-                      color="primary"
-                      sx={buttonSx}
-                      onClick={onSubmit}
-                    >
-                      {success ? <CheckIcon /> : <SaveIcon />}
-                    </Fab>
-                    {loading1 && (
-                      <CircularProgress
-                        value={uploadPercentage}
-                        variant="determinate"
-                        size={68}
-                        sx={{
-                          color: green[500],
-                          position: "absolute",
-                        }}
-                      />
-                    )}
-                  </Box>
-                  <Button onClick={onClickUpload}>Cancel</Button>
+                      display: "flex"
+                    }}>
+                      <Button
+                        variant="contained"
+                        sx={buttonSx}
+                        disabled={loading1}
+                        onClick={onSubmit}
+                      >
+                        Upload
+                      </Button>
+                      {loading1 && (
+                        <CircularProgress
+                          value={uploadPercentage}
+                          size={24}
+                          sx={{
+                            color: green[500],
+                            position: "absolute",
+                            top: "50%",
+                            left: "50%",
+                            marginTop: "-12px",
+                            marginLeft: "-12px"
+                          }}
+                        />
+                      )}
+                    </Box>
+                  </>) : null}
+                  <Button variant="contained"
+                    color="error" onClick={onClickUpload} sx={{ margin: 2 }} >Cancel</Button>
                 </form>
               </div>
             ) : (
@@ -745,6 +774,14 @@ export const DisplayContact = ({
 
           <hr />
 
+          {error ? <Alert severity="error">{error}</Alert> : null}
+          {!loading && success ? <Alert severity="success">{'Successfully save, the page will redirect in 3s'}</Alert> : null}
+          {loading && !success ? <Box sx={{ width: '100%', padding: '10px' }}>
+            <br />
+            <LinearProgress variant="determinate" value={progress} />
+            <br />
+          </Box> : null}
+
           {contact.edit && (
             <Stack direction="row" spacing={2}>
               <Button
@@ -827,28 +864,25 @@ const ConvertListObjectToListValues = (items, type) => {
   return result;
 };
 
-const dataValidator = (items, type, setValid, valid) => {
+const dataValidator = (items, type, setValid, valid, setError) => {
   var pattern, notEmpty;
   switch (type) {
     case "firstName":
       if (items.length === 0) {
         setValid(false);
-        alert(`Invalid ${type} input, input cannot be empty`);
-      } else {
+        setError(`Invalid ${type} input, input cannot be empty`);
       }
       break;
     case "lastName":
       if (items.length === 0) {
         setValid(false);
-        alert(`Invalid ${type} input, input cannot be empty`);
-      } else {
+        setError(`Invalid ${type} input, input cannot be empty`);
       }
       break;
     case "occupation":
       if (items.length === 0) {
         setValid(false);
-        alert(`Invalid ${type} input, input cannot be empty`);
-      } else {
+        setError(`Invalid ${type} input, input cannot be empty`);
       }
       break;
     case "phone":
@@ -857,15 +891,13 @@ const dataValidator = (items, type, setValid, valid) => {
       console.log(valid);
       if (items.length < 1) {
         setValid(false);
-        alert("You must provide at least one phone number!");
+        setError("You must provide at least one phone number!");
       }
-
-      console.log(valid);
 
       for (let i = 0; i < items.length; i++) {
         if (!pattern.test(items[i]) && !notEmpty.test(items[i])) {
           setValid(false);
-          alert("Invalid phone format");
+          setError("Invalid phone format");
         }
       }
       break;
@@ -874,13 +906,13 @@ const dataValidator = (items, type, setValid, valid) => {
       notEmpty = /\S/;
       if (items.length < 1) {
         setValid(false);
-        alert("You must have at least one email!");
+        setError("You must have at least one email!");
       }
 
       for (let i = 0; i < items.length; i++) {
         if (!pattern.test(items[i]) && !notEmpty.test(items[i])) {
           setValid(false);
-          alert("Invalid email format");
+          setError("Invalid email format");
         }
       }
 
@@ -889,10 +921,10 @@ const dataValidator = (items, type, setValid, valid) => {
       for (let i = 0; i < items.length; i++) {
         if (items[i].field === "") {
           setValid(false);
-          alert("Field name cannot be empty");
+          setError("Field name cannot be empty");
         } else if (items[i].value === "") {
           setValid(false);
-          alert("Field value cannot be empty");
+          setError("Field value cannot be empty");
         }
       }
       break;

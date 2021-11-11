@@ -51,7 +51,7 @@ const Contact = () => {
     selected: false,
   });
 
-  const [slice, setSlice] = useState(9); // define the number of records display in the contact list
+/*  const [slice, setSlice] = useState(9); // define the number of records display in the contact list*/
   const [count, setCount] = useState(9);
 
   if (false) {
@@ -147,13 +147,15 @@ const Contact = () => {
   }
 
   const addCount = () => {
-    if (slice <= contacts.length) {
+/*    if (slice <= contacts.length) {
       setCount(parseInt(count) + parseInt(slice));
     } else {
       setCount(contacts.length);
-    }
+    }*/
+    setCount(count+9);
   };
 
+/*
   const subCount = () => {
     if (parseInt(count) - parseInt(slice) <= 0) {
       setCount(5);
@@ -161,6 +163,7 @@ const Contact = () => {
       setCount(parseInt(count) - parseInt(slice));
     }
   };
+*/
 
   return (
     <React.Fragment>
@@ -212,14 +215,17 @@ const Contact = () => {
                     setOneContact={setOneContact}
                     count={count}
                   />
-                  <div className="change-slice">
-                    <button
-                      className="btn btn-primary add-slice"
-                      onClick={addCount}
-                    >
-                      More
-                    </button>
-                  </div>
+                  {count<contacts.length ? (
+                      <div className="change-slice">
+                        <button
+                            className="btn btn-primary add-slice"
+                            onClick={addCount}
+                        >
+                          More
+                        </button>
+                      </div>
+                  ):null}
+
                 </div>
               </>
             )}
@@ -234,12 +240,12 @@ const Contact = () => {
 
                 <div
                   className="contactList-items"
-                  style={{ alignItems: "center" }}
+                  style={{ alignItems: "center"}}
                 >
                   <TextField
                     id="standard-basic"
                     label="Search by name/occupation/date"
-                    style={{ width: "90%" }}
+                    style={{ width: "90%"}}
                     value={searchTerm}
                     onChange={(e) => handleChange(e)}
                   />
@@ -253,20 +259,26 @@ const Contact = () => {
                     error={error}
                     options={selectedOption.value}
                     setOneContact={setOneContact}
+                    count={count}
                   />
                   <div
                     className="change-slice"
                     style={{ position: "fixed", bottom: 0, right: 0 }}
                   >
-                    <button
-                      className="btn btn-primary add-slice"
-                      onClick={() => {
-                        addCount();
-                        console.log(count);
-                      }}
-                    >
-                      More
-                    </button>
+                    {count<contacts.length ? (
+                        <div className="change-slice">
+                          <button
+                              className="btn btn-primary add-slice"
+                              onClick={() => {
+                                addCount();
+                                console.log(count);
+                              }}
+                          >
+                            More
+                          </button>
+                        </div>
+                    ):null}
+
                   </div>
                 </div>
               </>
@@ -378,7 +390,7 @@ export const People = (prop) => {
     <Grid
       container
       direction="row"
-      justifyContent="center"
+      justifyContent="flex-start"
       alignItems="center"
       margin={2}
       spacing={2}

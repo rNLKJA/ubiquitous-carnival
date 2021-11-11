@@ -17,6 +17,9 @@ import Autocomplete from "@mui/material/Autocomplete";
 import Button from "@mui/material/Button";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useHistory, Redirect } from "react-router-dom";
+import Alert from "@mui/material/Alert";
+import LinearProgress from "@mui/material/LinearProgress";
+import Box from "@mui/material/Box";
 
 const CreateRecord = () => {
   useEffect(() => {
@@ -32,6 +35,10 @@ const CreateRecord = () => {
   const [geoCoords, setGeoCoords] = useState({ lat: -37.7972, lng: 144.961 });
   const [notes, setNotes] = useState("");
   const [redirect, setRedirect] = useState(false);
+  const [error1, setError1] = useState("");
+  const [loading1, setLoading1] = useState(false);
+  const [progress, setProgress] = useState(0);
+  const [success, setSuccess] = useState(false);
 
   const address = {
     lat: Number.parseFloat(sessionStorage.getItem("selected-lat")),
@@ -51,7 +58,7 @@ const CreateRecord = () => {
   // console.log(address);
 
   const [customField, setCustomField] = useState([]);
-  const [valid, setValid] = useState(false);
+  const [valid, setValid] = useState(true);
 
   if (error) {
     return <Error msg={"Something Wrong with Record Component"}></Error>;
@@ -94,30 +101,67 @@ const CreateRecord = () => {
       notes: notes,
       customField,
     };
+    
 
-    setValid(true);
-    dataValidator(customField, "field", setValid);
+    setValid(true)
+    
+    for (let i of customField){
+      if (i.field === '' | i.value === ''){
+        setValid(false);
+        setError1('please fill the customField')
+        setTimeout(() => {
+          setError1("");
+        }, 2000);
+        return
+      }
+    }
 
     if (!recordInfo.contact_id) {
-      alert("Please select a contact!");
+
+      setError1("Please select a contact!");
       setValid(false);
+      setTimeout(() => {
+        setError1("");
+      }, 2000);
+      return
     }
 
-    if (valid === false) {
-      return;
-    }
+    console.log(valid)
 
-    await fetchClient
-      .post("/record/createRecord", recordInfo)
-      .then(() => alert("Successfully create a record つ - - つ"))
+
+
+    if (!valid) {
+      setTimeout(() => {
+        setError1("");
+      }, 200);
+      setLoading1(false);
+      
+    } else {
+      setLoading1(true);
+      await fetchClient
+      .post("/record/createRecord", recordInfo, {
+        onUploadProgress: (progressEvent) => {
+          setProgress(
+            parseInt(
+              Math.round((progressEvent.loaded * 100) / progressEvent.total)
+            )
+          );
+        },
+      })
+      .then(() => setSuccess(true))
       .catch((err) => {
         alert(err);
         console.error(err);
       });
     setLocation("");
     setSelected("");
+    setLoading1(false);
+    setTimeout(() => {
+      history.push("/record");
+    }, 1000);
+    }
 
-    history.push("/record");
+    
   };
 
   const setFieldValue = (value) => {
@@ -343,6 +387,27 @@ const CreateRecord = () => {
                 padding: "10px",
               }}
             >
+              {error1 ? (
+                <>
+                  <Alert severity="error">{error1}</Alert>
+                  <br /> 
+                </>
+              ) : null}
+              {!loading1 && success ? (
+                <>
+                  <Alert severity="success">
+                    {"Successfully save, the page will redirect in 3s"}
+                  </Alert>
+                  <br /> 
+                </>
+              ) : null}
+              {loading1 && !success ? (
+                <Box sx={{ width: "100%", padding: "10px" }}>
+                  <br />
+                  <LinearProgress variant="determinate" value={progress} />
+                  <br />
+                </Box>
+              ) : null}
               <Button
                 variant="contained"
                 onClick={handleSubmit}

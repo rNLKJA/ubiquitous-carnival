@@ -18,7 +18,7 @@ const AddUser = () => {
       <Heading />
       <div className="sub-container">
 				<Link to="/contact">
-					<button className='back-button'>
+					<button className='back-button-add'>
 						Back
 					</button>
 				</Link>

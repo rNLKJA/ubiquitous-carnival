@@ -17,8 +17,9 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import fetchClient from "../axiosClient/axiosClient";
 import Popover from "@mui/material/Popover";
+import Link from "@mui/material/Link";
 
-const ExpandMore1 = styled((props) => {
+export const ExpandMore1 = styled((props) => {
   const { expand, ...other } = props;
   return <IconButton {...other} />;
 })(({ theme, expand }) => ({
@@ -28,6 +29,8 @@ const ExpandMore1 = styled((props) => {
     duration: theme.transitions.duration.shortest,
   }),
 }));
+
+
 
 const RecordDetail = (prop) => {
   const [expand, setExpand] = useState(false);
@@ -73,6 +76,8 @@ const RecordDetail = (prop) => {
   ) {
     avatar = prop.record.meetingPerson.portrait.data.toString("base64");
   }
+
+  const phoneUrl = `tel:${prop.record.meetingPerson.phone[0]}`;
 
   return (
     <Card sx={{ maxWidth: 500, margin: 2 }} mx={{ maxWidth: 600, margin: 2 }}>
@@ -129,7 +134,7 @@ const RecordDetail = (prop) => {
                 style={{
                   overflow: "hidden",
                   textOverflow: "ellipsis",
-                  width: "11rem",
+                  width: "65%",
                 }}
               >
                 <Typography
@@ -160,32 +165,47 @@ const RecordDetail = (prop) => {
                   }}
                   onClose={handlePopoverClose}
                   disableRestoreFocus
+
                 >
                   <Typography sx={{ p: 1 }}>{prop.record.location}</Typography>
                 </Popover>
+                
               </div>
             </CardContent>
           </IconButton>
+          
         </div>
+        <div data-testid="test_btn">
+                  <ExpandMore1
+                    expand={expanded}
+                    onClick={handleExpandClick}
+                    aria-expanded={expanded}
+                    aria-label="show more"
 
-        <ExpandMore1
-          expand={expanded}
-          onClick={handleExpandClick}
-          aria-expanded={expanded}
-          aria-label="show more"
-        >
-          <ExpandMoreIcon />
-        </ExpandMore1>
+                  >
+                    <ExpandMoreIcon />
+                  </ExpandMore1>
+          </div>
+
       </CardActions>
 
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <hr />
-        <IconButton aria-label="phone">
-          <PhoneIcon />
-          <Typography variant="body2" color="text.secondary">
-            {prop.record.meetingPerson.phone[0]}
-          </Typography>
-        </IconButton>
+
+        {prop.record.meetingPerson.phone[0] === '' ? null : (
+          <div style={{ 'marginLeft': '10px' }}>
+            <IconButton aria-label="phone">
+              <PhoneIcon />
+              <Typography variant="body2" color="text.secondary" sx={{ marginLeft: 2 }}>
+
+                <Link to={phoneUrl} >
+                  {prop.record.meetingPerson.phone[0]}
+                </Link>
+              </Typography>
+            </IconButton>
+          </div>
+        )
+        }
 
         <hr />
 
@@ -198,11 +218,12 @@ const RecordDetail = (prop) => {
           {/* {console.log(prop.record.customField)} */}
 
           <hr />
-          <Typography paragraph>Custom Fields: </Typography>
+
           {prop.record.customField &&
             prop.record.customField.map((field) => {
               return (
                 <React.Fragment key={new Date().toISOString()}>
+                  <Typography paragraph>Custom Fields: </Typography>
                   <Typography
                     variant="body1"
                     style={{ whiteSpace: "pre-line" }}

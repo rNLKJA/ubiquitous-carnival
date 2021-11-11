@@ -12,15 +12,15 @@ const People = ({ contacts, setOneContact }) => {
   return (
     
       <Grid container
-     	 direction="row"
-     	 justify="center"
-     	 alignItems="center"
-       margin = {2}
-     	 spacing={2}>
+     	 
+      direction="row"
+      justifyContent="flex-start"
+      alignItems="flex-start"
+      >
 
         {contacts.map((contact) => {
           return (
-            <Grid key={contact.contact._id} item xs={12} sm={6} md={12} >
+            <Grid key={contact.contact._id} item >
               <Person contact={contact} setOneContact={setOneContact} />
               <Divider variant={'middle'} className={styles.divider} />
             </Grid>
