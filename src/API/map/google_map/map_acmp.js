@@ -178,6 +178,7 @@ const Map = () => {
                 ampm={true}
                 disableIgnoringDatePartForTimeValidation={true}
                 style={{ color: "white" }}
+                id="startTime"
               />
             </LocalizationProvider>
 
