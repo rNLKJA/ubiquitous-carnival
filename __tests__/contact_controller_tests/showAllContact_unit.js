@@ -101,11 +101,7 @@ describe("Unit testing showAllContact from contactController with invalid userId
   beforeAll(() => {
     res.send.mockClear();
 
-    User.findOne = jest.fn().mockResolvedValue();
-
-    User.findOne.mockImplementation(() => {
-      throw new Error();
-    });
+    User.findOne = jest.fn().mockResolvedValue(new Error());
 
     contactController.showAllContact(req, res);
   });
