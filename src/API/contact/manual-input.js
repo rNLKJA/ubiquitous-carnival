@@ -70,12 +70,11 @@ const AddUser = () => {
   const [fileName, setFileName] = useState("");
   const [valid, setValid] = useState(true);
   const [redirect, setRedirect] = useState(false);
-  const [error, setError] = useState("")
+  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [windowDimensions, setWindowDimensions] = useState(
-      getWindowDimensions(),
+    getWindowDimensions(),
   );
-
 
   // const [contact, setContact] = useState("");
   const styles = useFabStyle(success);
@@ -133,17 +132,19 @@ const AddUser = () => {
 
     setValid(true);
 
-    dataValidator(phone, "phone", setValid,valid,setError);
+    dataValidator(phone, "phone", setValid, valid, setError);
     // console.log(valid);
-    dataValidator(email, "email", setValid,valid,setError);
-    dataValidator(firstName, "firstName", setValid,valid,setError);
-    dataValidator(lastName, "lastName", setValid,valid,setError);
-    dataValidator(occupation, "occupation", setValid, valid,setError);
-    dataValidator(customField, "field", setValid,valid,setError);
+    dataValidator(email, "email", setValid, valid, setError);
+    dataValidator(firstName, "firstName", setValid, valid, setError);
+    dataValidator(lastName, "lastName", setValid, valid, setError);
+    dataValidator(occupation, "occupation", setValid, valid, setError);
+    dataValidator(customField, "field", setValid, valid, setError);
 
     if (valid === false) {
-      setTimeout(() => { setError('') }, 3000)
-      setLoading(false)
+      setTimeout(() => {
+        setError("");
+      }, 3000);
+      setLoading(false);
       return;
     }
 
@@ -155,14 +156,13 @@ const AddUser = () => {
     formData.append("occupation", occupation);
     formData.append("portrait", file1);
     note ? formData.append("note", note) : formData.append("note", "");
-    formData.append("field", customField);
+    formData.append("customField", customField);
 
     // for (var pair of formData.entries()) {
     //   console.log(pair[0] + ", " + pair[1]);
     // }
 
     try {
-
       setSuccess(false);
       setLoading1(true);
       const response = await fetchClient
@@ -186,8 +186,8 @@ const AddUser = () => {
             setError("upload failed");
           }
 
-          setSuccess(true)
-          setError('')
+          setSuccess(true);
+          setError("");
           return res;
         })
         .catch((err) => {
@@ -200,10 +200,12 @@ const AddUser = () => {
       }
 
       // setTimeout(() => setUploadPercentage(0), 100);
-      setLoading(false)
+      setLoading(false);
       setLoading1(false);
       setUpload(false);
-      setTimeout(() => { history.push("/contact") }, 2000)
+      setTimeout(() => {
+        history.push("/contact");
+      }, 2000);
     } catch (err) {
       if (err) {
         alert(err);
@@ -307,34 +309,34 @@ const AddUser = () => {
       <NavBar />
       <div className="sub-container">
         {windowDimensions.width >= 1024 && (
-        <Button
-          variant="outlined"
-          sx={{
-            width: "25%",
-            padding: "5px",
-            top: "1rem",
-            right: "-45rem",
-            position: "fixed",
-          }}
-          onClick={() => setRedirect(true)}
-        >
-          Back
-        </Button>
+          <Button
+            variant="outlined"
+            sx={{
+              width: "25%",
+              padding: "5px",
+              top: "1rem",
+              right: "-45rem",
+              position: "fixed",
+            }}
+            onClick={() => setRedirect(true)}
+          >
+            Back
+          </Button>
         )}
         {windowDimensions.width <= 1024 && (
-            <Button
-                variant="outlined"
-                sx={{
-                  width: "25%",
-                  padding: "5px",
-                  top: "1rem",
-                  right: "0",
-                  position: "fixed",
-                }}
-                onClick={() => setRedirect(true)}
-            >
-              Back
-            </Button>
+          <Button
+            variant="outlined"
+            sx={{
+              width: "25%",
+              padding: "5px",
+              top: "1rem",
+              right: "0",
+              position: "fixed",
+            }}
+            onClick={() => setRedirect(true)}
+          >
+            Back
+          </Button>
         )}
         {/* <div className="upload-img">
           <input type="file" onChange={(e) => setImage(e.target.files[0])} />
@@ -619,21 +621,27 @@ const AddUser = () => {
             }}
           >
             {error ? <Alert severity="error">{error}</Alert> : null}
-            {!loading && success ? <Alert severity="success">{'Successfully save, the page will redirect in 3s'}</Alert> : null}
+            {!loading && success ? (
+              <Alert severity="success">
+                {"Successfully save, the page will redirect in 3s"}
+              </Alert>
+            ) : null}
 
             <br />
-            <Box sx={{
-              m: 1,
-              position: "relative",
-              alignItems: "center",
-              justifyContent: "center",
-              display: "flex"
-            }}>
+            <Box
+              sx={{
+                m: 1,
+                position: "relative",
+                alignItems: "center",
+                justifyContent: "center",
+                display: "flex",
+              }}
+            >
               <Button
                 variant="contained"
                 sx={buttonSx}
                 disabled={loading1}
-                type='submit'
+                type="submit"
               >
                 Save
               </Button>
@@ -647,7 +655,7 @@ const AddUser = () => {
                     top: "50%",
                     left: "50%",
                     marginTop: "-12px",
-                    marginLeft: "-12px"
+                    marginLeft: "-12px",
                   }}
                 />
               )}
@@ -749,4 +757,3 @@ const dataValidator = (items, type, setValid, valid, setError) => {
       console.log("Invalid Input");
   }
 };
-

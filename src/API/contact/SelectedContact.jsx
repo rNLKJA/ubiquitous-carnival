@@ -28,13 +28,11 @@ import Stack from "@mui/material/Stack";
 // import { red } from "@mui/material/colors";
 import { useHistory } from "react-router-dom";
 import Alert from "@mui/material/Alert";
-import LinearProgress from '@mui/material/LinearProgress';
-
+import LinearProgress from "@mui/material/LinearProgress";
 
 // const colorSave = green[500];
 
 // const colorDelete = red[500];
-
 
 // const BASE_URL = "http://localhost:5000";
 // const BASE_URL = "https://crm4399.herokuapp.com";
@@ -119,9 +117,9 @@ export const DisplayContact = ({
   const [fileName, setFileName] = useState("");
   const [customField, setCustomField] = useState([]);
   const [valid, setValid] = useState(false);
-  const [error, setError] = useState("")
+  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  const [progress, setProgress] = useState(0)
+  const [progress, setProgress] = useState(0);
 
   useEffect(() => {
     if (contact.portrait === null) {
@@ -183,14 +181,9 @@ export const DisplayContact = ({
     }
   };
 
-  console.log(valid)
-
   // submit handler
   const handleSubmit = async (e) => {
-
     e.preventDefault();
-
-    console.log('click')
 
     var email = ConvertListObjectToListValues(emails, "email");
     var phone = ConvertListObjectToListValues(phones, "phone");
@@ -208,7 +201,7 @@ export const DisplayContact = ({
 
     setLoading(true);
 
-    console.log(valid)
+    console.log(valid);
 
     dataValidator(phone, "phone", setValid, valid, setError);
     dataValidator(email, "email", setValid, valid, setError);
@@ -217,33 +210,47 @@ export const DisplayContact = ({
     dataValidator(data.occupation, "occupation", setValid, valid, setError);
     dataValidator(data.customField, "field", setValid, valid, setError);
 
-    console.log(data.customField)
+    const formData = new FormData();
+    formData.append("_id", data._id);
+    formData.append("firstName", data.firstName);
+    formData.append("lastName", data.lastName);
+    formData.append("email", data.email);
+    formData.append("phone", data.phone);
+    formData.append("occupation", data.occupation);
+    formData.append("portrait", file1);
+    formData.append("notes", data.notes);
+    formData.append("customField", data.customField);
 
-    console.log("aft" , valid)
-
+    for (var pair of formData.entries()) {
+      console.log(pair[0] + ", " + pair[1]);
+    }
 
     if (valid === false) {
-      setTimeout(() => { setError('') }, 3000)
-      setLoading(false)
-
+      setTimeout(() => {
+        setError("");
+      }, 3000);
+      setLoading(false);
     } else {
       try {
-        setError('')
+        setError("");
         setLoading(true);
         setSuccess(false);
         await fetchClient
-          .post("/contact/updateContactInfo", data, {
+          .post("/contact/updateContactInfo", formData, {
             onUploadProgress: (progressEvent) => {
               setProgress(
                 parseInt(
-                  Math.round((progressEvent.loaded * 100) / progressEvent.total),
+                  Math.round(
+                    (progressEvent.loaded * 100) / progressEvent.total,
+                  ),
                 ),
               );
             },
           })
           .then((response) => {
+            console.log(response);
             if (response.data.status) {
-              setSuccess(true)
+              setSuccess(true);
             } else {
               setError("Opps, something wrong, please try later.");
             }
@@ -253,7 +260,9 @@ export const DisplayContact = ({
       }
       setLoading(false);
 
-      setTimeout(() => { window.location.href = '/contact' }, 1000)
+      setTimeout(() => {
+        window.location.href = "/contact";
+      }, 1000);
     }
   };
 
@@ -433,7 +442,7 @@ export const DisplayContact = ({
 
       <div className="makeStyles-card-1" style={{ width: "95%" }}>
         <div className="avatar">
-          {avatar ? (
+          {!file ? (
             <Avatar
               alt="Avatar"
               sx={{ width: 125, height: 125, border: "2px solid pink" }}
@@ -449,7 +458,7 @@ export const DisplayContact = ({
             />
           )}
 
-          {(contact.linkedAccount === null && window.innerWidth <= 1024) &&(
+          {contact.linkedAccount === null && window.innerWidth <= 1024 && (
             <button
               className="btn btn-primary"
               style={{
@@ -465,29 +474,34 @@ export const DisplayContact = ({
               Invite
             </button>
           )}
-          {(contact.linkedAccount === null && window.innerWidth >= 1024) &&(
-              <button
-                  className="btn btn-primary"
-                  style={{
-                    position: "fixed",
-                    width: "50px",
-                    top: "13rem",
-                    right: "1rem",
-                  }}
-                  onClick={() => {
-                    sendInviteEmail(contact);
-                  }}
-              >
-                Invite
-              </button>
+          {contact.linkedAccount === null && window.innerWidth >= 1024 && (
+            <button
+              className="btn btn-primary"
+              style={{
+                position: "fixed",
+                width: "50px",
+                top: "13rem",
+                right: "1rem",
+              }}
+              onClick={() => {
+                sendInviteEmail(contact);
+              }}
+            >
+              Invite
+            </button>
           )}
 
           {contact.edit ? (
             upload ? (
-              <div
-                className="upload-container "
-              >
-                <form onSubmit={onSubmit} style={{ display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
+              <div className="upload-container ">
+                <form
+                  onSubmit={onSubmit}
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    flexDirection: "column",
+                  }}
+                >
                   <label
                     htmlFor="contained-button-file"
                     style={{ padding: "10px" }}
@@ -516,40 +530,50 @@ export const DisplayContact = ({
                     </Typography>
                   </div>
 
-                  {file ? (<>
-                    <Box sx={{
-                      m: 1,
-                      position: "relative",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      display: "flex"
-                    }}>
-                      <Button
-                        variant="contained"
-                        sx={buttonSx}
-                        disabled={loading1}
-                        onClick={onSubmit}
+                  {/* {file1 ? (
+                    <>
+                      <Box
+                        sx={{
+                          m: 1,
+                          position: "relative",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          display: "flex",
+                        }}
                       >
-                        Upload
-                      </Button>
-                      {loading1 && (
-                        <CircularProgress
-                          value={uploadPercentage}
-                          size={24}
-                          sx={{
-                            color: green[500],
-                            position: "absolute",
-                            top: "50%",
-                            left: "50%",
-                            marginTop: "-12px",
-                            marginLeft: "-12px"
-                          }}
-                        />
-                      )}
-                    </Box>
-                  </>) : null}
-                  <Button variant="contained"
-                    color="error" onClick={onClickUpload} sx={{ margin: 2 }} >Cancel</Button>
+                        <Button
+                          variant="contained"
+                          sx={buttonSx}
+                          disabled={loading1}
+                          onClick={onSubmit}
+                        >
+                          Upload
+                        </Button>
+                        {loading1 && (
+                          <CircularProgress
+                            value={uploadPercentage}
+                            size={24}
+                            sx={{
+                              color: green[500],
+                              position: "absolute",
+                              top: "50%",
+                              left: "50%",
+                              marginTop: "-12px",
+                              marginLeft: "-12px",
+                            }}
+                          />
+                        )}
+                      </Box>
+                    </>
+                  ) : null} */}
+                  <Button
+                    variant="contained"
+                    color="error"
+                    onClick={onClickUpload}
+                    sx={{ margin: 2 }}
+                  >
+                    Cancel
+                  </Button>
                 </form>
               </div>
             ) : (
@@ -775,12 +799,18 @@ export const DisplayContact = ({
           <hr />
 
           {error ? <Alert severity="error">{error}</Alert> : null}
-          {!loading && success ? <Alert severity="success">{'Successfully save, the page will redirect in 3s'}</Alert> : null}
-          {loading && !success ? <Box sx={{ width: '100%', padding: '10px' }}>
-            <br />
-            <LinearProgress variant="determinate" value={progress} />
-            <br />
-          </Box> : null}
+          {!loading && success ? (
+            <Alert severity="success">
+              {"Successfully save, the page will redirect in 3s"}
+            </Alert>
+          ) : null}
+          {loading && !success ? (
+            <Box sx={{ width: "100%", padding: "10px" }}>
+              <br />
+              <LinearProgress variant="determinate" value={progress} />
+              <br />
+            </Box>
+          ) : null}
 
           {contact.edit && (
             <Stack direction="row" spacing={2}>

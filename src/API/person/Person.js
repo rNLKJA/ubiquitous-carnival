@@ -173,6 +173,7 @@ const Person = () => {
       }
       setUploadPercentage(0);
     }
+    setUpload(false);
   };
 
   const onChange = (e) => {
