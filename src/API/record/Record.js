@@ -196,7 +196,11 @@ const Record = () => {
               <div className="change-slice">
                 <button
                   className="btn btn-primary"
-                  style={{ width: 100, fontWeight: "bold" }}
+                  style={{
+                    width: "100%",
+                    fontWeight: "bold",
+                    marginBottom: 10,
+                  }}
                   onClick={moreRecords}
                 >
                   More
