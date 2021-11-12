@@ -65,7 +65,7 @@ describe("unit test of editProfile form profileController.js", () => {
 
 describe("unit test of editProfile form profileController.js invalid situation", () => {
   const req = {
-    user: { _id: "61503926028ce448aceda136" },
+    user: { _id: "123456" },
     body: {
       firstName: "Hongji",
       lastName: "Huang",
@@ -90,7 +90,6 @@ describe("unit test of editProfile form profileController.js invalid situation",
       let err = new Error();
       throw err;
     });
-    uploadPhotoOneStep = jest.fn().mockResolvedValue([]);
     profileController.editProfile(req, res);
   });
 

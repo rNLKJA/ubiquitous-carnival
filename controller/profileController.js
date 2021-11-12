@@ -124,7 +124,6 @@ const editProfile = async (req, res) => {
     res.send("update success");
   } catch (err) {
     res.send("update fail");
-    throw err;
   }
 };
 
@@ -242,14 +241,14 @@ const uploadPhoto = async (req, res) => {
  * @param  {express.Response} res contain the user information after uploaded
  */
 const uploadPhotoOneStep = async (req, res) => {
-  if (!req.file) {
-    return { status: false, message: "upload file failed" };
-  }
-  var img = {
-    data: fs.readFileSync(req.file.path),
-    contentType: req.file.mimetype,
-  };
   try {
+    if (!req.file) {
+      return { status: false, message: "upload file failed" };
+    }
+    var img = {
+      data: fs.readFileSync(req.file.path),
+      contentType: req.file.mimetype,
+    };
     //TODO: replace body._id to user._id
     await userModel.updateOne({ _id: req.user._id }, { portrait: img });
     const user = await userModel.findOne({ _id: req.user._id }).lean();
