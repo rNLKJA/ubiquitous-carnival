@@ -106,6 +106,7 @@ describe("Unit testing showAllContact from contactController with invalid userId
     User.findOne.mockImplementation(() => {
       throw new Error();
     });
+
     contactController.showAllContact(req, res);
   });
 

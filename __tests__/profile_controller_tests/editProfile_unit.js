@@ -85,7 +85,8 @@ describe("unit test of editProfile form profileController.js invalid situation",
     res.send.mockClear();
     res.json.mockClear();
 
-    userModel.findOneAndUpdate = jest.fn().mockImplementation(() => {
+    userModel.findOneAndUpdate = jest.fn().mockResolvedValue();
+    userModel.findOneAndUpdate.mockImplementation(() => {
       let err = new Error();
       throw err;
     });
