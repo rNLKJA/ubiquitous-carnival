@@ -2,9 +2,9 @@ import axios from "axios";
 
 const fetchClient = () => {
   const defaultOptions = {
-    // baseURL: "https://crm4399.herokuapp.com",
+    baseURL: "https://crm4399.herokuapp.com",
 
-    baseURL: "http://localhost:5000",
+    // baseURL: "http://localhost:5000",
     method: "get",
 
     headers: {
