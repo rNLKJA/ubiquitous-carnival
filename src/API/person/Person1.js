@@ -278,6 +278,16 @@ export const DisplayPerson = ({
               height: "90%",
             }}
           >
+            <label>Username: </label>
+            <input
+              type="text"
+              className="form-control"
+              readOnly
+              value={person.userName}
+            ></input>
+
+            <hr />
+
             <label>First Name: </label>
             <input
               type="text"
