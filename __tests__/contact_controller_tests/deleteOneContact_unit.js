@@ -105,7 +105,7 @@ describe("Unit testing deleteOneContact from contactController with invalid cont
 
     User.findOne = jest.fn().mockResolvedValue();
 
-    User.findOne.mockImplementationOnce(() => {
+    User.findOne.mockImplementation(() => {
       let err = new Error();
       throw err;
     });
