@@ -13,10 +13,10 @@ describe("unit test of updateContactInfo form contactController.js", () => {
     body: {
       _id: "615454b320f2bc5738d53e1b",
       lastName: "Bing",
-      firstName: "",
+      firstName: "hi",
       phone: [],
       email: [],
-      occupation: "",
+      occupation: "test",
       note: "",
     },
   };
@@ -40,7 +40,7 @@ describe("unit test of updateContactInfo form contactController.js", () => {
       email: [],
       phone: [],
       lastName: "Bing",
-      firstName: "test",
+      firstName: "hi",
       occupation: "test",
       __v: 0,
     });
@@ -50,7 +50,7 @@ describe("unit test of updateContactInfo form contactController.js", () => {
         email: [],
         phone: [],
         lastName: "Bing",
-        firstName: "test",
+        firstName: "hi",
         occupation: "test",
       }),
     }));
@@ -66,7 +66,7 @@ describe("unit test of updateContactInfo form contactController.js", () => {
         email: [],
         phone: [],
         lastName: "Bing",
-        firstName: "test",
+        firstName: "hi",
         occupation: "test",
       },
     });

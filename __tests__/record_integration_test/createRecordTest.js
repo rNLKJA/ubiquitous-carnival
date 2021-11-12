@@ -4,22 +4,24 @@ const { ContextBuilder } = require("express-validator/src/context-builder");
 const request = require("supertest");
 const app = require("../../app");
 const mongoose = require("mongoose");
+const User = mongoose.model("User");
+const Record = mongoose.model("Record");
 
-describe("Integration test: Test for edit Record", () => {
+describe("Integration test: Test for create Record", () => {
   let agent = request.agent(app);
 
   // store the token
   let jwtToken = null;
-  
-  jest.setTimeout(20000)
+
+  var newRecordId = null;
 
   beforeAll(() =>
     agent
       .post("/user/login")
       .set("Content-Type", "application/json")
       .send({
-        userName: "TestDontDelete",
-        password: "testtest123",
+        userName: "IntegrationTest_DontDelete",
+        password: "testtest123"
       })
       .then((res) => {
         jwtToken = res.body.token;
@@ -32,37 +34,26 @@ describe("Integration test: Test for edit Record", () => {
     done();
   });
 
-  test("Test 1: Edit a record without a user's _id", () => {
+  afterEach(() => {
     return agent
-      .post("/record/editRecord")
+      .post("/record/deleteOneRecord")
       .set("Content-Type", "application/json")
       .set("Authorization", jwtToken)
       .send({
-        _id: null, 
-        contact_id: "6181133d92f80b001605abac",
-        location: "University of Melbourne",
-        dateTime: "2021-10-01T10:28:10.018Z",
-        geoCoords: {
-          lat: "122334545",
-          lng: "52123456",
-        },
-        notes: "account",
-        customField: "testCustomField",
-      })
-      .then((res) => {
-        expect(res.statusCode).toBe(200);
-        expect(res.text).toContain("Miss Important Information Input");
+        recordId: newRecordId
       });
   });
+  
 
-  test("Test 2: Edit a record with invalid user's _id", () => {
+  jest.setTimeout(20000)
+
+  test("Test 1: Add a record with invalid contact_id", () => {
     return agent
-      .post("/record/editRecord")
+      .post("/record/createRecord")
       .set("Content-Type", "application/json")
       .set("Authorization", jwtToken)
       .send({
-        _id: "123456", 
-        contact_id: "6181133d92f80b001605abac",
+        contact_id: "123456885",
         location: "University of Melbourne",
         dateTime: "2021-10-01T10:28:10.018Z",
         geoCoords: {
@@ -70,44 +61,21 @@ describe("Integration test: Test for edit Record", () => {
           lng: "52123456",
         },
         notes: "account",
-        customField: "testCustomField",
+        customField: "testCustomField"
       })
       .then((res) => {
         expect(res.statusCode).toBe(200);
         expect(res.text).toContain("Database query failed");
+        newRecordId = null;
       });
   });
 
-  test("Test 3: Edit a record with invalid contact_id", () => {
+  test("Test 2: Add a record without contact_id", () => {
     return agent
-      .post("/record/editRecord")
+      .post("/record/createRecord")
       .set("Content-Type", "application/json")
       .set("Authorization", jwtToken)
       .send({
-        _id: "618113b292f80b001605abc0", 
-        contact_id: "1234567",
-        location: "University of Melbourne",
-        dateTime: "2021-10-01T10:28:10.018Z",
-        geoCoords: {
-          lat: "122334545",
-          lng: "52123456",
-        },
-        notes: "account",
-        customField: "testCustomField",
-      })
-      .then((res) => {
-        expect(res.statusCode).toBe(200);
-        expect(res.text).toContain("Database query failed");
-      });
-  });
-
-  test("Test 4: Edit a record without contact_id", () => {
-    return agent
-      .post("/record/editRecord")
-      .set("Content-Type", "application/json")
-      .set("Authorization", jwtToken)
-      .send({
-        _id: "618113b292f80b001605abc0", 
         contact_id: null,
         location: "University of Melbourne",
         dateTime: "2021-10-01T10:28:10.018Z",
@@ -116,22 +84,22 @@ describe("Integration test: Test for edit Record", () => {
           lng: "52123456",
         },
         notes: "account",
-        customField: "testCustomField",
+        customField: "testCustomField"
       })
       .then((res) => {
         expect(res.statusCode).toBe(200);
         expect(res.text).toContain("Miss Important Information Input");
+        newRecordId = null;
       });
   });
 
-  test("Test 5: Edit a record without the meeting dateTime", () => {
+  test("Test 3: Add a record without the meeting dateTime", () => {
     return agent
-      .post("/record/editRecord")
+      .post("/record/createRecord")
       .set("Content-Type", "application/json")
       .set("Authorization", jwtToken)
       .send({
-        _id: "618113b292f80b001605abc0", 
-        contact_id: "6181133d92f80b001605abac",
+        contact_id: "618503c2ad6a53001643245e",
         location: "University of Melbourne",
         dateTime: null,
         geoCoords: {
@@ -139,11 +107,11 @@ describe("Integration test: Test for edit Record", () => {
           lng: "52123456",
         },
         notes: "account",
-        customField: "testCustomField",
+        customField: "testCustomField"
       })
       .then((res) => {
         expect(res.statusCode).toBe(200);
-        expect(res.body.meetingPerson).toBe("6181133d92f80b001605abac");
+        expect(res.body.meetingPerson).toBe("618503c2ad6a53001643245e");
         expect(res.body.location).toBe("University of Melbourne");
         expect(res.body.dateTime).not.toBe(null);
         expect(res.body.lat).toBe(122334545);
@@ -152,17 +120,17 @@ describe("Integration test: Test for edit Record", () => {
         expect(res.body.customField).toEqual(
           expect.arrayContaining(["testCustomField"])
         );
+        newRecordId = res.body._id;
       });
   });
 
-  test("Test 6: Edit a record with the meeting dateTime", () => {
+  test("Test 4: Add a record with the meeting dateTime", () => {
     return agent
-      .post("/record/editRecord")
+      .post("/record/createRecord")
       .set("Content-Type", "application/json")
       .set("Authorization", jwtToken)
       .send({
-        _id: "618113b292f80b001605abc0", 
-        contact_id: "6181133d92f80b001605abac",
+        contact_id: "618503c2ad6a53001643245e",
         location: "University of Melbourne",
         dateTime: "2021-10-01T10:28:10.018Z",
         geoCoords: {
@@ -174,7 +142,7 @@ describe("Integration test: Test for edit Record", () => {
       })
       .then((res) => {
         expect(res.statusCode).toBe(200);
-        expect(res.body.meetingPerson).toBe("6181133d92f80b001605abac");
+        expect(res.body.meetingPerson).toBe("618503c2ad6a53001643245e");
         expect(res.body.location).toBe("University of Melbourne");
         expect(res.body.dateTime).toBe("2021-10-01T10:28:10.018Z");
         expect(res.body.lat).toBe(122334545);
@@ -183,17 +151,17 @@ describe("Integration test: Test for edit Record", () => {
         expect(res.body.customField).toEqual(
           expect.arrayContaining(["testCustomField"])
         );
+        newRecordId = res.body._id;
       });
   });
 
-  test("Test 7: Edit a record without a geoCoords", () => {
+  test("Test 5: Add a record without a geoCoords", () => {
     return agent
       .post("/record/createRecord")
       .set("Content-Type", "application/json")
       .set("Authorization", jwtToken)
       .send({
-        _id: "618113b292f80b001605abc0", 
-        contact_id: "6181133d92f80b001605abac",
+        contact_id: "618503c2ad6a53001643245e",
         location: "University of Melbourne",
         dateTime: "2021-10-01T10:28:10.018Z",
         geoCoords: null,
@@ -202,7 +170,7 @@ describe("Integration test: Test for edit Record", () => {
       })
       .then((res) => {
         expect(res.statusCode).toBe(200);
-        expect(res.body.meetingPerson).toBe("6181133d92f80b001605abac");
+        expect(res.body.meetingPerson).toBe("618503c2ad6a53001643245e");
         expect(res.body.location).toBe("University of Melbourne");
         expect(res.body.dateTime).toBe("2021-10-01T10:28:10.018Z");
         expect(res.body.lat).toBe(null);
@@ -211,29 +179,28 @@ describe("Integration test: Test for edit Record", () => {
         expect(res.body.customField).toEqual(
           expect.arrayContaining(["testCustomField"])
         );
+        newRecordId = res.body._id;
       });
   });
 
-  test("Test 8: Edit a record without a location", () => {
+  test("Test 6: Add a record without a location", () => {
     return agent
       .post("/record/createRecord")
       .set("Content-Type", "application/json")
       .set("Authorization", jwtToken)
       .send({
-        _id: "618113b292f80b001605abc0", 
-        contact_id: "6181133d92f80b001605abac",
+        contact_id: "618503c2ad6a53001643245e",
         location: null,
         dateTime: "2021-10-01T10:28:10.018Z",
-        geoCoords: {
-          lat: "122334545",
-          lng: "52123456",
-        },
+        geoCoords: null,
         notes: "account",
         customField: "testCustomField",
       })
       .then((res) => {
         expect(res.statusCode).toBe(200);
         expect(res.text).toContain("Miss Important Information Input");
+        newRecordId = null;
       });
   });
+
 });

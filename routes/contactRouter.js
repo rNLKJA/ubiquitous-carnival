@@ -28,11 +28,13 @@ contactRouter.get(
   passport.authenticate("jwt", { session: false }),
   (req, res) => contactController.showAllContact(req, res)
 );
+
 contactRouter.post(
   "/showOneContact",
   passport.authenticate("jwt", { session: false }),
   (req, res) => contactController.showOneContact(req, res)
 );
+
 contactRouter.get(
   "/deleteOneContact/:userName/:contact_id",
   passport.authenticate("jwt", { session: false }),
@@ -49,6 +51,7 @@ contactRouter.post(
 contactRouter.post(
   "/updateContactInfo",
   passport.authenticate("jwt", { session: false }),
+  upload.single("portrait"),
   (req, res) => contactController.updateContactInfo(req, res)
 );
 
@@ -76,4 +79,5 @@ contactRouter.post(
   upload.single("portrait"),
   (req, res) => contactController.createContactOneStep(req, res)
 );
+
 module.exports = contactRouter;

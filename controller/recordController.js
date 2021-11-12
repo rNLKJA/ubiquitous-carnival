@@ -177,8 +177,6 @@ const deleteOneRecord = async (req, res) => {
       (record) => record.toString() !== req.body.recordId
     );
 
-    console.log(recordId);
-
     await Record.deleteOne({ _id: mongoose.Types.ObjectId(recordId) });
     await User.findOneAndUpdate(
       { _id: mongoose.Types.ObjectId(req.user._id) },
@@ -244,7 +242,7 @@ const editRecord = async (req, res) => {
       lng = geoCoords.lng;
     }
 
-    const record = await Record.findOneAndUpdate(
+    var record = await Record.findOneAndUpdate(
       { _id: mongoose.Types.ObjectId(_id) },
       {
         $set: {
@@ -258,10 +256,12 @@ const editRecord = async (req, res) => {
           lng: lng,
           customField: customField,
         }
-      },
-      { new: true }
+      }
+      //{ new: true }
     ).lean();
     
+    record = await Record.findOne({_id: mongoose.Types.ObjectId(record._id)}).lean();
+
     res.json(record);
   } catch (err) {
     if (err.message == "Miss Important Information Input") {

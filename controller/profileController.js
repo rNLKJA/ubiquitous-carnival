@@ -18,7 +18,7 @@ const editFirstName = async (req, res) => {
     const editFirstNameFunction = await userModel.findOneAndUpdate(
       { _id: req.user._id },
       { $set: { firstName: req.body.firstName } },
-      { upsert: true, new: true },
+      { upsert: true, new: true }
     );
     res.send("update success");
   } catch (err) {
@@ -40,7 +40,7 @@ const editLastName = async (req, res) => {
     const editLastNameFunction = await userModel.findOneAndUpdate(
       { _id: req.user._id },
       { $set: { lastName: req.body.lastName } },
-      { upsert: true, new: true },
+      { upsert: true, new: true }
     );
     res.send("update success");
   } catch (err) {
@@ -62,7 +62,7 @@ const editOccupation = async (req, res) => {
     const editOccupationFunction = await userModel.findOneAndUpdate(
       { _id: req.user._id },
       { $set: { occupation: req.body.occupation } },
-      { upsert: true, new: true },
+      { upsert: true, new: true }
     );
     res.send("update success");
   } catch (err) {
@@ -84,7 +84,7 @@ const editStatus = async (req, res) => {
     const editStatusFunction = await userModel.findOneAndUpdate(
       { _id: req.user._id },
       { $set: { status: req.body.status } },
-      { upsert: true, new: true },
+      { upsert: true, new: true }
     );
     res.send("update success");
   } catch (err) {
@@ -118,8 +118,9 @@ const editProfile = async (req, res) => {
           email: req.body.email,
         },
       },
-      { upsert: true, new: true },
+      { upsert: true, new: true }
     );
+    const UploadResult = await uploadPhotoOneStep(req, res);
     res.send("update success");
   } catch (err) {
     res.send("update fail");
@@ -141,7 +142,7 @@ const addPhone = async (req, res) => {
     const updatePhone = await userModel.findOneAndUpdate(
       { _id: req.user._id },
       { $push: { phone: req.body.phone } },
-      { upsert: true, new: true },
+      { upsert: true, new: true }
     );
     res.send("update success");
   } catch (err) {
@@ -165,7 +166,7 @@ const delPhone = async (req, res) => {
     function (err) {
       if (err) res.send("delete fail");
       else res.send("delete success");
-    },
+    }
   );
 };
 
@@ -182,7 +183,7 @@ const addEmail = async (req, res) => {
     await userModel.findOneAndUpdate(
       { _id: req.user._id },
       { $push: { email: req.body.email } },
-      { upsert: true, new: true },
+      { upsert: true, new: true }
     );
     res.send("update success");
   } catch (err) {
@@ -206,7 +207,7 @@ const delEmail = async (req, res) => {
     function (err) {
       if (err) res.send("delete fail");
       else res.send("delete success");
-    },
+    }
   );
 };
 /**
@@ -235,6 +236,34 @@ const uploadPhoto = async (req, res) => {
   }
 };
 
+/**
+ * function that allow user upload their photo and store in database
+ * @param  {express.Request} req contain the file information of uploaded file
+ * @param  {express.Response} res contain the user information after uploaded
+ */
+const uploadPhotoOneStep = async (req, res) => {
+  if (!req.file) {
+    return { status: false, message: "upload file failed" };
+  }
+  var img = {
+    data: fs.readFileSync(req.file.path),
+    contentType: req.file.mimetype,
+  };
+  try {
+    //TODO: replace body._id to user._id
+    await userModel.updateOne({ _id: req.user._id }, { portrait: img });
+    const user = await userModel.findOne({ _id: req.user._id }).lean();
+    console.log("update success");
+    return {
+      status: true,
+      image: user.portrait.data.toString("base64"),
+      type: user.portrait.contentType,
+    };
+  } catch (err) {
+    console.log(err);
+    return { status: false, message: "upload file failed" };
+  }
+};
 //================================function for show the profile======================================//
 /**
  * Get the profile data of user
@@ -269,7 +298,6 @@ const displayImage = async (req, res) => {
       return res.json({ status: false, message: "no image for this user" });
     }
     const decodeImage = user.portrait.data.toString("base64");
-    console.log(decodeImage);
     // console.log(data);
     // const image1 = data.toString("base64");
     // console.log(image1);

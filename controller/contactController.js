@@ -73,6 +73,13 @@ const linkToAccount = async (req, res) => {
  * @param {express.Response} res - response from the system.
  */
 const createContactbyUserName = async (req, res) => {
+  /*
+    request header: user
+    request body:
+    {  
+      "userName":"TestDontDelete"
+    }
+  */
   try {
     const ownerAccount = await User.findOne({
       _id: mongoose.Types.ObjectId(req.user._id),
@@ -123,7 +130,11 @@ const createContactbyUserName = async (req, res) => {
     });
     ownerAccount.contactList.push(ContactIdLink);
     await ownerAccount.save();
-    res.json({ status: true, newContact: newContact });
+    res.json({
+      status: true,
+      newContact: newContact,
+      contactId: newContact._id,
+    });
   } catch (err) {
     console.log(err);
     return res.json({ status: false, msg: "Query Failure" });
@@ -261,10 +272,21 @@ const showOneContact = async (req, res) => {
  * @param  {express.Response} res response contain the match contacs of this user
  */
 const searchContact = async (req, res) => {
-  // const validationErrors = expressValidator.validationResult(req)
-  // if (!validationErrors.isEmpty()){
-  //     return res.status(422).render('error', {errorCode: '422', message: 'Search works on alphabet characters only.'})
-  // }
+  /*
+    request header: user
+    request body:
+  {
+    "searchContent": "Liang Bin",
+    "lastName":"",
+    "firstName":"",
+    "contactUserName":"",
+    "phone":"",
+    "email":"",
+    "occupation":"",
+    "addDate":"",
+    "nofillter": true
+}
+  */
   var query = {};
   query["ownerAccount"] = req.user._id;
   if (req.body.nofillter == true) {
@@ -347,7 +369,32 @@ const searchContact = async (req, res) => {
  * @param  {express.Response} res response contain contact information after update.
  */
 const updateContactInfo = async (req, res) => {
-  console.log(req.body.customField);
+  console.log(req.body);
+  /*
+    request header: user
+    front end should post as form data if one step upload needed
+    request body:
+  {
+    "_id":"615549ec49ed3c0016a6a18a",
+    "lastName":"Bing",
+    "firstName":"",
+    "phone":[],
+    "email":[],
+    "occupation":"",
+    "note":""
+}
+  */
+  if (
+    !req.body.lastName ||
+    !req.body.firstName ||
+    !req.body.phone ||
+    !req.body.email ||
+    !req.body.occupation ||
+    !req.body._id
+  ) {
+    return res.json({ status: false });
+  }
+
   var query = {};
   // if name in submitted form
   if (req.body.lastName !== "") {
@@ -356,34 +403,44 @@ const updateContactInfo = async (req, res) => {
   if (req.body.firstName !== "") {
     query["firstName"] = req.body.firstName;
   }
-  query["phone"] = req.body.phone;
+  if (req.body.phone != []) {
+    query["phone"] = req.body.phone;
+  }
   if (req.body.email != []) {
     query["email"] = req.body.email;
   }
   query["occupation"] = req.body.occupation;
   query["note"] = req.body.note;
-  query["customField"] = req.body.customField;
+  req.body.customField ? (query["customField"] = req.body.customField) : [];
   // console.log(query, req.body);
-
   try {
     const contact = await Contact.findOneAndUpdate(
       { _id: mongoose.Types.ObjectId(req.body._id) },
       query,
       { new: true },
     ).lean();
+    const uploadResult = await createContactPhotoUpload(req, res, req.body._id);
+    if (uploadResult.status) {
+      return res.json({
+        status: true,
+        contact: uploadResult.contact,
+      });
+    }
     // const contact = await Contact.findOne({ _id: req.body._id }).lean();
     // console.log(contact);
-    res.json({ status: true, contact: contact });
+    return res.json({ status: true, contact: contact });
   } catch (err) {
     console.log(err);
     res.json({ status: false });
   }
 };
+
 /**
  * this founciton is for synchtonize the information of a contact and the account this contacat connect to
  * @param  {express.Request} req request that contain object id of contact we need to synchronize with its account
  * @param  {express.Response} res response contain the information of contact after update
  */
+
 const synchronizationContactInfo = async (req, res) => {
   try {
     const contact = await Contact.findOne({
@@ -462,12 +519,20 @@ const listCompare = (currentList, targetList) => {
   }
   return 1;
 };
+
 /**
  * function that allow user upload a photo for one contact
  * @param  {express.Request} req contain the object id of the contact is body, and photo in formdata
  * @param  {express.Response} res contain the contact information after updated
  */
 const contactPhotoUpload = async (req, res) => {
+  /*
+    request header: user
+    request body (form-data):
+  {
+    portrait: photo.png
+}
+  */
   var img = {
     data: fs.readFileSync(req.file.path),
     contentType: req.file.mimetype,
@@ -538,18 +603,53 @@ const deleteOneContact = async (req, res) => {
  * @param  {express.Response} res send contact detail if create successs
  */
 const createContactOneStep = async (req, res) => {
+  /*
+    request header: user
+    request body:
+  {
+        lastName: "Hongji",
+        firstName: "Test7",
+        email: "12345678@qq.com",
+        phone: "4152864185",
+        occupation: "student",
+        note: "testing",
+        customField: []
+      }
+  */
+
   try {
+    if (
+      !req.body.lastName ||
+      !req.body.firstName ||
+      !req.body.phone ||
+      !req.body.email ||
+      !req.body.occupation
+    ) {
+      return res.json({ status: false });
+    }
     const createResult = await createContactDocumentationOneStep(req, res);
     if (createResult.status) {
       const contactId = createResult.newContact._id;
       const uploadResult = await createContactPhotoUpload(req, res, contactId);
       if (uploadResult.status) {
-        return res.json({ status: true, newContact: uploadResult.contact });
+        return res.json({
+          status: true,
+          newContact: uploadResult.contact,
+          contactId: uploadResult.contact._id,
+        });
       } else {
-        return res.json({ status: false, msg: "upload failed" });
+        return res.json({
+          status: true,
+          msg: "create without image",
+          contactId: createResult.newContact._id,
+        });
       }
     } else {
-      return res.json({ status: false, msg: "dupcontact/createProblem" });
+      return res.json({
+        status: false,
+        msg: "dupcontact/createProblem",
+        contactId: createResult.dupContact._id,
+      });
     }
   } catch (err) {
     console.log(err);
@@ -562,10 +662,11 @@ const createContactOneStep = async (req, res) => {
  * @param  {express.Request} req contain contact information in req
  * @param  {express.Response} res send contact detail if create successs
  */
+
 const createContactDocumentationOneStep = async (req, res) => {
   console.log(req.body);
   try {
-    //!! can not use object id as input
+    // !! can not use object id as input
     const ownerAccount = await User.findOne({
       _id: mongoose.Types.ObjectId(req.user._id),
     });
