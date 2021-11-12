@@ -78,7 +78,8 @@ describe("Unit testing showOneContact from contactController with invalid contac
     Contact.findOne = jest.fn().mockResolvedValue();
 
     Contact.findOne.mockImplementation(() => {
-      throw new Error();
+      let err = new Error();
+      throw err;
     });
 
     contactController.showOneContact(req, res);

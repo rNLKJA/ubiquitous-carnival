@@ -285,7 +285,8 @@ describe("Unit testing searchContact from contactController with fail database q
     Contact.find = jest.fn().mockResolvedValue();
 
     Contact.find.mockImplementation(() => {
-      throw new Error();
+      let err = new Error();
+      throw err;
     });
 
     contactController.searchContact(req, res);

@@ -139,7 +139,8 @@ describe("Unit testing synchronizationContactInfo from contactController with fa
     Contact.findOne = jest.fn().mockResolvedValue();
 
     Contact.findOne.mockImplementation(() => {
-      throw new Error();
+      let err = new Error();
+      throw err;
     });
 
     contactController.synchronizationContactInfo(req, res);
