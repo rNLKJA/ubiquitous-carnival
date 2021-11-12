@@ -242,6 +242,9 @@ const uploadPhoto = async (req, res) => {
  * @param  {express.Response} res contain the user information after uploaded
  */
 const uploadPhotoOneStep = async (req, res) => {
+  if (!req.file) {
+    return { status: false, message: "upload file failed" };
+  }
   var img = {
     data: fs.readFileSync(req.file.path),
     contentType: req.file.mimetype,
