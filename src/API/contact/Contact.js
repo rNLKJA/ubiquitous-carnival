@@ -176,7 +176,7 @@ const Contact = () => {
         <div className="contact">
           {/* display contact as a list */}
           <div className="contactList" style={{ width: "97%" }}>
-            {!oneContact.selected && windowDimensions.width <= 1024 && (
+            {!oneContact.selected && windowDimensions.width <= 1023 && (
               <>
                 <Link className="add-contact-a" to="./addUser">
                   <div className="add-contact">
@@ -283,7 +283,7 @@ const Contact = () => {
                 </div>
               </>
             )}
-            {windowDimensions.width <= 1024 && oneContact.selected && (
+            {windowDimensions.width <= 1023 && oneContact.selected && (
               <div className="contactDetail">
                 <SelectedContact
                   key={oneContact._id}
@@ -306,7 +306,7 @@ const Contact = () => {
             </>
           )}
 
-          {windowDimensions.width >= 1024 && !oneContact.selected && (
+          {windowDimensions.width >= 1023 && !oneContact.selected && (
             <div className="makeStyles-card-1" style={{ width: "95%" }}>
               <div>
                 <h1>Select your contact to check detail</h1>

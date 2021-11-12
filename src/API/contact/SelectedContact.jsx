@@ -47,7 +47,7 @@ const SelectedContact = ({ setOneContact, oneContact, deleteHandler }) => {
 
   return (
     <React.Fragment>
-      {window.innerWidth <= 1024 ? (
+      {window.innerWidth <= 1023 ? (
         <button
           className="back"
           onClick={() => {
@@ -458,7 +458,7 @@ export const DisplayContact = ({
             />
           )}
 
-          {contact.linkedAccount === null && window.innerWidth <= 1024 && (
+          {contact.linkedAccount === null && window.innerWidth <= 1023 && (
             <button
               className="btn btn-primary"
               style={{
@@ -474,7 +474,7 @@ export const DisplayContact = ({
               Invite
             </button>
           )}
-          {contact.linkedAccount === null && window.innerWidth >= 1024 && (
+          {contact.linkedAccount === null && window.innerWidth >= 1023 && (
             <button
               className="btn btn-primary"
               style={{
