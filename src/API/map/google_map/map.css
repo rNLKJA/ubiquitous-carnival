@@ -46,7 +46,7 @@
 
 .top-bar {
   position: fixed;
-  width: 100%;
+  width: 80%;
   height: 50px;
   z-index: 10;
   /* background-color: red; */
@@ -70,3 +70,11 @@
   gap: 0.5rem;
   margin-top: 10px;
 }
+
+.google-map-1{
+   height: "65vh";
+  width: "100%";
+  top: '10vh';
+}
+
+

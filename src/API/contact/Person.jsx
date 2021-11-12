@@ -66,8 +66,9 @@ const Person = ({ contact, setOneContact }) => {
           <div className={cx(styles.name, styles.text)}>
             <div
               style={{
-                overflow: "scroll",
-                width: "6rem",
+                overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  width: "8rem",
               }}
             >
               {contact.contact.firstName + " " + contact.contact.lastName}
@@ -76,10 +77,12 @@ const Person = ({ contact, setOneContact }) => {
           <div className={cx(styles.caption, styles.text)}>
             <div
               style={{
-                overflow: "scroll",
-                width: "5rem",
+                overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  width: "8rem",
               }}
             >
+              
               {"Job: " + contact.contact.occupation}
             </div>
           </div>

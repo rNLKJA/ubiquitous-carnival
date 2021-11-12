@@ -35,7 +35,7 @@ import compass from "../compass.png";
 const libraries = ["places"];
 const mapContainerStyle = {
   width: "100%",
-  height: "80vh",
+  height: "75vh",
 };
 
 const center = {

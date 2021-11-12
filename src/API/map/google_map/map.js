@@ -60,7 +60,7 @@ const Map = React.memo(() => {
   return (
     // Important! Always set the container height explicitly
     <div className="map-container">
-      <div style={{ height: "75vh", width: "100%" }} className="google-map">
+      <div  className="google-map-1">
         {/* google map api connection setup */}
         <GoogleMapReact
           bootstrapURLKeys={{ key: "AIzaSyBGlgQ8EI9WBIpx9HOraQyJAD7fFLbrWvE" }}
