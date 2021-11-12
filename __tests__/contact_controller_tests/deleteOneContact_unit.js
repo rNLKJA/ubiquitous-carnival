@@ -1,6 +1,5 @@
 // allow to send http request to our app
 const mongoose = require("mongoose");
-
 const Contact = require("../../models/contactSchema");
 const Record = require("../../models/recordSchema");
 const { User } = require("../../models/userSchema");
