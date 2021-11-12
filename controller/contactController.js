@@ -59,7 +59,7 @@ const linkToAccount = async (req, res) => {
         phone: accountCreateContact.phone,
         occupation: accountCreateContact.occupation,
       },
-      { $set: { linkedAccount: req.body.accountOfContact } }
+      { $set: { linkedAccount: req.body.accountOfContact } },
     );
     res.send(accountCreateContact);
   } catch (err) {
@@ -369,6 +369,7 @@ const searchContact = async (req, res) => {
  * @param  {express.Response} res response contain contact information after update.
  */
 const updateContactInfo = async (req, res) => {
+  console.log(req.body);
   /*
     request header: user
     front end should post as form data if one step upload needed
@@ -393,7 +394,7 @@ const updateContactInfo = async (req, res) => {
   ) {
     return res.json({ status: false });
   }
-  console.log(req.body.customField);
+
   var query = {};
   // if name in submitted form
   if (req.body.lastName !== "") {
@@ -410,13 +411,13 @@ const updateContactInfo = async (req, res) => {
   }
   query["occupation"] = req.body.occupation;
   query["note"] = req.body.note;
-  query["customField"] = req.body.customField;
+  req.body.customField ? (query["customField"] = req.body.customField) : [];
   // console.log(query, req.body);
   try {
     const contact = await Contact.findOneAndUpdate(
       { _id: mongoose.Types.ObjectId(req.body._id) },
       query,
-      { new: true }
+      { new: true },
     ).lean();
     const uploadResult = await createContactPhotoUpload(req, res, req.body._id);
     if (uploadResult.status) {
@@ -491,7 +492,7 @@ const synchronizationContactInfo = async (req, res) => {
     const updatedContact = await Contact.findOneAndUpdate(
       { _id: mongoose.Types.ObjectId(req.body._idOfContact) },
       query,
-      { new: true }
+      { new: true },
     ).lean();
     res.json(updatedContact);
   } catch (err) {
@@ -541,7 +542,7 @@ const contactPhotoUpload = async (req, res) => {
     var contact = await Contact.findOneAndUpdate(
       { _id: mongoose.Types.ObjectId(req.body._id) },
       { portrait: img },
-      { new: true }
+      { new: true },
     ).lean();
     contact.portrait.data = contact.portrait.data.toString("base64");
     // console.log(contact.portrait.data.toString("base64"));
@@ -565,7 +566,7 @@ const deleteOneContact = async (req, res) => {
     }).lean();
 
     const contactList = user.contactList.filter(
-      (contact) => contact.contact.toString() !== req.params.contact_id
+      (contact) => contact.contact.toString() !== req.params.contact_id,
     );
     // console.log(contactList);
     const deletedRecords = await Record.find({
@@ -576,13 +577,13 @@ const deleteOneContact = async (req, res) => {
     var recordList = user.recordList;
     for (var i = 0; i < deletedRecords.length; i++) {
       recordList = recordList.filter(
-        (recordId) => recordId.toString() !== deletedRecords[i]._id.toString()
+        (recordId) => recordId.toString() !== deletedRecords[i]._id.toString(),
       );
     }
 
     await User.findOneAndUpdate(
       { userName: req.user.userName },
-      { contactList: contactList, recordList: recordList }
+      { contactList: contactList, recordList: recordList },
     );
     await Contact.deleteOne({ _id: req.params.contact_id });
     await Record.deleteMany({
@@ -665,7 +666,7 @@ const createContactOneStep = async (req, res) => {
 const createContactDocumentationOneStep = async (req, res) => {
   console.log(req.body);
   try {
-    //!! can not use object id as input
+    // !! can not use object id as input
     const ownerAccount = await User.findOne({
       _id: mongoose.Types.ObjectId(req.user._id),
     });
@@ -752,7 +753,7 @@ const createContactPhotoUpload = async (req, res, id) => {
     var contact = await Contact.findOneAndUpdate(
       { _id: mongoose.Types.ObjectId(id) },
       { portrait: img },
-      { new: true }
+      { new: true },
     ).lean();
     contact.portrait.data = contact.portrait.data.toString("base64");
     // console.log(contact.portrait.data.toString("base64"));
