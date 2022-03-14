@@ -3,6 +3,8 @@
 # <img src="https://cdn.freebiesupply.com/logos/large/2x/the-university-of-melbourne-logo-svg-vector.svg" width=15% align=left> COMP30022 Group Project Team 4399
 This repository is created for [University of Melbourne](https://www.unimelb.edu.au) [COMP30022 Semester 2 2021](https://handbook.unimelb.edu.au/search) 
 
+The original repo link is https://github.com/Harrison-Huang666/COMP30022-49, and front-end branch is isolated from the prev repo, which is available at this link: https://github.com/chuangyu-hscy/furry-parakeet
+
 **Personal Customer Relation Management (PCRM)** project development.
 
 ---
